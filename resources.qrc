@@ -1,0 +1,8 @@
+<RCC>
+    <qresource prefix="/">
+        <file alias="logo">images/B12.png</file>
+        <file alias="circle_green">images/circle_green.png</file>
+        <file alias="circle_orange">images/circle_orange.png</file>
+        <file alias="circle_red">images/circle_red.png</file>
+    </qresource>
+</RCC>
