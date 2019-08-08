@@ -1,0 +1,15 @@
+Device Nickname,Full Name (just for reference),Device Type (E/S),Prepend Str,Append Str,Pre-read?,Post-read?,IO Pause?,Initial Pause?,COM Port or Hostname,Baud or Port Number
+GAMMA_VAC,Gamma Vac Pump Controller,E,,\r\n,yes,no,no,no,192.168.1.10,23
+SR_SG,Stanford Research Signal Generator,E,,\r\n,yes,no,no,no,10.12.70.165,5024
+DXM,Spellman DXM Power Supply,E,\stx,\etx,no,no,yes,no,192.168.1.4,50001
+SLM,Spellman SLM Power Supply,E,\stx,\etx,no,no,yes,no,192.168.1.5,50001
+RIGOL,Rigol Power Supply,E,,\r\n,no,no,no,no,192.168.1.3,5555
+FMS,B12 Frequency Monitoring System,E,,\r,no,no,no,no,10.12.70.163,50000
+MCI,B12 Master Control Interface (Arduino),S,,\n,no,no,no,yes,/dev/ttyACM0,115200
+VCI,B12 Vacuum Control Interface (Arduino),S,,\n,no,no,no,yes,/dev/ttyACM0,115200
+RSI,B12 Remote Signal Interface (Arduino),S,,\n,no,no,no,yes,/dev/ttyACM0,115200
+ARD,Arduino,S,,\n,no,no,no,yes,/dev/ttyACM0,9600
+XGS,Agilent XGS-600,S,,\r,no,no,no,no,/dev/ttyUSB0,9600
+SCIENTECH,Scientech Power Meter,S,,\r\n,no,no,no,no,/dev/ttyUSB0,19200
+MLMS,Microlambda Wireless Synth,S,,\r,no,no,no,yes,/dev/ttyACM0,9600
+MATSUSADA,Matsusada Power Supply,S,,\r,no,no,no,no,/dev/ttyUSB0,9600

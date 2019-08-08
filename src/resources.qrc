@@ -1,0 +1,24 @@
+<RCC>
+    <qresource prefix="/">
+        <file alias="logo">images/B12.png</file>
+        <file>images/back.png</file>
+        <file>images/back_hover.png</file>
+        <file>images/back_press.png</file>
+        <file>images/forward.png</file>
+        <file>images/forward_hover.png</file>
+        <file>images/forward_press.png</file>
+        <file>images/exit.png</file>
+        <file>images/settings.png</file>
+        <file>images/back_disabled.png</file>
+        <file>images/forward_disabled.png</file>
+        <file>images/down_arrow_disabled.png</file>
+        <file>images/down_arrow.png</file>
+        <file>images/no_faults.png</file>
+        <file>images/error_red.png</file>
+        <file>images/warning_yellow.png</file>
+        <file>images/clear_icon.png</file>
+        <file>images/dc_icon.png</file>
+        <file>images/dc_icon2.png</file>
+        <file>images/clear_icon2.png</file>
+    </qresource>
+</RCC>
