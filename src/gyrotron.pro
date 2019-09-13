@@ -26,6 +26,11 @@ LIBS += -L"/usr/local/lib"
 
 SOURCES += \
     device.cpp \
+    gyrotron.cpp \
+    lib/qcustomplot.cpp \
+    lib/spine/device/device.cpp \
+    lib/spine/logger/logger.cpp \
+    lib/spine/spine.cpp \
         main.cpp \
         mainwindow.cpp \
     pid.cpp \
@@ -34,6 +39,14 @@ SOURCES += \
 HEADERS += \
     device.h \
     face.h \
+    gyrotron.h \
+    lib/face/face.h \
+    lib/pid.h \
+    lib/qcustomplot.h \
+    lib/spine/ctpl_stl.h \
+    lib/spine/device/device.h \
+    lib/spine/logger/logger.h \
+    lib/spine/spine.h \
         mainwindow.h \
     pid.h \
     qcustomplot.h

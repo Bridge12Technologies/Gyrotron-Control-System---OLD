@@ -145,9 +145,9 @@ private:
 
     // slave device limits
     const double MAX_BEAM_VOLT{20}, MAX_BEAM_CURR{30}, MAX_FIL_SET{3.3}, MAX_FIL_CURR{5};
-    const double MAX_GTC_VOLT{}, MAX_GTC_CURR{};
+    const double MAX_GTC_VOLT{?}, MAX_GTC_CURR{?};
 
-    //operational constants
+    // operational constants
     const double OP_BEAM_VOLT{}, OP_GTC_VOLT{}, OP_GTC_CURR{};
 
     std::chrono::duration<double, std::milli> pid_elapsed;

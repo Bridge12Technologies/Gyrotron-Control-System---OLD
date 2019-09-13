@@ -40,7 +40,7 @@ int Gyrotron::extract_config()
                           &ramp_sp,&ramp_time,&e_ramp_time,&fatal_press,&press_bound3,&press_bound2,
                           &press_bound1,&beam_curr_limit,&power_limit,&power_calibrate,&err_limit1,&err_limit2};
 
-    for(int i = 0; i<  21; i++)
+    for(int i = 0; i < 21; i++)
     { *values[i] = config_get_double(titles[i],ok); }
 
     cath.set_enabled(config_get_bool("Cathode Enabled",ok));
