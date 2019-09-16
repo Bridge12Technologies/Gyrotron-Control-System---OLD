@@ -7,10 +7,10 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),ui(new Ui::MainWin
 {
     ui->setupUi(this);
     QApplication::setFont(main_font);
-    setWindowTitle("B12T Gyrotron Control System");
 
-    int init_stat = gyro.init(); // parse config, spawn threads, connect/probe devices, and exec pre-funcs
-    (init_stat < 0) ? init_fail_dialog(init_stat) : init_gui(); // either init gui next, or prompt error
+    //int init_stat = gyro.init(); // parse config, spawn threads, connect/probe devices, and exec pre-funcs
+    //(init_stat < 0) ? init_fail_dialog(init_stat) : init_gui(); // either init gui next, or prompt error
+    init_gui();
 }
 
 MainWindow::~MainWindow() { delete ui; }
@@ -24,31 +24,23 @@ void MainWindow::shutdown()
 
 void MainWindow::init_gui()
 {
+    //ui->titlebar_frame->raise();
     ui->next_state_label->setVisible(false);
 
-    std::vector<QGroupBox*> groups{ui->state_group, ui->cathode_group,ui->fms_group,ui->power_group,ui->pid_group,ui->status_group,
-                                   ui->press_group,ui->gtc_group,ui->log_group,ui->pid_const_group,ui->ramp_group,ui->reconnect_group,
-                                   ui->misc_group,ui->faults_group};
-    std::vector<QGraphicsDropShadowEffect*> effects;
+    std::vector<QGroupBox*> groups{ui->state_group,ui->status_group,ui->press_group,ui->cathode_group,ui->fms_group,ui->power_group,ui->pid_group,ui->gtc_group,
+                                   ui->plot_group,ui->fil_curr_group,ui->beam_volt_group,ui->freq_group,ui->curr_state_group,ui->auto_state_group,ui->time_span_group,
+                                   ui->beam_pid_group,ui->power_pid_group,ui->freq_pid_group,ui->ramp_rate_group,ui->log_rate_group,ui->misc_group,ui->reconnect_group,ui->console_group,
+                                   ui->faults_group,ui->log_group};
 
     for(QGroupBox* group : groups)
     {
-        effects.push_back(new QGraphicsDropShadowEffect);
-        effects.back()->setBlurRadius(15);
-        effects.back()->setXOffset(0);
-        effects.back()->setYOffset(0);
-        effects.back()->setColor(QColor(215,215,215));
-        group->setGraphicsEffect(effects.back());
+        shadows.push_back(new QGraphicsDropShadowEffect);
+        shadows.back()->setBlurRadius(25);
+        shadows.back()->setXOffset(0);
+        shadows.back()->setYOffset(0);
+        shadows.back()->setColor(QColor(30,30,30,50));
+        group->setGraphicsEffect(shadows.back());
     }
-/*
-    QGraphicsDropShadowEffect *effect1 = new QGraphicsDropShadowEffect;
-    effect1->setBlurRadius(15); effect1->setXOffset(0); effect1->setYOffset(0); effect1->setColor(QColor(180,180,180));
-    ui->settings_button->setGraphicsEffect(effect1);
-
-    QGraphicsDropShadowEffect *effect2 = new QGraphicsDropShadowEffect;
-    effect2->setBlurRadius(15); effect2->setXOffset(0); effect2->setYOffset(0); effect2->setColor(QColor(190,190,190));
-    ui->exit_button->setGraphicsEffect(effect2);
-*/
 
     if(!gyro.cath_is_enabled())
     {
@@ -220,7 +212,7 @@ void MainWindow::init_plots()
 void MainWindow::init_fail_dialog(int err_code)
 {
     QString err_msg = "Failed to establish connection with ";
-    QString msg_tail = "\n\nSee the event log for more detail.\n";
+    QString msg_tail = "\n\nSee the event log for more detail.";
 
     switch(err_code)
     {
@@ -232,7 +224,7 @@ void MainWindow::init_fail_dialog(int err_code)
     default: err_msg = "Unrecognized error code: " + QString::number(err_code);
     }
 
-    gui.error_dialog("Initialization Error",err_msg);
+    gui.error_dialog(err_msg);
     shutdown();
     QApplication::quit();
 }
@@ -246,7 +238,7 @@ bool MainWindow::valid_check(QString qstr, double max_val, double min_val)
 }
 
 void MainWindow::init_fields()
-{
+{/*
     smart_edits.push_back(ui->fil_curr_edit);
     ui->fil_curr_edit->assign_items(ui->fil_curr_button, &fil_curr_sp, &fil_curr, 3);
     ui->fil_curr_edit->assign_validator([=](QString qstr){valid_check(qstr,MAX_FIL_SET);});
@@ -295,7 +287,7 @@ void MainWindow::init_fields()
     ui->freq_ki_edit->assign_items(ui->freq_ki_button, &freq_ki, &freq_ki);
     smart_edits.push_back(ui->freq_kd_edit);
     ui->freq_kd_edit->assign_items(ui->freq_kd_button, &freq_kd, &freq_kd);
-}
+*/}
 
 void MainWindow::detect_state_change(int current_state, bool e_ramping, bool manual_update)
 {
@@ -417,12 +409,12 @@ void MainWindow::update_plots()
     double press_max, press_min, press_max_bound, press_min_bound;
     double power_max, power_min, power_max_bound, power_min_bound;
 
-    QVector press_data = QVector::fromStdVector(gyro.get_press_data());
-    QVector press_time_data = QVector::fromStdVector(gyro.get_press_time_data());
-    QVector beam_data = QVector::fromStdVector(gyro.get_beam_data());
-    QVector beam_time_data = QVector::fromStdVector(gyro.get_beam_time_data());
-    QVector power_data = QVector::fromStdVector(gyro.get_power_data());
-    QVector power_time_data = QVector::fromStdVector(gyro.get_power_time_data());
+    QVector<double> press_data = QVector<double>::fromStdVector(gyro.get_press_data());
+    QVector<double> press_time_data = QVector<double>::fromStdVector(gyro.get_press_time_data());
+    QVector<double> beam_data = QVector<double>::fromStdVector(gyro.get_beam_data());
+    QVector<double> beam_time_data = QVector<double>::fromStdVector(gyro.get_beam_time_data());
+    QVector<double> power_data = QVector<double>::fromStdVector(gyro.get_power_data());
+    QVector<double> power_time_data = QVector<double>::fromStdVector(gyro.get_power_time_data());
 
     // update beam plot, with bounds being nearest multiple of 5 above/below
     ui->beam_plot->graph(0)->setData(time_data, beam_data, true);
@@ -568,7 +560,7 @@ void MainWindow::realtime_slot()
         qApp->processEvents();
 
         // update log stream
-        ui->log_box->append(gyro.get_event_history());
+        ui->log_box->append(QString::fromStdString(gyro.get_event_history()));
 
         // update faults list
         if(fault_status == 0)
@@ -580,10 +572,14 @@ void MainWindow::realtime_slot()
         else
         {
             ui->fault_list->setStyleSheet(faults_list);
-            for(auto error : errors)
-            { fault_list_items.push_back(new QListWidgetItem(error_icon, error, ui->fault_list)); }
-            for(auto warning : warnings)
-            { fault_list_items.push_back(new QListWidgetItem(error_icon, error, ui->fault_list)); }
+            for(auto error : errors) {
+                fault_list_items.push_back(new QListWidgetItem(error_icon, QString::fromStdString(error), ui->fault_list));
+                ui->fault_list->addItem(fault_list_items.back());
+            }
+            for(auto warning : warnings) {
+                fault_list_items.push_back(new QListWidgetItem(warning_icon, QString::fromStdString(warning), ui->fault_list));
+                ui->fault_list->addItem(fault_list_items.back());
+            }
         }
 
         // if any PID is on update the filament current button
@@ -602,7 +598,7 @@ void MainWindow::realtime_slot()
 void MainWindow::closeEvent (QCloseEvent *event)
 {
     // if yes then shutdown, otherwise ignore event
-    gui.question_dialog("Gyrotron Controls","Are you sure you want to quit?\n",
+    gui.question_dialog("Are you sure you want to quit?\n",
                         [=](){shutdown(); event->accept();},[=](){event->ignore();});
 }
 
@@ -783,7 +779,7 @@ void MainWindow::on_fil_curr_button_clicked()
     {
         int stat = gyro.set_fil_curr(entry);
         if(stat < 0)
-            error_dialog("Gyrotron Error","Error setting filament current! (" + to_str(stat) + ")");
+            gui.error_dialog(QString::fromStdString("Error setting filament current! (" + to_str(stat) + ")"));
     }
 }
 
@@ -794,7 +790,7 @@ void MainWindow::on_beam_volt_button_clicked()
     {
         int stat = gyro.set_beam_volt(entry);
         if(stat < 0)
-            error_dialog("Gyrotron Error","Error setting beam voltage! (" + to_str(stat) + ")");
+            gui.error_dialog(QString::fromStdString("Error setting beam voltage! (" + to_str(stat) + ")"));
     }
 }
 
@@ -819,7 +815,7 @@ void MainWindow::on_freq_button_clicked()
 void MainWindow::on_prev_state_button_clicked()
 {
     if(gyro.decrement_state() < 0)
-        gui.error_dialog("Gyrotron Error","Failed to change state! See log for more info.\n");
+        gui.error_dialog("Failed to change state! See log for more info.\n");
     else
         detect_state_change(gyro.get_state(),gyro.is_e_ramping(),true);
 }
@@ -827,7 +823,7 @@ void MainWindow::on_prev_state_button_clicked()
 void MainWindow::on_next_state_button_clicked()
 {
     if(gyro.increment_state() < 0)
-        gui.error_dialog("Gyrotron Error","Failed to change state! See log for more info.\n");
+        gui.error_dialog("Failed to change state! See log for more info.\n");
     else
         detect_state_change(gyro.get_state(),gyro.is_e_ramping(),true);
 }
@@ -839,7 +835,7 @@ void MainWindow::on_gtc_curr_button_clicked()
     {
         int stat = gyro.set_gtc_curr(entry);
         if(stat < 0)
-            error_dialog("Gyrotron Error","Error setting GTC current! (" + to_str(stat) + ")");
+            gui.error_dialog(QString::fromStdString("Error setting GTC current! (" + to_str(stat) + ")"));
     }
 }
 
@@ -850,13 +846,13 @@ void MainWindow::on_gtc_volt_button_clicked()
     {
         int stat = gyro.set_gtc_volt(entry);
         if(stat < 0)
-            error_dialog("Gyrotron Error","Error setting GTC voltage! (" + to_str(stat) + ")");
+            gui.error_dialog(QString::fromStdString("Error setting GTC voltage! (" + to_str(stat) + ")"));
     }
 }
 
 void MainWindow::on_exit_button_clicked()
 {
-    gui.question_dialog("Gyrotron Controls","Are you sure you want to quit?\n",
+    gui.question_dialog("Are you sure you want to quit?\n",
                         [=](){shutdown(); qApp->quit();},[=](){});
 }
 

@@ -4,9 +4,10 @@
 #include <QTimer>
 #include <QTime>
 #include <QVector>
-#include "face.h"
-#include "qcustomplot.h"
-//#include "gyrotron.h"
+#include <vector>
+#include "lib/face/face.h"
+#include "lib/qcustomplot.h"
+#include "gyrotron.h"
 
 namespace Ui {
 class MainWindow;
@@ -36,29 +37,17 @@ private slots:
     void on_fil_curr_button_clicked();
     void on_prev_state_button_clicked();
     void on_next_state_button_clicked();
-
     void on_beam_kp_button_clicked();
-
     void on_beam_ki_button_clicked();
-
     void on_beam_kd_button_clicked();
-
     void on_power_kp_button_clicked();
-
     void on_power_ki_button_clicked();
-
     void on_power_kd_button_clicked();
-
     void on_freq_kp_button_clicked();
-
     void on_freq_ki_button_clicked();
-
     void on_freq_kd_button_clicked();
-
     void on_beam_pid_button_clicked();
-
     void on_exit_button_clicked();
-
     void on_status_group_clicked();
 
 private:
@@ -77,15 +66,15 @@ private:
     void update_plots();
 
     Ui::MainWindow *ui;
-    Face gui{this,ui};
+    Face gui{this};
     Gyrotron gyro;
-
+    std::vector<QGraphicsDropShadowEffect*> shadows;
     QTimer data_timer;
 
     std::vector<SmartLineEdit*> smart_edits;
     int last_known_state{0}, resize_tracker{0};
 
-    std::vector<QListWidgetItem> fault_list_items;
+    std::vector<QListWidgetItem*> fault_list_items;
 
     QIcon warning_icon{"images/warning_yellow.png"};
     QIcon error_icon{"images/error_red.png"};

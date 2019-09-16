@@ -1,10 +1,13 @@
+#ifndef GYROTRON_H
+#define GYROTRON_H
+
 #include <atomic>
 #include <algorithm>
 #include <unistd.h>
 #include <math.h>
 #include <iomanip> // used to set precision of a number in string stream
-#include "spine.h"
-#include "pid.h"
+#include "lib/spine/spine.h"
+#include "lib/pid.h"
 
 class Gyrotron : public Spine
 {
@@ -83,7 +86,7 @@ public:
     double get_temp();
     int get_flow_status(); // 0 = safe temp, -1 = warning, -2 = fatal
     double get_flow();
-    double get_press();
+    double get_pressure();
     int get_press_status(); // 0 = safe pressure, -1 = relax, -2 = fatal
     double get_gtc_curr();
     double get_gtc_volt();
@@ -145,20 +148,21 @@ private:
 
     // slave device limits
     const double MAX_BEAM_VOLT{20}, MAX_BEAM_CURR{30}, MAX_FIL_SET{3.3}, MAX_FIL_CURR{5};
-    const double MAX_GTC_VOLT{?}, MAX_GTC_CURR{?};
+    const double MAX_GTC_VOLT{}, MAX_GTC_CURR{}; // TBD
 
     // operational constants
-    const double OP_BEAM_VOLT{}, OP_GTC_VOLT{}, OP_GTC_CURR{};
+    const double OP_BEAM_VOLT{}, OP_GTC_VOLT{}, OP_GTC_CURR{}; // TBD
 
     std::chrono::duration<double, std::milli> pid_elapsed;
 
     std::atomic<int> current_state{0};
     std::atomic<double> pressure{0}, query_rate{0.5}, rec_rate{0};
-    std::atomic<double> freq, power;
+    std::atomic<double> freq, power, plot_span;
     std::atomic<double> beam_curr_sp{-1}, power_sp{-1}, freq_sp{-1}, beam_volt_sp{0};
     std::atomic<double> fil_curr, fil_curr_sp{0}, beam_curr, beam_volt;
-    std::atomic<double> gtc_volt_sp{0}, gtc_curr_sp{0}, gtc_curr_sp{0}, gtc_volt_sp{0};
-
+    std::atomic<double> gtc_curr{0}, gtc_volt{0};
+    std::atomic<double> gtc_curr_sp{0}, gtc_volt_sp{0};
+    std::atomic<bool> gtc_hv_on{false};
     std::atomic<bool> e_ramping{false}, hv_blocked{false}, reset_pid_time{false};
     std::atomic<bool> freq_pid_on{false}, beam_pid_on{false}, power_pid_on{false};
 
@@ -166,4 +170,6 @@ private:
     bool relaxing{false}, paused{false};
     std::vector<double> press_data, time_data, beam_data, beam_sp_data, beam_time_data;
     std::vector<double> power_array, power_sp_data, power_data, power_time_data;
-}
+};
+
+#endif

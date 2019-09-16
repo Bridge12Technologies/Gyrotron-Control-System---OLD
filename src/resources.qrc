@@ -20,5 +20,6 @@
         <file>images/dc_icon.png</file>
         <file>images/dc_icon2.png</file>
         <file>images/clear_icon2.png</file>
+        <file>images/settings_dark.png</file>
     </qresource>
 </RCC>

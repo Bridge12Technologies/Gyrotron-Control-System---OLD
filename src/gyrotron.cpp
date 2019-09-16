@@ -28,6 +28,7 @@ int Gyrotron::init()
 int Gyrotron::extract_config()
 {
     bool ok = true;
+    int i;
 
     std::string titles[21] = {"Current PID Proportional","Current PID Integral","Current PID Derivative",
                             "Power PID Proportional","Power PID Integral","Power PID Derivative",
@@ -36,12 +37,13 @@ int Gyrotron::extract_config()
                             "Filament Pressure High Limit","Filament Pressure Low Limit","HV Pressure Low Limit",
                             "Beam Current Limit","Output Power Limit","Power Meter Calibration",
                             "Error Count First Limit","Error Count Second Limit"};
-    double *values[21] = {&beam_kp,&beam_ki,&beam_kd,&power_kp,&power_ki,&power_kd,&freq_kp,&freq_ki,&freq_kd,
-                          &ramp_sp,&ramp_time,&e_ramp_time,&fatal_press,&press_bound3,&press_bound2,
-                          &press_bound1,&beam_curr_limit,&power_limit,&power_calibrate,&err_limit1,&err_limit2};
+    std::atomic<double> *a_values[12] = {&beam_kp,&beam_ki,&beam_kd,&power_kp,&power_ki,&power_kd,&freq_kp,&freq_ki,&freq_kd,
+                                       &ramp_sp,&ramp_time,&e_ramp_time};
+    double *values[9] = {&fatal_press,&press_bound3,&press_bound2,&press_bound1,&beam_curr_limit,
+                          &power_limit,&power_calibrate,&err_limit1,&err_limit2};
 
-    for(int i = 0; i < 21; i++)
-    { *values[i] = config_get_double(titles[i],ok); }
+    for(i = 0; i < 12; i++) { *a_values[i] = config_get_double(titles[i],ok); }
+    for(i = 0; i < 9; i++) { *values[i] = config_get_double(titles[i+12],ok); }
 
     cath.set_enabled(config_get_bool("Cathode Enabled",ok));
     gtc.set_enabled(config_get_bool("GTC Enabled",ok));
@@ -91,17 +93,17 @@ void Gyrotron::query_cath()
             ss.clear();
             ss.str(resp);
             ss >> temp_int; ss >> comma;
-            if(temp_int == 1) cath.push_error("Cathode: arc detected");
+            if(int(temp_int) == 1) cath.push_error("Cathode: arc detected");
             ss >> temp_int; ss >> comma;
-            if(temp_int == 1) cath.push_error("Cathode: over temperature");
+            if(int(temp_int) == 1) cath.push_error("Cathode: over temperature");
             ss >> temp_int; ss >> comma;
-            if(temp_int == 1) cath.push_warning("Cathode: over voltage");
+            if(int(temp_int) == 1) cath.push_warning("Cathode: over voltage");
             ss >> temp_int; ss >> comma;
-            if(temp_int == 1) cath.push_warning("Cathode: under voltage");
+            if(int(temp_int) == 1) cath.push_warning("Cathode: under voltage");
             ss >> temp_int; ss >> comma;
-            if(temp_int == 1) cath.push_warning("Cathode: over current");
+            if(int(temp_int) == 1) cath.push_warning("Cathode: over current");
             ss >> temp_int;
-            if(temp_int == 1) cath.push_warning("Cathode: under current");
+            if(int(temp_int) == 1) cath.push_warning("Cathode: under current");
 
         }
         else if(err(resp))
@@ -929,7 +931,7 @@ int Gyrotron::get_temp_status() { return temp_stat; }
 int Gyrotron::get_flow_status() { return flow_stat; }
 double Gyrotron::get_temp() { return temp; }
 double Gyrotron::get_flow() { return flow; }
-double Gyrotron::get_press() { return press; }
+double Gyrotron::get_pressure() { return press; }
 double Gyrotron::get_gtc_curr() { return gtc_curr; }
 double Gyrotron::get_gtc_volt() { return gtc_volt; }
 double Gyrotron::get_ramp_time() { return ramp_time; }

@@ -5,11 +5,14 @@
 #-------------------------------------------------
 
 QT += core gui
+CONFIG += qt c++17
+QMAKE_LFLAGS += -Wl,-rpath,"'$$ORIGIN'"
 
-greaterThan(QT_MAJOR_VERSION, 4): QT += widgets printsupport
+greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = GYROTRON
 TEMPLATE = app
+LIBS += -lpthread
 
 # The following define makes your compiler emit warnings if you use
 # any feature of Qt which as been marked as deprecated (the exact warnings
@@ -22,7 +25,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 # You can also select to disable deprecated APIs only up to a certain version of Qt.
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
-LIBS += -L"/usr/local/lib"
+
 
 SOURCES += \
     device.cpp \
@@ -52,6 +55,7 @@ HEADERS += \
     qcustomplot.h
 
 FORMS += \
+        lib/face/b12dialog.ui \
         mainwindow.ui
 
 DISTFILES +=
