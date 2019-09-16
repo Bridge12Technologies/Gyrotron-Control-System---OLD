@@ -154,6 +154,7 @@ private:
     const double OP_BEAM_VOLT{}, OP_GTC_VOLT{}, OP_GTC_CURR{}; // TBD
 
     std::chrono::duration<double, std::milli> pid_elapsed;
+    clk::time_point last_recording{clk::now()};
 
     std::atomic<int> current_state{0};
     std::atomic<double> pressure{0}, query_rate{0.5}, rec_rate{0};

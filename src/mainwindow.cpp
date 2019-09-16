@@ -6,7 +6,7 @@ using namespace std;
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    QApplication::setFont(main_font);
+    setWindowFlags(Qt::Window | Qt::FramelessWindowHint);
 
     //int init_stat = gyro.init(); // parse config, spawn threads, connect/probe devices, and exec pre-funcs
     //(init_stat < 0) ? init_fail_dialog(init_stat) : init_gui(); // either init gui next, or prompt error
@@ -24,7 +24,6 @@ void MainWindow::shutdown()
 
 void MainWindow::init_gui()
 {
-    //ui->titlebar_frame->raise();
     ui->next_state_label->setVisible(false);
 
     std::vector<QGroupBox*> groups{ui->state_group,ui->status_group,ui->press_group,ui->cathode_group,ui->fms_group,ui->power_group,ui->pid_group,ui->gtc_group,
@@ -206,7 +205,7 @@ void MainWindow::init_plots()
     ui->power_plot->replot();
 
     // start with tab widget on the data page
-    ui->tabWidget->setCurrentIndex(0);
+    ui->stackedWidget->setCurrentIndex(0);
 }
 
 void MainWindow::init_fail_dialog(int err_code)
@@ -409,12 +408,12 @@ void MainWindow::update_plots()
     double press_max, press_min, press_max_bound, press_min_bound;
     double power_max, power_min, power_max_bound, power_min_bound;
 
-    QVector<double> press_data = QVector<double>::fromStdVector(gyro.get_press_data());
-    QVector<double> press_time_data = QVector<double>::fromStdVector(gyro.get_press_time_data());
-    QVector<double> beam_data = QVector<double>::fromStdVector(gyro.get_beam_data());
-    QVector<double> beam_time_data = QVector<double>::fromStdVector(gyro.get_beam_time_data());
-    QVector<double> power_data = QVector<double>::fromStdVector(gyro.get_power_data());
-    QVector<double> power_time_data = QVector<double>::fromStdVector(gyro.get_power_time_data());
+    //QVector<double> press_data = QVector<double>::fromStdVector(gyro.get_press_data());
+    //QVector<double> press_time_data = QVector<double>::fromStdVector(gyro.get_press_time_data());
+    //QVector<double> beam_data = QVector<double>::fromStdVector(gyro.get_beam_data());
+    //QVector<double> beam_time_data = QVector<double>::fromStdVector(gyro.get_beam_time_data());
+    //QVector<double> power_data = QVector<double>::fromStdVector(gyro.get_power_data());
+    //QVector<double> power_time_data = QVector<double>::fromStdVector(gyro.get_power_time_data());
 
     // update beam plot, with bounds being nearest multiple of 5 above/below
     ui->beam_plot->graph(0)->setData(time_data, beam_data, true);
@@ -464,7 +463,7 @@ void MainWindow::update_plots()
         resize_tracker = 0;
     }
 
-    if(ui->tabWidget->currentIndex() == 1)
+    if(ui->stackedWidget->currentIndex() == 1)
     {
         ui->press_plot->replot(); // update plot if visible
         ui->beam_plot->replot();
@@ -485,11 +484,12 @@ void MainWindow::realtime_slot()
     if (key-last_key > refresh_rate) // frequency of reiteration is refresh_rate in seconds
     {
         current_state = gyro.get_state();
-        e_ramping = gyro.is_e_ramping();
+        //e_ramping = gyro.is_e_ramping();
         ramping_up = gyro.is_ramping_up();
         ramping_down = gyro.is_ramping_down();
         pressure = gyro.get_pressure();
-        fault_status = gyro.get_fault_status();
+        //fault_status = gyro.get_fault_status();
+        fault_status = 0; // stand-in
         warnings = gyro.get_sys_warnings();
         errors = gyro.get_sys_errors();
 
@@ -538,7 +538,8 @@ void MainWindow::realtime_slot()
         case -1: ui->faults_indicator->setStyleSheet(yellow_status_bubble); ui->fault_status->setText("WARN"); break;
         case -2: ui->faults_indicator->setStyleSheet(red_status_bubble); ui->fault_status->setText("ERR!"); break;
         }
-        switch(gyro.get_press_status())
+        //switch(gyro.get_press_status())
+        switch(0)
         {
         case 0: ui->press_group->setStyleSheet(group_style); ui->press_group->setTitle("Pressure"); break;
         case -1: ui->press_group->setStyleSheet(warn_group_style); ui->press_group->setTitle("Pressure (RELAXATION IN PROGRESS)"); break;
@@ -720,56 +721,56 @@ void MainWindow::on_freq_pid_button_clicked()
 
 void MainWindow::on_beam_kp_button_clicked()
 {
-    double entry = ui->beam_kp_edit->toggle_active();
-    if(entry >= 0) gyro.set_beam_kp(entry);
+    //double entry = ui->beam_kp_edit->toggle_active();
+    //if(entry >= 0) gyro.set_beam_kp(entry);
 }
 
 void MainWindow::on_beam_ki_button_clicked()
 {
-    double entry = ui->beam_ki_edit->toggle_active();
-    if(entry >= 0) gyro.set_beam_ki(entry);
+    //double entry = ui->beam_ki_edit->toggle_active();
+    //if(entry >= 0) gyro.set_beam_ki(entry);
 }
 
 void MainWindow::on_beam_kd_button_clicked()
 {
-    double entry = ui->beam_kd_edit->toggle_active();
-    if(entry >= 0) gyro.set_beam_kd(entry);
+    //double entry = ui->beam_kd_edit->toggle_active();
+    //if(entry >= 0) gyro.set_beam_kd(entry);
 }
 
 void MainWindow::on_power_kp_button_clicked()
 {
-    double entry = ui->power_kp_edit->toggle_active();
-    if(entry >= 0) gyro.set_power_kp(entry);
+    //double entry = ui->power_kp_edit->toggle_active();
+    //if(entry >= 0) gyro.set_power_kp(entry);
 }
 
 void MainWindow::on_power_ki_button_clicked()
 {
-    double entry = ui->power_ki_edit->toggle_active();
-    if(entry >= 0) gyro.set_power_ki(entry);
+    //double entry = ui->power_ki_edit->toggle_active();
+    //if(entry >= 0) gyro.set_power_ki(entry);
 }
 
 void MainWindow::on_power_kd_button_clicked()
 {
-    double entry = ui->power_kd_edit->toggle_active();
-    if(entry >= 0) gyro.set_power_kd(entry);
+    //double entry = ui->power_kd_edit->toggle_active();
+    //if(entry >= 0) gyro.set_power_kd(entry);
 }
 
 void MainWindow::on_freq_kp_button_clicked()
 {
-    double entry = ui->freq_kp_edit->toggle_active();
-    if(entry >= 0) gyro.set_freq_kp(entry);
+    //double entry = ui->freq_kp_edit->toggle_active();
+    //if(entry >= 0) gyro.set_freq_kp(entry);
 }
 
 void MainWindow::on_freq_ki_button_clicked()
 {
-    double entry = ui->freq_ki_edit->toggle_active();
-    if(entry >= 0) gyro.set_freq_ki(entry);
+    //double entry = ui->freq_ki_edit->toggle_active();
+    //if(entry >= 0) gyro.set_freq_ki(entry);
 }
 
 void MainWindow::on_freq_kd_button_clicked()
 {
-    double entry = ui->freq_kd_edit->toggle_active();
-    if(entry >= 0) gyro.set_freq_kd(entry);
+    //double entry = ui->freq_kd_edit->toggle_active();
+    //if(entry >= 0) gyro.set_freq_kd(entry);
 }
 
 void MainWindow::on_fil_curr_button_clicked()
@@ -814,18 +815,18 @@ void MainWindow::on_freq_button_clicked()
 
 void MainWindow::on_prev_state_button_clicked()
 {
-    if(gyro.decrement_state() < 0)
-        gui.error_dialog("Failed to change state! See log for more info.\n");
-    else
-        detect_state_change(gyro.get_state(),gyro.is_e_ramping(),true);
+    //if(gyro.decrement_state() < 0)
+    //    gui.error_dialog("Failed to change state! See log for more info.\n");
+    //else
+    //    detect_state_change(gyro.get_state(),gyro.is_e_ramping(),true);
 }
 
 void MainWindow::on_next_state_button_clicked()
 {
-    if(gyro.increment_state() < 0)
-        gui.error_dialog("Failed to change state! See log for more info.\n");
-    else
-        detect_state_change(gyro.get_state(),gyro.is_e_ramping(),true);
+    //if(gyro.increment_state() < 0)
+    //    gui.error_dialog("Failed to change state! See log for more info.\n");
+    //else
+    //    detect_state_change(gyro.get_state(),gyro.is_e_ramping(),true);
 }
 
 void MainWindow::on_gtc_curr_button_clicked()
@@ -857,6 +858,7 @@ void MainWindow::on_exit_button_clicked()
 }
 
 void MainWindow::on_status_group_clicked()
-{
-    ui->tabWidget->setCurrentIndex(3);
-}
+{ ui->stackedWidget->setCurrentIndex(3); }
+
+void MainWindow::on_close_button_clicked() { this->close(); }
+void MainWindow::on_minimize_button_clicked() { this->showMinimized(); }

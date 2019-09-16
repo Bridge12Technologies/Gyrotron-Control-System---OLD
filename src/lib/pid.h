@@ -1,12 +1,14 @@
+#include <atomic>
+
 class PID
 {
     public:
-        PID(double Kp, double Ki, double Kd) : Kp(Kp), Ki(Ki), Kd(Kd) {}
-        PID(double Kp, double Ki, double Kd, double max, double min) : 
-    		Kp(Kp), Ki(Ki), Kd(Kd), max(max), min(min) { max_set = min_set = true; }
+        PID(double p, double i, double d) : Kp(p), Kd(d), Ki(i) {}
+        PID(double p, double i, double d, double mx, double mn) :
+            Kp(p), Kd(d), Ki(i), max(mx), min(mn) { max_set = min_set = true; }
         double calculate(double setpoint, double value, double dt)
 	{
-	    double error = setpoint - pv; // calculate error
+        double error = setpoint - value; // calculate error
 	    double Pout = Kp * error; // proportional term
 	    integral += error * dt; // adjust integral multiplier
 	    double Iout = Ki * integral; // integral term
@@ -26,7 +28,7 @@ class PID
         void set_min(double new_min) { min = new_min; min_set = true; }
 
     private:
-        double Kp,Kd,Ki; // proportional, derivative, and integral gain constants
+        double Kp{0},Kd{0},Ki{0}; // proportional, derivative, and integral gain constants
         double preerror{0}; // stores previous error
         double integral{0}; // stores integral multiplier
         std::atomic<double> max, min; // bounds for value adjustment

@@ -5,11 +5,11 @@ Gyrotron::Gyrotron() : Spine()
     elog.set_history_enabled(true);
     dlog.set_header("system time (H:M:S), pressure (Torr), etc etc");
 
-    add_device(&cath,[=](){query_cath();},[=](){cath_recon();},"99,1,","$");
-    add_device(&gtc,[=](){query_gtc();},[=](){gtc_recon();},"*IDN?","DP821A");
-    add_device(&rsi,[=](){query_rsi();},[=](){rsi_recon();},"hello rsi","rsi");
-    add_device(&spc,[=](){query_spc();},[=](){spc_recon();},"spc 01","00");
-    add_device(&fms,[=](){query_fms();},[=](){fms_recon();},"#0","0");
+    //add_device(&cath,[=](){query_cath();},[=](){cath_recon();},"99,1,","$");
+    //add_device(&gtc,[=](){query_gtc();},[=](){gtc_recon();},"*IDN?","DP821A");
+    //add_device(&rsi,[=](){query_rsi();},[=](){rsi_recon();},"hello rsi","rsi");
+    //add_device(&spc,[=](){query_spc();},[=](){spc_recon();},"spc 01","00");
+    //add_device(&fms,[=](){query_fms();},[=](){fms_recon();},"#0","0");
 
     add_pre_func([=](){apply_beam_curr_limit(beam_curr_limit);});
     add_pre_func([=](){gtc.m_write(":SYST:REM");});
@@ -191,7 +191,7 @@ void Gyrotron::query_gtc()
 }
 
 void Gyrotron::query_spc()
-{
+{/*
     double temp_double;
     std::string resp = spc.smart_io("spc 0B","Torr",true);
     if(!err(resp))
@@ -261,7 +261,7 @@ void Gyrotron::query_spc()
     }
     else
         elog.write("SPC D/C, moving to reconnect loop");
-}
+*/}
 
 void Gyrotron::query_fms()
 {
@@ -282,7 +282,7 @@ void Gyrotron::query_fms()
 }
 
 void Gyrotron::query_rsi()
-{
+{/*
     std::string cmds[] = {"mpio 1 ar 1","temp 1","flow 1"};
     std::atomic<double> *values[] = {&diode_volt, &body_temp, &flow};
     std::string resp;
@@ -316,7 +316,7 @@ void Gyrotron::query_rsi()
 
     if(stat < 0)
         elog.write("SPC D/C, moving to reconnect loop");
-}
+*/}
 
 void Gyrotron::eval_sys_stat()
 {
@@ -374,7 +374,7 @@ std::vector<std::string> Gyrotron::get_errors()
 }
 
 void Gyrotron::steer_cath()
-{
+{/*
     int stat;
     clk::time_point current_time = clk::now();
     
@@ -462,16 +462,16 @@ void Gyrotron::steer_cath()
             // calculate neccisary adjustment from PID calculation
             //power_adjust = pid->calculate(power_sp,power,dt);
             power_adjust = pid->calculate(power_sp,power_avg,dt);
-            /*
+
             // be careful that this adjustment isn't problematic, especially prior to proper tuning
-            if((power+power_adjust) > 5)
-            {
-                power_adjust = 5 - power;
-            }
-            else if((power+power_adjust) < 0)
-            {
-                power_adjust = power * (-1);
-            }*/
+            //if((power+power_adjust) > 5)
+            //{
+            //    power_adjust = 5 - power;
+            //}
+            //else if((power+power_adjust) < 0)
+            //{
+            //    power_adjust = power * (-1);
+            //}
 
             //fil_curr_sp += power_adjust;
             fil_curr_sp += power_adjust * 15; // trying out a scale to keep roughly the same PID constants for both controllers
@@ -525,7 +525,7 @@ void Gyrotron::steer_cath()
                 set_beam_volt(beam_volt_sp);
         }
     }
-}
+*/}
 
 void Gyrotron::record_data()
 {
@@ -747,44 +747,44 @@ int Gyrotron::set_gtc_volt_limit(double voltage)
 }
 
 void set_beam_kp(double kp) { 
-    beam_kp = kp; beam_pid = new PID(beam_kp, beam_ki, beam_kd);
-    log_event("beam PID constants updated (" + to_str(beam_kp) + "," + to_str(beam_ki) + "," + to_str(beam_kd) + ")");
+    //beam_kp = kp; beam_pid = new PID(beam_kp, beam_ki, beam_kd);
+    //log_event("beam PID constants updated (" + to_str(beam_kp) + "," + to_str(beam_ki) + "," + to_str(beam_kd) + ")");
 }
 void set_beam_ki(double ki) {
-    beam_ki = ki; beam_pid = new PID(beam_kp, beam_ki, beam_kd);
-    log_event("beam PID constants updated (" + to_str(beam_kp) + "," + to_str(beam_ki) + "," + to_str(beam_kd) + ")");
+    //beam_ki = ki; beam_pid = new PID(beam_kp, beam_ki, beam_kd);
+    //log_event("beam PID constants updated (" + to_str(beam_kp) + "," + to_str(beam_ki) + "," + to_str(beam_kd) + ")");
 }
 void set_beam_kd(double kd) {
-    beam_kd = kd; beam_pid = new PID(beam_kp, beam_ki, beam_kd);
-    log_event("beam PID constants updated (" + to_str(beam_kp) + "," + to_str(beam_ki) + "," + to_str(beam_kd) + ")");
+    //beam_kd = kd; beam_pid = new PID(beam_kp, beam_ki, beam_kd);
+    //log_event("beam PID constants updated (" + to_str(beam_kp) + "," + to_str(beam_ki) + "," + to_str(beam_kd) + ")");
 }
 void set_power_kp(double kp) {
-    power_kp = kp; power_pid = new PID(power_kp, power_ki, power_kd);
-    log_event("power PID constants updated (" + to_str(power_kp) + "," + to_str(power_ki) + "," + to_str(power_kd) + ")");
+    //power_kp = kp; power_pid = new PID(power_kp, power_ki, power_kd);
+    //log_event("power PID constants updated (" + to_str(power_kp) + "," + to_str(power_ki) + "," + to_str(power_kd) + ")");
 }
 void set_power_ki(double ki) {
-    power_ki = ki; power_pid = new PID(power_kp, power_ki, power_kd);
-    log_event("power PID constants updated (" + to_str(power_kp) + "," + to_str(power_ki) + "," + to_str(power_kd) + ")");
+    //power_ki = ki; power_pid = new PID(power_kp, power_ki, power_kd);
+    //log_event("power PID constants updated (" + to_str(power_kp) + "," + to_str(power_ki) + "," + to_str(power_kd) + ")");
 }
 void set_power_kd(double kd) {
-    power_kd = kd; power_pid = new PID(power_kp, power_ki, power_kd);
-    log_event("power PID constants updated (" + to_str(power_kp) + "," + to_str(power_ki) + "," + to_str(power_kd) + ")");
+    //power_kd = kd; power_pid = new PID(power_kp, power_ki, power_kd);
+    //log_event("power PID constants updated (" + to_str(power_kp) + "," + to_str(power_ki) + "," + to_str(power_kd) + ")");
 }
 void set_freq_kp(double kp) {
-    freq_kp = kp; freq_pid = new PID(freq_kp, freq_ki, freq_kd);
-    log_event("frequency PID constants updated (" + to_str(freq_kp) + "," + to_str(freq_ki) + "," + to_str(freq_kd) + ")");
+    //freq_kp = kp; freq_pid = new PID(freq_kp, freq_ki, freq_kd);
+    //log_event("frequency PID constants updated (" + to_str(freq_kp) + "," + to_str(freq_ki) + "," + to_str(freq_kd) + ")");
 }
 void set_freq_ki(double ki) {
-    freq_ki = ki; freq_pid = new PID(freq_kp, freq_ki, freq_kd);
-    log_event("frequency PID constants updated (" + to_str(freq_kp) + "," + to_str(freq_ki) + "," + to_str(freq_kd) + ")");
+    //freq_ki = ki; freq_pid = new PID(freq_kp, freq_ki, freq_kd);
+    //log_event("frequency PID constants updated (" + to_str(freq_kp) + "," + to_str(freq_ki) + "," + to_str(freq_kd) + ")");
 }
 void set_freq_kd(double kd) {
-    freq_kd = kd; freq_pid = new PID(freq_kp, freq_ki, freq_kd);
-    log_event("frequency PID constants updated (" + to_str(freq_kp) + "," + to_str(freq_ki) + "," + to_str(freq_kd) + ")");
+    //freq_kd = kd; freq_pid = new PID(freq_kp, freq_ki, freq_kd);
+    //log_event("frequency PID constants updated (" + to_str(freq_kp) + "," + to_str(freq_ki) + "," + to_str(freq_kd) + ")");
 }
 
 int Gyrotron::toggle_cath_output(bool turn_on)
-{
+{/*
     std::string cmd = "98," + std::string(turn_on ? "1," : "0,");
     std::string resp = cath.smart_io(cmd,"98,$",true);
     if(err(resp))
@@ -794,7 +794,7 @@ int Gyrotron::toggle_cath_output(bool turn_on)
         return -1;
     }
     elog.write(std::string(turn_on ? "enabled" : "disabled") + " cathode output");
-    cath_hv_on = turn_on;
+    cath_hv_on = turn_on;*/
     return 0;
 }
 
@@ -818,7 +818,7 @@ void Gyrotron::toggle_power_pid() { toggle_power_pid(!power_pid_on); }
 void Gyrotron::toggle_freq_pid() { toggle_freq_pid(!freq_pid_on); } 
 
 void Gyrotron::toggle_beam_pid(bool turn_on)
-{
+{/*
     if(turn_on)
     {
         freq_pid_on = power_pid_on = false;
@@ -830,10 +830,10 @@ void Gyrotron::toggle_beam_pid(bool turn_on)
     } 
     beam_pid_on = turn_on;
     log_event("automatic beam control " + std::string(turn_on ? "enabled" : "disabled"));
-}
+*/}
 
 void Gyrotron::toggle_power_pid(bool turn_on)
-{
+{/*
     if(turn_on)
     {
         freq_pid_on = beam_pid_on = false;
@@ -845,10 +845,10 @@ void Gyrotron::toggle_power_pid(bool turn_on)
     }
     power_pid_on = turn_on;
     log_event("automatic power control " + std::string(turn_on ? "enabled" : "disabled"));
-}
+*/}
 
 void Gyrotron::toggle_freq_pid(bool turn_on)
-{
+{/*
     if(turn_on)
     {
         beam_pid_on = power_pid_on = false;
@@ -859,10 +859,10 @@ void Gyrotron::toggle_freq_pid(bool turn_on)
     }
     freq_pid_on = turn_on;
     log_event("automatic frequency control " + std::string(turn_on ? "enabled" : "disabled"));
-}
+*/}
 
 int enter_standby()
-{
+{/*
     beam_pid_on = power_pid_on = freq_pid_on = false;
     ramping_up = ramping_down = false;
     int stat = toggle_cath_output(false);
@@ -870,7 +870,7 @@ int enter_standby()
     stat = toggle_gtc_output(false);
     if(stat < 0) return -2;
     return 0;
-}
+*/}
 
 void Gyrotron::set_beam_curr(double c) {
     beam_curr_sp = c;
@@ -917,21 +917,21 @@ double Gyrotron::get_freq_sp() { return freq_sp; }
 double Gyrotron::get_power_sp() { return power_sp; }
 double Gyrotron::get_gtc_curr_sp() { return beam_curr_sp; }
 double Gyrotron::get_gtc_volt_sp() { return beam_curr_sp; }
-int Gyrotron::get_state() { return state; }
+int Gyrotron::get_state() { /*return state;*/ return 0; }
 double Gyrotron::get_fil_curr() { return fil_curr; }
 double Gyrotron::get_beam_volt() { return beam_volt; }
 double Gyrotron::get_beam_curr() { return beam_curr; }
-double Gyrotron::get_collector_curr() { return collector_curr; }
-double Gyrotron::get_body_curr() { return body_curr; }
+double Gyrotron::get_collector_curr() { /*return collector_curr;*/return 0; }
+double Gyrotron::get_body_curr() { /*return body_curr;*/return 0; }
 double Gyrotron::get_freq() { return freq; }
 double Gyrotron::get_power() { return power; }
 // 0 = safe temp, -1 = warning, -2 = fatal
-int Gyrotron::get_temp_status() { return temp_stat; }
+int Gyrotron::get_temp_status() { /*return temp_stat;*/return 0; }
 // 0 = safe temp, -1 = warning, -2 = fatal
-int Gyrotron::get_flow_status() { return flow_stat; }
-double Gyrotron::get_temp() { return temp; }
-double Gyrotron::get_flow() { return flow; }
-double Gyrotron::get_pressure() { return press; }
+int Gyrotron::get_flow_status() { /*return flow_stat;*/return 0; }
+double Gyrotron::get_temp() { /*return temp;*/return 0; }
+double Gyrotron::get_flow() { /*return flow;*/return 0; }
+double Gyrotron::get_pressure() { /*return press;*/return 0; }
 double Gyrotron::get_gtc_curr() { return gtc_curr; }
 double Gyrotron::get_gtc_volt() { return gtc_volt; }
 double Gyrotron::get_ramp_time() { return ramp_time; }

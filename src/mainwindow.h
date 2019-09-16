@@ -24,7 +24,7 @@ public:
 private slots:
     void realtime_slot();
     void on_tabWidget_tabBarClicked(int index);
-    void on_beam_curr_pid_button_clicked();
+    void on_beam_pid_button_clicked();
     void on_power_pid_button_clicked();
     void on_freq_pid_button_clicked();
     void on_reconfig_button_clicked();
@@ -46,9 +46,10 @@ private slots:
     void on_freq_kp_button_clicked();
     void on_freq_ki_button_clicked();
     void on_freq_kd_button_clicked();
-    void on_beam_pid_button_clicked();
     void on_exit_button_clicked();
     void on_status_group_clicked();
+    void on_close_button_clicked();
+    void on_minimize_button_clicked();
 
 private:
     void shutdown();
@@ -70,6 +71,7 @@ private:
     Gyrotron gyro;
     std::vector<QGraphicsDropShadowEffect*> shadows;
     QTimer data_timer;
+    QPoint oldPos;
 
     std::vector<SmartLineEdit*> smart_edits;
     int last_known_state{0}, resize_tracker{0};
@@ -125,6 +127,10 @@ private:
     bool power_active{false}, freq_active{false}, shim_curr_active{false}, shim_volt_active{false}, trim_curr_active{false}, trim_volt_active{false};
 
 
+protected:
+    void mousePressEvent(QMouseEvent *evt) { oldPos = evt->globalPos(); }
+    void mouseMoveEvent(QMouseEvent *evt)
+    { const QPoint delta = evt->globalPos() - oldPos; move(x()+delta.x(), y()+delta.y()); oldPos = evt->globalPos(); }
 };
 
 #endif // MAINWINDOW_H
