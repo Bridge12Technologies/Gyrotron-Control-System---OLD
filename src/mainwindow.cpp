@@ -24,8 +24,6 @@ void MainWindow::shutdown()
 
 void MainWindow::init_gui()
 {
-    ui->next_state_label->setVisible(false);
-
     std::vector<QGroupBox*> groups{ui->state_group,ui->status_group,ui->press_group,ui->cathode_group,ui->fms_group,ui->power_group,ui->pid_group,ui->gtc_group,
                                    ui->plot_group,ui->fil_curr_group,ui->beam_volt_group,ui->freq_group,ui->curr_state_group,ui->auto_state_group,ui->time_span_group,
                                    ui->beam_pid_group,ui->power_pid_group,ui->freq_pid_group,ui->ramp_rate_group,ui->log_rate_group,ui->misc_group,ui->reconnect_group,ui->console_group,
@@ -295,8 +293,8 @@ void MainWindow::detect_state_change(int current_state, bool e_ramping, bool man
         ui->state_label->setText("EMERGENCY\nRAMP DOWN");
         ui->small_state_label->setText("E RAMP DOWN");
         ui->state_frame->setStyleSheet(red_state_bubble);
-        ui->prev_state_label->setVisible(false);
-        ui->next_state_label->setVisible(false);
+        ui->prev_state_label->setEnabled(false);
+        ui->next_state_label->setEnabled(false);
         ui->prev_state_button->setStyleSheet(prev_style);
         ui->prev_state_button->setText("");
         ui->next_state_button->setStyleSheet(next_style);
@@ -310,17 +308,17 @@ void MainWindow::detect_state_change(int current_state, bool e_ramping, bool man
             ui->state_label->setText("CONTROL\nPOWER ON");
             ui->small_state_label->setText("CTRL PW ON");
             ui->state_frame->setStyleSheet(green_state_bubble);
-            ui->prev_state_label->setVisible(false);
-            ui->next_state_label->setVisible(true);
-            ui->next_state_label->setText("  Warm Up →");
+            ui->prev_state_label->setEnabled(false);
+            ui->next_state_label->setEnabled(true);
+            ui->next_state_label->setText("Warm Up →");
             ui->prev_state_button->setStyleSheet(prev_style);
             ui->prev_state_button->setText("");
             ui->next_state_button->setStyleSheet(next_style);
             ui->next_state_button->setText("");
             break;
         case 1:
-            ui->prev_state_label->setVisible(true);
-            ui->next_state_label->setVisible(true);
+            ui->prev_state_label->setEnabled(true);
+            ui->next_state_label->setEnabled(true);
             if(paused)
             {
                 ui->state_frame->setStyleSheet(green_state_bubble);
@@ -333,8 +331,8 @@ void MainWindow::detect_state_change(int current_state, bool e_ramping, bool man
                     ui->prev_state_button->setText("");
                     ui->next_state_button->setStyleSheet(next_style);
                     ui->next_state_button->setText("");
-                    ui->prev_state_label->setText("← Cool Down  ");
-                    ui->next_state_label->setText("  Resume Warm Up →");
+                    ui->prev_state_label->setText("← Cool Down");
+                    ui->next_state_label->setText("Resume Warm Up →");
                 }
                 else if(ramping_down)
                 {
@@ -344,8 +342,8 @@ void MainWindow::detect_state_change(int current_state, bool e_ramping, bool man
                     ui->prev_state_button->setText("");
                     ui->next_state_button->setStyleSheet(next_style);
                     ui->next_state_button->setText("");
-                    ui->prev_state_label->setText("← Resume Cool Down  ");
-                    ui->next_state_label->setText("  Warm Up →");
+                    ui->prev_state_label->setText("← Resume Cool Down");
+                    ui->next_state_label->setText("Warm Up →");
                 }
             }
             else
@@ -360,8 +358,8 @@ void MainWindow::detect_state_change(int current_state, bool e_ramping, bool man
                     ui->prev_state_button->setText("II");
                     ui->next_state_button->setStyleSheet(next_style);
                     ui->next_state_button->setText("");
-                    ui->prev_state_label->setText("← Pause  ");
-                    ui->next_state_label->setText("  HV Standby →");
+                    ui->prev_state_label->setText("← Pause");
+                    ui->next_state_label->setText("HV Standby →");
                 }
                 else if(ramping_down)
                 {
@@ -371,8 +369,8 @@ void MainWindow::detect_state_change(int current_state, bool e_ramping, bool man
                     ui->prev_state_button->setText("");
                     ui->next_state_button->setStyleSheet(pause_style);
                     ui->next_state_button->setText("II");
-                    ui->prev_state_label->setText("← Control Power On  ");
-                    ui->next_state_label->setText("  Pause →");
+                    ui->prev_state_label->setText("← Control Power On");
+                    ui->next_state_label->setText("Pause →");
                 }
             }
             break;
@@ -381,21 +379,21 @@ void MainWindow::detect_state_change(int current_state, bool e_ramping, bool man
             ui->prev_state_button->setText("");
             ui->next_state_button->setStyleSheet(next_style);
             ui->next_state_button->setText("");
-            ui->prev_state_label->setVisible(true);
-            ui->next_state_label->setVisible(true);
+            ui->prev_state_label->setEnabled(true);
+            ui->next_state_label->setEnabled(true);
             ui->state_label->setText("HV STANDBY");
             ui->small_state_label->setText("HV STANDBY");
             ui->state_frame->setStyleSheet(green_state_bubble);
-            ui->prev_state_label->setText("← Cool Down  ");
-            ui->next_state_label->setText("  MW On →");
+            ui->prev_state_label->setText("← Cool Down");
+            ui->next_state_label->setText("MW On →");
             break;
         case 3:
             ui->state_label->setText("MW ON ⚡");
             ui->small_state_label->setText("MW ON");
-            ui->prev_state_label->setVisible(true);
-            ui->next_state_label->setVisible(false);
+            ui->prev_state_label->setEnabled(true);
+            ui->next_state_label->setEnabled(false);
             ui->state_frame->setStyleSheet(green_state_bubble);
-            ui->prev_state_label->setText("← HV Standby  ");
+            ui->prev_state_label->setText("← HV Standby");
             break;
         }
     }
@@ -601,16 +599,6 @@ void MainWindow::closeEvent (QCloseEvent *event)
     // if yes then shutdown, otherwise ignore event
     gui.question_dialog("Are you sure you want to quit?\n",
                         [=](){shutdown(); event->accept();},[=](){event->ignore();});
-}
-
-void MainWindow::on_tabWidget_tabBarClicked(int index)
-{
-    if(index == 1)
-    {
-        ui->press_plot->replot();
-        ui->beam_plot->replot();
-        ui->power_plot->replot();
-    }
 }
 
 void MainWindow::on_reconfig_button_clicked() { gyro.extract_config(); }
@@ -851,14 +839,47 @@ void MainWindow::on_gtc_volt_button_clicked()
     }
 }
 
-void MainWindow::on_exit_button_clicked()
-{
-    gui.question_dialog("Are you sure you want to quit?\n",
-                        [=](){shutdown(); qApp->quit();},[=](){});
-}
-
 void MainWindow::on_status_group_clicked()
-{ ui->stackedWidget->setCurrentIndex(3); }
+{ ui->stackedWidget->setCurrentIndex(2); }
 
 void MainWindow::on_close_button_clicked() { this->close(); }
 void MainWindow::on_minimize_button_clicked() { this->showMinimized(); }
+
+void MainWindow::on_control_tab_clicked()
+{
+    ui->control_tab->setStyleSheet(tab_selected);
+    ui->plot_tab->setStyleSheet(tab_unselected);
+    ui->fault_tab->setStyleSheet(tab_unselected);
+    ui->admin_tab->setStyleSheet(tab_unselected);
+    ui->stackedWidget->setCurrentIndex(0);
+}
+
+void MainWindow::on_plot_tab_clicked()
+{
+    ui->control_tab->setStyleSheet(tab_unselected);
+    ui->plot_tab->setStyleSheet(tab_selected);
+    ui->fault_tab->setStyleSheet(tab_unselected);
+    ui->admin_tab->setStyleSheet(tab_unselected);
+    ui->press_plot->replot();
+    ui->beam_plot->replot();
+    ui->power_plot->replot();
+    ui->stackedWidget->setCurrentIndex(1);
+}
+
+void MainWindow::on_fault_tab_clicked()
+{
+    ui->control_tab->setStyleSheet(tab_unselected);
+    ui->plot_tab->setStyleSheet(tab_unselected);
+    ui->fault_tab->setStyleSheet(tab_selected);
+    ui->admin_tab->setStyleSheet(tab_unselected);
+    ui->stackedWidget->setCurrentIndex(2);
+}
+
+void MainWindow::on_admin_tab_clicked()
+{
+    ui->control_tab->setStyleSheet(tab_unselected);
+    ui->plot_tab->setStyleSheet(tab_unselected);
+    ui->fault_tab->setStyleSheet(tab_unselected);
+    ui->admin_tab->setStyleSheet(tab_selected);
+    ui->stackedWidget->setCurrentIndex(3);
+}

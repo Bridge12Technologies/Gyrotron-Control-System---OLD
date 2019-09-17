@@ -21,5 +21,9 @@
         <file>images/dc_icon2.png</file>
         <file>images/clear_icon2.png</file>
         <file>images/settings_dark.png</file>
+        <file>lib/face/icons/error54.png</file>
+        <file>lib/face/icons/info.png</file>
+        <file>lib/face/icons/question54.png</file>
+        <file>lib/face/icons/warning54.png</file>
     </qresource>
 </RCC>

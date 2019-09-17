@@ -23,7 +23,6 @@ public:
 
 private slots:
     void realtime_slot();
-    void on_tabWidget_tabBarClicked(int index);
     void on_beam_pid_button_clicked();
     void on_power_pid_button_clicked();
     void on_freq_pid_button_clicked();
@@ -46,10 +45,13 @@ private slots:
     void on_freq_kp_button_clicked();
     void on_freq_ki_button_clicked();
     void on_freq_kd_button_clicked();
-    void on_exit_button_clicked();
     void on_status_group_clicked();
     void on_close_button_clicked();
     void on_minimize_button_clicked();
+    void on_control_tab_clicked();
+    void on_plot_tab_clicked();
+    void on_admin_tab_clicked();
+    void on_fault_tab_clicked();
 
 private:
     void shutdown();
@@ -80,6 +82,11 @@ private:
 
     QIcon warning_icon{"images/warning_yellow.png"};
     QIcon error_icon{"images/error_red.png"};
+
+    QString tab_selected{"QPushButton{color: rgb(85,87,83); border: none; background: rgb(240,240,240);}"};
+    QString tab_unselected{"QPushButton { color: rgb(85,87,83); border: none; background: rgb(220,220,220); }"
+                           "QPushButton:hover { background: rgb(225,225,225); }"
+                           "QPushButton:hover:pressed { background: rgb(240,240,240); }"};
 
     QString green_state_bubble{"QFrame { background-color: #46812B; color: white; border: none; border-radius: 100px; }"};
     QString orange_state_bubble{"QFrame { background-color: #F37021; color: white; border: none; border-radius: 100px; }"};
