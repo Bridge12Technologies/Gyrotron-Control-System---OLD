@@ -35,7 +35,7 @@ void MainWindow::init_gui()
         shadows.back()->setBlurRadius(25);
         shadows.back()->setXOffset(0);
         shadows.back()->setYOffset(0);
-        shadows.back()->setColor(QColor(30,30,30,50));
+        shadows.back()->setColor(QColor(30,30,30,40));
         group->setGraphicsEffect(shadows.back());
     }
 
@@ -73,34 +73,57 @@ void MainWindow::init_plots()
 
     ui->press_plot->setBackground(QBrush(Qt::white));
     ui->press_plot->axisRect()->setBackground(Qt::white);
-    ui->press_plot->xAxis->setVisible(false);
+    //ui->press_plot->xAxis->setVisible(false);
+    ui->press_plot->xAxis->setBasePen(Qt::NoPen);
+    ui->press_plot->xAxis->setTickLabels(false);
+    ui->press_plot->xAxis->setTickPen(Qt::NoPen);
+    ui->press_plot->xAxis->setSubTickPen(Qt::NoPen);
     ui->press_plot->yAxis->setTickLabelFont(plot_axis_font);
     ui->press_plot->yAxis->setLabelFont(small_plot_label_font);
     ui->press_plot->yAxis->setLabelColor(QColor(85, 87, 83));
-    ui->press_plot->yAxis->setBasePen(QPen(QColor(220,220,220)));
+    ui->press_plot->yAxis->setBasePen(Qt::NoPen);
+    ui->press_plot->yAxis->setTickPen(Qt::NoPen);
+    ui->press_plot->yAxis->setSubTickPen(Qt::NoPen);
     ui->press_plot->yAxis->setTickLabelColor(QColor(85, 87, 83));
+    ui->press_plot->yAxis->grid()->setPen(QPen(QColor(200,200,200),1,Qt::DotLine));
+    ui->press_plot->yAxis->grid()->setSubGridPen(QPen(QColor(200,200,200),1,Qt::DotLine));
+    ui->press_plot->xAxis->grid()->setPen(QPen(QColor(200,200,200),1,Qt::DotLine));
 
     ui->beam_plot->setBackground(QBrush(Qt::white));
     ui->beam_plot->axisRect()->setBackground(Qt::white);
-    ui->beam_plot->xAxis->setVisible(false);
+    //ui->beam_plot->xAxis->setVisible(false);
+    ui->beam_plot->xAxis->setBasePen(Qt::NoPen);
+    ui->beam_plot->xAxis->setTickLabels(false);
+    ui->beam_plot->xAxis->setTickPen(Qt::NoPen);
+    ui->beam_plot->xAxis->setSubTickPen(Qt::NoPen);
     ui->beam_plot->yAxis->setTickLabelFont(plot_axis_font);
     ui->beam_plot->yAxis->setLabelFont(small_plot_label_font);
     ui->beam_plot->yAxis->setLabelColor(QColor(85, 87, 83));
-    ui->beam_plot->yAxis->setBasePen(QPen(QColor(220,220,220)));
+    ui->beam_plot->yAxis->setBasePen(Qt::NoPen);
+    ui->beam_plot->yAxis->setTickPen(Qt::NoPen);
+    ui->beam_plot->yAxis->setSubTickPen(Qt::NoPen);
     ui->beam_plot->yAxis->setTickLabelColor(QColor(85, 87, 83));
+    ui->beam_plot->yAxis->grid()->setPen(QPen(QColor(200,200,200),1,Qt::DotLine));
+    ui->beam_plot->xAxis->grid()->setPen(QPen(QColor(200,200,200),1,Qt::DotLine));
 
     ui->power_plot->setBackground(QBrush(Qt::white));
     ui->power_plot->axisRect()->setBackground(Qt::white);
     ui->power_plot->xAxis->setTickLabelFont(plot_axis_font);
     ui->power_plot->xAxis->setLabelFont(small_plot_label_font);
     ui->power_plot->xAxis->setLabelColor(QColor(85, 87, 83));
-    ui->power_plot->xAxis->setBasePen(QPen(QColor(220,220,220)));
+    ui->power_plot->xAxis->setBasePen(Qt::NoPen);
     ui->power_plot->xAxis->setTickLabelColor(QColor(85, 87, 83));
+    ui->power_plot->xAxis->setTickPen(Qt::NoPen);
+    ui->power_plot->xAxis->setSubTickPen(Qt::NoPen);
     ui->power_plot->yAxis->setTickLabelFont(plot_axis_font);
     ui->power_plot->yAxis->setLabelFont(small_plot_label_font);
     ui->power_plot->yAxis->setLabelColor(QColor(85, 87, 83));
-    ui->power_plot->yAxis->setBasePen(QPen(QColor(220,220,220)));
+    ui->power_plot->yAxis->setBasePen(Qt::NoPen);
+    ui->power_plot->yAxis->setTickPen(Qt::NoPen);
+    ui->power_plot->yAxis->setSubTickPen(Qt::NoPen);
     ui->power_plot->yAxis->setTickLabelColor(QColor(85, 87, 83));
+    ui->power_plot->yAxis->grid()->setPen(QPen(QColor(200,200,200),1,Qt::DotLine));
+    ui->power_plot->xAxis->grid()->setPen(QPen(QColor(200,200,200),1,Qt::DotLine));
 
     // PRESSURE PLOT
 
@@ -179,7 +202,7 @@ void MainWindow::init_plots()
 
     // set axes
     ui->power_plot->xAxis->setTicker(timeTicker);
-    ui->power_plot->axisRect()->setupFullAxesBox();
+    //ui->power_plot->axisRect()->setupFullAxesBox();
     //ui->beam_plot->yAxis->setSubTickCount(8);
     ui->power_plot->yAxis->setRange(0, 5); // default range
     ui->power_plot->xAxis->setPadding(10);
@@ -849,7 +872,7 @@ void MainWindow::on_control_tab_clicked()
 {
     ui->control_tab->setStyleSheet(tab_selected);
     ui->plot_tab->setStyleSheet(tab_unselected);
-    ui->fault_tab->setStyleSheet(tab_unselected);
+    ui->status_tab->setStyleSheet(tab_unselected);
     ui->admin_tab->setStyleSheet(tab_unselected);
     ui->stackedWidget->setCurrentIndex(0);
 }
@@ -858,7 +881,7 @@ void MainWindow::on_plot_tab_clicked()
 {
     ui->control_tab->setStyleSheet(tab_unselected);
     ui->plot_tab->setStyleSheet(tab_selected);
-    ui->fault_tab->setStyleSheet(tab_unselected);
+    ui->status_tab->setStyleSheet(tab_unselected);
     ui->admin_tab->setStyleSheet(tab_unselected);
     ui->press_plot->replot();
     ui->beam_plot->replot();
@@ -866,11 +889,11 @@ void MainWindow::on_plot_tab_clicked()
     ui->stackedWidget->setCurrentIndex(1);
 }
 
-void MainWindow::on_fault_tab_clicked()
+void MainWindow::on_status_tab_clicked()
 {
     ui->control_tab->setStyleSheet(tab_unselected);
     ui->plot_tab->setStyleSheet(tab_unselected);
-    ui->fault_tab->setStyleSheet(tab_selected);
+    ui->status_tab->setStyleSheet(tab_selected);
     ui->admin_tab->setStyleSheet(tab_unselected);
     ui->stackedWidget->setCurrentIndex(2);
 }
@@ -879,7 +902,7 @@ void MainWindow::on_admin_tab_clicked()
 {
     ui->control_tab->setStyleSheet(tab_unselected);
     ui->plot_tab->setStyleSheet(tab_unselected);
-    ui->fault_tab->setStyleSheet(tab_unselected);
+    ui->status_tab->setStyleSheet(tab_unselected);
     ui->admin_tab->setStyleSheet(tab_selected);
     ui->stackedWidget->setCurrentIndex(3);
 }

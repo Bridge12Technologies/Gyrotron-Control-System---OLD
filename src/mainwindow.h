@@ -51,7 +51,7 @@ private slots:
     void on_control_tab_clicked();
     void on_plot_tab_clicked();
     void on_admin_tab_clicked();
-    void on_fault_tab_clicked();
+    void on_status_tab_clicked();
 
 private:
     void shutdown();

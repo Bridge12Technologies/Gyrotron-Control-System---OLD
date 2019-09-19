@@ -25,5 +25,6 @@
         <file>lib/face/icons/info.png</file>
         <file>lib/face/icons/question54.png</file>
         <file>lib/face/icons/warning54.png</file>
+        <file>images/no_faults450.png</file>
     </qresource>
 </RCC>
