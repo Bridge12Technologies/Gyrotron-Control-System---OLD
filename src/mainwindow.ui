@@ -828,7 +828,7 @@ border-bottom-left-radius: 18px;
 }</string>
       </property>
       <property name="currentIndex">
-       <number>1</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="control_page" native="true">
        <layout class="QGridLayout" name="gridLayout_4" rowstretch="3,1,2,2,3">

@@ -54,55 +54,101 @@ public:
     void toggle_freq_pid(bool turn_on);
 
     bool all_clear(); // true if all devs enabled, connected, & no errors
-    bool is_ramping_down(); // true if ramp down in progress
-    bool is_ramping_up(); // true if ramp up in progress
-    bool is_e_ramping(); // true if emergency ramp in progress
-    bool cath_is_enabled();
-    bool gtc_is_enabled();
-    bool spc_is_enabled();
-    bool rsi_is_enabled();
-    bool fms_is_enabled();
-    bool beam_pid_is_on();
-    bool power_pid_is_on();
-    bool freq_pid_is_on();
+    bool is_paused() { return paused; }
+    bool is_ramping_down() { return ramping_down; }
+    bool is_ramping_up() { return ramping_up; }
+    bool is_e_ramping() { return e_ramping; }
+    bool cath_is_enabled() { return cath.is_enabled(); }
+    bool gtc_is_enabled() { return gtc.is_enabled(); }
+    bool spc_is_enabled() { return spc.is_enabled(); }
+    bool rsi_is_enabled() { return rsi.is_enabled(); }
+    bool fms_is_enabled() { return fms.is_enabled(); }
+    bool beam_pid_is_on() { return beam_pid_on; }
+    bool power_pid_is_on() { return power_pid_on; }
+    bool freq_pid_is_on() { return freq_pid_on; }
 
-    double get_fil_curr_sp();
-    double get_beam_volt_sp();
-    double get_beam_curr_sp();
-    double get_freq_sp();
-    double get_power_sp();
-    double get_gtc_curr_sp();
-    double get_gtc_volt_sp();
-    int get_state();
-    double get_fil_curr();
-    double get_beam_volt();
-    double get_beam_curr();
-    double get_collector_curr();
-    double get_body_curr();
-    double get_freq();
-    double get_power();
     int get_fault_status(); // 0 = no faults, -1 = warnings, -2 = errors
-    int get_temp_status(); // 0 = safe temp, -1 = warning, -2 = fatal
-    double get_temp();
-    int get_flow_status(); // 0 = safe temp, -1 = warning, -2 = fatal
-    double get_flow();
-    double get_pressure();
+    int get_temp_status();  // 0 = safe temp, -1 = warning, -2 = fatal
+    int get_flow_status();  // 0 = safe flow, -1 = warning, -2 = fatal
     int get_press_status(); // 0 = safe pressure, -1 = relax, -2 = fatal
-    double get_gtc_curr();
-    double get_gtc_volt();
+
+    double get_fil_curr_sp() { return fil_curr_sp; }
+    double get_beam_volt_sp() { return beam_volt_sp; }
+    double get_beam_curr_sp() { return beam_curr_sp; }
+    double get_beam_ocp() { return beam_ocp; }
+    double get_freq_sp() { return freq_sp; }
+    double get_power_sp() { return power_sp; }
+    double get_gtc_curr_sp() { return beam_curr_sp; }
+    double get_gtc_volt_sp() { return beam_curr_sp; }
+    int get_state() { return current_state; }
+    double get_fil_curr() { return fil_curr; }
+    double get_beam_volt() { return beam_volt; }
+    double get_beam_curr() { return beam_curr; }
+    double get_collector_curr() { return collector_curr; }
+    double get_body_curr() { return body_curr; }
+    double get_freq() { return freq; }
+    double get_power() { return power; }
+    double get_temp() { return body_temp; }
+    double get_air_flow() { return air_flow; }
+    double get_water_flow() { return water_flow; }
+    double get_pressure() { return pressure; }
+    double get_gtc_curr() { return gtc_curr; }
+    double get_gtc_volt() { return gtc_volt; }
     void get_pid_consts(double& p, double& i, double& d);
     void get_fpid_consts(double& p, double& i, double& d);
-    double get_ramp_time();
-    double get_ramp_sp();
-    std::vector<double> get_press_data();
-    std::vector<double> get_press_time_data();
-    std::vector<double> get_beam_data();
-    std::vector<double> get_beam_time_data();
-    std::vector<double> get_power_data();
-    std::vector<double> get_power_time_data();
-
+    double get_ramp_time() { return ramp_time; }
+    double get_ramp_sp() { return ramp_sp; }
+    std::vector<double> get_press_data() { std::lock_guard<std::mutex> lock(press_m); return press_data; }
+    std::vector<double> get_press_time_data() { std::lock_guard<std::mutex> lock(press_m); return press_time_data; }
+    std::vector<double> get_beam_data() { std::lock_guard<std::mutex> lock(beam_m); return beam_data; }
+    std::vector<double> get_beam_time_data() { std::lock_guard<std::mutex> lock(beam_m); return beam_time_data; }
+    std::vector<double> get_power_data() { std::lock_guard<std::mutex> lock(power_m); return power_data; }
+    std::vector<double> get_power_time_data() { std::lock_guard<std::mutex> lock(power_m); return power_time_data; }
     std::vector<std::string> get_warnings();
     std::vector<std::string> get_errors();
+
+    std::atomic<double>* beam_kp_ptr() { return &beam_kp; }
+    std::atomic<double>* beam_ki_ptr() { return &beam_ki; }
+    std::atomic<double>* beam_kd_ptr() { return &beam_kd; }
+    std::atomic<double>* power_kp_ptr() { return &power_kp; }
+    std::atomic<double>* power_ki_ptr() { return &power_ki; }
+    std::atomic<double>* power_kd_ptr() { return &power_kd; }
+    std::atomic<double>* freq_kp_ptr() { return &freq_kp; }
+    std::atomic<double>* freq_ki_ptr() { return &freq_ki; }
+    std::atomic<double>* freq_kd_ptr() { return &freq_kd; }
+    std::atomic<double>* fil_curr_ptr() { return &fil_curr; }
+    std::atomic<double>* fil_curr_sp_ptr() { return &fil_curr_sp; }
+    std::atomic<double>* beam_volt_ptr() { return &beam_volt; }
+    std::atomic<double>* beam_volt_sp_ptr() { return &beam_volt_sp; }
+    std::atomic<double>* beam_curr_ptr() { return &beam_curr; }
+    std::atomic<double>* beam_curr_sp_ptr() { return &beam_curr_sp; }
+    std::atomic<double>* freq_ptr() { return &freq; }
+    std::atomic<double>* freq_sp_ptr() { return &freq_sp; }
+    std::atomic<double>* power_ptr() { return &power; }
+    std::atomic<double>* power_sp_ptr() { return &power_sp; }
+    std::atomic<double>* gtc_curr_ptr() { return &gtc_curr; }
+    std::atomic<double>* gtc_curr_sp_ptr() { return &gtc_curr_sp; }
+    std::atomic<double>* gtc_volt_ptr() { return &gtc_volt; }
+    std::atomic<double>* gtc_volt_sp_ptr() { return &gtc_volt_sp; }
+
+    // ************* MANY CONSTANTS STILL TBD ********************
+
+    // fault thresholds
+    const double WARN_BC_DIFF{-1}, FATAL_BC_DIFF{-1}; // allowed diff between body and collector currents
+    const double WARN_TEMP{-1}, FATAL_TEMP{-1};
+    const double WARN_WATER_FLOW{-1}, FATAL_WATER_FLOW{-1};
+    const double WARN_AIR_FLOW{-1}, FATAL_AIR_FLOW{-1};
+
+    // hardware limits
+    const double MAX_BEAM_VOLT{20}, MAX_BEAM_CURR{30}, MAX_FIL_CURR{5};
+    const double MAX_GTC_VOLT{-1}, MAX_GTC_CURR{-1};
+
+    // operational limits (also used for OVP/OCP values)
+    const double BEAM_VOLT_LIMIT{-1}, BEAM_CURR_LIMIT{-1}, FIL_CURR_LIMIT{3.3};
+    const double GTC_VOLT_LIMIT{-1}, GTC_CURR_LIMIT{-1}; // TBD, max for now
+    const double POWER_LIMIT{-1}, UPPER_FREQ_LIMIT{-1}, LOWER_FREQ_LIMIT{-1};
+
+    const double POWER_V_CONVERT{}; // constant to convert voltage to power
 
 private:
     void query_cath(); // routine query for cathode
@@ -124,14 +170,8 @@ private:
     Device cath{"DXM","Cathode"}, gtc{"RIGOL","GTC"}, rsi{"RSI"}, spc{"SPC"}, fms{"FMS"};
 
     PID *beam_pid, *power_pid, *freq_pid;
-
-    // output limits
-    double fil_curr_limit{}, beam_curr_limit{}, beam_volt_limit{};
-    double gtc_curr_limit{}, gtc_volt_limit{};
-
-    // input limits
-    double fil_curr_max{}, beam_curr_max{}, beam_volt_max{};
-    double gtc_curr_max{}, gtc_volt_max{}, power_max{}, freq_max{};
+    double pid_dt;
+    clk::time_point last_pid_time;
 
     std::atomic<double> beam_kp{0}, beam_ki{0}, beam_kd{0};
     std::atomic<double> power_kp{0}, power_ki{0}, power_kd{0};
@@ -140,36 +180,27 @@ private:
     double press_bound1{8e-8}, press_bound2{4e-7}, press_bound3{1e-6}, fatal_press{5e-6};
     double power_limit, power_calibrate, err_limit1{10}, err_limit2{30};
 
-    // various operational limits
-    const double MAX_BODY_COL_DIFF{}; // max allowed difference between body and collector currents
-    const double MAX_POWER{}, MAX_FREQ{}, MIN_FREQ{};
-    const double MAX_PRESS{}, MAX_TEMP{}, MAX_DIODE_VOLT{};
-    const double MIN_WATER_FLOW{}, MIN_AIR_FLOW{};
-
-    // slave device limits
-    const double MAX_BEAM_VOLT{20}, MAX_BEAM_CURR{30}, MAX_FIL_SET{3.3}, MAX_FIL_CURR{5};
-    const double MAX_GTC_VOLT{}, MAX_GTC_CURR{}; // TBD
-
-    // operational constants
-    const double OP_BEAM_VOLT{}, OP_GTC_VOLT{}, OP_GTC_CURR{}; // TBD
-
     std::chrono::duration<double, std::milli> pid_elapsed;
     clk::time_point last_recording{clk::now()};
 
     std::atomic<int> current_state{0};
+    std::atomic<double> body_curr{0}, collector_curr{0}, beam_ocp;
     std::atomic<double> pressure{0}, query_rate{0.5}, rec_rate{0};
     std::atomic<double> freq, power, plot_span;
     std::atomic<double> beam_curr_sp{-1}, power_sp{-1}, freq_sp{-1}, beam_volt_sp{0};
-    std::atomic<double> fil_curr, fil_curr_sp{0}, beam_curr, beam_volt;
-    std::atomic<double> gtc_curr{0}, gtc_volt{0};
+    std::atomic<double> fil_curr, fil_curr_sp{0}, beam_curr{0}, beam_volt{0}, beam_volt_ref{0};
+    std::atomic<double> gtc_curr{0}, gtc_volt{0}, diode_volt{0}, body_temp{0}, air_flow{0}, water_flow{0};
     std::atomic<double> gtc_curr_sp{0}, gtc_volt_sp{0};
-    std::atomic<bool> gtc_hv_on{false};
+
+    std::atomic<bool> gtc_hv_on{false}, cath_hv_on{false}, cath_hv_on_prev{false};
     std::atomic<bool> e_ramping{false}, hv_blocked{false}, reset_pid_time{false};
     std::atomic<bool> freq_pid_on{false}, beam_pid_on{false}, power_pid_on{false};
+    std::atomic<bool> freq_pid_on_prev{false}, beam_pid_on_prev{false}, power_pid_on_prev{false};
+    std::atomic<bool>  ramping_up{false}, ramping_down{false};
+    std::atomic<bool> relaxing{false}, paused{false};
 
-    bool  ramping_up{false}, ramping_down{false}, cath_fault_triggered{false};
-    bool relaxing{false}, paused{false};
-    std::vector<double> press_data, time_data, beam_data, beam_sp_data, beam_time_data;
+    std::mutex press_m, beam_m, power_m;
+    std::vector<double> press_data, press_time_data, beam_data, beam_sp_data, beam_time_data;
     std::vector<double> power_array, power_sp_data, power_data, power_time_data;
 };
 

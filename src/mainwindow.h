@@ -103,36 +103,15 @@ private:
                               "background-position: center; background-repeat: no-repeat;"};
     QString faults_list{"background: white; border: none; background-image: none;"};
 
-    double refresh_rate{0.61}, log_rate{0.61}, plot_span{1200}, e_ramp_rate{0.5};
-    double press_bound1{8e-8}, press_bound2{4e-7}, press_bound3{1e-6}, fatal_press{5e-6};
-    double err_limit1{10}, err_limit2{30};
-    bool paused{false};
-    int log_day_tracker, dat_day_tracker, init_error_code{0}, state{0};
-    int dxm_err_count{0}, rigol_err_count{0}, lj_err_count{0}, spc_err_count{0}, fms_err_count{0};
-    int status, expected_devs{0}, num_data_logs{0}, num_action_logs{0}, lj_recon_count{-1};
-    double pressure{0}, freq, freq_sp{0}, beam_volt_sp{0}, anode_volt_sp{0}, anode_curr_sp{0};
-    double key, ain0, ain1, ain2, beam2fil_scale, dxm_curr_limit, ramp_rate{0}, ramp_sp{0}, ramp_time{0}, press_max, press_min;
-    double fil_curr, fil_curr_sp{0}, dxm_curr, dxm_volt, beam_curr_sp{-1}, diode_volt, gtc_volt_sp{0}, gtc_curr_sp{0}, trim_curr_sp{0}, trim_volt_sp{0};
-    double power, power_set, power_sp{-1}, power_limit, power_calibrate, e_ramp_time;
-    bool e_ramping{false}, cath_hv_blocked{false}, reset_pid_time{false};
-    bool running{false}, cath_hv_on{false}, gtc_hv_on{false}, beam_curr_pid_on{false}, power_pid_on{false};
-    bool freq_pid_on{false}, ramping_up{false}, ramping_down{false}, cath_fault_triggered{false};
-    bool relaxing{false};
-    std::string recv_str, out_str, log_file_name, dat_file_name, data_log_file_name, action_log_file_name, folder_name, press_str{"----------"};
-    QString temp_str, white_box, grey_box, red_box;
+    int init_error_code{0};
+    double key, plot_span{0}, refresh_rate{0.5};
+    std::string press_str{"----------"};
     char timestamp_full[20], timestamp[10];
-
-    QString fil_curr_st, beam_volt_st, beam_curr_st, anode_volt_st, anode_curr_st, shim_curr_st, shim_volt_st, trim_curr_st, trim_volt_st, freq_st, power_st;
 
     QCPItemText *press_plot_label, *beam_plot_label, *power_plot_label, *power_plot_label2;
 
-    //std::vector<double> press_data, time_data;
     QVector<double> press_data, time_data, beam_data, power_sp_data, power_time_data, beam_sp_data, beam_time_data, power_data;
     std::vector<double> power_array;
-
-    bool fil_curr_active{false}, beam_volt_active{false}, beam_curr_active{false}, anode_curr_active{false}, anode_volt_active{false}, ramp_paused{false};
-    bool power_active{false}, freq_active{false}, shim_curr_active{false}, shim_volt_active{false}, trim_curr_active{false}, trim_volt_active{false};
-
 
 protected:
     void mousePressEvent(QMouseEvent *evt) { oldPos = evt->globalPos(); }
