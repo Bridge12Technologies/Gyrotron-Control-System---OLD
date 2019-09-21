@@ -7,7 +7,7 @@ Gyrotron::Gyrotron() : Spine()
 
     add_device(&cath,[=](){query_cath();},[=](){cath_recon();},"99,1,","$");
     add_device(&gtc,[=](){query_gtc();},[=](){gtc_recon();},"*IDN?","DP821A");
-    add_device(&rsi,[=](){query_rsi();},[=](){rsi_recon();},"hello rsi","rsi");
+    add_device(&rsi,[=](){query_rsi();},[=](){rsi_recon();},"ping","OK");
     add_device(&spc,[=](){query_spc();},[=](){spc_recon();},"spc 01","00");
     add_device(&fms,[=](){query_fms();},[=](){fms_recon();},"#0","0");
 
@@ -283,12 +283,15 @@ void Gyrotron::query_fms()
 
 void Gyrotron::query_rsi()
 {
-    std::string cmds[] = {"mpio 1 ar 1","temp 1","flow 1","flow 2"};
-    std::atomic<double> *values[] = {&diode_volt, &body_temp, &air_flow,&water_flow};
+    std::string cmds[] = {"mpio 1 ar 1","mpio 1 ar 2","mpio 1 ar 3","temp 1","temp 2","temp 3",
+                          "temp 4","temp 5","flow 1","flow 2","flow 3","flow 4"};
+    std::atomic<double> *values[] = {&diode_volt, &body_volt, &collector_volt,
+                                     &main_chill_temp, &cav_chill_temp, &collector_temp, &cav_temp, &body_temp,
+                                     &main_chill_flow, &cav_chill_flow, &collector_flow, &gun_air_flow};
     std::string resp;
     int stat = 0;
 
-    for(int i = 0; i < 4; i++)
+    for(int i = 0; i < 12; i++)
     {
         if(stat == 0)
         {
@@ -301,6 +304,10 @@ void Gyrotron::query_rsi()
 
     if(diode_volt >= 0)
         power = diode_volt * POWER_V_CONVERT;
+    if(body_volt >= 0)
+        body_curr = body_volt/BODY_R;
+    if(collector_volt >= 0)
+        collector_curr = collector_volt/COLLECTOR_R;
 
     power_m.lock();
     // add in plotting vector management here
@@ -966,18 +973,18 @@ bool Gyrotron::all_clear()
 
 int Gyrotron::get_temp_status() // 0 = safe temp, -1 = warning, -2 = fatal
 {
-    if(body_temp > FATAL_TEMP)
+    if(main_chill_temp > FATAL_TEMP || cav_chill_temp > FATAL_TEMP || collector_temp > FATAL_TEMP || cav_temp > FATAL_TEMP || body_temp > FATAL_TEMP)
         return -2;
-    else if(body_temp > WARN_TEMP)
+    else if(main_chill_temp > WARN_TEMP || cav_chill_temp > WARN_TEMP || collector_temp > WARN_TEMP || cav_temp > WARN_TEMP || body_temp > WARN_TEMP)
         return -1;
     return 0;
 }
 
 int Gyrotron::get_flow_status() // 0 = safe flow, -1 = warning, -2 = fatal
 {
-    if(air_flow < FATAL_AIR_FLOW || water_flow < FATAL_WATER_FLOW)
+    if(gun_air_flow < FATAL_AIR_FLOW || main_chill_flow < FATAL_WATER_FLOW || cav_chill_flow < FATAL_WATER_FLOW || collector_flow < FATAL_WATER_FLOW)
         return -2;
-    else if(air_flow < WARN_AIR_FLOW || water_flow < WARN_WATER_FLOW)
+    else if(gun_air_flow < WARN_AIR_FLOW || main_chill_flow < WARN_WATER_FLOW || cav_chill_flow < WARN_WATER_FLOW || collector_flow < WARN_WATER_FLOW)
         return -1;
     return 0;
 }

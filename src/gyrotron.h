@@ -89,8 +89,6 @@ public:
     double get_freq() { return freq; }
     double get_power() { return power; }
     double get_temp() { return body_temp; }
-    double get_air_flow() { return air_flow; }
-    double get_water_flow() { return water_flow; }
     double get_pressure() { return pressure; }
     double get_gtc_curr() { return gtc_curr; }
     double get_gtc_volt() { return gtc_volt; }
@@ -148,7 +146,9 @@ public:
     const double GTC_VOLT_LIMIT{-1}, GTC_CURR_LIMIT{-1}; // TBD, max for now
     const double POWER_LIMIT{-1}, UPPER_FREQ_LIMIT{-1}, LOWER_FREQ_LIMIT{-1};
 
-    const double POWER_V_CONVERT{}; // constant to convert voltage to power
+    // other constants
+    const double POWER_V_CONVERT{-1}; // constant to convert voltage to power
+    const double BODY_R{-1}, COLLECTOR_R{-1}; // resistance values for body and collector, used to get I
 
 private:
     void query_cath(); // routine query for cathode
@@ -180,7 +180,7 @@ private:
     double press_bound1{8e-8}, press_bound2{4e-7}, press_bound3{1e-6}, fatal_press{5e-6};
     double power_limit, power_calibrate, err_limit1{10}, err_limit2{30};
 
-    std::chrono::duration<double, std::milli> pid_elapsed;
+    std::chrono::duration<double,std::milli> pid_elapsed;
     clk::time_point last_recording{clk::now()};
 
     std::atomic<int> current_state{0};
@@ -189,14 +189,17 @@ private:
     std::atomic<double> freq, power, plot_span;
     std::atomic<double> beam_curr_sp{-1}, power_sp{-1}, freq_sp{-1}, beam_volt_sp{0};
     std::atomic<double> fil_curr, fil_curr_sp{0}, beam_curr{0}, beam_volt{0}, beam_volt_ref{0};
-    std::atomic<double> gtc_curr{0}, gtc_volt{0}, diode_volt{0}, body_temp{0}, air_flow{0}, water_flow{0};
+    std::atomic<double> gtc_curr{0}, gtc_volt{0};
+    std::atomic<double> diode_volt{-1}, body_volt{-1}, collector_volt{-1};
+    std::atomic<double> main_chill_temp{-1}, cav_chill_temp{-1}, collector_temp{-1}, cav_temp{-1}, body_temp{-1};
+    std::atomic<double> main_chill_flow{-1}, cav_chill_flow{-1}, collector_flow{-1}, gun_air_flow{-1};
     std::atomic<double> gtc_curr_sp{0}, gtc_volt_sp{0};
 
     std::atomic<bool> gtc_hv_on{false}, cath_hv_on{false}, cath_hv_on_prev{false};
     std::atomic<bool> e_ramping{false}, hv_blocked{false}, reset_pid_time{false};
     std::atomic<bool> freq_pid_on{false}, beam_pid_on{false}, power_pid_on{false};
     std::atomic<bool> freq_pid_on_prev{false}, beam_pid_on_prev{false}, power_pid_on_prev{false};
-    std::atomic<bool>  ramping_up{false}, ramping_down{false};
+    std::atomic<bool> ramping_up{false}, ramping_down{false};
     std::atomic<bool> relaxing{false}, paused{false};
 
     std::mutex press_m, beam_m, power_m;
