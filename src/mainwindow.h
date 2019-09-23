@@ -45,7 +45,6 @@ private slots:
     void on_freq_kp_button_clicked();
     void on_freq_ki_button_clicked();
     void on_freq_kd_button_clicked();
-    void on_status_group_clicked();
     void on_close_button_clicked();
     void on_minimize_button_clicked();
     void on_control_tab_clicked();
@@ -74,9 +73,10 @@ private:
     std::vector<QGraphicsDropShadowEffect*> shadows;
     QTimer data_timer;
     QPoint oldPos;
-
+    bool gui_debug_mode;
     std::vector<SmartLineEdit*> smart_edits;
     int last_known_state{0}, resize_tracker{0};
+    bool window_locked{false};
 
     std::vector<QListWidgetItem*> fault_list_items;
 
@@ -114,9 +114,9 @@ private:
     std::vector<double> power_array;
 
 protected:
-    void mousePressEvent(QMouseEvent *evt) { oldPos = evt->globalPos(); }
-    void mouseMoveEvent(QMouseEvent *evt)
-    { const QPoint delta = evt->globalPos() - oldPos; move(x()+delta.x(), y()+delta.y()); oldPos = evt->globalPos(); }
+    bool eventFilter(QObject *object, QEvent *event);
+    void mousePressEvent(QMouseEvent *evt);
+    void mouseMoveEvent(QMouseEvent *evt);
 };
 
 #endif // MAINWINDOW_H

@@ -5,10 +5,17 @@ using namespace std;
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),ui(new Ui::MainWindow)
 {
+    gui_debug_mode = true;
+
     ui->setupUi(this);
     setWindowFlags(Qt::Window | Qt::FramelessWindowHint);
-    int init_stat = gyro.init(); // parse config, spawn threads, connect/probe devices, and exec pre-funcs
-    (init_stat < 0) ? init_fail_dialog(init_stat) : init_gui(); // either init gui next, or prompt error
+
+    if(gui_debug_mode)
+        init_gui();
+    else {
+        int init_stat = gyro.init(); // parse config, spawn threads, connect/probe devices, and exec pre-funcs
+        (init_stat < 0) ? init_fail_dialog(init_stat) : init_gui(); // either init gui next, or prompt error
+    }
 }
 
 MainWindow::~MainWindow() { delete ui; }
@@ -17,12 +24,18 @@ void MainWindow::shutdown()
 {
     gyro.log_event("exiting program");
     data_timer.stop();
-    gyro.stop();
+    if(!gui_debug_mode) gyro.stop();
     QApplication::quit();
 }
 
 void MainWindow::init_gui()
 {
+    QWidget *boxes[25] = {ui->status_group,ui->state_group,ui->press_group,ui->cathode_group,ui->fms_group,ui->power_group,ui->gtc_group,
+                         ui->pid_group,ui->plot_group,ui->fil_curr_group,ui->beam_volt_group,ui->freq_group,ui->curr_state_group,ui->auto_state_group,
+                         ui->time_span_group,ui->faults_group,ui->log_group,ui->beam_pid_group,ui->power_pid_group,ui->freq_group,ui->ramp_rate_group,
+                         ui->log_rate_group,ui->misc_group,ui->reconnect_group,ui->console_group};
+    for(auto box : boxes) { box->installEventFilter(this); }
+
     // apply drop shadows to group boxes
     std::vector<QGroupBox*> groups{ui->state_group,ui->status_group,ui->press_group,ui->cathode_group,ui->fms_group,ui->power_group,ui->pid_group,ui->gtc_group,
                                    ui->plot_group,ui->fil_curr_group,ui->beam_volt_group,ui->freq_group,ui->curr_state_group,ui->auto_state_group,ui->time_span_group,
@@ -35,7 +48,7 @@ void MainWindow::init_gui()
         shadows.back()->setBlurRadius(25);
         shadows.back()->setXOffset(0);
         shadows.back()->setYOffset(0);
-        shadows.back()->setColor(QColor(30,30,30,40));
+        shadows.back()->setColor(QColor(30,30,30,35));
         group->setGraphicsEffect(shadows.back());
     }
 
@@ -826,7 +839,7 @@ void MainWindow::on_gtc_curr_button_clicked()
     double entry = ui->gtc_curr_edit->toggle_active();
     if(entry >= 0)
     {
-        int stat = gyro.set_gtc_curr(entry);
+        int stat = gyro.set_gtc_curr_limit(entry);
         if(stat < 0)
             gui.error_dialog(QString::fromStdString("Error setting GTC current! (" + to_str(stat) + ")"));
     }
@@ -842,9 +855,6 @@ void MainWindow::on_gtc_volt_button_clicked()
             gui.error_dialog(QString::fromStdString("Error setting GTC voltage! (" + to_str(stat) + ")"));
     }
 }
-
-void MainWindow::on_status_group_clicked()
-{ ui->stackedWidget->setCurrentIndex(2); }
 
 void MainWindow::on_close_button_clicked() { this->close(); }
 void MainWindow::on_minimize_button_clicked() { this->showMinimized(); }
@@ -886,4 +896,28 @@ void MainWindow::on_admin_tab_clicked()
     ui->status_tab->setStyleSheet(tab_unselected);
     ui->admin_tab->setStyleSheet(tab_selected);
     ui->stackedWidget->setCurrentIndex(3);
+}
+
+void MainWindow::mousePressEvent(QMouseEvent *evt)
+{
+    oldPos = evt->globalPos();
+}
+void MainWindow::mouseMoveEvent(QMouseEvent *evt)
+{
+    const QPoint delta = evt->globalPos() - oldPos;
+    if(!window_locked) move(x()+delta.x(), y()+delta.y());
+    oldPos = evt->globalPos();
+}
+
+bool MainWindow::eventFilter(QObject *obj, QEvent *event)
+{
+    QString obj_str = obj->objectName();
+    if(obj_str.contains("_group"))
+    {
+        if(event->type() == QEvent::Enter)
+            window_locked = true;
+        else if(event->type() == QEvent::Leave)
+            window_locked = false;
+    }
+    return QWidget::eventFilter(obj, event);
 }

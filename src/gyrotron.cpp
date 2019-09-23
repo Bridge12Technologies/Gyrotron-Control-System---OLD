@@ -38,11 +38,10 @@ int Gyrotron::extract_config()
                             "Power Meter Calibration", "Error Count First Limit","Error Count Second Limit"};
     std::atomic<double> *a_values[12] = {&beam_kp,&beam_ki,&beam_kd,&power_kp,&power_ki,&power_kd,
                                          &freq_kp,&freq_ki,&freq_kd,&ramp_sp,&ramp_time,&e_ramp_time};
-    double *values[7] = {&fatal_press,&press_bound3,&press_bound2,&press_bound1,
-                         &power_calibrate,&err_limit1,&err_limit2};
+    double *values[5] = {&fatal_press,&press_bound3,&press_bound2,&press_bound1,&power_calibrate};
 
     for(i = 0; i < 12; i++) { *a_values[i] = config_get_double(titles[i],ok); }
-    for(i = 0; i < 7; i++) { *values[i] = config_get_double(titles[i+12],ok); }
+    for(i = 0; i < 5; i++) { *values[i] = config_get_double(titles[i+12],ok); }
 
     cath.set_enabled(config_get_bool("Cathode Enabled",ok));
     gtc.set_enabled(config_get_bool("GTC Enabled",ok));
@@ -129,12 +128,12 @@ void Gyrotron::query_cath()
         log_event("Cathode D/C, moving to reconnect loop");
 }
 
-void Gyrotron::query_gtc()
+void Gyrotron::query_gtc() // still need to check responses manually and apply to error checks
 {
     std::stringstream ss;
     double temp_double;
 
-    std::string resp = gtc.smart_io(":MEAS:VOLT:DC? CH1","error",false);
+    std::string resp = gtc.m_smart_io("VREAD","error",false);
     if(!err(resp))
     {
         temp_double = to_doub(resp);
@@ -143,7 +142,7 @@ void Gyrotron::query_gtc()
         else
             log_event(shout("invalid gtc voltage conversion: " + resp));
         
-        resp = gtc.smart_io(":MEAS:CURR:DC? CH1","error",false);
+        resp = gtc.m_smart_io("IREAD","error",false);
         if(!err(resp))
         {
             temp_double = to_doub(resp);
@@ -152,7 +151,7 @@ void Gyrotron::query_gtc()
             else
                 log_event(shout("invalid gtc current conversion: " + resp));
 
-            resp = gtc.smart_io(":OUTP? CH1");
+            resp = gtc.m_smart_io("PWR");
             if(!err(resp))
             {
                 if(contains(resp,"ON"))
@@ -162,7 +161,7 @@ void Gyrotron::query_gtc()
                 else
                     log_event("couldn't read GTC HV status: " + resp);
                 
-                resp = gtc.smart_io(":SYST:ERR?");
+                resp = gtc.m_smart_io(":SYST:ERR:ALL?");
                 if(!err(resp))
                 {
                     gtc.error_m()->lock();
@@ -267,7 +266,7 @@ void Gyrotron::query_fms()
 {
     double temp_double;
 
-    std::string resp = fms.smart_io("#F","#F OK",true);
+    std::string resp = fms.m_smart_io("#F","#F OK",true);
     if(!err(resp))
     {
         resp.erase(0,6); // erase "#2 OK "
@@ -291,6 +290,7 @@ void Gyrotron::query_rsi()
     std::string resp;
     int stat = 0;
 
+    rsi.m()->lock();
     for(int i = 0; i < 12; i++)
     {
         if(stat == 0)
@@ -301,6 +301,7 @@ void Gyrotron::query_rsi()
         }
         if(stat < 0) break;
     }
+    rsi.m()->unlock();
 
     if(diode_volt >= 0)
         power = diode_volt * POWER_V_CONVERT;
@@ -531,10 +532,39 @@ void Gyrotron::record_data()
     clk::time_point current_time = clk::now();
     std::chrono::duration<double, std::milli> record_elapsed = current_time - last_recording;
     double elapsed_secs = record_elapsed.count()/1000.0;
+    std::string out_str = "";
+
+    // output (in order):
+    // abs. time, pressure, beam curr, beam volt, fil curr, gtc curr,
+    // gtc volt, collector curr, body curr, power, freq
 
     if(elapsed_secs > rec_rate)
     {
-        std::string out_str = to_str(pressure);
+        if(spc.is_connected() && spc.is_enabled())
+            out_str += to_str(pressure) + ",";
+        else
+            out_str += "NaN,";
+
+        if(cath.is_connected() && cath.is_enabled())
+            out_str += to_str(beam_curr) + "," + to_str(beam_volt) + "," + to_str(fil_curr) + ",";
+        else
+            out_str += "NaN,NaN,NaN,";
+
+        if(gtc.is_connected() && gtc.is_enabled())
+            out_str += to_str(gtc_curr) + "," + to_str(gtc_volt) + ",";
+        else
+            out_str += "NaN,NaN,";
+
+        if(rsi.is_connected() && rsi.is_enabled())
+            out_str += to_str(collector_curr) + "," + to_str(body_curr) + "," + to_str(power) + ",";
+        else
+            out_str += "NaN,NaN,NaN,";
+
+        if(fms.is_connected() && fms.is_enabled())
+            out_str += to_str(freq);
+        else
+            out_str += "NaN";
+
         log_data(out_str);
         last_recording = current_time;
     }
@@ -580,42 +610,13 @@ int Gyrotron::set_beam_volt(double voltage)
     return 0;
 }
 
-int Gyrotron::set_gtc_curr(double current) 
-{
-    if(current < 0 || current > MAX_GTC_VOLT)
-        return -2;
-
-    std::string cmd = ":SOURCE1:CURR " + to_str(current);
-    std::string resp = gtc.smart_write(cmd,":SOURCE1:CURR?");
-    if(err(resp))
-    {
-        log_event("failed to set GTC current to " + to_str(current));
-        log_event("moving GTC to reconnect loop");
-        return -1;
-    }
-    else
-    {
-        if(approx_equal(to_doub(resp),current))
-            log_event("set GTC current to " + to_str(current));
-        else
-        {
-            log_event("ERROR GTC current setpoint =/= applied value (set: " +
-                        to_str(current) + ", got: " + resp + ")");
-            shout("ERROR! GTC current setpoint =/= applied value");
-            return -3;
-        }
-        
-    }
-    return 0;
-}
-
-int Gyrotron::set_gtc_volt(double voltage) 
+int Gyrotron::set_gtc_volt(double voltage)
 {
     if(voltage < 0 || voltage > MAX_GTC_VOLT)
         return -2;
 
-    std::string cmd = ":SOURCE1:VOLT " + to_str(voltage);
-    std::string resp = gtc.smart_write(cmd,":SOURCE1:VOLT?");
+    std::string cmd = "VSET " + to_str(voltage);
+    std::string resp = gtc.smart_write(cmd,"VSET");
     if(err(resp))
     {
         log_event("failed to set GTC voltage to " + to_str(voltage));
@@ -687,13 +688,13 @@ int Gyrotron::apply_beam_curr_limit(double current)
     return 0;
 }
 
-int Gyrotron::set_gtc_curr_limit(double current)
+int Gyrotron::set_gtc_curr_limit(double current) // need to manually check output for this cmd
 {
     if(current < 0 || current > MAX_GTC_CURR)
         return -2;
 
-    std::string cmd = ":OUTP:OCP:VAL CH1," + to_str(current);
-    std::string resp = gtc.smart_write(cmd,":OUTP:OCP:VAL? CH1");
+    std::string cmd = "ISET " + to_str(current);
+    std::string resp = gtc.m_smart_write(cmd,"ISET");
     if(err(resp))
     {
         log_event("failed to set GTC OCP to " + to_str(current));
@@ -709,35 +710,6 @@ int Gyrotron::set_gtc_curr_limit(double current)
             log_event("ERROR GTC OCP setpoint =/= applied value (set: " +
                         to_str(current) + ", got: " + resp + ")");
             shout("ERROR! GTC OCP setpoint =/= applied value");
-            return -3;
-        }
-        
-    }
-    return 0;
-}
-
-int Gyrotron::set_gtc_volt_limit(double voltage)
-{
-    if(voltage < 0 || voltage > MAX_GTC_VOLT)
-        return -2;
-
-    std::string cmd = ":OUTP:OVP:VAL CH1," + to_str(voltage);
-    std::string resp = gtc.smart_write(cmd,":OUTP:OVP:VAL? CH1");
-    if(err(resp))
-    {
-        log_event("failed to set GTC OVP to " + to_str(voltage));
-        log_event("moving GTC to reconnect loop");
-        return -1;
-    }
-    else
-    {
-        if(approx_equal(to_doub(resp),voltage))
-            log_event("set GTC OVP to " + to_str(voltage));
-        else
-        {
-            log_event("ERROR GTC OVP setpoint =/= applied value (set: " +
-                        to_str(voltage) + ", got: " + resp + ")");
-            shout("ERROR! GTC OVP setpoint =/= applied value");
             return -3;
         }
         
@@ -799,8 +771,8 @@ int Gyrotron::toggle_cath_output(bool turn_on)
 
 int Gyrotron::toggle_gtc_output(bool turn_on)
 {
-    std::string cmd = ":OUTP CH1," + std::string(turn_on ? "ON" : "OFF");
-    std::string resp = gtc.smart_write(cmd,":OUTP? CH1","ON",turn_on);
+    std::string cmd = "PWR " + std::string(turn_on ? "ON" : "OFF");
+    std::string resp = gtc.m_smart_write(cmd,"PWR",std::string(turn_on ? "ON" : "OFF"));
     if(err(resp))
     {
         log_event("failed to " + std::string(turn_on ? "enable" : "disable") + " GTC output");
@@ -956,7 +928,7 @@ int Gyrotron::toggle_mw(bool turn_on)
 
 int Gyrotron::prepare_all()
 {
-    if(set_beam_volt(BEAM_VOLT_LIMIT) < 0 || set_gtc_volt(GTC_VOLT_LIMIT) < 0 || set_gtc_curr(GTC_CURR_LIMIT) < 0)
+    if(set_beam_volt(BEAM_VOLT_LIMIT) < 0 || set_gtc_curr_limit(GTC_CURR_LIMIT) < 0)
         return -1;
     return 0;
 }
@@ -1007,8 +979,32 @@ int Gyrotron::get_press_status() // 0 = safe pressure, -1 = relax, -2 = fatal
     return 0;
 }
 
-void  Gyrotron::cath_recon() {}
-void  Gyrotron::gtc_recon() {}
-void  Gyrotron::spc_recon() {}
-void  Gyrotron::fms_recon() {}
-void  Gyrotron::rsi_recon() {}
+void Gyrotron::cath_recon() {}
+void Gyrotron::gtc_recon() {}
+void Gyrotron::spc_recon() {}
+void Gyrotron::fms_recon() {}
+void Gyrotron::rsi_recon() {}
+
+double Gyrotron::get_temp(int num) // 1=main chiller, 2=cavity chiller, 3=collector, 4=cavity, 5=body
+{
+    switch(num)
+    {
+    case 1: return main_chill_temp;
+    case 2: return cav_chill_temp;
+    case 3: return collector_temp;
+    case 4: return cav_temp;
+    case 5: return body_temp;
+    default: return -1;
+    }
+}
+double Gyrotron::get_flow(int num) // 1=main chiller, 2=cavity chiller, 3=collector, 4=gun air
+{
+    switch(num)
+    {
+    case 1: return main_chill_flow;
+    case 2: return cav_chill_flow;
+    case 3: return collector_flow;
+    case 4: return gun_air_flow;
+    default: return -1;
+    }
+}

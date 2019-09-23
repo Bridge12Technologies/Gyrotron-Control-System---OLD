@@ -24,9 +24,6 @@ HV Pressure Low Limit in Torr [8e-8]
 
 Power Meter Calibration Coefficient [0.3113]
 
-Error Count First Limit [10]
-Error Count Second Limit [30]
-
 Cathode Enabled [true]
 GTC Enabled [true]
 RSI Enabled [true]

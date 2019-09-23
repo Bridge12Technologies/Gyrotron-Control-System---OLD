@@ -25,7 +25,6 @@ public:
     int set_fil_curr_limit(double current);
     int set_beam_curr_limit(double current);
     int set_gtc_curr_limit(double current);
-    int set_gtc_volt_limit(double voltage);
     int set_gtc_volt(double voltage);
     int set_gtc_curr(double current);
     int set_fil_curr(double current);
@@ -105,6 +104,18 @@ public:
     std::vector<std::string> get_warnings();
     std::vector<std::string> get_errors();
 
+    double get_temp(int num); // 1=main chiller, 2=cavity chiller, 3=collector, 4=cavity, 5=body
+    double get_flow(int num); // 1=main chiller, 2=cavity chiller, 3=collector, 4=gun air
+    double get_main_chill_temp() { return main_chill_temp; }
+    double get_cav_chill_temp() { return cav_chill_temp; }
+    double get_collector_temp() { return collector_temp; }
+    double get_cavity_temp() { return cav_temp; }
+    double get_body_temp() { return body_temp; }
+    double get_main_chill_flow() { return main_chill_flow; }
+    double get_cav_chill_flow() { return cav_chill_flow; }
+    double get_collector_flow() { return collector_flow; }
+    double get_gun_air_flow() { return gun_air_flow; }
+
     std::atomic<double>* beam_kp_ptr() { return &beam_kp; }
     std::atomic<double>* beam_ki_ptr() { return &beam_ki; }
     std::atomic<double>* beam_kd_ptr() { return &beam_kd; }
@@ -167,7 +178,7 @@ private:
     void eval_sys_stat(); // check system status, determine system fault state
     double runtime(); // return elapsed seconds since initialization
 
-    Device cath{"DXM","Cathode"}, gtc{"RIGOL","GTC"}, rsi{"RSI"}, spc{"SPC"}, fms{"FMS"};
+    Device cath{"DXM","Cathode"}, gtc{"ACOPIAN","GTC"}, rsi{"RSI"}, spc{"GAMMA_VAC","SPC"}, fms{"FMS"};
 
     PID *beam_pid, *power_pid, *freq_pid;
     double pid_dt;
@@ -178,7 +189,7 @@ private:
     std::atomic<double> freq_kp{0}, freq_ki{0}, freq_kd{0};
     std::atomic<double> e_ramp_rate{0.5}, e_ramp_time, ramp_rate{0}, ramp_sp{0}, ramp_time{0};
     double press_bound1{8e-8}, press_bound2{4e-7}, press_bound3{1e-6}, fatal_press{5e-6};
-    double power_limit, power_calibrate, err_limit1{10}, err_limit2{30};
+    double power_limit, power_calibrate;
 
     std::chrono::duration<double,std::milli> pid_elapsed;
     clk::time_point last_recording{clk::now()};
