@@ -858,6 +858,7 @@ void MainWindow::on_gtc_volt_button_clicked()
 
 void MainWindow::on_close_button_clicked() { this->close(); }
 void MainWindow::on_minimize_button_clicked() { this->showMinimized(); }
+void MainWindow::on_maximize_button_clicked() { this->showMaximized(); }
 
 void MainWindow::on_control_tab_clicked()
 {
@@ -921,3 +922,4 @@ bool MainWindow::eventFilter(QObject *obj, QEvent *event)
     }
     return QWidget::eventFilter(obj, event);
 }
+

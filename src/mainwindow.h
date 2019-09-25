@@ -51,6 +51,7 @@ private slots:
     void on_plot_tab_clicked();
     void on_admin_tab_clicked();
     void on_status_tab_clicked();
+    void on_maximize_button_clicked();
 
 private:
     void shutdown();
