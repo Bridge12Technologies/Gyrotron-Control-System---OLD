@@ -20,8 +20,9 @@ public:
     int extract_config(); // extract configuration parameters from config file
     int prepare_all(); // apply all setpoints necessary for operation
 
-    void set_ramp_time(double time);
-    void set_ramp_sp(double sp);
+    void set_rec_rate(double secs) { rec_rate = secs; }
+    void set_ramp_time(double secs) { ramp_time = secs; }
+    void set_ramp_sp(double sp) { ramp_sp = sp; }
     int set_fil_curr_limit(double current);
     int set_beam_curr_limit(double current);
     int set_gtc_curr_limit(double current);
@@ -41,6 +42,7 @@ public:
     void set_freq_kp(double kp);
     void set_freq_ki(double ki);
     void set_freq_kd(double kd);
+    void set_plot_span(double secs) { plot_span = secs; }
 
     int toggle_mw(bool turn_on); // return -1 if either cathde or GTC fail to turn on
     int toggle_cath_output(bool turn_on);
@@ -62,6 +64,11 @@ public:
     bool spc_is_enabled() { return spc.is_enabled(); }
     bool rsi_is_enabled() { return rsi.is_enabled(); }
     bool fms_is_enabled() { return fms.is_enabled(); }
+    bool cath_is_connected() { return cath.is_connected(); }
+    bool gtc_is_connected() { return gtc.is_connected(); }
+    bool spc_is_connected() { return spc.is_connected(); }
+    bool rsi_is_connected() { return rsi.is_connected(); }
+    bool fms_is_connected() { return fms.is_connected(); }
     bool beam_pid_is_on() { return beam_pid_on; }
     bool power_pid_is_on() { return power_pid_on; }
     bool freq_pid_is_on() { return freq_pid_on; }
@@ -103,6 +110,7 @@ public:
     std::vector<double> get_power_time_data() { std::lock_guard<std::mutex> lock(power_m); return power_time_data; }
     std::vector<std::string> get_warnings();
     std::vector<std::string> get_errors();
+    double get_plot_span() { return plot_span; }
 
     double get_temp(int num); // 1=main chiller, 2=cavity chiller, 3=collector, 4=cavity, 5=body
     double get_flow(int num); // 1=main chiller, 2=cavity chiller, 3=collector, 4=gun air
@@ -197,7 +205,7 @@ private:
     std::atomic<int> current_state{0};
     std::atomic<double> body_curr{0}, collector_curr{0}, beam_ocp;
     std::atomic<double> pressure{0}, query_rate{0.5}, rec_rate{0};
-    std::atomic<double> freq, power, plot_span;
+    std::atomic<double> freq, power;
     std::atomic<double> beam_curr_sp{-1}, power_sp{-1}, freq_sp{-1}, beam_volt_sp{0};
     std::atomic<double> fil_curr, fil_curr_sp{0}, beam_curr{0}, beam_volt{0}, beam_volt_ref{0};
     std::atomic<double> gtc_curr{0}, gtc_volt{0};
@@ -214,6 +222,7 @@ private:
     std::atomic<bool> relaxing{false}, paused{false};
 
     std::mutex press_m, beam_m, power_m;
+    std::atomic<double> plot_span{900}; // default 15 mins
     std::vector<double> press_data, press_time_data, beam_data, beam_sp_data, beam_time_data;
     std::vector<double> power_array, power_sp_data, power_data, power_time_data;
 };

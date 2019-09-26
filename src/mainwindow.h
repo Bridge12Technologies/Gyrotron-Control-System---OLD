@@ -53,6 +53,12 @@ private slots:
     void on_status_tab_clicked();
     void on_maximize_button_clicked();
 
+    void on_time_span_slider_valueChanged(int value);
+
+    void on_ramp_rate_slider_valueChanged(int value);
+
+    void on_log_rate_slider_valueChanged(int value);
+
 private:
     void shutdown();
     void closeEvent (QCloseEvent *event);
@@ -67,6 +73,7 @@ private:
     bool valid_check(QString qstr, double max_val, double min_val = 0);
     void detect_state_change(int current_state, bool e_ramping, bool manual_update = false);
     void update_plots();
+    void check_connections(); // check device connection and PID status then enable/disable groups/buttons accordingly
 
     Ui::MainWindow *ui;
     Face gui{this};
@@ -108,6 +115,7 @@ private:
     double key, plot_span{0}, refresh_rate{0.5};
     std::string press_str{"----------"};
     char timestamp_full[20], timestamp[10];
+    double time_span{900}; // default 15 mins (in sync with gyrotron default)
 
     QCPItemText *press_plot_label, *beam_plot_label, *power_plot_label, *power_plot_label2;
 

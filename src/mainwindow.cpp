@@ -52,23 +52,6 @@ void MainWindow::init_gui()
         group->setGraphicsEffect(shadows.back());
     }
 
-    // disabled UI components if devices are disabled
-    if(!gyro.cath_is_enabled())
-    {
-        ui->cathode_group->setEnabled(false);
-        ui->pid_group->setEnabled(false);
-    }
-    if(!gyro.gtc_is_enabled()) { ui->gtc_group->setEnabled(false); }
-    if(!gyro.rsi_is_enabled())
-    {
-        ui->power_group->setEnabled(false);
-        ui->power_pid_button->setEnabled(false);
-        ui->temp_indicator->setEnabled(false);
-        ui->flow_indicator->setEnabled(false);
-    }
-    if(!gyro.spc_is_enabled()) { ui->press_group->setEnabled(false); }
-    if(!gyro.fms_is_enabled()) { ui->fms_group->setEnabled(false); ui->freq_pid_button->setEnabled(false); }
-
     init_plots();
 
     // connect realtime slot to timer and start it
@@ -514,6 +497,8 @@ void MainWindow::realtime_slot()
         errors = gyro.get_sys_errors();
 
         qApp->processEvents();
+        check_connections();
+        qApp->processEvents();
 
         // enable/disable state machine arrows based on system status
         ui->prev_state_button->setEnabled(current_state > 0 && !ramping_down && !e_ramping);
@@ -575,7 +560,7 @@ void MainWindow::realtime_slot()
         qApp->processEvents();
 
         // update plot data and scale the y-axes accordingly
-        update_plots();
+        if(ui->stackedWidget->currentIndex() == 1) update_plots();
 
         qApp->processEvents();
 
@@ -615,6 +600,82 @@ void MainWindow::realtime_slot()
     }
 }
 
+void MainWindow::check_connections()
+{
+    if(gyro.cath_is_connected() && gyro.cath_is_enabled())
+    {
+        ui->cathode_group->setEnabled(true);
+        ui->fil_curr_button->setVisible(true);
+        ui->beam_volt_button->setVisible(true);
+        ui->beam_curr_button->setVisible(true);
+    }
+    else
+    {
+        ui->cathode_group->setEnabled(false);
+        ui->fil_curr_button->setVisible(false);
+        ui->beam_volt_button->setVisible(false);
+        ui->beam_curr_button->setVisible(false);
+    }
+    if(gyro.gtc_is_connected() && gyro.gtc_is_enabled())
+    {
+        ui->gtc_group->setEnabled(true);
+        ui->gtc_volt_button->setVisible(true);
+        ui->gtc_curr_button->setVisible(true);
+    }
+    else
+    {
+        ui->gtc_group->setEnabled(false);
+        ui->gtc_volt_button->setVisible(false);
+        ui->gtc_curr_button->setVisible(false);
+    }
+    if(gyro.rsi_is_connected() && gyro.rsi_is_enabled())
+    {
+        ui->power_group->setEnabled(true);
+        ui->power_button->setVisible(true);
+        ui->temp_indicator->setEnabled(true);
+        ui->flow_indicator->setEnabled(true);
+    }
+    else
+    {
+        ui->power_group->setEnabled(false);
+        ui->power_button->setVisible(false);
+        ui->temp_indicator->setEnabled(false);
+        ui->temp_status->setText("N/A");
+        ui->flow_indicator->setEnabled(false);
+        ui->flow_status->setText("N/A");
+    }
+    if(gyro.spc_is_connected() && gyro.spc_is_enabled())
+    {
+        ui->press_group->setEnabled(true);
+    }
+    else
+    {
+        ui->press_group->setEnabled(false);
+    }
+    if(gyro.fms_is_connected() && gyro.fms_is_enabled())
+    {
+        ui->freq_group->setEnabled(true);
+        ui->freq_button->setVisible(true);
+    }
+    else
+    {
+        ui->freq_group->setEnabled(false);
+        ui->freq_button->setVisible(false);
+    }
+
+    if(ui->cathode_group->isEnabled() && gyro.get_state() == 3 && !gyro.power_pid_is_on() && !gyro.freq_pid_is_on())
+        ui->beam_pid_button->setEnabled(true);
+    else ui->beam_pid_button->setEnabled(false);
+
+    if(ui->cathode_group->isEnabled() && gyro.get_state() == 3 && ui->power_group->isEnabled() && !gyro.beam_pid_is_on() && !gyro.freq_pid_is_on())
+        ui->power_pid_button->setEnabled(true);
+    else ui->power_pid_button->setEnabled(false);
+
+    if(ui->cathode_group->isEnabled() && gyro.get_state() == 3 && ui->freq_group->isEnabled() && !gyro.beam_pid_is_on() && !gyro.power_pid_is_on())
+        ui->power_pid_button->setEnabled(true);
+    else ui->power_pid_button->setEnabled(false);
+}
+
 void MainWindow::closeEvent (QCloseEvent *event)
 { gui.question_dialog("Are you sure you want to quit?\n",[=](){shutdown();},[=](){event->ignore();}); }
 
@@ -627,8 +688,6 @@ void MainWindow::on_beam_pid_button_clicked()
     if(gyro.beam_pid_is_on())
     {
         ui->beam_pid_button->setStyleSheet(gui.orange_button(46));
-        ui->power_pid_button->setEnabled(false);
-        ui->freq_pid_button->setEnabled(false);
         ui->beam_curr_button->setEnabled(true);
         ui->small_pid_label->setText("CURRENT");
         ui->fil_curr_button->setEnabled(false);
@@ -640,8 +699,6 @@ void MainWindow::on_beam_pid_button_clicked()
     else
     {
         ui->beam_pid_button->setStyleSheet(gui.green_button(46));
-        ui->power_pid_button->setEnabled(true);
-        ui->freq_pid_button->setEnabled(true);
         ui->beam_curr_button->setEnabled(false);
         ui->small_pid_label->setText("NONE");
         ui->fil_curr_button->setEnabled(true);
@@ -659,8 +716,6 @@ void MainWindow::on_power_pid_button_clicked()
     if(gyro.power_pid_is_on())
     {
         ui->power_pid_button->setStyleSheet(gui.orange_button(46));
-        ui->beam_pid_button->setEnabled(false);
-        ui->freq_pid_button->setEnabled(false);
         ui->power_button->setEnabled(true);
         ui->small_pid_label->setText("POWER");
         ui->fil_curr_button->setEnabled(false);
@@ -672,8 +727,6 @@ void MainWindow::on_power_pid_button_clicked()
     else
     {
         ui->power_pid_button->setStyleSheet(gui.green_button(46));
-        ui->beam_pid_button->setEnabled(true);
-        ui->freq_pid_button->setEnabled(true);
         ui->power_button->setEnabled(false);
         ui->small_pid_label->setText("NONE");
         ui->fil_curr_button->setEnabled(true);
@@ -691,8 +744,6 @@ void MainWindow::on_freq_pid_button_clicked()
     if(gyro.freq_pid_is_on())
     {
         ui->freq_pid_button->setStyleSheet(gui.orange_button(46));
-        ui->beam_pid_button->setEnabled(false);
-        ui->power_pid_button->setEnabled(false);
         ui->freq_button->setEnabled(true);
         ui->small_pid_label->setText("FREQUENCY");
         ui->fil_curr_button->setEnabled(false);
@@ -708,8 +759,6 @@ void MainWindow::on_freq_pid_button_clicked()
     else
     {
         ui->freq_pid_button->setStyleSheet(gui.green_button(46));
-        ui->beam_pid_button->setEnabled(true);
-        ui->power_pid_button->setEnabled(true);
         ui->freq_button->setEnabled(false);
         ui->small_pid_label->setText("NONE");
         ui->fil_curr_button->setEnabled(true);
@@ -923,3 +972,81 @@ bool MainWindow::eventFilter(QObject *obj, QEvent *event)
     return QWidget::eventFilter(obj, event);
 }
 
+void MainWindow::on_time_span_slider_valueChanged(int value)
+{
+    double secs{-1};
+    QString str;
+
+    switch(value)
+    {
+    case 0: secs = 60; str = "1 min"; break;
+    case 10: secs = 300; str = "5 min"; break;
+    case 20: secs = 600; str = "10 min"; break;
+    case 30: secs = 900; str = "15 min"; break;
+    case 40: secs = 1200; str = "20 min"; break;
+    case 50: secs = 1500; str = "25 min"; break;
+    case 60: secs = 1800; str = "30 min"; break;
+    case 70: secs = 2400; str = "40 min"; break;
+    case 80: secs = 3000; str = "50 min"; break;
+    case 90: secs = 3600; str = "1 hr"; break;
+    }
+
+    if(secs > 0)
+    {
+        gyro.set_plot_span(secs);
+        update_plots();
+        ui->time_span_group->setTitle("Time Span: " + str);
+    }
+}
+
+void MainWindow::on_ramp_rate_slider_valueChanged(int value)
+{
+    double secs{-1};
+    QString str;
+
+    switch(value)
+    {
+    case 0: secs = 60; str = "1 min"; break;
+    case 10: secs = 300; str = "5 min"; break;
+    case 20: secs = 600; str = "10 min"; break;
+    case 30: secs = 900; str = "15 min"; break;
+    case 40: secs = 1200; str = "20 min"; break;
+    case 50: secs = 1500; str = "25 min"; break;
+    case 60: secs = 1800; str = "30 min"; break;
+    case 70: secs = 2400; str = "40 min"; break;
+    case 80: secs = 3000; str = "50 min"; break;
+    case 90: secs = 3600; str = "1 hr"; break;
+    }
+
+    if(secs > 0)
+    {
+        gyro.set_ramp_time(secs);
+        ui->time_span_group->setTitle("Ramp Rate: " + str);
+    }
+}
+
+void MainWindow::on_log_rate_slider_valueChanged(int value)
+{
+    double secs{-1};
+    QString str;
+
+    switch(value)
+    {
+    case 0: secs = 0; str = "ASAP"; break;
+    case 10: secs = 300; str = "5 min"; break;
+    case 20: secs = 600; str = "10 min"; break;
+    case 30: secs = 900; str = "15 min"; break;
+    case 40: secs = 1200; str = "20 min"; break;
+    case 50: secs = 1500; str = "25 min"; break;
+    case 60: secs = 1800; str = "30 min"; break;
+    case 70: secs = 2400; str = "40 min"; break;
+    case 80: secs = 3000; str = "50 min"; break;
+    case 90: secs = 3600; str = "1 hr"; break;
+    }
+
+    if(secs >= 0)
+    {
+        gyro.set_rec_rate(secs);
+        ui->time_span_group->setTitle("Data Log Rate: " + str);
+    }
+}

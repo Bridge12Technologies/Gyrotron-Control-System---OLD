@@ -51,7 +51,9 @@ int Gyrotron::extract_config()
 
     if(!ok) return -1;
 
-    ramp_rate = (ramp_sp/(ramp_time*60))*query_rate; // calculate ramp rate from time and sp
+    ramp_time = ramp_time * 60; // convert to seconds
+    e_ramp_time = e_ramp_time * 60;
+    ramp_rate = (ramp_sp/ramp_time)*query_rate; // calculate ramp rate from time and sp
     e_ramp_rate = (3/e_ramp_time)*query_rate;
 
     beam_pid = new PID(beam_kp, beam_ki, beam_kd);
@@ -902,9 +904,6 @@ void Gyrotron::set_power(double p) {
     log_event("applied new power PID setpoint at " + to_str(p) + "W");
 }
 
-void Gyrotron::set_ramp_time(double time) { ramp_time = time; }
-void Gyrotron::set_ramp_sp(double sp) { ramp_sp = sp; }
-
 double Gyrotron::runtime()
 {
     clk::time_point current_time = clk::now();
@@ -1018,6 +1017,7 @@ int Gyrotron::get_press_status() // 0 = safe pressure, -1 = relax, -2 = fatal
     return 0;
 }
 
+// add logic here to be done following the device's reconnect
 void Gyrotron::cath_recon() {}
 void Gyrotron::gtc_recon() {}
 void Gyrotron::spc_recon() {}
