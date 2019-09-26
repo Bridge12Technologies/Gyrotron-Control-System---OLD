@@ -79,7 +79,7 @@ public:
     double get_power_sp() { return power_sp; }
     double get_gtc_curr_sp() { return beam_curr_sp; }
     double get_gtc_volt_sp() { return beam_curr_sp; }
-    int get_state() { return current_state; }
+    int get_state() { return current_state; } // 0 = ctrl power on, 1 = ramping, 2 = HV standby, 3 = MW on
     double get_fil_curr() { return fil_curr; }
     double get_beam_volt() { return beam_volt; }
     double get_beam_curr() { return beam_curr; }

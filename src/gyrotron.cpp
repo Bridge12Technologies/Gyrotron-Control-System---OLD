@@ -67,7 +67,7 @@ void Gyrotron::query_cath()
     double temp_double, temp_int;
     char comma;
     // get filament current and beam current monitors
-    std::string resp = cath.smart_io("19,","19,",true);
+    std::string resp = cath.m_smart_io("19,","19,",true);
     if(!err(resp))
     {
         resp.erase(0,3); // erase first 3 chars with echoed cmd
@@ -91,17 +91,17 @@ void Gyrotron::query_cath()
             ss.clear();
             ss.str(resp);
             ss >> temp_int; ss >> comma;
-            if(int(temp_int) == 1) cath.push_error("Cathode: arc detected");
+            if(int(temp_int) == 1) cath.push_error("arc detected");
             ss >> temp_int; ss >> comma;
-            if(int(temp_int) == 1) cath.push_error("Cathode: over temperature");
+            if(int(temp_int) == 1) cath.push_error("over temperature");
             ss >> temp_int; ss >> comma;
-            if(int(temp_int) == 1) cath.push_warning("Cathode: over voltage");
+            if(int(temp_int) == 1) cath.push_warning("over voltage");
             ss >> temp_int; ss >> comma;
-            if(int(temp_int) == 1) cath.push_warning("Cathode: under voltage");
+            if(int(temp_int) == 1) cath.push_warning("under voltage");
             ss >> temp_int; ss >> comma;
-            if(int(temp_int) == 1) cath.push_warning("Cathode: over current");
+            if(int(temp_int) == 1) cath.push_warning("over current");
             ss >> temp_int;
-            if(int(temp_int) == 1) cath.push_warning("Cathode: under current");
+            if(int(temp_int) == 1) cath.push_warning("under current");
 
         }
         else if(err(resp))
@@ -161,22 +161,33 @@ void Gyrotron::query_gtc() // still need to check responses manually and apply t
                 else
                     log_event("couldn't read GTC HV status: " + resp);
                 
-                resp = gtc.m_smart_io(":SYST:ERR:ALL?");
-                if(!err(resp))
+                resp = gtc.m_smart_io(":SYST:ERR:COUNT?");
+                if(contains(resp,"0"))
                 {
                     gtc.error_m()->lock();
-                    gtc.warning_m()->lock();
                     gtc.clear_errors();
-                    gtc.clear_warnings();
-
-                    if(contains(resp,"-"))
-                        gtc.push_warning("GTC: " + resp);
-
-                    gtc.warning_m()->unlock();
                     gtc.error_m()->unlock();
                 }
                 else
-                    log_event("GTC D/C, moving to reconnect loop");
+                {
+                    resp = gtc.m_smart_io(":SYST:ERR:ALL?");
+                    if(!err(resp))
+                    {
+                        gtc.error_m()->lock();
+                        //gtc.warning_m()->lock();
+                        gtc.clear_errors();
+                        //gtc.clear_warnings();
+
+                        if(contains(resp,"-"))
+                            gtc.push_error(resp);
+
+                        //gtc.warning_m()->unlock();
+                        gtc.error_m()->unlock();
+                    }
+                    else
+                        log_event("GTC D/C, moving to reconnect loop");
+                }
+
             }
             else
                 log_event("GTC D/C, moving to reconnect loop");
@@ -288,10 +299,10 @@ void Gyrotron::query_rsi()
                                      &main_chill_temp, &cav_chill_temp, &collector_temp, &cav_temp, &body_temp,
                                      &main_chill_flow, &cav_chill_flow, &collector_flow, &gun_air_flow};
     std::string resp;
-    int stat = 0;
+    int stat = 0, i;
 
     rsi.m()->lock();
-    for(int i = 0; i < 12; i++)
+    for(i = 0; i < 12; i++)
     {
         if(stat == 0)
         {
@@ -303,34 +314,53 @@ void Gyrotron::query_rsi()
     }
     rsi.m()->unlock();
 
-    if(diode_volt >= 0)
-        power = diode_volt * POWER_V_CONVERT;
-    if(body_volt >= 0)
-        body_curr = body_volt/BODY_R;
-    if(collector_volt >= 0)
-        collector_curr = collector_volt/COLLECTOR_R;
-
-    power_m.lock();
-    // add in plotting vector management here
-    power_time_data.push_back(runtime());
-    power_data.push_back(power);
-    power_sp_data.push_back(power_sp);
-
-    while(runtime() - *power_time_data.begin() > plot_span)
-    {
-        if(!power_data.empty()) power_data.erase(power_data.begin());
-        if(!power_sp_data.empty()) power_sp_data.erase(power_sp_data.begin());
-        if(!power_time_data.empty()) power_time_data.erase(power_time_data.begin());
-    }
-    power_m.unlock();
-
     if(stat < 0)
+    {
+        rsi.error_m()->lock();
+        rsi.clear_errors();
+        rsi.error_m()->unlock();
         log_event("SPC D/C, moving to reconnect loop");
+    }
+    else
+    {
+        rsi.error_m()->lock();
+        rsi.clear_errors();
+        rsi.error_m()->unlock();
+
+        if(diode_volt >= 0)
+            power = diode_volt * POWER_V_CONVERT;
+        if(body_volt >= 0)
+            body_curr = body_volt/BODY_R;
+        if(collector_volt >= 0)
+            collector_curr = collector_volt/COLLECTOR_R;
+
+        power_m.lock();
+        // add in plotting vector management here
+        power_time_data.push_back(runtime());
+        power_data.push_back(power);
+        power_sp_data.push_back(power_sp);
+
+        while(runtime() - *power_time_data.begin() > plot_span)
+        {
+            if(!power_data.empty()) power_data.erase(power_data.begin());
+            if(!power_sp_data.empty()) power_sp_data.erase(power_sp_data.begin());
+            if(!power_time_data.empty()) power_time_data.erase(power_time_data.begin());
+        }
+        power_m.unlock();
+    }
 }
 
 void Gyrotron::eval_sys_stat()
 {
     Device *devs[] = {&cath,&gtc,&spc,&rsi,&fms};
+
+    sys_error_m()->lock();
+    sys_warning_m()->lock();
+    clear_sys_errors();
+    clear_sys_warnings();
+
+    if(hv_blocked)
+        push_sys_warning("HV blocked until pressure lowers");
 
     if(relaxing && !e_ramping)
         push_sys_warning("hit high pressure limit, relaxation in progress");
@@ -342,20 +372,23 @@ void Gyrotron::eval_sys_stat()
         if(dev->is_enabled() && !(dev->is_connected()))
             push_sys_error(dev->get_name() + " is disconnected! Reconnection attempts in progresss...");
     }
+
+    sys_error_m()->unlock();
+    sys_warning_m()->unlock();
 }
 
 std::vector<std::string> Gyrotron::get_warnings()
 {
     std::vector<std::string> warnings, temp;
 
-    // collect cathode warnings
-    warnings = cath.m_get_warnings();
-    // collect GTC warnings
-    temp = gtc.m_get_warnings();
-    warnings.insert(warnings.end(), temp.begin(), temp.end());
     // collect system warnings
-    temp = get_sys_warnings();
+    warnings = get_sys_warnings();
+    // collect cathode warnings
+    temp = cath.m_get_warnings();
     warnings.insert(warnings.end(), temp.begin(), temp.end());
+    // collect GTC warnings
+    //temp = gtc.m_get_warnings();
+    //warnings.insert(warnings.end(), temp.begin(), temp.end());
 
     return warnings;
 }
@@ -364,10 +397,13 @@ std::vector<std::string> Gyrotron::get_errors()
 {
     std::vector<std::string> errors, temp;
 
-    // collect cathode errors 
-    errors = cath.m_get_errors();
-    // collect system errors
-    temp = get_sys_errors();
+    // colelct system errors
+    errors = get_sys_errors();
+    // collect cathode errors
+    temp = cath.m_get_errors();
+    errors.insert(errors.end(), temp.begin(), temp.end());
+    // collect gtc errors
+    temp = gtc.m_get_errors();
     errors.insert(errors.end(), temp.begin(), temp.end());
 
     return errors;
@@ -849,11 +885,13 @@ void Gyrotron::set_beam_curr(double c) {
     beam_time_data.push_back(runtime());
     beam_pid = new PID(beam_kp, beam_ki, beam_kd); // re-initialize PID controller
     reset_pid_time = true;
+    log_event("applied new beam PID setpoint at " + to_str(c) + "A");
 }
 void Gyrotron::set_freq(double f) {
     freq_sp = f;
     freq_pid = new PID(freq_kp, freq_ki, freq_kd); // re-initialize PID controller
     reset_pid_time = true;
+    log_event("applied new freq PID setpoint at " + to_str(f) + "GHz");
 }
 void Gyrotron::set_power(double p) {
     power_sp = p;
@@ -861,6 +899,7 @@ void Gyrotron::set_power(double p) {
     power_time_data.push_back(runtime());
     power_pid = new PID(power_kp, power_ki, power_kd); // re-initialize PID controller
     reset_pid_time = true;
+    log_event("applied new power PID setpoint at " + to_str(p) + "W");
 }
 
 void Gyrotron::set_ramp_time(double time) { ramp_time = time; }
@@ -881,13 +920,13 @@ int Gyrotron::increment_state()
     switch(current_state)
     {
     case 0: 
-        if(prepare_all() < 0) { return -2; } ramping_up = true; break;
+        if(prepare_all() < 0) { return -2; } ramping_up = true; current_state++; log_event("begin ramp up"); break;
     case 1: 
-        if(ramping_down && !paused) { paused = true; }
-        else if(ramping_down && paused) { ramping_down = false; ramping_up = true; paused = false; }
-        else if(ramping_up && paused) { paused = false; }
+        if(ramping_down && !paused) { paused = true; log_event("paused ramp"); }
+        else if(ramping_down && paused) { ramping_down = false; ramping_up = true; paused = false; log_event("begin ramp up"); }
+        else if(ramping_up && paused) { paused = false; log_event("resume ramp up");}
         break;
-    case 2: if(toggle_mw(true) < 0) { return -2; } break;
+    case 2: if(toggle_mw(true) < 0) { return -2; } current_state++; log_event("MW on"); break;
     }
     return 0;
 }
@@ -899,12 +938,12 @@ int Gyrotron::decrement_state()
     
     switch(current_state)
     {
-    case 1: if(ramping_up && !paused) { paused = true; }
-        else if(ramping_up && paused) { ramping_up = false; ramping_down = true; paused = false; }
-        else if(ramping_down && paused) { paused = false; }
+    case 1: if(ramping_up && !paused) { paused = true; log_event("paused ramp"); }
+        else if(ramping_up && paused) { ramping_up = false; ramping_down = true; paused = false; log_event("begin ramp down"); }
+        else if(ramping_down && paused) { paused = false; log_event("resume ramp down"); }
         break;
-    case 2: ramping_down = true; break;
-    case 3: if(toggle_mw(false) < 0) { return -2; } break;
+    case 2: ramping_down = true; current_state--; log_event("begin ramp down"); break;
+    case 3: if(toggle_mw(false) < 0) { return -2; } current_state--; log_event("MW off"); break;
     }
     return 0;
 }
