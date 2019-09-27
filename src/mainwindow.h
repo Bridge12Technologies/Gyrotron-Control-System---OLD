@@ -132,11 +132,11 @@ private:
     QString red_state_bubble{"QFrame { background-color: #D16055; color: white; border: none; border-radius: 100px; }"};
 
     QString green_status_bubble{"QFrame { background: #46812B; color: white; border: none; border-radius: 40px; }"
-                                "QFrame:disabled { background: rgb(180,180,180); }"};
+                                "QFrame:disabled { background: rgb(220,220,220); }"};
     QString yellow_status_bubble{"QFrame { background: #E89831; color: white; border: none; border-radius: 40px; }"
-                                "QFrame:disabled { background: rgb(180,180,180); }"};
+                                "QFrame:disabled { background: rgb(220,220,220); }"};
     QString red_status_bubble{"QFrame { background: #D16055; color: white; border: none; border-radius: 40px; }"
-                                "QFrame:disabled { background: rgb(180,180,180); }"};
+                                "QFrame:disabled { background: rgb(220,220,220); }"};
 
     QString empty_faults_list{"background: white; border: none; background-image: url(:/images/no_faults.png);"
                               "background-position: center; background-repeat: no-repeat;"};
