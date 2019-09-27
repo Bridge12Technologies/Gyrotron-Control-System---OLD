@@ -67,8 +67,9 @@ private slots:
     void reset_rsi_recon();
     void reset_fms_recon();
     void reset_all_recon();
-
     void on_console_edit_returnPressed();
+    void on_save_pid_button_clicked();
+    void blink_status();
 
 private:
     void shutdown();
@@ -90,16 +91,18 @@ private:
     void update_indicators();
     void update_faults();
     void update_pid_display();
+    void set_blink_enabled(bool enable);
 
     Ui::MainWindow *ui;
     Face gui{this};
     Gyrotron gyro;
     std::vector<QGraphicsDropShadowEffect*> shadows;
-    QTimer data_timer;
+    QTimer data_timer, blink_timer;
+    int blink_duration{500};
+    bool blink_on{false};
     QPoint oldPos;
-    bool gui_debug_mode;
     std::vector<SmartLineEdit*> smart_edits;
-    int last_known_state{0}, resize_tracker{0};
+    int last_known_state{0}, last_fault_status{0}, resize_tracker{0};
     bool window_locked{false};
     std::atomic<bool> cath_recon_blocked{false}, gtc_recon_blocked{false}, spc_recon_blocked{false};
     std::atomic<bool> rsi_recon_blocked{false}, fms_recon_blocked{false}, all_recon_blocked{false};
@@ -113,17 +116,26 @@ private:
     QString tab_unselected{"QPushButton { color: rgb(85,87,83); border: none; background: rgb(220,220,220); }"
                            "QPushButton:hover { background: rgb(225,225,225); }"
                            "QPushButton:hover:pressed { background: rgb(240,240,240); }"};
+    QString tab_blink_on{"QPushButton { color: #D16055; text-decoration: underline; border: none; background: #dbc8c8; }"
+                         "QPushButton:hover { background: rgb(225,225,225); }"
+                         "QPushButton:hover:pressed { background: rgb(240,240,240); }"};
+    QString tab_blink_off_selected{"QPushButton { color: #D16055; text-decoration: underline; border: none; background: rgb(240,240,240); }"
+                          "QPushButton:hover { background: rgb(225,225,225); }"
+                          "QPushButton:hover:pressed { background: rgb(240,240,240); }"};
+    QString tab_blink_off_unselected{"QPushButton { color: #D16055; text-decoration: underline; border: none; background: rgb(220,220,220); }"
+                          "QPushButton:hover { background: rgb(225,225,225); }"
+                          "QPushButton:hover:pressed { background: rgb(240,240,240); }"};
 
     QString grey_state_bubble{"QFrame { background-color: rgb(85,87,83); color: white; border: none; border-radius: 100px; }"};
     QString green_state_bubble{"QFrame { background-color: #46812B; color: white; border: none; border-radius: 100px; }"};
     QString orange_state_bubble{"QFrame { background-color: #F37021; color: white; border: none; border-radius: 100px; }"};
     QString red_state_bubble{"QFrame { background-color: #D16055; color: white; border: none; border-radius: 100px; }"};
 
-    QString green_status_bubble{"QFrame { background: #46812B; color: white; border: none; border-radius: 37px; }"
+    QString green_status_bubble{"QFrame { background: #46812B; color: white; border: none; border-radius: 40px; }"
                                 "QFrame:disabled { background: rgb(180,180,180); }"};
-    QString yellow_status_bubble{"QFrame { background: #E89831; color: white; border: none; border-radius: 37px; }"
+    QString yellow_status_bubble{"QFrame { background: #E89831; color: white; border: none; border-radius: 40px; }"
                                 "QFrame:disabled { background: rgb(180,180,180); }"};
-    QString red_status_bubble{"QFrame { background: #D16055; color: white; border: none; border-radius: 37px; }"
+    QString red_status_bubble{"QFrame { background: #D16055; color: white; border: none; border-radius: 40px; }"
                                 "QFrame:disabled { background: rgb(180,180,180); }"};
 
     QString empty_faults_list{"background: white; border: none; background-image: url(:/images/no_faults.png);"

@@ -166,6 +166,8 @@ public:
     std::string rsi_io(std::string cmd) { return rsi.m_io(cmd); }
     std::string fms_io(std::string cmd) { return fms.m_io(cmd); }
 
+    bool gui_debug_mode{false};
+
     // ************* MANY CONSTANTS STILL TBD ********************
 
     // fault thresholds

@@ -3,16 +3,22 @@
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),ui(new Ui::MainWindow)
 {
-    gui_debug_mode = true; // if true this will disable the backend
+    gyro.gui_debug_mode = true; // if true this will disable the backend
 
     ui->setupUi(this);
     setWindowFlags(Qt::Window | Qt::FramelessWindowHint);
 
-    if(gui_debug_mode)
+    if(gyro.gui_debug_mode)
         init_gui();
     else {
         int init_stat = gyro.init(); // parse config, spawn threads, connect/probe devices, and exec pre-funcs
-        (init_stat < 0) ? init_fail_dialog(init_stat) : init_gui(); // either init gui next, or prompt error
+        if(init_stat < 0)
+            init_fail_dialog(init_stat);
+        else
+        {
+            init_gui();
+            init_fields(); // initialize SmartLineEdits
+        }
     }
 }
 
@@ -22,7 +28,7 @@ void MainWindow::shutdown()
 {
     gyro.log_event("exiting program");
     data_timer.stop();
-    if(!gui_debug_mode) gyro.stop();
+    if(!gyro.gui_debug_mode) gyro.stop();
     QApplication::quit();
 }
 
@@ -49,12 +55,12 @@ void MainWindow::init_gui()
         group->setGraphicsEffect(shadows.back());
     }
 
-    init_fields();
     init_plots();
 
-    // connect realtime slot to timer and start it
+    connect(&blink_timer, SIGNAL(timeout()), this, SLOT(blink_status())); // enable faults blink effect
+
     connect(&data_timer, SIGNAL(timeout()), this, SLOT(realtime_slot())); // enable the realtime slot
-    data_timer.start(0);
+    data_timer.start(0); // start timer to begin calling realtime_slot repeatedly
 }
 
 void MainWindow::init_plots()
@@ -289,6 +295,43 @@ void MainWindow::init_fields()
     ui->freq_kd_edit->assign_items(ui->freq_kd_button, gyro.freq_kd_ptr());
 }
 
+void MainWindow::set_blink_enabled(bool enable)
+{
+    if(enable)
+    {
+        if(ui->stackedWidget->currentIndex() == 2)
+            ui->status_tab->setStyleSheet(tab_blink_off_selected);
+        else
+            ui->status_tab->setStyleSheet(tab_blink_off_unselected);
+        blink_timer.start(blink_duration);
+    }
+    else
+    {
+        blink_timer.stop();
+        if(ui->stackedWidget->currentIndex() == 2)
+            ui->status_tab->setStyleSheet(tab_selected);
+        else
+            ui->status_tab->setStyleSheet(tab_unselected);
+    }
+}
+
+void MainWindow::blink_status()
+{
+    if(ui->stackedWidget->currentIndex() != 2)
+    {
+        if(blink_on)
+        {
+            ui->status_tab->setStyleSheet(tab_blink_off_unselected);
+            blink_on = false;
+        }
+        else
+        {
+            ui->status_tab->setStyleSheet(tab_blink_on);
+            blink_on = true;
+        }
+    }
+}
+
 void MainWindow::detect_state_change(bool manual_update)
 {
     int current_state = gyro.get_state();
@@ -496,13 +539,12 @@ void MainWindow::update_plots(double pressure)
 void MainWindow::realtime_slot()
 {
     static QTime timer(QTime::currentTime()); // setup loop timer
-    static double key = timer.elapsed()/1000.0; // used to track time
     static double last_key = 0; // used to track differences in time
-    double pressure;
+    key = timer.elapsed()/1000.0; // used to track time
 
     if (key-last_key > refresh_rate) // frequency of reiteration is refresh_rate in seconds
     {
-        pressure = gyro.get_pressure();
+        double pressure = gyro.get_pressure();
         check_connections(); // check device connection and enable/disable features accordingly
         qApp->processEvents();
         detect_state_change(); // apply stylesheet changes based on state
@@ -536,13 +578,44 @@ void MainWindow::update_pid_display()
     }
 }
 
+bool lists_equal(std::vector<QListWidgetItem*> list1, std::vector<QListWidgetItem*> list2)
+{
+    if(list1.size() == 0 || list2.size() == 0 || list1.size() != list2.size())
+        return false;
+    for(unsigned long i = 0; i < list1.size(); i++)
+    {
+        if(list1.at(i)->text() != list2.at(i)->text())
+            return false;
+    }
+    return true;
+}
+
 void MainWindow::update_faults()
 {
     std::vector<std::string> warnings = gyro.get_sys_warnings();
     std::vector<std::string> errors = gyro.get_sys_errors();
+    int fault_status = gyro.get_fault_status();
+    std::vector<QListWidgetItem*> temp_fault_items;
+
+    if(fault_status == -2 && last_fault_status != -2)
+    {
+        set_blink_enabled(true);
+        if(ui->stackedWidget->currentIndex() == 2)
+            ui->status_tab->setStyleSheet(tab_blink_off_selected);
+        else
+            ui->status_tab->setStyleSheet(tab_blink_off_unselected);
+    }
+    else if(fault_status > -2 && last_fault_status == -2)
+    {
+        set_blink_enabled(false);
+        if(ui->stackedWidget->currentIndex() == 2)
+            ui->status_tab->setStyleSheet(tab_selected);
+        else
+            ui->status_tab->setStyleSheet(tab_unselected);
+    }
 
     // update faults list
-    if(gyro.get_fault_status() == 0)
+    if(fault_status == 0 && fault_status != last_fault_status)
     {
         ui->fault_list->clear();
         fault_list_items.clear();
@@ -550,16 +623,26 @@ void MainWindow::update_faults()
     }
     else
     {
-        ui->fault_list->setStyleSheet(faults_list);
+        if(fault_status != last_fault_status)
+        {
+            ui->fault_list->setStyleSheet(faults_list);
+        }
         for(auto error : errors) {
-            fault_list_items.push_back(new QListWidgetItem(error_icon, QString::fromStdString(error), ui->fault_list));
-            ui->fault_list->addItem(fault_list_items.back());
+            temp_fault_items.push_back(new QListWidgetItem(error_icon, QString::fromStdString(error), ui->fault_list));
+            //ui->fault_list->addItem(fault_list_items.back());
         }
         for(auto warning : warnings) {
-            fault_list_items.push_back(new QListWidgetItem(warning_icon, QString::fromStdString(warning), ui->fault_list));
-            ui->fault_list->addItem(fault_list_items.back());
+            temp_fault_items.push_back(new QListWidgetItem(warning_icon, QString::fromStdString(warning), ui->fault_list));
+            //ui->fault_list->addItem(fault_list_items.back());
+        }
+        if(!lists_equal(temp_fault_items,fault_list_items))
+        {
+            ui->fault_list->clear();
+            fault_list_items = temp_fault_items;
+            for(auto item : temp_fault_items) { ui->fault_list->addItem(item); }
         }
     }
+    last_fault_status = fault_status;
 }
 
 void MainWindow::update_indicators()
@@ -914,7 +997,7 @@ void MainWindow::on_control_tab_clicked()
 {
     ui->control_tab->setStyleSheet(tab_selected);
     ui->plot_tab->setStyleSheet(tab_unselected);
-    ui->status_tab->setStyleSheet(tab_unselected);
+    (gyro.get_fault_status() == 0) ? ui->status_tab->setStyleSheet(tab_unselected) : ui->status_tab->setStyleSheet(tab_blink_off_unselected);
     ui->admin_tab->setStyleSheet(tab_unselected);
     ui->stackedWidget->setCurrentIndex(0);
 }
@@ -923,7 +1006,7 @@ void MainWindow::on_plot_tab_clicked()
 {
     ui->control_tab->setStyleSheet(tab_unselected);
     ui->plot_tab->setStyleSheet(tab_selected);
-    ui->status_tab->setStyleSheet(tab_unselected);
+    (gyro.get_fault_status() == 0) ? ui->status_tab->setStyleSheet(tab_unselected) : ui->status_tab->setStyleSheet(tab_blink_off_unselected);
     ui->admin_tab->setStyleSheet(tab_unselected);
     ui->press_plot->replot();
     ui->beam_plot->replot();
@@ -935,7 +1018,7 @@ void MainWindow::on_status_tab_clicked()
 {
     ui->control_tab->setStyleSheet(tab_unselected);
     ui->plot_tab->setStyleSheet(tab_unselected);
-    ui->status_tab->setStyleSheet(tab_selected);
+    (gyro.get_fault_status() == 0) ? ui->status_tab->setStyleSheet(tab_selected) : ui->status_tab->setStyleSheet(tab_blink_off_selected);
     ui->admin_tab->setStyleSheet(tab_unselected);
     ui->stackedWidget->setCurrentIndex(2);
 }
@@ -944,7 +1027,7 @@ void MainWindow::on_admin_tab_clicked()
 {
     ui->control_tab->setStyleSheet(tab_unselected);
     ui->plot_tab->setStyleSheet(tab_unselected);
-    ui->status_tab->setStyleSheet(tab_unselected);
+    (gyro.get_fault_status() == 0) ? ui->status_tab->setStyleSheet(tab_unselected) : ui->status_tab->setStyleSheet(tab_blink_off_unselected);
     ui->admin_tab->setStyleSheet(tab_selected);
     ui->stackedWidget->setCurrentIndex(3);
 }
@@ -995,7 +1078,7 @@ void MainWindow::on_time_span_slider_valueChanged(int value)
     if(secs > 0)
     {
         gyro.set_plot_span(secs);
-        update_plots();
+        update_plots(gyro.get_pressure());
         ui->time_span_group->setTitle("Time Span: " + str);
     }
 }

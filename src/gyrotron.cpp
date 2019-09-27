@@ -407,8 +407,11 @@ std::vector<std::string> Gyrotron::get_warnings()
     // collect system warnings
     warnings = get_sys_warnings();
     // collect cathode warnings
-    temp = cath.m_get_warnings();
-    warnings.insert(warnings.end(), temp.begin(), temp.end());
+    if(cath.is_enabled() && cath.is_connected())
+    {
+        temp = cath.m_get_warnings();
+        warnings.insert(warnings.end(), temp.begin(), temp.end());
+    }
     // collect GTC warnings
     //temp = gtc.m_get_warnings();
     //warnings.insert(warnings.end(), temp.begin(), temp.end());
@@ -420,14 +423,21 @@ std::vector<std::string> Gyrotron::get_errors()
 {
     std::vector<std::string> errors, temp;
 
-    // colelct system errors
-    errors = get_sys_errors();
+    // collect system errors
+    errors = get_sys_errors(!gui_debug_mode);
     // collect cathode errors
-    temp = cath.m_get_errors();
-    errors.insert(errors.end(), temp.begin(), temp.end());
+    if(cath.is_enabled() && cath.is_connected())
+    {
+        temp = cath.m_get_errors();
+        errors.insert(errors.end(), temp.begin(), temp.end());
+    }
+
     // collect gtc errors
-    temp = gtc.m_get_errors();
-    errors.insert(errors.end(), temp.begin(), temp.end());
+    if(gtc.is_enabled() && gtc.is_connected())
+    {
+        temp = gtc.m_get_errors();
+        errors.insert(errors.end(), temp.begin(), temp.end());
+    }
 
     return errors;
 }
@@ -1022,9 +1032,9 @@ int Gyrotron::get_flow_status() // 0 = safe flow, -1 = warning, -2 = fatal
 
 int Gyrotron::get_fault_status() // 0 = no faults, -1 = warnings, -2 = errors
 {
-    if(num_sys_errors() > 0 || cath.num_errors() > 0)
+    if(get_num_errors() > 0)
         return -2;
-    else if(num_sys_warnings() > 0 || cath.num_warnings() > 0)
+    else if(get_num_warnings() > 0)
         return -1;
     return 0;
 }
