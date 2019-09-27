@@ -24,8 +24,8 @@ HV Pressure Low Limit in Torr [8e-8]
 
 Power Meter Calibration Coefficient [0.3113]
 
-Cathode Enabled [true]
-GTC Enabled [true]
-RSI Enabled [true]
-SPC Enabled [true]
-FMS Enabled [true]
+Cathode Port [USB0]
+RSI Port [USB1]
+GTC IP [192.168.1.100]
+SPC IP [192.168.1.10]
+FMS IP [x]

@@ -110,6 +110,8 @@ public:
     std::vector<double> get_power_time_data() { std::lock_guard<std::mutex> lock(power_m); return power_time_data; }
     std::vector<std::string> get_warnings();
     std::vector<std::string> get_errors();
+    unsigned int get_num_warnings() { return unsigned(get_warnings().size()); }
+    unsigned int get_num_errors() { return unsigned(get_errors().size()); }
     double get_plot_span() { return plot_span; }
 
     double get_temp(int num); // 1=main chiller, 2=cavity chiller, 3=collector, 4=cavity, 5=body
@@ -147,6 +149,22 @@ public:
     std::atomic<double>* gtc_curr_sp_ptr() { return &gtc_curr_sp; }
     std::atomic<double>* gtc_volt_ptr() { return &gtc_volt; }
     std::atomic<double>* gtc_volt_sp_ptr() { return &gtc_volt_sp; }
+
+    void enable_cath() { cath.set_enabled(true); }
+    void enable_gtc() { gtc.set_enabled(true); }
+    void enable_spc() { spc.set_enabled(true); }
+    void enable_rsi() { rsi.set_enabled(true); }
+    void enable_fms() { fms.set_enabled(true); }
+    int connect_cath() { return cath.connect(); }
+    int connect_gtc() { return gtc.connect(); }
+    int connect_spc() { return spc.connect(); }
+    int connect_rsi() { return rsi.connect(); }
+    int connect_fms() { return fms.connect(); }
+    std::string cath_io(std::string cmd) { return cath.m_io(cmd); }
+    std::string gtc_io(std::string cmd) { return gtc.m_io(cmd); }
+    std::string spc_io(std::string cmd) { return spc.m_io(cmd); }
+    std::string rsi_io(std::string cmd) { return rsi.m_io(cmd); }
+    std::string fms_io(std::string cmd) { return fms.m_io(cmd); }
 
     // ************* MANY CONSTANTS STILL TBD ********************
 

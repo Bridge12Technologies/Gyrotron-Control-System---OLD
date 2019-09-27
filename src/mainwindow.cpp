@@ -1,11 +1,9 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
-using namespace std;
-
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),ui(new Ui::MainWindow)
 {
-    gui_debug_mode = true;
+    gui_debug_mode = true; // if true this will disable the backend
 
     ui->setupUi(this);
     setWindowFlags(Qt::Window | Qt::FramelessWindowHint);
@@ -41,7 +39,6 @@ void MainWindow::init_gui()
                                    ui->plot_group,ui->fil_curr_group,ui->beam_volt_group,ui->freq_group,ui->curr_state_group,ui->auto_state_group,ui->time_span_group,
                                    ui->beam_pid_group,ui->power_pid_group,ui->freq_pid_group,ui->ramp_rate_group,ui->log_rate_group,ui->misc_group,ui->reconnect_group,ui->console_group,
                                    ui->faults_group,ui->log_group};
-
     for(QGroupBox* group : groups)
     {
         shadows.push_back(new QGraphicsDropShadowEffect);
@@ -52,6 +49,7 @@ void MainWindow::init_gui()
         group->setGraphicsEffect(shadows.back());
     }
 
+    init_fields();
     init_plots();
 
     // connect realtime slot to timer and start it
@@ -291,8 +289,13 @@ void MainWindow::init_fields()
     ui->freq_kd_edit->assign_items(ui->freq_kd_button, gyro.freq_kd_ptr());
 }
 
-void MainWindow::detect_state_change(int current_state, bool e_ramping, bool manual_update)
+void MainWindow::detect_state_change(bool manual_update)
 {
+    int current_state = gyro.get_state();
+    bool e_ramping = gyro.is_e_ramping();
+    bool ramping_up = gyro.is_ramping_up();
+    bool ramping_down = gyro.is_ramping_down();
+
     if(e_ramping)
     {
         ui->state_label->setText("EMERGENCY\nRAMP DOWN");
@@ -304,6 +307,7 @@ void MainWindow::detect_state_change(int current_state, bool e_ramping, bool man
         ui->prev_state_button->setText("");
         ui->next_state_button->setStyleSheet(next_style);
         ui->next_state_button->setText("");
+        ui->state_mini_label->setText(QString::number(100*(1-(gyro.get_fil_curr()/gyro.FIL_CURR_LIMIT))) + "%");
     }
     else if(current_state != last_known_state || manual_update)
     {
@@ -312,7 +316,7 @@ void MainWindow::detect_state_change(int current_state, bool e_ramping, bool man
         case 0:
             ui->state_label->setText("CONTROL\nPOWER ON");
             ui->small_state_label->setText("CTRL PW ON");
-            ui->state_frame->setStyleSheet(green_state_bubble);
+            ui->state_frame->setStyleSheet(grey_state_bubble);
             ui->prev_state_label->setEnabled(false);
             ui->next_state_label->setEnabled(true);
             ui->next_state_label->setText("Warm Up →");
@@ -320,15 +324,16 @@ void MainWindow::detect_state_change(int current_state, bool e_ramping, bool man
             ui->prev_state_button->setText("");
             ui->next_state_button->setStyleSheet(next_style);
             ui->next_state_button->setText("");
+            ui->state_mini_label->setText("MW Off");
             break;
         case 1:
             ui->prev_state_label->setEnabled(true);
             ui->next_state_label->setEnabled(true);
             if(gyro.is_paused())
             {
-                ui->state_frame->setStyleSheet(green_state_bubble);
+                ui->state_frame->setStyleSheet(grey_state_bubble);
 
-                if(gyro.is_ramping_up())
+                if(ramping_up)
                 {
                     ui->state_label->setText("WARM UP\n(PAUSED)");
                     ui->small_state_label->setText("WARM UP");
@@ -338,8 +343,9 @@ void MainWindow::detect_state_change(int current_state, bool e_ramping, bool man
                     ui->next_state_button->setText("");
                     ui->prev_state_label->setText("← Cool Down");
                     ui->next_state_label->setText("Resume Warm Up →");
+                    ui->state_mini_label->setText(QString::number(100*(gyro.get_fil_curr()/gyro.FIL_CURR_LIMIT)) + "%");
                 }
-                else if(gyro.is_ramping_down())
+                else if(ramping_down)
                 {
                     ui->state_label->setText("COOL DOWN\n(PAUSED)");
                     ui->small_state_label->setText("COOL DOWN");
@@ -349,13 +355,14 @@ void MainWindow::detect_state_change(int current_state, bool e_ramping, bool man
                     ui->next_state_button->setText("");
                     ui->prev_state_label->setText("← Resume Cool Down");
                     ui->next_state_label->setText("Warm Up →");
+                    ui->state_mini_label->setText(QString::number(100*(1-(gyro.get_fil_curr()/gyro.FIL_CURR_LIMIT))) + "%");
                 }
             }
             else
             {
                 ui->state_frame->setStyleSheet(orange_state_bubble);
 
-                if(gyro.is_ramping_up())
+                if(ramping_up)
                 {
                     ui->state_label->setText("WARM UP");
                     ui->small_state_label->setText("WARM UP");
@@ -365,8 +372,9 @@ void MainWindow::detect_state_change(int current_state, bool e_ramping, bool man
                     ui->next_state_button->setText("");
                     ui->prev_state_label->setText("← Pause");
                     ui->next_state_label->setText("HV Standby →");
+                    ui->state_mini_label->setText(QString::number(100*(gyro.get_fil_curr()/gyro.FIL_CURR_LIMIT)) + "%");
                 }
-                else if(gyro.is_ramping_down())
+                else if(ramping_down)
                 {
                     ui->state_label->setText("COOL DOWN");
                     ui->small_state_label->setText("COOL DOWN");
@@ -376,6 +384,7 @@ void MainWindow::detect_state_change(int current_state, bool e_ramping, bool man
                     ui->next_state_button->setText("II");
                     ui->prev_state_label->setText("← Control Power On");
                     ui->next_state_label->setText("Pause →");
+                    ui->state_mini_label->setText(QString::number(100*(1-(gyro.get_fil_curr()/gyro.FIL_CURR_LIMIT))) + "%");
                 }
             }
             break;
@@ -388,9 +397,10 @@ void MainWindow::detect_state_change(int current_state, bool e_ramping, bool man
             ui->next_state_label->setEnabled(true);
             ui->state_label->setText("HV STANDBY");
             ui->small_state_label->setText("HV STANDBY");
-            ui->state_frame->setStyleSheet(green_state_bubble);
+            ui->state_frame->setStyleSheet(grey_state_bubble);
             ui->prev_state_label->setText("← Cool Down");
             ui->next_state_label->setText("MW On →");
+            ui->state_mini_label->setText("MW Off");
             break;
         case 3:
             ui->state_label->setText("MW ON ⚡");
@@ -399,13 +409,17 @@ void MainWindow::detect_state_change(int current_state, bool e_ramping, bool man
             ui->next_state_label->setEnabled(false);
             ui->state_frame->setStyleSheet(green_state_bubble);
             ui->prev_state_label->setText("← HV Standby");
+            ui->state_mini_label->setText(QString::number(100*(gyro.get_power()/gyro.POWER_LIMIT)) + "% power");
             break;
         }
     }
+    // enable/disable state machine arrows based on system status
+    ui->prev_state_button->setEnabled(current_state > 0 && !ramping_down && !e_ramping);
+    ui->next_state_button->setEnabled(gyro.all_clear() && current_state < 3 && !ramping_up && !e_ramping);
     last_known_state = current_state;
 }
 
-void MainWindow::update_plots()
+void MainWindow::update_plots(double pressure)
 {
     double beam_max, beam_min, beam_max_bound, beam_min_bound;
     double press_max, press_min, press_max_bound, press_min_bound;
@@ -417,6 +431,11 @@ void MainWindow::update_plots()
     QVector<double> beam_time_data = QVector<double>::fromStdVector(gyro.get_beam_time_data());
     QVector<double> power_data = QVector<double>::fromStdVector(gyro.get_power_data());
     QVector<double> power_time_data = QVector<double>::fromStdVector(gyro.get_power_time_data());
+
+    // update plot labels
+    press_plot_label->setText(QString::number(pressure) + QString(" Torr"));
+    beam_plot_label->setText(QString::number(gyro.get_beam_curr(),'f',2) + QString(" mA"));
+    power_plot_label->setText(QString::number(gyro.get_power()) + QString(" W"));
 
     // update beam plot, with bounds being nearest multiple of 5 above/below
     ui->beam_plot->graph(0)->setData(time_data, beam_data, true);
@@ -479,125 +498,107 @@ void MainWindow::realtime_slot()
     static QTime timer(QTime::currentTime()); // setup loop timer
     static double key = timer.elapsed()/1000.0; // used to track time
     static double last_key = 0; // used to track differences in time
-    bool e_ramping, ramping_down, ramping_up;
-    int current_state, fault_status;
     double pressure;
-    std::vector<std::string> warnings, errors;
 
     if (key-last_key > refresh_rate) // frequency of reiteration is refresh_rate in seconds
     {
-        current_state = gyro.get_state();
-        e_ramping = gyro.is_e_ramping();
-        ramping_up = gyro.is_ramping_up();
-        ramping_down = gyro.is_ramping_down();
         pressure = gyro.get_pressure();
-        fault_status = gyro.get_fault_status();
-        fault_status = 0; // stand-in
-        warnings = gyro.get_sys_warnings();
-        errors = gyro.get_sys_errors();
-
+        check_connections(); // check device connection and enable/disable features accordingly
         qApp->processEvents();
-        check_connections();
+        detect_state_change(); // apply stylesheet changes based on state
         qApp->processEvents();
-
-        // enable/disable state machine arrows based on system status
-        ui->prev_state_button->setEnabled(current_state > 0 && !ramping_down && !e_ramping);
-        ui->next_state_button->setEnabled(gyro.all_clear() && current_state < 3 && !ramping_up && !e_ramping);
-
-        // apply stylesheet changes based on state
-        detect_state_change(current_state,e_ramping);
-
+        for(auto field : smart_edits) { field->update(); } // update smart line edits
         qApp->processEvents();
-
-        // update smart line edits
-        for(auto field : smart_edits) { field->update(); }
-
+        update_labels(pressure);
         qApp->processEvents();
-
-        // update labels
-        ui->press_label->setText(QString::number(pressure));
-        ui->collector_read->setText(QString::number(gyro.get_collector_curr()));
-        ui->body_read->setText(QString::number(gyro.get_body_curr()));
-        ui->fil_curr_label->setText(QString::number(gyro.get_fil_curr()));
-        ui->beam_volt_label->setText(QString::number(gyro.get_beam_volt()));
-        ui->freq_label->setText(QString::number(gyro.get_freq()));
-
+        update_indicators();
         qApp->processEvents();
-
-        // update status bubbles and pressure group box
-        switch(gyro.get_temp_status())
-        {
-        case 0: ui->temp_indicator->setStyleSheet(green_status_bubble); ui->temp_status->setText("OK"); break;
-        case -1: ui->temp_indicator->setStyleSheet(yellow_status_bubble); ui->temp_status->setText("WARN"); break;
-        case -2: ui->temp_indicator->setStyleSheet(red_status_bubble); ui->temp_status->setText("HIGH!"); break;
-        }
-        switch(gyro.get_flow_status())
-        {
-        case 0: ui->flow_indicator->setStyleSheet(green_status_bubble); ui->flow_status->setText("OK"); break;
-        case -1: ui->flow_indicator->setStyleSheet(yellow_status_bubble); ui->flow_status->setText("WARN"); break;
-        case -2: ui->flow_indicator->setStyleSheet(red_status_bubble); ui->flow_status->setText("LOW!"); break;
-        }
-        switch(fault_status)
-        {
-        case 0: ui->faults_indicator->setStyleSheet(green_status_bubble); ui->fault_status->setText("OK"); break;
-        case -1: ui->faults_indicator->setStyleSheet(yellow_status_bubble); ui->fault_status->setText("WARN"); break;
-        case -2: ui->faults_indicator->setStyleSheet(red_status_bubble); ui->fault_status->setText("ERR!"); break;
-        }
-        switch(gyro.get_press_status())
-        {
-        case 0: ui->press_group->setStyleSheet(group_style); ui->press_group->setTitle("Pressure"); break;
-        case -1: ui->press_group->setStyleSheet(warn_group_style); ui->press_group->setTitle("Pressure (RELAXATION IN PROGRESS)"); break;
-        case -2: ui->press_group->setStyleSheet(err_group_style); ui->press_group->setTitle("Pressure (FATAL)"); break;
-        }
-
+        if(ui->stackedWidget->currentIndex() == 1) update_plots(pressure);
         qApp->processEvents();
-
-        // update plot labels
-        press_plot_label->setText(QString::number(pressure) + QString(" Torr"));
-        beam_plot_label->setText(QString::number(gyro.get_beam_curr(),'f',2) + QString(" mA"));
-        power_plot_label->setText(QString::number(gyro.get_power()) + QString(" W"));
-
+        ui->log_box->append(QString::fromStdString(gyro.get_event_history())); // update log stream
         qApp->processEvents();
-
-        // update plot data and scale the y-axes accordingly
-        if(ui->stackedWidget->currentIndex() == 1) update_plots();
-
+        update_faults();
         qApp->processEvents();
-
-        // update log stream
-        ui->log_box->append(QString::fromStdString(gyro.get_event_history()));
-
-        // update faults list
-        if(fault_status == 0)
-        {
-            ui->fault_list->clear();
-            fault_list_items.clear();
-            ui->fault_list->setStyleSheet(empty_faults_list);
-        }
-        else
-        {
-            ui->fault_list->setStyleSheet(faults_list);
-            for(auto error : errors) {
-                fault_list_items.push_back(new QListWidgetItem(error_icon, QString::fromStdString(error), ui->fault_list));
-                ui->fault_list->addItem(fault_list_items.back());
-            }
-            for(auto warning : warnings) {
-                fault_list_items.push_back(new QListWidgetItem(warning_icon, QString::fromStdString(warning), ui->fault_list));
-                ui->fault_list->addItem(fault_list_items.back());
-            }
-        }
-
-        // if any PID is on update the filament current button
-        if(gyro.beam_pid_is_on() || gyro.power_pid_is_on() || gyro.freq_pid_is_on())
-        {
-            ui->fil_curr_button->setText("set: " + QString::number(gyro.get_fil_curr_sp()));
-
-            if(gyro.freq_pid_is_on())
-                ui->beam_volt_button->setText("set: " + QString::number(gyro.get_beam_volt_sp()));
-        }
-
+        update_pid_display();
         last_key = key;
     }
+}
+
+void MainWindow::update_pid_display()
+{
+    // if any PID is on update the filament current button
+    if(gyro.beam_pid_is_on() || gyro.power_pid_is_on() || gyro.freq_pid_is_on())
+    {
+        ui->fil_curr_button->setText("set: " + QString::number(gyro.get_fil_curr_sp()));
+
+        if(gyro.freq_pid_is_on())
+            ui->beam_volt_button->setText("set: " + QString::number(gyro.get_beam_volt_sp()));
+    }
+}
+
+void MainWindow::update_faults()
+{
+    std::vector<std::string> warnings = gyro.get_sys_warnings();
+    std::vector<std::string> errors = gyro.get_sys_errors();
+
+    // update faults list
+    if(gyro.get_fault_status() == 0)
+    {
+        ui->fault_list->clear();
+        fault_list_items.clear();
+        ui->fault_list->setStyleSheet(empty_faults_list);
+    }
+    else
+    {
+        ui->fault_list->setStyleSheet(faults_list);
+        for(auto error : errors) {
+            fault_list_items.push_back(new QListWidgetItem(error_icon, QString::fromStdString(error), ui->fault_list));
+            ui->fault_list->addItem(fault_list_items.back());
+        }
+        for(auto warning : warnings) {
+            fault_list_items.push_back(new QListWidgetItem(warning_icon, QString::fromStdString(warning), ui->fault_list));
+            ui->fault_list->addItem(fault_list_items.back());
+        }
+    }
+}
+
+void MainWindow::update_indicators()
+{
+    // update status bubbles and pressure group box
+    switch(gyro.get_temp_status())
+    {
+    case 0: ui->temp_indicator->setStyleSheet(green_status_bubble); ui->temp_status->setText("OK"); break;
+    case -1: ui->temp_indicator->setStyleSheet(yellow_status_bubble); ui->temp_status->setText("WARN"); break;
+    case -2: ui->temp_indicator->setStyleSheet(red_status_bubble); ui->temp_status->setText("HIGH!"); break;
+    }
+    switch(gyro.get_flow_status())
+    {
+    case 0: ui->flow_indicator->setStyleSheet(green_status_bubble); ui->flow_status->setText("OK"); break;
+    case -1: ui->flow_indicator->setStyleSheet(yellow_status_bubble); ui->flow_status->setText("WARN"); break;
+    case -2: ui->flow_indicator->setStyleSheet(red_status_bubble); ui->flow_status->setText("LOW!"); break;
+    }
+    switch(gyro.get_fault_status())
+    {
+    case 0: ui->faults_indicator->setStyleSheet(green_status_bubble); ui->fault_status->setText("OK"); break;
+    case -1: ui->faults_indicator->setStyleSheet(yellow_status_bubble); ui->fault_status->setText("WARN ×" + QString::number(gyro.get_num_warnings())); break;
+    case -2: ui->faults_indicator->setStyleSheet(red_status_bubble); ui->fault_status->setText("ERR ×" + QString::number(gyro.get_num_errors())); break;
+    }
+    switch(gyro.get_press_status())
+    {
+    case 0: ui->press_group->setStyleSheet(group_style); ui->press_group->setTitle("Pressure"); break;
+    case -1: ui->press_group->setStyleSheet(warn_group_style); ui->press_group->setTitle("Pressure (RELAXATION IN PROGRESS)"); break;
+    case -2: ui->press_group->setStyleSheet(err_group_style); ui->press_group->setTitle("Pressure (FATAL)"); break;
+    }
+}
+
+void MainWindow::update_labels(double pressure)
+{
+    ui->press_label->setText(QString::number(pressure));
+    ui->collector_read->setText(QString::number(gyro.get_collector_curr()));
+    ui->body_read->setText(QString::number(gyro.get_body_curr()));
+    ui->fil_curr_label->setText(QString::number(gyro.get_fil_curr()));
+    ui->beam_volt_label->setText(QString::number(gyro.get_beam_volt()));
+    ui->freq_label->setText(QString::number(gyro.get_freq()));
 }
 
 void MainWindow::check_connections()
@@ -872,7 +873,7 @@ void MainWindow::on_prev_state_button_clicked()
     if(gyro.decrement_state() < 0)
         gui.error_dialog("Failed to change state! See log for more info.\n");
     else
-        detect_state_change(gyro.get_state(),gyro.is_e_ramping(),true);
+        detect_state_change(true);
 }
 
 void MainWindow::on_next_state_button_clicked()
@@ -880,7 +881,7 @@ void MainWindow::on_next_state_button_clicked()
     if(gyro.increment_state() < 0)
         gui.error_dialog("Failed to change state! See log for more info.\n");
     else
-        detect_state_change(gyro.get_state(),gyro.is_e_ramping(),true);
+        detect_state_change(true);
 }
 
 void MainWindow::on_gtc_curr_button_clicked()
@@ -1049,4 +1050,254 @@ void MainWindow::on_log_rate_slider_valueChanged(int value)
         gyro.set_rec_rate(secs);
         ui->time_span_group->setTitle("Data Log Rate: " + str);
     }
+}
+
+void MainWindow::on_cath_recon_button_clicked()
+{
+    if(!cath_recon_blocked && !all_recon_blocked)
+    {
+        if(gyro.cath_is_connected() && !gyro.cath_is_enabled())
+            gyro.enable_cath();
+        else if(!gyro.cath_is_connected())
+        {
+            ui->cath_recon_button->setText("...");
+            cath_recon_blocked = true;
+            int stat = gyro.connect_cath();
+            if(stat < 0)
+            {
+                ui->cath_recon_button->setText("❌");
+                ui->cath_recon_button->setStyleSheet(red_recon_button);
+            }
+            else
+            {
+                ui->cath_recon_button->setText("✔");
+                ui->cath_recon_button->setStyleSheet(red_recon_button);
+            }
+            QTimer::singleShot(3000, this, SLOT(reset_cath_recon()));
+        }
+    }
+}
+
+void MainWindow::on_gtc_recon_button_clicked()
+{
+    if(!gtc_recon_blocked && !all_recon_blocked)
+    {
+        if(gyro.gtc_is_connected() && !gyro.gtc_is_enabled())
+            gyro.enable_gtc();
+        else if(!gyro.gtc_is_connected())
+        {
+            ui->gtc_recon_button->setText("...");
+            gtc_recon_blocked = true;
+            int stat = gyro.connect_gtc();
+            if(stat < 0)
+            {
+                ui->gtc_recon_button->setText("❌");
+                ui->gtc_recon_button->setStyleSheet(red_recon_button);
+            }
+            else
+            {
+                ui->gtc_recon_button->setText("✔");
+                ui->gtc_recon_button->setStyleSheet(red_recon_button);
+            }
+            QTimer::singleShot(3000, this, SLOT(reset_gtc_recon()));
+        }
+    }
+}
+
+void MainWindow::on_spc_recon_button_clicked()
+{
+    if(!spc_recon_blocked && !all_recon_blocked)
+    {
+        if(gyro.spc_is_connected() && !gyro.spc_is_enabled())
+            gyro.enable_spc();
+        else if(!gyro.spc_is_connected())
+        {
+            ui->spc_recon_button->setText("...");
+            spc_recon_blocked = true;
+            int stat = gyro.connect_spc();
+            if(stat < 0)
+            {
+                ui->spc_recon_button->setText("❌");
+                ui->spc_recon_button->setStyleSheet(red_recon_button);
+            }
+            else
+            {
+                ui->spc_recon_button->setText("✔");
+                ui->spc_recon_button->setStyleSheet(red_recon_button);
+            }
+            QTimer::singleShot(3000, this, SLOT(reset_spc_recon()));
+        }
+    }
+}
+
+void MainWindow::on_fms_recon_button_clicked()
+{
+    if(!fms_recon_blocked && !all_recon_blocked)
+    {
+        if(gyro.fms_is_connected() && !gyro.fms_is_enabled())
+            gyro.enable_fms();
+        else if(!gyro.fms_is_connected())
+        {
+            ui->fms_recon_button->setText("...");
+            fms_recon_blocked = true;
+            int stat = gyro.connect_fms();
+            if(stat < 0)
+            {
+                ui->fms_recon_button->setText("❌");
+                ui->fms_recon_button->setStyleSheet(red_recon_button);
+            }
+            else
+            {
+                ui->fms_recon_button->setText("✔");
+                ui->fms_recon_button->setStyleSheet(red_recon_button);
+            }
+            QTimer::singleShot(3000, this, SLOT(reset_fms_recon()));
+        }
+    }
+}
+
+void MainWindow::on_rsi_recon_button_clicked()
+{
+    if(!rsi_recon_blocked && !all_recon_blocked)
+    {
+        if(gyro.rsi_is_connected() && !gyro.rsi_is_enabled())
+            gyro.enable_rsi();
+        else if(!gyro.rsi_is_connected())
+        {
+            ui->rsi_recon_button->setText("...");
+            rsi_recon_blocked = true;
+            int stat = gyro.connect_rsi();
+            if(stat < 0)
+            {
+                ui->rsi_recon_button->setText("❌");
+                ui->rsi_recon_button->setStyleSheet(red_recon_button);
+            }
+            else
+            {
+                ui->rsi_recon_button->setText("✔");
+                ui->rsi_recon_button->setStyleSheet(red_recon_button);
+            }
+            QTimer::singleShot(3000, this, SLOT(reset_rsi_recon()));
+        }
+    }
+}
+
+void MainWindow::on_all_recon_button_clicked()
+{
+    if(!all_recon_blocked)
+    {
+        ui->all_recon_button->setText("...");
+        all_recon_blocked = true;
+
+        if(!gyro.cath_is_connected()) { QTimer::singleShot(0, this, SLOT(on_cath_recon_button_clicked())); }
+        if(!gyro.gtc_is_connected()) { QTimer::singleShot(0, this, SLOT(on_gtc_recon_button_clicked())); }
+        if(!gyro.spc_is_connected()) { QTimer::singleShot(0, this, SLOT(on_spc_recon_button_clicked())); }
+        if(!gyro.fms_is_connected()) { QTimer::singleShot(0, this, SLOT(on_fms_recon_button_clicked())); }
+        if(!gyro.rsi_is_connected()) { QTimer::singleShot(0, this, SLOT(on_rsi_recon_button_clicked())); }
+
+        QTimer::singleShot(3000, this, SLOT(reset_all_recon()));
+    }
+}
+
+void MainWindow::reset_cath_recon()
+{
+    cath_recon_blocked = false;
+    ui->cath_recon_button->setText("CATHODE");
+    ui->cath_recon_button->setStyleSheet(recon_button_normal);
+}
+void MainWindow::reset_gtc_recon()
+{
+    gtc_recon_blocked = false;
+    ui->gtc_recon_button->setText("GTC");
+    ui->gtc_recon_button->setStyleSheet(recon_button_normal);
+}
+void MainWindow::reset_spc_recon()
+{
+    spc_recon_blocked = false;
+    ui->spc_recon_button->setText("IPC");
+    ui->spc_recon_button->setStyleSheet(recon_button_normal);
+}
+void MainWindow::reset_rsi_recon()
+{
+    rsi_recon_blocked = false;
+    ui->rsi_recon_button->setText("RSI");
+    ui->rsi_recon_button->setStyleSheet(recon_button_normal);
+}
+void MainWindow::reset_fms_recon()
+{
+    fms_recon_blocked = false;
+    ui->fms_recon_button->setText("FMS");
+    ui->fms_recon_button->setStyleSheet(recon_button_normal);
+}
+void MainWindow::reset_all_recon()
+{
+    all_recon_blocked = false;
+    ui->all_recon_button->setText("ALL");
+}
+
+void MainWindow::console_print(QString qstr)
+{
+    qstr = ">> " + qstr;
+    ui->console_text->append(qstr);
+}
+
+void MainWindow::on_console_edit_returnPressed()
+{
+    std::string resp;
+    int index = ui->console_dropdown->currentIndex();
+    QString qcmd = ui->console_edit->text();
+    ui->console_edit->clear();
+    qApp->setOverrideCursor(Qt::WaitCursor);
+
+    switch(index)
+    {
+    case 0: resp = gyro.cath_io(qcmd.toStdString()); break;
+    case 1: resp = gyro.gtc_io(qcmd.toStdString()); break;
+    case 2: resp = gyro.spc_io(qcmd.toStdString()); break;
+    case 3: resp = gyro.rsi_io(qcmd.toStdString()); break;
+    case 4: resp = gyro.fms_io(qcmd.toStdString()); break;
+    }
+
+    console_print(QString::fromStdString(resp));
+    qApp->restoreOverrideCursor();
+}
+
+void find_swap(std::string &line, std::string title, QLineEdit *field)
+{
+    if(line.find(title) != std::string::npos)
+    {
+        std::string old_val = line.substr(line.find("[")+1,(line.find("]")-line.find("[")-1));
+        line.replace(line.find(old_val),old_val.length(),field->text().toStdString());
+    }
+}
+
+void MainWindow::on_save_pid_button_clicked()
+{
+    ui->save_pid_button->setEnabled(false);
+    qApp->setOverrideCursor(Qt::WaitCursor);
+    std::string line;
+    std::ifstream in_file("../config");
+    std::ofstream out_file("../config.temp");
+
+    while(in_file >> line)
+    {
+        find_swap(line,"Beam Current PID Proportional Constant Kp",ui->beam_kp_edit);
+        find_swap(line,"Beam Current PID Integral Constant Ki",ui->beam_ki_edit);
+        find_swap(line,"Beam Current PID Derivative Constant Kd",ui->beam_kd_edit);
+        find_swap(line,"Power Current PID Proportional Constant Kp",ui->power_kp_edit);
+        find_swap(line,"Power Current PID Integral Constant Ki",ui->power_ki_edit);
+        find_swap(line,"Power Current PID Derivative Constant Kd",ui->power_kd_edit);
+        find_swap(line,"Frequency Current PID Proportional Constant Kp",ui->freq_kp_edit);
+        find_swap(line,"Frequency Current PID Integral Constant Ki",ui->freq_ki_edit);
+        find_swap(line,"Frequency Current PID Derivative Constant Kd",ui->freq_kd_edit);
+        line += "\n";
+        out_file << line;
+    }
+
+    in_file.close();
+    out_file.close();
+    remove("../config");
+    rename("../config_temp","../config");
+    ui->save_pid_button->setEnabled(true);
+    qApp->restoreOverrideCursor();
 }

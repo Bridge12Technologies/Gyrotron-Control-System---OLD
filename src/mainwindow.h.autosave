@@ -70,6 +70,8 @@ private slots:
 
     void on_console_edit_returnPressed();
 
+    void on_save_pid_button_clicked();
+    
 private:
     void shutdown();
     void closeEvent (QCloseEvent *event);

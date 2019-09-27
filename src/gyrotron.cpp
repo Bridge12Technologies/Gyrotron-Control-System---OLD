@@ -29,6 +29,7 @@ int Gyrotron::extract_config()
 {
     bool ok = true;
     int i;
+    std::string temp;
 
     std::string titles[19] = {"Current PID Proportional","Current PID Integral","Current PID Derivative",
                             "Power PID Proportional","Power PID Integral","Power PID Derivative",
@@ -43,11 +44,31 @@ int Gyrotron::extract_config()
     for(i = 0; i < 12; i++) { *a_values[i] = config_get_double(titles[i],ok); }
     for(i = 0; i < 5; i++) { *values[i] = config_get_double(titles[i+12],ok); }
 
-    cath.set_enabled(config_get_bool("Cathode Enabled",ok));
-    gtc.set_enabled(config_get_bool("GTC Enabled",ok));
-    rsi.set_enabled(config_get_bool("RSI Enabled",ok));
-    spc.set_enabled(config_get_bool("SPC Enabled",ok));
-    fms.set_enabled(config_get_bool("FMS Enabled",ok));
+    std::string ser_titles[]{"Cathode Port","RSI Port"};
+    Device* ser_devs[]{&cath,&rsi};
+    std::string eth_titles[]{"GTC IP","SPC IP","FMS IP"};
+    Device* eth_devs[]{&gtc,&spc,&fms};
+
+    i = 0;
+    for(std::string title : ser_titles)
+    {
+        temp = config_get_str(title,ok);
+        if(temp == "x" || temp == "X")
+            ser_devs[i]->set_enabled(false);
+        else
+            ser_devs[i]->set_com_port("/dev/tty" + temp);
+        i++;
+    }
+    i = 0;
+    for(std::string title : eth_titles)
+    {
+        temp = config_get_str(title,ok);
+        if(temp == "x" || temp == "X")
+            eth_devs[i]->set_enabled(false);
+        else
+            eth_devs[i]->set_ip(temp);
+        i++;
+    }
 
     if(!ok) return -1;
 

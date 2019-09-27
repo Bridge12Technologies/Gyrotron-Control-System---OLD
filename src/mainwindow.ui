@@ -892,7 +892,7 @@ border-bottom-left-radius: 18px;
 }</string>
       </property>
       <property name="currentIndex">
-       <number>1</number>
+       <number>3</number>
       </property>
       <widget class="QWidget" name="control_page">
        <layout class="QGridLayout" name="gridLayout_4" rowstretch="3,1,2,2,3">
@@ -1019,7 +1019,7 @@ QFrame:disabled { background: rgb(220,220,220); }</string>
                  </font>
                 </property>
                 <property name="styleSheet">
-                 <string notr="true">QLabel{ background: none; color: white; }
+                 <string notr="true">QLabel{ background: none; color: white; border: none; }
 QLabel:disabled{ color: rgb(180,180,180); }</string>
                 </property>
                 <property name="text">
@@ -1041,7 +1041,7 @@ QLabel:disabled{ color: rgb(180,180,180); }</string>
                  </font>
                 </property>
                 <property name="styleSheet">
-                 <string notr="true">QLabel{ background: none; color: white; }
+                 <string notr="true">QLabel{ background: none; color: white; border: none; }
 QLabel:disabled{ color: rgb(180,180,180); }</string>
                 </property>
                 <property name="text">
@@ -1251,7 +1251,7 @@ border: none;
 background: white;
 border-radius: 20px;
 /*margin-top: 12px;*/
-border: 1px solid #3081BB;
+border: 1px solid rgb(220,220,220);
 }
 
 QGroupBox::title {
@@ -1265,7 +1265,7 @@ color: rgb(85, 87, 83);
 
 QGroupBox::title:disabled {
 color: rgb(180,180,180);
-}s</string>
+}</string>
           </property>
           <property name="title">
            <string>State Machine</string>
@@ -5571,7 +5571,7 @@ QPushButton:hover { background-color: rgb(66,68,65); }
 QPushButton:disabled { background-color: rgb(200,200,200); }</string>
              </property>
              <property name="text">
-              <string>SPCe</string>
+              <string>IPC</string>
              </property>
             </widget>
            </item>
@@ -6293,17 +6293,17 @@ border: none;
              </item>
              <item>
               <property name="text">
-               <string>SPCe</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>FMS</string>
+               <string>IPC</string>
               </property>
              </item>
              <item>
               <property name="text">
                <string>RSI</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>FMS</string>
               </property>
              </item>
             </widget>
@@ -6649,7 +6649,7 @@ QPushButton:disabled { background-color: rgb(200,200,200); }</string>
            <item>
             <widget class="QPushButton" name="save_pid_button">
              <property name="enabled">
-              <bool>false</bool>
+              <bool>true</bool>
              </property>
              <property name="minimumSize">
               <size>
@@ -6679,8 +6679,7 @@ QPushButton:disabled { background-color: rgb(200,200,200); }</string>
 	border-radius: 22px;
 }
 QPushButton:hover:pressed { background-color: rgb(48,49,47); }
-QPushButton:hover { background-color: rgb(66,68,65); }
-QPushButton:disabled { background-color: rgb(200,200,200); }</string>
+QPushButton:hover { background-color: rgb(66,68,65); }</string>
              </property>
              <property name="text">
               <string>SAVE PID</string>
