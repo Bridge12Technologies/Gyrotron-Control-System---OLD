@@ -699,7 +699,7 @@ color: rgb(255, 209, 86);
 QPushButton:hover:pressed {
 /*background: #9E473F;*/
 background: #DB902E;
-color: rgb(102, 85, 29);
+color: rgb(255, 209, 86);
 }</string>
             </property>
             <property name="text">
@@ -759,7 +759,7 @@ color: rgb(129, 210, 111);
 QPushButton:hover:pressed {
 background: #407527;
 /*color: rgb(28, 55, 33);*/
-color: black;
+color: rgb(129, 210, 111);
 }</string>
             </property>
             <property name="text">
@@ -768,7 +768,7 @@ color: black;
            </widget>
           </item>
           <item>
-           <spacer name="horizontalSpacer_7">
+           <spacer name="maximize_spacer">
             <property name="orientation">
              <enum>Qt::Horizontal</enum>
             </property>
@@ -821,7 +821,7 @@ color: rgb(255, 139, 139);
 QPushButton:hover:pressed {
 /*background: #9E473F;*/
 background: #B25047;
-color: rgb(94, 3, 3);
+color: rgb(255, 139, 139);
 }</string>
             </property>
             <property name="text">
@@ -3614,6 +3614,9 @@ background-position: center;
           </property>
           <item>
            <widget class="QGroupBox" name="fil_curr_group">
+            <property name="enabled">
+             <bool>true</bool>
+            </property>
             <property name="minimumSize">
              <size>
               <width>260</width>
@@ -3641,6 +3644,7 @@ background: white;
 border-radius: 20px;
 /*margin-top: 12px;*/
 border: 1px solid rgb(220,220,220);
+background-image: none;
 }
 
 QGroupBox::title {
@@ -3652,8 +3656,10 @@ top: 6px;
 color: rgb(85, 87, 83);
 }
 
-QGroupBox::title:disabled {
-color: rgb(180,180,180);
+QGroupBox:disabled {
+background-image: url(:/images/dc_icon2.png);
+background-repeat: no-repeat;
+background-position: center;
 }</string>
             </property>
             <property name="title">
@@ -3686,8 +3692,8 @@ color: rgb(180,180,180);
                 </font>
                </property>
                <property name="styleSheet">
-                <string notr="true">QLabel{ background: none; color: rgb(55,55,55); }
-QLabel:disabled{ color: rgb(180,180,180); }</string>
+                <string notr="true">QLabel{ background: transparent; color: rgb(80,80,80); }
+QLabel:disabled{ color: transparent; }</string>
                </property>
                <property name="text">
                 <string>0.00e-00</string>
@@ -3706,8 +3712,8 @@ QLabel:disabled{ color: rgb(180,180,180); }</string>
                 </font>
                </property>
                <property name="styleSheet">
-                <string notr="true">QLabel{ background: none; color: rgb(30,30,30); }
-QLabel:disabled{ color: rgb(180,180,180); }</string>
+                <string notr="true">QLabel{ background: transparent; color: rgb(30,30,30); }
+QLabel:disabled{ color: transparent; }</string>
                </property>
                <property name="text">
                 <string>A</string>
@@ -3722,6 +3728,9 @@ QLabel:disabled{ color: rgb(180,180,180); }</string>
           </item>
           <item>
            <widget class="QGroupBox" name="beam_volt_group">
+            <property name="enabled">
+             <bool>true</bool>
+            </property>
             <property name="minimumSize">
              <size>
               <width>260</width>
@@ -3749,6 +3758,7 @@ background: white;
 border-radius: 20px;
 /*margin-top: 12px;*/
 border: 1px solid rgb(220,220,220);
+background-image: none;
 }
 
 QGroupBox::title {
@@ -3760,8 +3770,10 @@ top: 6px;
 color: rgb(85, 87, 83);
 }
 
-QGroupBox::title:disabled {
-color: rgb(180,180,180);
+QGroupBox:disabled {
+background-image: url(:/images/dc_icon2.png);
+background-repeat: no-repeat;
+background-position: center;
 }</string>
             </property>
             <property name="title">
@@ -3794,8 +3806,8 @@ color: rgb(180,180,180);
                 </font>
                </property>
                <property name="styleSheet">
-                <string notr="true">QLabel{ background: none; color: rgb(55,55,55); }
-QLabel:disabled{ color: rgb(180,180,180); }</string>
+                <string notr="true">QLabel{ background: transparent; color: rgb(80,80,80); }
+QLabel:disabled{ color: transparent; }</string>
                </property>
                <property name="text">
                 <string>0.00e-00</string>
@@ -3814,8 +3826,8 @@ QLabel:disabled{ color: rgb(180,180,180); }</string>
                 </font>
                </property>
                <property name="styleSheet">
-                <string notr="true">QLabel{ background: none; color: rgb(30,30,30); }
-QLabel:disabled{ color: rgb(180,180,180); }</string>
+                <string notr="true">QLabel{ background: transparent; color: rgb(30,30,30); }
+QLabel:disabled{ color: transparent; }</string>
                </property>
                <property name="text">
                 <string>kV</string>
@@ -3859,6 +3871,7 @@ background: white;
 border-radius: 20px;
 /*margin-top: 12px;*/
 border: 1px solid rgb(220,220,220);
+background-image: none;
 }
 
 QGroupBox::title {
@@ -3870,8 +3883,10 @@ top: 6px;
 color: rgb(85, 87, 83);
 }
 
-QGroupBox::title:disabled {
-color: rgb(180,180,180);
+QGroupBox:disabled {
+background-image: url(:/images/dc_icon2.png);
+background-repeat: no-repeat;
+background-position: center;
 }</string>
             </property>
             <property name="title">
@@ -3916,8 +3931,8 @@ color: rgb(180,180,180);
                 </font>
                </property>
                <property name="styleSheet">
-                <string notr="true">QLabel{ background: none; color: rgb(55,55,55); }
-QLabel:disabled{ color: rgb(180,180,180); }</string>
+                <string notr="true">QLabel{ background: transparent; color: rgb(80,80,80); }
+QLabel:disabled{ color: transparent; }</string>
                </property>
                <property name="text">
                 <string>0.00e-00</string>
@@ -3936,8 +3951,8 @@ QLabel:disabled{ color: rgb(180,180,180); }</string>
                 </font>
                </property>
                <property name="styleSheet">
-                <string notr="true">QLabel{ background: none; color: rgb(30,30,30); }
-QLabel:disabled{ color: rgb(180,180,180); }</string>
+                <string notr="true">QLabel{ background: transparent; color: rgb(30,30,30); }
+QLabel:disabled{ color: transparent; }</string>
                </property>
                <property name="text">
                 <string>Torr</string>
@@ -4436,7 +4451,7 @@ color: rgb(180,180,180);
             <number>18</number>
            </property>
            <property name="topMargin">
-            <number>23</number>
+            <number>35</number>
            </property>
            <property name="rightMargin">
             <number>18</number>
@@ -4448,10 +4463,10 @@ color: rgb(180,180,180);
             <widget class="QListWidget" name="fault_list">
              <property name="font">
               <font>
-               <family>Open Sans</family>
+               <family>Open Sans SemiBold</family>
                <pointsize>12</pointsize>
-               <weight>75</weight>
-               <bold>true</bold>
+               <weight>50</weight>
+               <bold>false</bold>
               </font>
              </property>
              <property name="styleSheet">
@@ -4465,7 +4480,8 @@ background-repeat: no-repeat;
 QListWidget::item {
 background: white;
 border: none;
-color: rgb(30,30,30);
+color: rgb(80,80,80);
+font-size: 12pt;
 }</string>
              </property>
              <property name="frameShadow">
@@ -4488,6 +4504,24 @@ color: rgb(30,30,30);
              </property>
              <property name="selectionBehavior">
               <enum>QAbstractItemView::SelectRows</enum>
+             </property>
+             <property name="iconSize">
+              <size>
+               <width>32</width>
+               <height>32</height>
+              </size>
+             </property>
+             <property name="verticalScrollMode">
+              <enum>QAbstractItemView::ScrollPerPixel</enum>
+             </property>
+             <property name="horizontalScrollMode">
+              <enum>QAbstractItemView::ScrollPerPixel</enum>
+             </property>
+             <property name="spacing">
+              <number>10</number>
+             </property>
+             <property name="selectionRectVisible">
+              <bool>false</bool>
              </property>
              <property name="itemAlignment">
               <set>Qt::AlignCenter</set>
@@ -4543,7 +4577,7 @@ color: rgb(180,180,180);
             <number>16</number>
            </property>
            <property name="topMargin">
-            <number>32</number>
+            <number>35</number>
            </property>
            <property name="rightMargin">
             <number>0</number>

@@ -3,8 +3,6 @@
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),ui(new Ui::MainWindow)
 {
-    gyro.gui_debug_mode = true; // if true this will disable the backend
-
     ui->setupUi(this);
     setWindowFlags(Qt::Window | Qt::FramelessWindowHint);
 
@@ -57,10 +55,19 @@ void MainWindow::init_gui()
 
     init_plots();
 
+    QPalette palette;
+    palette.setColor(QPalette::Highlight, ui->fault_list->palette().color(QPalette::Base));
+    palette.setColor(QPalette::HighlightedText, ui->fault_list->palette().color(QPalette::Text));
+    ui->fault_list->setPalette(palette);
+    ui->fault_list->setViewMode(QListView::ListMode);
+
     connect(&blink_timer, SIGNAL(timeout()), this, SLOT(blink_status())); // enable faults blink effect
 
-    connect(&data_timer, SIGNAL(timeout()), this, SLOT(realtime_slot())); // enable the realtime slot
-    data_timer.start(0); // start timer to begin calling realtime_slot repeatedly
+    if(!gyro.gui_debug_mode)
+    {
+        connect(&data_timer, SIGNAL(timeout()), this, SLOT(realtime_slot())); // enable the realtime slot
+        data_timer.start(0); // start timer to begin calling realtime_slot repeatedly
+    }
 }
 
 void MainWindow::init_plots()
@@ -70,6 +77,13 @@ void MainWindow::init_plots()
     ui->press_plot->axisRect()->setMarginGroup(QCP::msLeft|QCP::msRight, group);
     ui->beam_plot->axisRect()->setMarginGroup(QCP::msLeft|QCP::msRight, group);
     ui->power_plot->axisRect()->setMarginGroup(QCP::msLeft|QCP::msRight, group);
+
+    ui->press_plot->setContextMenuPolicy(Qt::CustomContextMenu);
+    ui->beam_plot->setContextMenuPolicy(Qt::CustomContextMenu);
+    ui->power_plot->setContextMenuPolicy(Qt::CustomContextMenu);
+    connect(ui->press_plot, SIGNAL(customContextMenuRequested(const QPoint &)), this, SLOT(press_context_menu(const QPoint &)));
+    connect(ui->beam_plot, SIGNAL(customContextMenuRequested(const QPoint &)), this, SLOT(beam_context_menu(const QPoint &)));
+    connect(ui->power_plot, SIGNAL(customContextMenuRequested(const QPoint &)), this, SLOT(power_context_menu(const QPoint &)));
 
     ui->press_plot->setBackground(QBrush(Qt::white));
     ui->press_plot->axisRect()->setBackground(Qt::white);
@@ -462,7 +476,7 @@ void MainWindow::detect_state_change(bool manual_update)
     last_known_state = current_state;
 }
 
-void MainWindow::update_plots(double pressure)
+void MainWindow::update_plots()
 {
     double beam_max, beam_min, beam_max_bound, beam_min_bound;
     double press_max, press_min, press_max_bound, press_min_bound;
@@ -476,13 +490,22 @@ void MainWindow::update_plots(double pressure)
     QVector<double> power_time_data = QVector<double>::fromStdVector(gyro.get_power_time_data());
 
     // update plot labels
-    press_plot_label->setText(QString::number(pressure) + QString(" Torr"));
-    beam_plot_label->setText(QString::number(gyro.get_beam_curr(),'f',2) + QString(" mA"));
-    power_plot_label->setText(QString::number(gyro.get_power()) + QString(" W"));
+    if(gyro.spc_available())
+        press_plot_label->setText(QString::number(gyro.get_pressure()) + QString(" Torr"));
+    else
+        press_plot_label->setText("D/C");
+    if(gyro.cath_available())
+        beam_plot_label->setText(QString::number(gyro.get_beam_curr(),'f',2) + QString(" mA"));
+    else
+        beam_plot_label->setText("D/C");
+    if(gyro.rsi_available())
+        power_plot_label->setText(QString::number(gyro.get_power()) + QString(" W"));
+    else
+        power_plot_label->setText("D/C");
 
     // update beam plot, with bounds being nearest multiple of 5 above/below
-    ui->beam_plot->graph(0)->setData(time_data, beam_data, true);
-    ui->beam_plot->graph(1)->setData(beam_time_data, beam_sp_data, true);
+    ui->beam_plot->graph(0)->setData(beam_time_data, beam_data, true);
+    //ui->beam_plot->graph(1)->setData(beam_time_data, beam_sp_data, true);
     ui->beam_plot->xAxis->setRange(key, plot_span, Qt::AlignRight);
     if(resize_tracker == 0)
     {
@@ -499,7 +522,7 @@ void MainWindow::update_plots(double pressure)
     }
 
     // update pressure plot, with upper bound being nearest decade above/below
-    ui->press_plot->graph(0)->setData(time_data, press_data, true);
+    ui->press_plot->graph(0)->setData(press_time_data, press_data, true);
     ui->press_plot->xAxis->setRange(key, plot_span, Qt::AlignRight);
     if(resize_tracker == 1)
     {
@@ -513,8 +536,8 @@ void MainWindow::update_plots(double pressure)
     }
 
     // update power plot, with bounds being nearest quarter watt above/below
-    ui->power_plot->graph(0)->setData(time_data, power_data, true);
-    ui->power_plot->graph(1)->setData(power_time_data, power_sp_data, true);
+    ui->power_plot->graph(0)->setData(power_time_data, power_data, true);
+    //ui->power_plot->graph(1)->setData(power_time_data, power_sp_data, true);
     ui->power_plot->xAxis->setRange(key, plot_span, Qt::AlignRight);
     if(resize_tracker == 2)
     {
@@ -536,6 +559,12 @@ void MainWindow::update_plots(double pressure)
     }
 }
 
+void MainWindow::refresh()
+{
+    qApp->processEvents();
+    //while(holding_mouse) qApp->processEvents();
+}
+
 void MainWindow::realtime_slot()
 {
     static QTime timer(QTime::currentTime()); // setup loop timer
@@ -544,24 +573,15 @@ void MainWindow::realtime_slot()
 
     if (key-last_key > refresh_rate) // frequency of reiteration is refresh_rate in seconds
     {
-        double pressure = gyro.get_pressure();
-        check_connections(); // check device connection and enable/disable features accordingly
-        qApp->processEvents();
-        detect_state_change(); // apply stylesheet changes based on state
-        qApp->processEvents();
-        for(auto field : smart_edits) { field->update(); } // update smart line edits
-        qApp->processEvents();
-        update_labels(pressure);
-        qApp->processEvents();
-        update_indicators();
-        qApp->processEvents();
-        if(ui->stackedWidget->currentIndex() == 1) update_plots(pressure);
-        qApp->processEvents();
-        ui->log_box->append(QString::fromStdString(gyro.get_event_history())); // update log stream
-        qApp->processEvents();
-        update_faults();
-        qApp->processEvents();
-        update_pid_display();
+        check_connections(); refresh();
+        detect_state_change(); refresh();
+        for(auto field : smart_edits) { field->update(); } refresh();
+        update_labels(); refresh();
+        update_indicators(); refresh();
+        if(ui->stackedWidget->currentIndex() == 1) { update_plots(); } refresh();
+        ui->log_box->append(QString::fromStdString(gyro.get_event_history())); refresh();
+        update_faults(); refresh();
+        update_pid_display(); refresh();
         last_key = key;
     }
 }
@@ -578,7 +598,7 @@ void MainWindow::update_pid_display()
     }
 }
 
-bool lists_equal(std::vector<QListWidgetItem*> list1, std::vector<QListWidgetItem*> list2)
+bool MainWindow::lists_equal(std::vector<QListWidgetItem*> list1, std::vector<QListWidgetItem*> list2)
 {
     if(list1.size() == 0 || list2.size() == 0 || list1.size() != list2.size())
         return false;
@@ -592,8 +612,8 @@ bool lists_equal(std::vector<QListWidgetItem*> list1, std::vector<QListWidgetIte
 
 void MainWindow::update_faults()
 {
-    std::vector<std::string> warnings = gyro.get_sys_warnings();
-    std::vector<std::string> errors = gyro.get_sys_errors();
+    std::vector<std::string> warnings = gyro.get_warnings();
+    std::vector<std::string> errors = gyro.get_errors();
     int fault_status = gyro.get_fault_status();
     std::vector<QListWidgetItem*> temp_fault_items;
 
@@ -623,42 +643,48 @@ void MainWindow::update_faults()
     }
     else
     {
-        if(fault_status != last_fault_status)
-        {
+        if(fault_status < 0)
             ui->fault_list->setStyleSheet(faults_list);
-        }
+
         for(auto error : errors) {
-            temp_fault_items.push_back(new QListWidgetItem(error_icon, QString::fromStdString(error), ui->fault_list));
+            temp_fault_items.push_back(new QListWidgetItem(error_icon, QString("     ") + QString::fromStdString(error), ui->fault_list));
             //ui->fault_list->addItem(fault_list_items.back());
         }
         for(auto warning : warnings) {
-            temp_fault_items.push_back(new QListWidgetItem(warning_icon, QString::fromStdString(warning), ui->fault_list));
+            temp_fault_items.push_back(new QListWidgetItem(warning_icon, QString("     ") + QString::fromStdString(warning), ui->fault_list));
             //ui->fault_list->addItem(fault_list_items.back());
         }
-        if(!lists_equal(temp_fault_items,fault_list_items))
-        {
-            ui->fault_list->clear();
-            fault_list_items = temp_fault_items;
-            for(auto item : temp_fault_items) { ui->fault_list->addItem(item); }
-        }
+        //if(!lists_equal(temp_fault_items,fault_list_items))
+        //{
+            //ui->fault_list->clear();
+            //fault_list_items = temp_fault_items;
+            //for(auto item : temp_fault_items) { ui->fault_list->addItem(item); }
+        //}
+        //if(ui->fault_list->count() > 0) ui->fault_list->clear();
+        while(ui->fault_list->count() > 0) ui->fault_list->takeItem(0);
+        fault_list_items = temp_fault_items;
+        for(auto item : temp_fault_items) { ui->fault_list->addItem(item); }
     }
     last_fault_status = fault_status;
+    //for(auto ptr : temp_fault_items) delete ptr;
 }
 
 void MainWindow::update_indicators()
 {
-    // update status bubbles and pressure group box
-    switch(gyro.get_temp_status())
+    if(gyro.rsi_available())
     {
-    case 0: ui->temp_indicator->setStyleSheet(green_status_bubble); ui->temp_status->setText("OK"); break;
-    case -1: ui->temp_indicator->setStyleSheet(yellow_status_bubble); ui->temp_status->setText("WARN"); break;
-    case -2: ui->temp_indicator->setStyleSheet(red_status_bubble); ui->temp_status->setText("HIGH!"); break;
-    }
-    switch(gyro.get_flow_status())
-    {
-    case 0: ui->flow_indicator->setStyleSheet(green_status_bubble); ui->flow_status->setText("OK"); break;
-    case -1: ui->flow_indicator->setStyleSheet(yellow_status_bubble); ui->flow_status->setText("WARN"); break;
-    case -2: ui->flow_indicator->setStyleSheet(red_status_bubble); ui->flow_status->setText("LOW!"); break;
+        switch(gyro.get_temp_status())
+        {
+        case 0: ui->temp_indicator->setStyleSheet(green_status_bubble); ui->temp_status->setText("OK"); break;
+        case -1: ui->temp_indicator->setStyleSheet(yellow_status_bubble); ui->temp_status->setText("WARN"); break;
+        case -2: ui->temp_indicator->setStyleSheet(red_status_bubble); ui->temp_status->setText("HIGH!"); break;
+        }
+        switch(gyro.get_flow_status())
+        {
+        case 0: ui->flow_indicator->setStyleSheet(green_status_bubble); ui->flow_status->setText("OK"); break;
+        case -1: ui->flow_indicator->setStyleSheet(yellow_status_bubble); ui->flow_status->setText("WARN"); break;
+        case -2: ui->flow_indicator->setStyleSheet(red_status_bubble); ui->flow_status->setText("LOW!"); break;
+        }
     }
     switch(gyro.get_fault_status())
     {
@@ -666,22 +692,38 @@ void MainWindow::update_indicators()
     case -1: ui->faults_indicator->setStyleSheet(yellow_status_bubble); ui->fault_status->setText("WARN ×" + QString::number(gyro.get_num_warnings())); break;
     case -2: ui->faults_indicator->setStyleSheet(red_status_bubble); ui->fault_status->setText("ERR ×" + QString::number(gyro.get_num_errors())); break;
     }
-    switch(gyro.get_press_status())
+    if(gyro.spc_available())
     {
-    case 0: ui->press_group->setStyleSheet(group_style); ui->press_group->setTitle("Pressure"); break;
-    case -1: ui->press_group->setStyleSheet(warn_group_style); ui->press_group->setTitle("Pressure (RELAXATION IN PROGRESS)"); break;
-    case -2: ui->press_group->setStyleSheet(err_group_style); ui->press_group->setTitle("Pressure (FATAL)"); break;
+        switch(gyro.get_press_status())
+        {
+        case 0: ui->press_group->setStyleSheet(group_style); ui->press_group->setTitle("Pressure"); break;
+        case -1: ui->press_group->setStyleSheet(warn_group_style); ui->press_group->setTitle("Pressure (RELAXATION IN PROGRESS)"); break;
+        case -2: ui->press_group->setStyleSheet(err_group_style); ui->press_group->setTitle("Pressure (FATAL)"); break;
+        }
     }
 }
 
-void MainWindow::update_labels(double pressure)
+void MainWindow::update_labels()
 {
-    ui->press_label->setText(QString::number(pressure));
-    ui->collector_read->setText(QString::number(gyro.get_collector_curr()));
-    ui->body_read->setText(QString::number(gyro.get_body_curr()));
-    ui->fil_curr_label->setText(QString::number(gyro.get_fil_curr()));
-    ui->beam_volt_label->setText(QString::number(gyro.get_beam_volt()));
-    ui->freq_label->setText(QString::number(gyro.get_freq()));
+    if(gyro.spc_available())
+        ui->press_label->setText(QString::number(gyro.get_pressure()));
+    if(gyro.rsi_available())
+    {
+        ui->collector_read->setText(QString::number(gyro.get_collector_curr()));
+        ui->body_read->setText(QString::number(gyro.get_body_curr()));
+    }
+    else
+    {
+        ui->collector_read->setText("N/A");
+        ui->body_read->setText("N/A");
+    }
+    if(gyro.cath_available())
+    {
+        ui->fil_curr_label->setText(QString::number(gyro.get_fil_curr()));
+        ui->beam_volt_label->setText(QString::number(gyro.get_beam_volt()));
+    }
+    if(gyro.fms_available())
+        ui->freq_label->setText(QString::number(gyro.get_freq()));
 }
 
 void MainWindow::check_connections()
@@ -689,6 +731,8 @@ void MainWindow::check_connections()
     if(gyro.cath_is_connected() && gyro.cath_is_enabled())
     {
         ui->cathode_group->setEnabled(true);
+        ui->fil_curr_group->setEnabled(true);
+        ui->beam_volt_group->setEnabled(true);
         ui->fil_curr_button->setVisible(true);
         ui->beam_volt_button->setVisible(true);
         ui->beam_curr_button->setVisible(true);
@@ -696,6 +740,8 @@ void MainWindow::check_connections()
     else
     {
         ui->cathode_group->setEnabled(false);
+        ui->fil_curr_group->setEnabled(false);
+        ui->beam_volt_group->setEnabled(false);
         ui->fil_curr_button->setVisible(false);
         ui->beam_volt_button->setVisible(false);
         ui->beam_curr_button->setVisible(false);
@@ -738,11 +784,13 @@ void MainWindow::check_connections()
     }
     if(gyro.fms_is_connected() && gyro.fms_is_enabled())
     {
+        ui->fms_group->setEnabled(true);
         ui->freq_group->setEnabled(true);
         ui->freq_button->setVisible(true);
     }
     else
     {
+        ui->fms_group->setEnabled(false);
         ui->freq_group->setEnabled(false);
         ui->freq_button->setVisible(false);
     }
@@ -1041,6 +1089,7 @@ void MainWindow::mouseMoveEvent(QMouseEvent *evt)
     const QPoint delta = evt->globalPos() - oldPos;
     if(!window_locked) move(x()+delta.x(), y()+delta.y());
     oldPos = evt->globalPos();
+    QCoreApplication::processEvents(QEventLoop::ExcludeUserInputEvents);
 }
 
 bool MainWindow::eventFilter(QObject *obj, QEvent *event)
@@ -1078,7 +1127,7 @@ void MainWindow::on_time_span_slider_valueChanged(int value)
     if(secs > 0)
     {
         gyro.set_plot_span(secs);
-        update_plots(gyro.get_pressure());
+        update_plots();
         ui->time_span_group->setTitle("Time Span: " + str);
     }
 }
@@ -1384,3 +1433,32 @@ void MainWindow::on_save_pid_button_clicked()
     ui->save_pid_button->setEnabled(true);
     qApp->restoreOverrideCursor();
 }
+
+void MainWindow::clear_press_data() { gyro.clear_press_data(); }
+void MainWindow::clear_beam_data() { gyro.clear_beam_data(); }
+void MainWindow::clear_power_data() { gyro.clear_power_data(); }
+
+void MainWindow::press_context_menu(const QPoint &pos)
+{
+    QMenu contextMenu;
+    contextMenu.addAction("Clear Pressure Data", this, SLOT(clear_press_data()));
+    contextMenu.exec(QCursor::pos());
+    (void)pos;
+}
+
+void MainWindow::beam_context_menu(const QPoint &pos)
+{
+    QMenu contextMenu;
+    contextMenu.addAction("Clear Beam Data", this, SLOT(clear_beam_data()));
+    contextMenu.exec(QCursor::pos());
+    (void)pos;
+}
+
+void MainWindow::power_context_menu(const QPoint &pos)
+{
+    QMenu contextMenu;
+    contextMenu.addAction("Clear Power Data", this, SLOT(clear_power_data()));
+    contextMenu.exec(QCursor::pos());
+    (void)pos;
+}
+

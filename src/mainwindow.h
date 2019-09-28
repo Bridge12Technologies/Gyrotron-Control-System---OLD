@@ -47,11 +47,11 @@ private slots:
     void on_freq_kd_button_clicked();
     void on_close_button_clicked();
     void on_minimize_button_clicked();
+    void on_maximize_button_clicked();
     void on_control_tab_clicked();
     void on_plot_tab_clicked();
     void on_admin_tab_clicked();
     void on_status_tab_clicked();
-    void on_maximize_button_clicked();
     void on_time_span_slider_valueChanged(int value);
     void on_ramp_rate_slider_valueChanged(int value);
     void on_log_rate_slider_valueChanged(int value);
@@ -70,6 +70,12 @@ private slots:
     void on_console_edit_returnPressed();
     void on_save_pid_button_clicked();
     void blink_status();
+    void press_context_menu(const QPoint &pos);
+    void clear_press_data();
+    void beam_context_menu(const QPoint &pos);
+    void clear_beam_data();
+    void power_context_menu(const QPoint &pos);
+    void clear_power_data();
 
 private:
     void shutdown();
@@ -83,15 +89,17 @@ private:
     void soft_kill();
     void set_state_transition(double percent);
     bool valid_check(QString qstr, double max_val, double min_val = 0);
-    void detect_state_change(bool manual_update = false);
-    void update_plots(double pressure);
+    void detect_state_change(bool manual_update = false); // apply stylesheet changes based on state
+    void update_plots();
     void check_connections(); // check device connection and PID status then enable/disable groups/buttons accordingly
     void console_print(QString qstr);
-    void update_labels(double pressure);
+    void update_labels();
     void update_indicators();
     void update_faults();
     void update_pid_display();
     void set_blink_enabled(bool enable);
+    bool lists_equal(std::vector<QListWidgetItem*> list1, std::vector<QListWidgetItem*> list2);
+    void refresh();
 
     Ui::MainWindow *ui;
     Face gui{this};
@@ -109,8 +117,8 @@ private:
 
     std::vector<QListWidgetItem*> fault_list_items;
 
-    QIcon warning_icon{"images/warning_yellow.png"};
-    QIcon error_icon{"images/error_red.png"};
+    QIcon warning_icon{":/images/warning_yellow.png"};
+    QIcon error_icon{":/images/error_red.png"};
 
     QString tab_selected{"QPushButton{color: rgb(85,87,83); border: none; background: rgb(240,240,240);}"};
     QString tab_unselected{"QPushButton { color: rgb(85,87,83); border: none; background: rgb(220,220,220); }"
@@ -156,9 +164,6 @@ private:
     double time_span{900}; // default 15 mins (in sync with gyrotron default)
 
     QCPItemText *press_plot_label, *beam_plot_label, *power_plot_label, *power_plot_label2;
-
-    QVector<double> press_data, time_data, beam_data, power_sp_data, power_time_data, beam_sp_data, beam_time_data, power_data;
-    std::vector<double> power_array;
 
 protected:
     bool eventFilter(QObject *object, QEvent *event);

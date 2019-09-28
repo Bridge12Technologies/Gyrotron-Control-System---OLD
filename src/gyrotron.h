@@ -69,6 +69,12 @@ public:
     bool spc_is_connected() { return spc.is_connected(); }
     bool rsi_is_connected() { return rsi.is_connected(); }
     bool fms_is_connected() { return fms.is_connected(); }
+    bool cath_available() { return (cath.is_enabled() && cath.is_connected()); }
+    bool gtc_available() { return (gtc.is_enabled() && gtc.is_connected()); }
+    bool spc_available() { return (spc.is_enabled() && spc.is_connected()); }
+    bool rsi_available() { return (rsi.is_enabled() && rsi.is_connected()); }
+    bool fms_available() { return (fms.is_enabled() && fms.is_connected()); }
+
     bool beam_pid_is_on() { return beam_pid_on; }
     bool power_pid_is_on() { return power_pid_on; }
     bool freq_pid_is_on() { return freq_pid_on; }
@@ -102,12 +108,17 @@ public:
     void get_fpid_consts(double& p, double& i, double& d);
     double get_ramp_time() { return ramp_time; }
     double get_ramp_sp() { return ramp_sp; }
+
     std::vector<double> get_press_data() { std::lock_guard<std::mutex> lock(press_m); return press_data; }
     std::vector<double> get_press_time_data() { std::lock_guard<std::mutex> lock(press_m); return press_time_data; }
     std::vector<double> get_beam_data() { std::lock_guard<std::mutex> lock(beam_m); return beam_data; }
     std::vector<double> get_beam_time_data() { std::lock_guard<std::mutex> lock(beam_m); return beam_time_data; }
     std::vector<double> get_power_data() { std::lock_guard<std::mutex> lock(power_m); return power_data; }
     std::vector<double> get_power_time_data() { std::lock_guard<std::mutex> lock(power_m); return power_time_data; }
+    void clear_press_data() { std::lock_guard<std::mutex> lock(press_m); press_data.clear(); press_time_data.clear(); }
+    void clear_beam_data() { std::lock_guard<std::mutex> lock(beam_m); beam_data.clear(); beam_time_data.clear(); }
+    void clear_power_data() { std::lock_guard<std::mutex> lock(power_m); power_data.clear(); power_time_data.clear(); }
+
     std::vector<std::string> get_warnings();
     std::vector<std::string> get_errors();
     unsigned int get_num_warnings() { return unsigned(get_warnings().size()); }
@@ -166,7 +177,7 @@ public:
     std::string rsi_io(std::string cmd) { return rsi.m_io(cmd); }
     std::string fms_io(std::string cmd) { return fms.m_io(cmd); }
 
-    bool gui_debug_mode{false};
+    bool gui_debug_mode{true}; // SET TRUE TO DISABLE BACKEND
 
     // ************* MANY CONSTANTS STILL TBD ********************
 
