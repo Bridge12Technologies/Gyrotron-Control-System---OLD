@@ -486,8 +486,10 @@ void MainWindow::update_plots()
     QVector<double> press_data = QVector<double>::fromStdVector(gyro.get_press_data());
     QVector<double> press_time_data = QVector<double>::fromStdVector(gyro.get_press_time_data());
     QVector<double> beam_data = QVector<double>::fromStdVector(gyro.get_beam_data());
+    QVector<double> beam_sp_data = QVector<double>::fromStdVector(gyro.get_beam_sp_data());
     QVector<double> beam_time_data = QVector<double>::fromStdVector(gyro.get_beam_time_data());
     QVector<double> power_data = QVector<double>::fromStdVector(gyro.get_power_data());
+    QVector<double> power_sp_data = QVector<double>::fromStdVector(gyro.get_power_sp_data());
     QVector<double> power_time_data = QVector<double>::fromStdVector(gyro.get_power_time_data());
 
     // update plot labels
@@ -506,7 +508,7 @@ void MainWindow::update_plots()
 
     // update beam plot, with bounds being nearest multiple of 5 above/below
     ui->beam_plot->graph(0)->setData(beam_time_data, beam_data, true);
-    //ui->beam_plot->graph(1)->setData(beam_time_data, beam_sp_data, true);
+    ui->beam_plot->graph(1)->setData(beam_time_data, beam_sp_data, true);
     ui->beam_plot->xAxis->setRange(key, plot_span, Qt::AlignRight);
     if(resize_tracker == 0)
     {
@@ -538,7 +540,7 @@ void MainWindow::update_plots()
 
     // update power plot, with bounds being nearest quarter watt above/below
     ui->power_plot->graph(0)->setData(power_time_data, power_data, true);
-    //ui->power_plot->graph(1)->setData(power_time_data, power_sp_data, true);
+    ui->power_plot->graph(1)->setData(power_time_data, power_sp_data, true);
     ui->power_plot->xAxis->setRange(key, plot_span, Qt::AlignRight);
     if(resize_tracker == 2)
     {
@@ -560,12 +562,6 @@ void MainWindow::update_plots()
     }
 }
 
-void MainWindow::refresh()
-{
-    qApp->processEvents();
-    //while(holding_mouse) qApp->processEvents();
-}
-
 void MainWindow::realtime_slot()
 {
     static QTime timer(QTime::currentTime()); // setup loop timer
@@ -574,15 +570,15 @@ void MainWindow::realtime_slot()
 
     if (key-last_key > refresh_rate) // frequency of reiteration is refresh_rate in seconds
     {
-        check_connections(); refresh();
-        detect_state_change(); refresh();
-        for(auto field : smart_edits) { field->update(); } refresh();
-        update_labels(); refresh();
-        update_indicators(); refresh();
-        if(ui->stackedWidget->currentIndex() == 1) { update_plots(); } refresh();
-        ui->log_box->append(QString::fromStdString(gyro.get_event_history())); refresh();
-        update_faults(); refresh();
-        update_pid_display(); refresh();
+        check_connections(); qApp->processEvents();
+        detect_state_change(); qApp->processEvents();
+        for(auto field : smart_edits) { field->update(); } qApp->processEvents();
+        update_labels(); qApp->processEvents();
+        update_indicators(); qApp->processEvents();
+        if(ui->stackedWidget->currentIndex() == 1) { update_plots(); } qApp->processEvents();
+        ui->log_box->append(QString::fromStdString(gyro.get_event_history())); qApp->processEvents();
+        update_faults(); qApp->processEvents();
+        update_pid_display(); qApp->processEvents();
         last_key = key;
     }
 }
@@ -1044,14 +1040,6 @@ void MainWindow::on_gtc_volt_button_clicked()
     }
 }
 
-void MainWindow::on_close_button_clicked() { this->close(); }
-void MainWindow::on_minimize_button_clicked() { this->showMinimized(); }
-void MainWindow::on_maximize_button_clicked()
-{
-    if(is_maximized) { this->showNormal(); is_maximized = false; ui->state_group->setStyleSheet(state_group_min); }
-    else { this->showMaximized(); is_maximized = true; ui->state_group->setStyleSheet(state_group_max); }
-}
-
 void MainWindow::on_control_tab_clicked()
 {
     ui->control_tab->setStyleSheet(tab_selected);
@@ -1461,6 +1449,34 @@ void MainWindow::power_context_menu(const QPoint &pos)
     (void)pos;
 }
 
+void MainWindow::update_margins()
+{
+    if(!this->isMaximized())
+    {
+        ui->state_group->setStyleSheet(state_group_min);
+        ui->control_page->layout()->setSpacing(20);
+        ui->control_page->layout()->setContentsMargins(25,25,25,25);
+        ui->plot_page->layout()->setSpacing(20);
+        ui->plot_page->layout()->setContentsMargins(25,25,25,25);
+        ui->status_page->layout()->setSpacing(20);
+        ui->status_page->layout()->setContentsMargins(25,25,25,25);
+        ui->admin_page->layout()->setSpacing(20);
+        ui->admin_page->layout()->setContentsMargins(25,25,25,25);
+    }
+    else
+    {
+        ui->state_group->setStyleSheet(state_group_max);
+        ui->control_page->layout()->setSpacing(50);
+        ui->control_page->layout()->setContentsMargins(50,50,50,50);
+        ui->plot_page->layout()->setSpacing(50);
+        ui->plot_page->layout()->setContentsMargins(50,50,50,50);
+        ui->status_page->layout()->setSpacing(50);
+        ui->status_page->layout()->setContentsMargins(50,50,50,50);
+        ui->admin_page->layout()->setSpacing(50);
+        ui->admin_page->layout()->setContentsMargins(50,50,50,50);
+    }
+}
+
 void MainWindow::mousePressEvent(QMouseEvent *evt)
 {
     oldPos = evt->globalPos();
@@ -1470,4 +1486,15 @@ void MainWindow::mouseMoveEvent(QMouseEvent *evt)
     const QPoint delta = evt->globalPos() - oldPos;
     if(!window_locked) move(x()+delta.x(), y()+delta.y());
     oldPos = evt->globalPos();
+}
+void MainWindow::resizeEvent(QResizeEvent* evt)
+{ QMainWindow::resizeEvent(evt); update_margins(); }
+
+void MainWindow::on_close_button_clicked() { this->close(); }
+void MainWindow::on_minimize_button_clicked() { this->showMinimized(); }
+void MainWindow::on_maximize_button_clicked()
+{
+    if(this->isMaximized()) this->showNormal();
+    else this->showMaximized();
+    update_margins();
 }

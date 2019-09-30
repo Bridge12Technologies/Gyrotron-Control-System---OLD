@@ -102,7 +102,7 @@ private:
     void update_pid_display();
     void set_blink_enabled(bool enable);
     bool lists_equal(std::vector<QListWidgetItem*> list1, std::vector<QListWidgetItem*> list2);
-    void refresh();
+    void update_margins();
 
     Ui::MainWindow *ui;
     Face gui{this};
@@ -114,7 +114,7 @@ private:
     QPoint oldPos;
     std::vector<SmartLineEdit*> smart_edits;
     int last_known_state{0}, last_fault_status{0}, resize_tracker{0};
-    bool window_locked{false}, is_maximized{false};
+    bool window_locked{false};
     std::atomic<bool> cath_recon_blocked{false}, gtc_recon_blocked{false}, spc_recon_blocked{false};
     std::atomic<bool> rsi_recon_blocked{false}, fms_recon_blocked{false}, all_recon_blocked{false};
 
@@ -179,6 +179,7 @@ protected:
     bool eventFilter(QObject *object, QEvent *event);
     void mousePressEvent(QMouseEvent *evt);
     void mouseMoveEvent(QMouseEvent *evt);
+    void resizeEvent(QResizeEvent* evt);
 };
 
 #endif // MAINWINDOW_H

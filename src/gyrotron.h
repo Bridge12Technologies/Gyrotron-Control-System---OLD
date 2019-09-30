@@ -6,6 +6,7 @@
 #include <unistd.h>
 #include <math.h>
 #include <iomanip> // used to set precision of a number in string stream
+#include <limits> // for NaN
 #include "lib/spine/spine.h"
 #include "lib/pid.h"
 
@@ -112,8 +113,10 @@ public:
     std::vector<double> get_press_data() { std::lock_guard<std::mutex> lock(press_m); return press_data; }
     std::vector<double> get_press_time_data() { std::lock_guard<std::mutex> lock(press_m); return press_time_data; }
     std::vector<double> get_beam_data() { std::lock_guard<std::mutex> lock(beam_m); return beam_data; }
+    std::vector<double> get_beam_sp_data() { std::lock_guard<std::mutex> lock(beam_m); return beam_sp_data; }
     std::vector<double> get_beam_time_data() { std::lock_guard<std::mutex> lock(beam_m); return beam_time_data; }
     std::vector<double> get_power_data() { std::lock_guard<std::mutex> lock(power_m); return power_data; }
+    std::vector<double> get_power_sp_data() { std::lock_guard<std::mutex> lock(power_m); return power_sp_data; }
     std::vector<double> get_power_time_data() { std::lock_guard<std::mutex> lock(power_m); return power_time_data; }
     void clear_press_data() { std::lock_guard<std::mutex> lock(press_m); press_data.clear(); press_time_data.clear(); }
     void clear_beam_data() { std::lock_guard<std::mutex> lock(beam_m); beam_data.clear(); beam_time_data.clear(); }

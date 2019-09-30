@@ -133,10 +133,13 @@ void Gyrotron::query_cath()
         cath.warning_m()->unlock(); 
         cath.error_m()->unlock();
         beam_m.lock();
-        // add in plotting vector management here
+
         beam_time_data.push_back(runtime());
         beam_data.push_back(beam_curr);
-        beam_sp_data.push_back(beam_curr_sp);
+        if(beam_pid_on)
+            beam_sp_data.push_back(beam_curr_sp);
+        else
+            beam_sp_data.push_back(std::numeric_limits<double>::quiet_NaN());
 
         while(runtime() - *beam_time_data.begin() > plot_span)
         {
@@ -361,7 +364,10 @@ void Gyrotron::query_rsi()
         // add in plotting vector management here
         power_time_data.push_back(runtime());
         power_data.push_back(power);
-        power_sp_data.push_back(power_sp);
+        if(power_pid_on)
+            power_sp_data.push_back(power_sp);
+        else
+            power_sp_data.push_back(std::numeric_limits<double>::quiet_NaN());
 
         while(runtime() - *power_time_data.begin() > plot_span)
         {
