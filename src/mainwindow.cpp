@@ -4,7 +4,7 @@
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    setWindowFlags(Qt::Window | Qt::FramelessWindowHint);
+    setWindowFlags(Qt::FramelessWindowHint);
 
     if(gyro.gui_debug_mode)
         init_gui();
@@ -61,10 +61,10 @@ void MainWindow::init_gui()
     ui->fault_list->setPalette(palette);
     ui->fault_list->setViewMode(QListView::ListMode);
 
-    connect(&blink_timer, SIGNAL(timeout()), this, SLOT(blink_status())); // enable faults blink effect
-
     if(!gyro.gui_debug_mode)
     {
+        connect(&blink_timer, SIGNAL(timeout()), this, SLOT(blink_status())); // enable faults blink effect
+
         connect(&data_timer, SIGNAL(timeout()), this, SLOT(realtime_slot())); // enable the realtime slot
         data_timer.start(0); // start timer to begin calling realtime_slot repeatedly
     }
@@ -245,6 +245,7 @@ void MainWindow::init_fail_dialog(int err_code)
     default: err_msg = "Unrecognized error code: " + QString::number(err_code);
     }
 
+    ui->plot_splitter->setVisible(false);
     gui.error_dialog(err_msg);
     shutdown();
 }
@@ -809,7 +810,11 @@ void MainWindow::check_connections()
 }
 
 void MainWindow::closeEvent (QCloseEvent *event)
-{ gui.question_dialog("Are you sure you want to quit?\n",[=](){shutdown();},[=](){event->ignore();}); }
+{
+    ui->plot_splitter->setVisible(false);
+    gui.question_dialog("Are you sure you want to quit?\n",
+                        [=](){shutdown();},[=](){event->ignore(); ui->plot_splitter->setVisible(true);});
+}
 
 void MainWindow::on_reconfig_button_clicked() { gyro.extract_config(); }
 
@@ -966,7 +971,9 @@ void MainWindow::on_fil_curr_button_clicked()
     {
         int stat = gyro.set_fil_curr(entry);
         if(stat < 0)
-            gui.error_dialog(QString::fromStdString("Error setting filament current! (" + to_str(stat) + ")"));
+        {
+            gui.error_dialog(QString::fromStdString("Error setting filament current! (" + to_str(stat) + ")"),false);
+        }
     }
 }
 
@@ -977,7 +984,7 @@ void MainWindow::on_beam_volt_button_clicked()
     {
         int stat = gyro.set_beam_volt(entry);
         if(stat < 0)
-            gui.error_dialog(QString::fromStdString("Error setting beam voltage! (" + to_str(stat) + ")"));
+            gui.error_dialog(QString::fromStdString("Error setting beam voltage! (" + to_str(stat) + ")"),false);
     }
 }
 
@@ -1002,7 +1009,7 @@ void MainWindow::on_freq_button_clicked()
 void MainWindow::on_prev_state_button_clicked()
 {
     if(gyro.decrement_state() < 0)
-        gui.error_dialog("Failed to change state! See log for more info.\n");
+        gui.error_dialog("Failed to change state! See log for more info.\n",false);
     else
         detect_state_change(true);
 }
@@ -1010,7 +1017,7 @@ void MainWindow::on_prev_state_button_clicked()
 void MainWindow::on_next_state_button_clicked()
 {
     if(gyro.increment_state() < 0)
-        gui.error_dialog("Failed to change state! See log for more info.\n");
+        gui.error_dialog("Failed to change state! See log for more info.\n",false);
     else
         detect_state_change(true);
 }
@@ -1022,7 +1029,7 @@ void MainWindow::on_gtc_curr_button_clicked()
     {
         int stat = gyro.set_gtc_curr_limit(entry);
         if(stat < 0)
-            gui.error_dialog(QString::fromStdString("Error setting GTC current! (" + to_str(stat) + ")"));
+            gui.error_dialog(QString::fromStdString("Error setting GTC current! (" + to_str(stat) + ")"),false);
     }
 }
 
@@ -1033,13 +1040,17 @@ void MainWindow::on_gtc_volt_button_clicked()
     {
         int stat = gyro.set_gtc_volt(entry);
         if(stat < 0)
-            gui.error_dialog(QString::fromStdString("Error setting GTC voltage! (" + to_str(stat) + ")"));
+            gui.error_dialog(QString::fromStdString("Error setting GTC voltage! (" + to_str(stat) + ")"),false);
     }
 }
 
 void MainWindow::on_close_button_clicked() { this->close(); }
 void MainWindow::on_minimize_button_clicked() { this->showMinimized(); }
-void MainWindow::on_maximize_button_clicked() { this->showMaximized(); }
+void MainWindow::on_maximize_button_clicked()
+{
+    if(is_maximized) { this->showNormal(); is_maximized = false; ui->state_group->setStyleSheet(state_group_min); }
+    else { this->showMaximized(); is_maximized = true; ui->state_group->setStyleSheet(state_group_max); }
+}
 
 void MainWindow::on_control_tab_clicked()
 {
@@ -1078,18 +1089,6 @@ void MainWindow::on_admin_tab_clicked()
     (gyro.get_fault_status() == 0) ? ui->status_tab->setStyleSheet(tab_unselected) : ui->status_tab->setStyleSheet(tab_blink_off_unselected);
     ui->admin_tab->setStyleSheet(tab_selected);
     ui->stackedWidget->setCurrentIndex(3);
-}
-
-void MainWindow::mousePressEvent(QMouseEvent *evt)
-{
-    oldPos = evt->globalPos();
-}
-void MainWindow::mouseMoveEvent(QMouseEvent *evt)
-{
-    const QPoint delta = evt->globalPos() - oldPos;
-    if(!window_locked) move(x()+delta.x(), y()+delta.y());
-    oldPos = evt->globalPos();
-    QCoreApplication::processEvents(QEventLoop::ExcludeUserInputEvents);
 }
 
 bool MainWindow::eventFilter(QObject *obj, QEvent *event)
@@ -1462,3 +1461,13 @@ void MainWindow::power_context_menu(const QPoint &pos)
     (void)pos;
 }
 
+void MainWindow::mousePressEvent(QMouseEvent *evt)
+{
+    oldPos = evt->globalPos();
+}
+void MainWindow::mouseMoveEvent(QMouseEvent *evt)
+{
+    const QPoint delta = evt->globalPos() - oldPos;
+    if(!window_locked) move(x()+delta.x(), y()+delta.y());
+    oldPos = evt->globalPos();
+}

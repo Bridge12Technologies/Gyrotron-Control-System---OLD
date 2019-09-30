@@ -9,6 +9,9 @@
 #include "lib/qcustomplot.h"
 #include "gyrotron.h"
 
+#define WM_NCHITTEST                    0x0084
+
+
 namespace Ui {
 class MainWindow;
 }
@@ -111,7 +114,7 @@ private:
     QPoint oldPos;
     std::vector<SmartLineEdit*> smart_edits;
     int last_known_state{0}, last_fault_status{0}, resize_tracker{0};
-    bool window_locked{false};
+    bool window_locked{false}, is_maximized{false};
     std::atomic<bool> cath_recon_blocked{false}, gtc_recon_blocked{false}, spc_recon_blocked{false};
     std::atomic<bool> rsi_recon_blocked{false}, fms_recon_blocked{false}, all_recon_blocked{false};
 
@@ -156,6 +159,13 @@ private:
                                 "QPushButton:disabled{background-color: rgb(200,200,200);}"};
     QString green_recon_button{"QPushButton{background-color: #46812B; border: none; color: white; border-radius: 22px;}"};
     QString red_recon_button{"QPushButton{background-color: #D16055; border: none; color: white; border-radius: 22px;}"};
+
+    QString state_group_min{"QGroupBox { border: none; background: white; border-radius: 20px; border: 1px solid rgb(220,220,220); width: 695px; }"
+                            "QGroupBox::title { subcontrol-origin: margin; padding: 0px 3px; left: 12px; top: 6px; color: rgb(85, 87, 83); }"
+                            "QGroupBox::title:disabled { color: rgb(180,180,180); }"};
+    QString state_group_max{"QGroupBox { border: none; background: white; border-radius: 20px; border: 1px solid rgb(220,220,220); width: 950px; }"
+                            "QGroupBox::title { subcontrol-origin: margin; padding: 0px 3px; left: 12px; top: 6px; color: rgb(85, 87, 83); }"
+                            "QGroupBox::title:disabled { color: rgb(180,180,180); }"};
 
     int init_error_code{0};
     double key, plot_span{0}, refresh_rate{0.5};
