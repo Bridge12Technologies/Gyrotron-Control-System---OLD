@@ -5,11 +5,10 @@
 #include <QTime>
 #include <QVector>
 #include <vector>
-#include "lib/face/face.h"
+//#include "lib/face/face.h"
 #include "lib/qcustomplot.h"
-#include "gyrotron.h"
-
-#define WM_NCHITTEST                    0x0084
+//#include "gyrotron.h"
+#include "settings_window.h"
 
 
 namespace Ui {
@@ -79,6 +78,7 @@ private slots:
     void clear_beam_data();
     void power_context_menu(const QPoint &pos);
     void clear_power_data();
+    void on_settings_button_clicked();
 
 private:
     void shutdown();
@@ -114,7 +114,7 @@ private:
     QPoint oldPos;
     std::vector<SmartLineEdit*> smart_edits;
     int last_known_state{0}, last_fault_status{0}, resize_tracker{0};
-    bool window_locked{false};
+    bool window_locked{false}, admin_mode{true};
     std::atomic<bool> cath_recon_blocked{false}, gtc_recon_blocked{false}, spc_recon_blocked{false};
     std::atomic<bool> rsi_recon_blocked{false}, fms_recon_blocked{false}, all_recon_blocked{false};
 

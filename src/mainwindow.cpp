@@ -1498,3 +1498,9 @@ void MainWindow::on_maximize_button_clicked()
     else this->showMaximized();
     update_margins();
 }
+
+void MainWindow::on_settings_button_clicked()
+{
+    settings_window settings_popup(&gyro,&admin_mode,ui->admin_tab,ui->stackedWidget,this);
+    settings_popup.exec();
+}

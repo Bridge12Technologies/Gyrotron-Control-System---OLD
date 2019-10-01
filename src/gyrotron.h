@@ -180,6 +180,12 @@ public:
     std::string rsi_io(std::string cmd) { return rsi.m_io(cmd); }
     std::string fms_io(std::string cmd) { return fms.m_io(cmd); }
 
+    // PLACEHOLDERS - replace once binary format for logs has been implemented
+    bool log_is_bin() { return false; }
+    bool log_is_txt() { return true; }
+    void set_log_in_bin(bool use_bin) {}
+    void set_log_in_txt(bool use_txt) {}
+
     bool gui_debug_mode{true}; // SET TRUE TO DISABLE BACKEND
 
     // ************* MANY CONSTANTS STILL TBD ********************

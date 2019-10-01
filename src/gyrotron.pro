@@ -33,6 +33,7 @@ SOURCES += \
     lib/spine/device/device.cpp \
     lib/spine/logger/logger.cpp \
     lib/spine/spine.cpp \
+    settings_window.cpp
 
 HEADERS += \
     mainwindow.h \
@@ -44,10 +45,12 @@ HEADERS += \
     lib/spine/device/device.h \
     lib/spine/logger/logger.h \
     lib/spine/spine.h \
+    settings_window.h
 
 FORMS += \
         lib/face/b12dialog.ui \
         mainwindow.ui \
+        settings_window.ui
 
 RESOURCES += \
     resources.qrc
