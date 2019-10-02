@@ -13,6 +13,8 @@
 class Gyrotron : public Spine
 {
 public:
+    bool gui_debug_mode{true}; // SET TRUE TO DISABLE BACKEND
+
     Gyrotron();
     int init();
     int increment_state();
@@ -181,12 +183,12 @@ public:
     std::string fms_io(std::string cmd) { return fms.m_io(cmd); }
 
     // PLACEHOLDERS - replace once binary format for logs has been implemented
-    bool log_is_bin() { return false; }
-    bool log_is_txt() { return true; }
-    void set_log_in_bin(bool use_bin) {}
-    void set_log_in_txt(bool use_txt) {}
+    bool log_is_bin() { return dlog.is_bin_format(); }
+    bool log_is_txt() { return !dlog.is_bin_format(); }
+    void set_log_in_bin(bool use_bin) { dlog.set_bin_format(use_bin); }
+    void set_log_in_txt(bool use_txt) { dlog.set_bin_format(!use_txt); }
 
-    bool gui_debug_mode{true}; // SET TRUE TO DISABLE BACKEND
+    bool admin_mode_config() { return config_get_bool("Admin Mode"); }
 
     // ************* MANY CONSTANTS STILL TBD ********************
 

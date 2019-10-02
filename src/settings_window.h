@@ -4,8 +4,11 @@
 #include <QDialog>
 #include <QSlider>
 #include <QStackedWidget>
+#include <functional>
 #include "gyrotron.h"
 #include "lib/face/face.h"
+
+typedef std::function<void(bool)> Fbool;
 
 namespace Ui {
 class settings_window;
@@ -16,12 +19,12 @@ class settings_window : public QDialog
     Q_OBJECT
 
 public:
-    explicit settings_window(Gyrotron* main_gyro, bool* am, QPushButton* at, QStackedWidget* sw, QWidget *parent = nullptr);
+    explicit settings_window(bool* am, QPushButton* at, QStackedWidget* sw, bool* be, Fbool sbe, QWidget *parent = nullptr);
     ~settings_window();
 
 private slots:
-    void on_log_mode_switch_valueChanged(int value);
     void on_admin_mode_switch_valueChanged(int value);
+    void on_blink_switch_valueChanged(int value);
     void on_done_button_clicked();
 
 private:
@@ -31,12 +34,12 @@ private:
     void init_event_filter();
 
     Ui::settings_window *ui;
-    Gyrotron *gyro;
     QGraphicsDropShadowEffect *shadow;
     DarkenEffect *darken;
-    bool *admin_mode;
+    bool *admin_mode, *blink_enabled;
     QPushButton *admin_tab;
     QStackedWidget *stack_widget;
+    Fbool set_blink_enabled;
 
 protected:
     bool eventFilter(QObject *obj, QEvent *event);

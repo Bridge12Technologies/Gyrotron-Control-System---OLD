@@ -1,8 +1,9 @@
 #include "settings_window.h"
 #include "ui_settings_window.h"
 
-settings_window::settings_window(Gyrotron* main_gyro, bool* am, QPushButton* at, QStackedWidget* sw, QWidget *parent) :
-    QDialog(parent),ui(new Ui::settings_window),gyro(main_gyro),admin_mode(am),admin_tab(at),stack_widget(sw)
+settings_window::settings_window(bool* am, QPushButton* at, QStackedWidget* sw, bool* be, Fbool sbe, QWidget *parent) :
+    QDialog(parent),ui(new Ui::settings_window),
+    admin_mode(am),blink_enabled(be),admin_tab(at),stack_widget(sw),set_blink_enabled(sbe)
 {
     parent->setGraphicsEffect(new DarkenEffect);
     setWindowFlags(Qt::Window | Qt::FramelessWindowHint | Qt::WindowStaysOnTopHint);
@@ -11,8 +12,6 @@ settings_window::settings_window(Gyrotron* main_gyro, bool* am, QPushButton* at,
     init_event_filter();
     apply_drop_shadow();
     update();
-
-    gyro->log_event("settings window opened");
 }
 
 settings_window::~settings_window() { delete ui; delete shadow; }
@@ -20,7 +19,7 @@ settings_window::~settings_window() { delete ui; delete shadow; }
 void settings_window::init_event_filter()
 {
     // install event filter to prevent wheel events on sliders
-    QSlider *sliders[] = {ui->log_mode_switch,ui->admin_mode_switch};
+    QSlider *sliders[] = {ui->admin_mode_switch,ui->blink_switch};
     for(auto obj : sliders) { obj->installEventFilter(this); }
 }
 
@@ -36,9 +35,9 @@ void settings_window::apply_drop_shadow()
 
 void settings_window::update()
 {
-    QSlider *sliders[] = {ui->log_mode_switch,ui->admin_mode_switch};
-    QLabel *labels[] = {ui->log_mode_label, ui->admin_mode_label};
-    bool states[] = {gyro->log_is_bin(),*admin_mode}; // true if data log enabled
+    QSlider *sliders[] = {ui->admin_mode_switch,ui->blink_switch};
+    QLabel *labels[] = {ui->admin_mode_label,ui->blink_label};
+    bool states[] = {*admin_mode,*blink_enabled}; // true if data log enabled
 
     for(int i = 0; i < 2; i++) { set_switch_state(states[i], sliders[i], labels[i]); }
 }
@@ -61,20 +60,6 @@ void settings_window::set_switch_state(bool set_on, QSlider *slider, QLabel *lab
 
 bool settings_window::eventFilter(QObject *obj, QEvent *event) { return wheel_filter(this,obj,event); }
 
-void settings_window::on_log_mode_switch_valueChanged(int value)
-{
-    if(value == 1)
-    {
-        gyro->set_log_in_bin(true);
-        set_switch_state(true,ui->log_mode_switch,ui->log_mode_label);
-    }
-    else
-    {
-        gyro->set_log_in_bin(false);
-        set_switch_state(false,ui->log_mode_switch,ui->log_mode_label);
-    }
-}
-
 void settings_window::on_admin_mode_switch_valueChanged(int value)
 {
     if(value == 1)
@@ -89,6 +74,20 @@ void settings_window::on_admin_mode_switch_valueChanged(int value)
         *admin_mode = false;
         admin_tab->setVisible(false);
         set_switch_state(false,ui->admin_mode_switch,ui->admin_mode_label);
+    }
+}
+
+void settings_window::on_blink_switch_valueChanged(int value)
+{
+    if(value == 1)
+    {
+        set_blink_enabled(true);
+        set_switch_state(true,ui->blink_switch,ui->blink_label);
+    }
+    else
+    {
+        set_blink_enabled(false);
+        set_switch_state(false,ui->blink_switch,ui->blink_label);
     }
 }
 

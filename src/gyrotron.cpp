@@ -70,6 +70,8 @@ int Gyrotron::extract_config()
         i++;
     }
 
+    set_log_in_bin(config_get_bool("Record Data in Binary Format",ok));
+
     if(!ok) return -1;
 
     ramp_time = ramp_time * 60; // convert to seconds

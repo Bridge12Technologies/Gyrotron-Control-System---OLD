@@ -100,6 +100,7 @@ private:
     void update_indicators();
     void update_faults();
     void update_pid_display();
+    void set_blink_on(bool enable);
     void set_blink_enabled(bool enable);
     bool lists_equal(std::vector<QListWidgetItem*> list1, std::vector<QListWidgetItem*> list2);
     void update_margins();
@@ -110,7 +111,7 @@ private:
     std::vector<QGraphicsDropShadowEffect*> shadows;
     QTimer data_timer, blink_timer;
     int blink_duration{500};
-    bool blink_on{false};
+    bool blink_on{false}, blink_enabled{true};
     QPoint oldPos;
     std::vector<SmartLineEdit*> smart_edits;
     int last_known_state{0}, last_fault_status{0}, resize_tracker{0};

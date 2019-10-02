@@ -16,6 +16,9 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),ui(new Ui::MainWin
         {
             init_gui();
             init_fields(); // initialize SmartLineEdits
+            admin_mode = gyro.admin_mode_config(); // get admin mode setting from config file
+            if(!admin_mode)
+                ui->admin_tab->setVisible(false);
         }
     }
 }
@@ -312,7 +315,14 @@ void MainWindow::init_fields()
 
 void MainWindow::set_blink_enabled(bool enable)
 {
-    if(enable)
+    blink_enabled = enable;
+    if(!blink_enabled && blink_timer.isActive())
+        set_blink_on(false);
+}
+
+void MainWindow::set_blink_on(bool enable)
+{
+    if(enable && blink_enabled)
     {
         if(ui->stackedWidget->currentIndex() == 2)
             ui->status_tab->setStyleSheet(tab_blink_off_selected);
@@ -332,7 +342,7 @@ void MainWindow::set_blink_enabled(bool enable)
 
 void MainWindow::blink_status()
 {
-    if(ui->stackedWidget->currentIndex() != 2)
+    if(ui->stackedWidget->currentIndex() != 2 && blink_enabled)
     {
         if(blink_on)
         {
@@ -616,7 +626,7 @@ void MainWindow::update_faults()
 
     if(fault_status == -2 && last_fault_status != -2)
     {
-        set_blink_enabled(true);
+        set_blink_on(true);
         if(ui->stackedWidget->currentIndex() == 2)
             ui->status_tab->setStyleSheet(tab_blink_off_selected);
         else
@@ -624,7 +634,7 @@ void MainWindow::update_faults()
     }
     else if(fault_status > -2 && last_fault_status == -2)
     {
-        set_blink_enabled(false);
+        set_blink_on(false);
         if(ui->stackedWidget->currentIndex() == 2)
             ui->status_tab->setStyleSheet(tab_selected);
         else
@@ -1501,6 +1511,7 @@ void MainWindow::on_maximize_button_clicked()
 
 void MainWindow::on_settings_button_clicked()
 {
-    settings_window settings_popup(&gyro,&admin_mode,ui->admin_tab,ui->stackedWidget,this);
+    settings_window settings_popup(&admin_mode,ui->admin_tab,ui->stackedWidget,
+                                   &blink_enabled,[=](bool e){set_blink_enabled(e);},this);
     settings_popup.exec();
 }
