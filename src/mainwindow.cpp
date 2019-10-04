@@ -35,18 +35,18 @@ void MainWindow::shutdown()
 
 void MainWindow::init_gui()
 {
-    QWidget *boxes[25] = {ui->status_group,ui->state_group,ui->press_group,ui->cathode_group,ui->fms_group,ui->power_group,ui->gtc_group,
+    QWidget *boxes[23] = {ui->status_group,ui->state_group,ui->beam_params_group,ui->fms_group,ui->power_group,
                          ui->pid_group,ui->plot_group,ui->fil_curr_group,ui->beam_volt_group,ui->freq_group,ui->curr_state_group,ui->auto_state_group,
                          ui->time_span_group,ui->faults_group,ui->log_group,ui->beam_pid_group,ui->power_pid_group,ui->freq_group,ui->ramp_rate_group,
                          ui->log_rate_group,ui->misc_group,ui->reconnect_group,ui->console_group};
     for(auto box : boxes) { box->installEventFilter(this); }
 
     // apply drop shadows to group boxes
-    std::vector<QGroupBox*> groups{ui->state_group,ui->status_group,ui->press_group,ui->cathode_group,ui->fms_group,ui->power_group,ui->pid_group,ui->gtc_group,
+    std::vector<QWidget*> groups{ui->state_group,ui->status_group,ui->beam_params_group,ui->fms_group,ui->power_group,ui->pid_group,
                                    ui->plot_group,ui->fil_curr_group,ui->beam_volt_group,ui->freq_group,ui->curr_state_group,ui->auto_state_group,ui->time_span_group,
                                    ui->beam_pid_group,ui->power_pid_group,ui->freq_pid_group,ui->ramp_rate_group,ui->log_rate_group,ui->misc_group,ui->reconnect_group,ui->console_group,
-                                   ui->faults_group,ui->log_group};
-    for(QGroupBox* group : groups)
+                                   ui->faults_group,ui->log_group,ui->settings_frame};
+    for(QWidget* group : groups)
     {
         shadows.push_back(new QGraphicsDropShadowEffect);
         shadows.back()->setBlurRadius(25);
@@ -55,6 +55,10 @@ void MainWindow::init_gui()
         shadows.back()->setColor(QColor(30,30,30,35));
         group->setGraphicsEffect(shadows.back());
     }
+
+    // hide beam parameter group initially
+    ui->beam_params_group->setVisible(false);
+    ui->settings_frame->setVisible(false);
 
     init_plots();
 
@@ -701,11 +705,12 @@ void MainWindow::update_indicators()
     }
     if(gyro.spc_available())
     {
+        ui->press_label->setText(QString::number(gyro.get_pressure()));
         switch(gyro.get_press_status())
         {
-        case 0: ui->press_group->setStyleSheet(group_style); ui->press_group->setTitle("Pressure"); break;
-        case -1: ui->press_group->setStyleSheet(warn_group_style); ui->press_group->setTitle("Pressure (RELAXATION IN PROGRESS)"); break;
-        case -2: ui->press_group->setStyleSheet(err_group_style); ui->press_group->setTitle("Pressure (FATAL)"); break;
+        case 0: ui->press_indicator->setStyleSheet(green_status_bubble); break;
+        case -1: ui->press_indicator->setStyleSheet(yellow_status_bubble); break;
+        case -2: ui->press_indicator->setStyleSheet(red_status_bubble); break;
         }
     }
 }
@@ -737,7 +742,6 @@ void MainWindow::check_connections()
 {
     if(gyro.cath_is_connected() && gyro.cath_is_enabled())
     {
-        ui->cathode_group->setEnabled(true);
         ui->fil_curr_group->setEnabled(true);
         ui->beam_volt_group->setEnabled(true);
         ui->fil_curr_button->setVisible(true);
@@ -746,24 +750,19 @@ void MainWindow::check_connections()
     }
     else
     {
-        ui->cathode_group->setEnabled(false);
+        ui->fil_curr_edit->setText("N/A");
+        ui->beam_curr_edit->setText("N/A");
+        ui->beam_volt_edit->setText("N/A");
         ui->fil_curr_group->setEnabled(false);
         ui->beam_volt_group->setEnabled(false);
         ui->fil_curr_button->setVisible(false);
         ui->beam_volt_button->setVisible(false);
         ui->beam_curr_button->setVisible(false);
     }
-    if(gyro.gtc_is_connected() && gyro.gtc_is_enabled())
+    if(!gyro.gtc_is_connected() || !gyro.gtc_is_enabled())
     {
-        ui->gtc_group->setEnabled(true);
-        ui->gtc_volt_button->setVisible(true);
-        ui->gtc_curr_button->setVisible(true);
-    }
-    else
-    {
-        ui->gtc_group->setEnabled(false);
-        ui->gtc_volt_button->setVisible(false);
-        ui->gtc_curr_button->setVisible(false);
+        ui->gtc_curr_edit->setText("N/A");
+        ui->gtc_volt_edit->setText("N/A");
     }
     if(gyro.rsi_is_connected() && gyro.rsi_is_enabled())
     {
@@ -783,11 +782,13 @@ void MainWindow::check_connections()
     }
     if(gyro.spc_is_connected() && gyro.spc_is_enabled())
     {
-        ui->press_group->setEnabled(true);
+        ui->press_indicator->setEnabled(true);
+        ui->press_label->setText("N/A");
     }
     else
     {
-        ui->press_group->setEnabled(false);
+        ui->press_indicator->setEnabled(false);
+        ui->press_label->setText("N/A");
     }
     if(gyro.fms_is_connected() && gyro.fms_is_enabled())
     {
@@ -802,17 +803,13 @@ void MainWindow::check_connections()
         ui->freq_button->setVisible(false);
     }
 
-    if(ui->cathode_group->isEnabled() && gyro.get_state() == 3 && !gyro.power_pid_is_on() && !gyro.freq_pid_is_on())
-        ui->beam_pid_button->setEnabled(true);
-    else ui->beam_pid_button->setEnabled(false);
-
-    if(ui->cathode_group->isEnabled() && gyro.get_state() == 3 && ui->power_group->isEnabled() && !gyro.beam_pid_is_on() && !gyro.freq_pid_is_on())
-        ui->power_pid_button->setEnabled(true);
-    else ui->power_pid_button->setEnabled(false);
-
-    if(ui->cathode_group->isEnabled() && gyro.get_state() == 3 && ui->freq_group->isEnabled() && !gyro.beam_pid_is_on() && !gyro.power_pid_is_on())
-        ui->power_pid_button->setEnabled(true);
-    else ui->power_pid_button->setEnabled(false);
+    if(ui->beam_params_group->isEnabled() && gyro.get_state() == 3 && !gyro.power_pid_is_on() && !gyro.freq_pid_is_on() && ui->pid_dropdown->currentIndex() == 2)
+        ui->enable_button->setEnabled(false);
+    else if(ui->beam_params_group->isEnabled() && gyro.get_state() == 3 && ui->power_group->isEnabled() && !gyro.beam_pid_is_on() && !gyro.freq_pid_is_on() && ui->pid_dropdown->currentIndex() == 0)
+        ui->enable_button->setEnabled(false);
+    else if(ui->beam_params_group->isEnabled() && gyro.get_state() == 3 && ui->freq_group->isEnabled() && !gyro.beam_pid_is_on() && !gyro.power_pid_is_on() && ui->pid_dropdown->currentIndex() == 1)
+        ui->enable_button->setEnabled(false);
+    else ui->enable_button->setEnabled(true);
 }
 
 void MainWindow::closeEvent (QCloseEvent *event)
@@ -823,14 +820,14 @@ void MainWindow::closeEvent (QCloseEvent *event)
 }
 
 void MainWindow::on_reconfig_button_clicked() { gyro.extract_config(); }
-
+/*
 void MainWindow::on_beam_pid_button_clicked()
 {
     gyro.toggle_beam_pid();
 
     if(gyro.beam_pid_is_on())
     {
-        ui->beam_pid_button->setStyleSheet(gui.orange_button(46));
+        ui->enable_button->setStyleSheet(gui.orange_button(36));
         ui->beam_curr_button->setEnabled(true);
         ui->small_pid_label->setText("CURRENT");
         ui->fil_curr_button->setEnabled(false);
@@ -841,7 +838,7 @@ void MainWindow::on_beam_pid_button_clicked()
     }
     else
     {
-        ui->beam_pid_button->setStyleSheet(gui.green_button(46));
+        ui->enable_button->setStyleSheet(gui.grey_button(36));
         ui->beam_curr_button->setEnabled(false);
         ui->small_pid_label->setText("NONE");
         ui->fil_curr_button->setEnabled(true);
@@ -858,7 +855,7 @@ void MainWindow::on_power_pid_button_clicked()
 
     if(gyro.power_pid_is_on())
     {
-        ui->power_pid_button->setStyleSheet(gui.orange_button(46));
+        ui->enable_button->setStyleSheet(gui.orange_button(36));
         ui->power_button->setEnabled(true);
         ui->small_pid_label->setText("POWER");
         ui->fil_curr_button->setEnabled(false);
@@ -869,7 +866,7 @@ void MainWindow::on_power_pid_button_clicked()
     }
     else
     {
-        ui->power_pid_button->setStyleSheet(gui.green_button(46));
+        ui->enable_button->setStyleSheet(gui.grey_button(36));
         ui->power_button->setEnabled(false);
         ui->small_pid_label->setText("NONE");
         ui->fil_curr_button->setEnabled(true);
@@ -886,7 +883,7 @@ void MainWindow::on_freq_pid_button_clicked()
 
     if(gyro.freq_pid_is_on())
     {
-        ui->freq_pid_button->setStyleSheet(gui.orange_button(46));
+        ui->enable_button->setStyleSheet(gui.orange_button(36));
         ui->freq_button->setEnabled(true);
         ui->small_pid_label->setText("FREQUENCY");
         ui->fil_curr_button->setEnabled(false);
@@ -901,7 +898,7 @@ void MainWindow::on_freq_pid_button_clicked()
     }
     else
     {
-        ui->freq_pid_button->setStyleSheet(gui.green_button(46));
+        ui->enable_button->setStyleSheet(gui.grey_button(36));
         ui->freq_button->setEnabled(false);
         ui->small_pid_label->setText("NONE");
         ui->fil_curr_button->setEnabled(true);
@@ -915,7 +912,7 @@ void MainWindow::on_freq_pid_button_clicked()
         gyro.log_event("automatic frequency control disabled");
     }
 }
-
+*/
 void MainWindow::on_beam_kp_button_clicked()
 {
     double entry = ui->beam_kp_edit->toggle_active();
@@ -1514,4 +1511,20 @@ void MainWindow::on_settings_button_clicked()
     settings_window settings_popup(&admin_mode,ui->admin_tab,ui->stackedWidget,
                                    &blink_enabled,[=](bool e){set_blink_enabled(e);},this);
     settings_popup.exec();
+}
+
+void MainWindow::on_more_button_clicked()
+{
+    if(ui->beam_params_group->isVisible())
+    {
+        ui->beam_params_group->setVisible(false);
+        ui->settings_frame->setVisible(false);
+        ui->more_button->setText("MORE ▼");
+    }
+    else
+    {
+        ui->beam_params_group->setVisible(true);
+        ui->settings_frame->setVisible(true);
+        ui->more_button->setText("LESS ▲");
+    }
 }

@@ -25,9 +25,9 @@ public:
 
 private slots:
     void realtime_slot();
-    void on_beam_pid_button_clicked();
-    void on_power_pid_button_clicked();
-    void on_freq_pid_button_clicked();
+    //void on_beam_pid_button_clicked();
+    //void on_power_pid_button_clicked();
+    //void on_freq_pid_button_clicked();
     void on_reconfig_button_clicked();
     void on_beam_volt_button_clicked();
     void on_beam_curr_button_clicked();
@@ -79,6 +79,8 @@ private slots:
     void power_context_menu(const QPoint &pos);
     void clear_power_data();
     void on_settings_button_clicked();
+
+    void on_more_button_clicked();
 
 private:
     void shutdown();
