@@ -59,6 +59,8 @@ void MainWindow::init_gui()
     // hide beam parameter group initially
     ui->beam_params_group->setVisible(false);
     ui->settings_frame->setVisible(false);
+    ui->show_more_layout->setContentsMargins(0,0,0,0);
+    ui->control_grid->setVerticalSpacing(40);
 
     init_plots();
 
@@ -1461,8 +1463,8 @@ void MainWindow::update_margins()
     if(!this->isMaximized())
     {
         ui->state_group->setStyleSheet(state_group_min);
-        ui->control_page->layout()->setSpacing(20);
-        ui->control_page->layout()->setContentsMargins(25,25,25,25);
+        ui->control_page->layout()->setSpacing(5);
+        ui->control_page->layout()->setContentsMargins(25,25,25,5);
         ui->plot_page->layout()->setSpacing(20);
         ui->plot_page->layout()->setContentsMargins(25,25,25,25);
         ui->status_page->layout()->setSpacing(20);
@@ -1520,11 +1522,15 @@ void MainWindow::on_more_button_clicked()
         ui->beam_params_group->setVisible(false);
         ui->settings_frame->setVisible(false);
         ui->more_button->setText("MORE ▼");
+        ui->show_more_layout->setContentsMargins(0,0,0,0);
+        ui->control_grid->setVerticalSpacing(40);
     }
     else
     {
         ui->beam_params_group->setVisible(true);
         ui->settings_frame->setVisible(true);
         ui->more_button->setText("LESS ▲");
+        ui->show_more_layout->setContentsMargins(0,0,0,20);
+        ui->control_grid->setVerticalSpacing(20);
     }
 }
