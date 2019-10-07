@@ -5,6 +5,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),ui(new Ui::MainWin
 {
     ui->setupUi(this);
     setWindowFlags(Qt::FramelessWindowHint);
+    showFullScreen();
 
     if(gyro.gui_debug_mode)
         init_gui();
@@ -59,8 +60,10 @@ void MainWindow::init_gui()
     // hide beam parameter group initially
     ui->beam_params_group->setVisible(false);
     ui->settings_frame->setVisible(false);
+    ui->storage_frame->setVisible(false);
+    ui->clock_frame->setVisible(false);
     ui->show_more_layout->setContentsMargins(0,0,0,0);
-    ui->control_grid->setVerticalSpacing(40);
+    //ui->control_grid->setVerticalSpacing(40);
 
     init_plots();
 
@@ -153,7 +156,7 @@ void MainWindow::init_plots()
     // setup pressure plot
     ui->press_plot->addGraph(); // light green line
     ui->press_plot->graph(0)->setPen(QPen(QColor(70, 129, 43)));
-    ui->press_plot->yAxis->setLabel("Pressure (Torr)");
+    ui->press_plot->yAxis->setLabel("Vacuum (Torr)");
     ui->press_plot->yAxis->setNumberPrecision(10);
 
     // set axes
@@ -1437,7 +1440,7 @@ void MainWindow::clear_power_data() { gyro.clear_power_data(); }
 void MainWindow::press_context_menu(const QPoint &pos)
 {
     QMenu contextMenu;
-    contextMenu.addAction("Clear Pressure Data", this, SLOT(clear_press_data()));
+    contextMenu.addAction("Clear Vacuum Data", this, SLOT(clear_press_data()));
     contextMenu.exec(QCursor::pos());
     (void)pos;
 }
@@ -1497,17 +1500,18 @@ void MainWindow::mouseMoveEvent(QMouseEvent *evt)
     oldPos = evt->globalPos();
 }
 void MainWindow::resizeEvent(QResizeEvent* evt)
-{ QMainWindow::resizeEvent(evt); update_margins(); }
+{ QMainWindow::resizeEvent(evt); /*update_margins();*/ }
 
 void MainWindow::on_close_button_clicked() { this->close(); }
 void MainWindow::on_minimize_button_clicked() { this->showMinimized(); }
+/*
 void MainWindow::on_maximize_button_clicked()
 {
     if(this->isMaximized()) this->showNormal();
     else this->showMaximized();
     update_margins();
 }
-
+*/
 void MainWindow::on_settings_button_clicked()
 {
     settings_window settings_popup(&admin_mode,ui->admin_tab,ui->stackedWidget,
@@ -1521,16 +1525,20 @@ void MainWindow::on_more_button_clicked()
     {
         ui->beam_params_group->setVisible(false);
         ui->settings_frame->setVisible(false);
+        ui->storage_frame->setVisible(false);
+        ui->clock_frame->setVisible(false);
         ui->more_button->setText("MORE ▼");
         ui->show_more_layout->setContentsMargins(0,0,0,0);
-        ui->control_grid->setVerticalSpacing(40);
+        //ui->control_grid->setVerticalSpacing(40);
     }
     else
     {
         ui->beam_params_group->setVisible(true);
         ui->settings_frame->setVisible(true);
+        ui->storage_frame->setVisible(true);
+        ui->clock_frame->setVisible(true);
         ui->more_button->setText("LESS ▲");
         ui->show_more_layout->setContentsMargins(0,0,0,20);
-        ui->control_grid->setVerticalSpacing(20);
+        //ui->control_grid->setVerticalSpacing(20);
     }
 }

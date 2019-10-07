@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1130</width>
-    <height>700</height>
+    <width>1900</width>
+    <height>1060</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -24,8 +24,8 @@
   </property>
   <property name="maximumSize">
    <size>
-    <width>100000</width>
-    <height>100000</height>
+    <width>1920</width>
+    <height>1080</height>
    </size>
   </property>
   <property name="palette">
@@ -505,13 +505,13 @@ color: black;</string>
       <property name="minimumSize">
        <size>
         <width>0</width>
-        <height>48</height>
+        <height>56</height>
        </size>
       </property>
       <property name="maximumSize">
        <size>
         <width>16777215</width>
-        <height>48</height>
+        <height>56</height>
        </size>
       </property>
       <property name="styleSheet">
@@ -541,12 +541,13 @@ background: rgb(220,220,220);
          <property name="minimumSize">
           <size>
            <width>0</width>
-           <height>48</height>
+           <height>56</height>
           </size>
          </property>
          <property name="font">
           <font>
            <family>Open Sans</family>
+           <pointsize>12</pointsize>
            <weight>75</weight>
            <italic>false</italic>
            <bold>true</bold>
@@ -566,12 +567,13 @@ background: rgb(220,220,220);
          <property name="minimumSize">
           <size>
            <width>0</width>
-           <height>48</height>
+           <height>56</height>
           </size>
          </property>
          <property name="font">
           <font>
            <family>Open Sans</family>
+           <pointsize>12</pointsize>
            <weight>75</weight>
            <italic>false</italic>
            <bold>true</bold>
@@ -592,12 +594,13 @@ QPushButton:hover:pressed { background: rgb(240,240,240); }</string>
          <property name="minimumSize">
           <size>
            <width>0</width>
-           <height>48</height>
+           <height>56</height>
           </size>
          </property>
          <property name="font">
           <font>
            <family>Open Sans</family>
+           <pointsize>12</pointsize>
            <weight>75</weight>
            <bold>true</bold>
           </font>
@@ -621,12 +624,13 @@ QPushButton:hover:pressed { background: rgb(240,240,240); }</string>
          <property name="minimumSize">
           <size>
            <width>0</width>
-           <height>48</height>
+           <height>56</height>
           </size>
          </property>
          <property name="font">
           <font>
            <family>Open Sans</family>
+           <pointsize>12</pointsize>
            <weight>75</weight>
            <bold>true</bold>
           </font>
@@ -715,66 +719,6 @@ color: rgb(255, 209, 86);
           </item>
           <item>
            <spacer name="horizontalSpacer_2">
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
-            </property>
-            <property name="sizeType">
-             <enum>QSizePolicy::Fixed</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>18</width>
-              <height>20</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
-          <item>
-           <widget class="QPushButton" name="maximize_button">
-            <property name="minimumSize">
-             <size>
-              <width>16</width>
-              <height>16</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>16</width>
-              <height>16</height>
-             </size>
-            </property>
-            <property name="font">
-             <font>
-              <family>OpenSymbol</family>
-              <pointsize>10</pointsize>
-              <weight>75</weight>
-              <bold>true</bold>
-             </font>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">QPushButton {
-border: none;
-border-radius: 8px;
-background: #46812B;
-color: transparent;
-}
-QPushButton:hover {
-/*color: rgb(28, 55, 33);*/
-color: rgb(129, 210, 111);
-}
-QPushButton:hover:pressed {
-background: #407527;
-/*color: rgb(28, 55, 33);*/
-color: rgb(129, 210, 111);
-}</string>
-            </property>
-            <property name="text">
-             <string>+</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <spacer name="maximize_spacer">
             <property name="orientation">
              <enum>Qt::Horizontal</enum>
             </property>
@@ -903,24 +847,24 @@ border-bottom-left-radius: 18px;
       <widget class="QWidget" name="control_page">
        <layout class="QVBoxLayout" name="verticalLayout_21" stretch="1,0,0">
         <property name="spacing">
-         <number>5</number>
+         <number>10</number>
         </property>
         <property name="leftMargin">
-         <number>25</number>
+         <number>45</number>
         </property>
         <property name="topMargin">
-         <number>25</number>
+         <number>45</number>
         </property>
         <property name="rightMargin">
-         <number>25</number>
+         <number>45</number>
         </property>
         <property name="bottomMargin">
-         <number>5</number>
+         <number>15</number>
         </property>
         <item>
          <layout class="QGridLayout" name="control_grid">
           <property name="spacing">
-           <number>20</number>
+           <number>40</number>
           </property>
           <item row="1" column="0">
            <widget class="QGroupBox" name="power_group">
@@ -941,50 +885,29 @@ border-bottom-left-radius: 18px;
             </property>
             <property name="maximumSize">
              <size>
-              <width>425</width>
-              <height>125</height>
+              <width>600</width>
+              <height>200</height>
              </size>
             </property>
             <property name="font">
              <font>
               <family>Open Sans</family>
-              <pointsize>11</pointsize>
+              <pointsize>13</pointsize>
               <weight>75</weight>
               <bold>true</bold>
              </font>
             </property>
             <property name="styleSheet">
-             <string notr="true">QGroupBox {
-/*border: 1px solid rgb(180, 180, 180);*/
-border: none;
-background: white;
-border-radius: 20px;
-/*margin-top: 12px;*/
-border: 1px solid rgb(220,220,220);
-background-image: none;
-}
-
-QGroupBox::title {
-subcontrol-origin: margin;
-/*left: 20px;*/
-padding: 0px 3px;
-left: 12px;
-top: 6px;
-color: rgb(85, 87, 83);
-}
-
-QGroupBox:disabled {
-background-image: url(:/images/dc_icon2.png);
-background-repeat: no-repeat;
-background-position: center;
-}</string>
+             <string notr="true">QGroupBox { border: none; background: white; border-radius: 40px; border: 1px solid rgb(220,220,220); }
+QGroupBox::title { subcontrol-origin: margin; padding: 0px 8px; left: 16px; top: 16px; color: rgb(85, 87, 83); }
+QGroupBox::title:disabled { color: rgb(180,180,180); }</string>
             </property>
             <property name="title">
              <string>RF Monitor</string>
             </property>
             <layout class="QHBoxLayout" name="horizontalLayout_5">
              <property name="spacing">
-              <number>15</number>
+              <number>30</number>
              </property>
              <property name="leftMargin">
               <number>31</number>
@@ -1028,7 +951,7 @@ background-position: center;
                <property name="font">
                 <font>
                  <family>Open Sans</family>
-                 <pointsize>9</pointsize>
+                 <pointsize>14</pointsize>
                 </font>
                </property>
                <property name="styleSheet">
@@ -1060,7 +983,7 @@ QLabel:disabled{ color: transparent; }</string>
                <property name="font">
                 <font>
                  <family>Open Sans</family>
-                 <pointsize>12</pointsize>
+                 <pointsize>18</pointsize>
                  <weight>75</weight>
                  <bold>true</bold>
                 </font>
@@ -1091,14 +1014,14 @@ QLineEdit:disabled { color: transparent; }
                </property>
                <property name="minimumSize">
                 <size>
-                 <width>36</width>
-                 <height>36</height>
+                 <width>40</width>
+                 <height>40</height>
                 </size>
                </property>
                <property name="maximumSize">
                 <size>
-                 <width>100000</width>
-                 <height>36</height>
+                 <width>40</width>
+                 <height>40</height>
                 </size>
                </property>
                <property name="font">
@@ -1114,10 +1037,10 @@ QLineEdit:disabled { color: transparent; }
                 <string notr="true">QPushButton {
 	background-color: rgb(85,87,83);
 	border: none;
-	border-radius: 18px;
+	border-radius: 20px;
 	color: white;
-	height: 36px;
-	width: 36px;
+	height: 40px;
+	width: 40px;
 }
 QPushButton:hover { background-color: rgb(66,68,65); }
 QPushButton:hover:pressed { background-color: rgb(48,49,47); }
@@ -1152,18 +1075,19 @@ QPushButton:disabled { background-color: rgb(220,220,220); }</string>
             <property name="minimumSize">
              <size>
               <width>350</width>
-              <height>260</height>
+              <height>340</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>550</width>
-              <height>350</height>
+              <width>600</width>
+              <height>500</height>
              </size>
             </property>
             <property name="font">
              <font>
               <family>Open Sans</family>
+              <pointsize>13</pointsize>
               <weight>75</weight>
               <bold>true</bold>
              </font>
@@ -1172,27 +1096,9 @@ QPushButton:disabled { background-color: rgb(220,220,220); }</string>
              <cursorShape>ArrowCursor</cursorShape>
             </property>
             <property name="styleSheet">
-             <string notr="true">QGroupBox {
-/*border: 1px solid rgb(180, 180, 180);*/
-border: none;
-background: white;
-border-radius: 20px;
-/*margin-top: 12px;*/
-border: 1px solid rgb(220,220,220);
-}
-
-QGroupBox::title {
-subcontrol-origin: margin;
-/*left: 20px;*/
-padding: 0px 3px;
-left: 12px;
-top: 6px;
-color: rgb(85, 87, 83);
-}
-
-QGroupBox::title:disabled {
-color: rgb(180,180,180);
-}</string>
+             <string notr="true">QGroupBox { border: none; background: white; border-radius: 40px; border: 1px solid rgb(220,220,220); }
+QGroupBox::title { subcontrol-origin: margin; padding: 0px 8px; left: 16px; top: 16px; color: rgb(85, 87, 83); }
+QGroupBox::title:disabled { color: rgb(180,180,180); }</string>
             </property>
             <property name="title">
              <string>Status</string>
@@ -1214,18 +1120,18 @@ color: rgb(180,180,180);
                </property>
                <property name="minimumSize">
                 <size>
-                 <width>120</width>
-                 <height>80</height>
+                 <width>180</width>
+                 <height>120</height>
                 </size>
                </property>
                <property name="maximumSize">
                 <size>
-                 <width>120</width>
+                 <width>180</width>
                  <height>120</height>
                 </size>
                </property>
                <property name="styleSheet">
-                <string notr="true">QFrame { background: #46812B; color: white; border: none; border-radius: 40px; }
+                <string notr="true">QFrame { background: #46812B; color: white; border: none; border-radius: 60px; }
 QFrame:disabled { background: rgb(220,220,220); }</string>
                </property>
                <property name="frameShape">
@@ -1235,18 +1141,21 @@ QFrame:disabled { background: rgb(220,220,220); }</string>
                 <enum>QFrame::Raised</enum>
                </property>
                <layout class="QVBoxLayout" name="verticalLayout_6">
+                <property name="spacing">
+                 <number>0</number>
+                </property>
                 <property name="topMargin">
-                 <number>16</number>
+                 <number>20</number>
                 </property>
                 <property name="bottomMargin">
-                 <number>20</number>
+                 <number>25</number>
                 </property>
                 <item alignment="Qt::AlignHCenter">
                  <widget class="QLabel" name="label_12">
                   <property name="font">
                    <font>
                     <family>Open Sans</family>
-                    <pointsize>10</pointsize>
+                    <pointsize>14</pointsize>
                     <weight>50</weight>
                     <bold>false</bold>
                    </font>
@@ -1268,7 +1177,7 @@ QLabel:disabled{ color: rgb(180,180,180); }</string>
                   <property name="font">
                    <font>
                     <family>Open Sans</family>
-                    <pointsize>12</pointsize>
+                    <pointsize>18</pointsize>
                     <weight>75</weight>
                     <bold>true</bold>
                    </font>
@@ -1295,18 +1204,18 @@ QLabel:disabled{ color: rgb(180,180,180); }</string>
                </property>
                <property name="minimumSize">
                 <size>
-                 <width>120</width>
-                 <height>80</height>
+                 <width>180</width>
+                 <height>120</height>
                 </size>
                </property>
                <property name="maximumSize">
                 <size>
-                 <width>120</width>
+                 <width>180</width>
                  <height>120</height>
                 </size>
                </property>
                <property name="styleSheet">
-                <string notr="true">QFrame { background: #46812B; color: white; border: none; border-radius: 40px; }
+                <string notr="true">QFrame { background: #46812B; color: white; border: none; border-radius: 60px; }
 QFrame:disabled { background: rgb(220,220,220); }</string>
                </property>
                <property name="frameShape">
@@ -1316,18 +1225,21 @@ QFrame:disabled { background: rgb(220,220,220); }</string>
                 <enum>QFrame::Raised</enum>
                </property>
                <layout class="QVBoxLayout" name="verticalLayout_7">
+                <property name="spacing">
+                 <number>0</number>
+                </property>
                 <property name="topMargin">
-                 <number>16</number>
+                 <number>20</number>
                 </property>
                 <property name="bottomMargin">
-                 <number>20</number>
+                 <number>25</number>
                 </property>
                 <item alignment="Qt::AlignHCenter">
                  <widget class="QLabel" name="label_13">
                   <property name="font">
                    <font>
                     <family>Open Sans</family>
-                    <pointsize>10</pointsize>
+                    <pointsize>14</pointsize>
                     <weight>50</weight>
                     <bold>false</bold>
                    </font>
@@ -1349,7 +1261,7 @@ QLabel:disabled{ color: rgb(180,180,180); }</string>
                   <property name="font">
                    <font>
                     <family>Open Sans</family>
-                    <pointsize>12</pointsize>
+                    <pointsize>18</pointsize>
                     <weight>75</weight>
                     <bold>true</bold>
                    </font>
@@ -1376,13 +1288,13 @@ QLabel:disabled{ color: rgb(180,180,180); }</string>
                </property>
                <property name="minimumSize">
                 <size>
-                 <width>120</width>
-                 <height>80</height>
+                 <width>180</width>
+                 <height>120</height>
                 </size>
                </property>
                <property name="maximumSize">
                 <size>
-                 <width>120</width>
+                 <width>180</width>
                  <height>120</height>
                 </size>
                </property>
@@ -1392,7 +1304,7 @@ QLabel:disabled{ color: rgb(180,180,180); }</string>
                 </font>
                </property>
                <property name="styleSheet">
-                <string notr="true">QFrame { background: #46812B; color: white; border: none; border-radius: 40px; }
+                <string notr="true">QFrame { background: #46812B; color: white; border: none; border-radius: 60px; }
 QFrame:disabled { background: rgb(220,220,220); }</string>
                </property>
                <property name="frameShape">
@@ -1402,18 +1314,21 @@ QFrame:disabled { background: rgb(220,220,220); }</string>
                 <enum>QFrame::Raised</enum>
                </property>
                <layout class="QVBoxLayout" name="verticalLayout_9">
+                <property name="spacing">
+                 <number>0</number>
+                </property>
                 <property name="topMargin">
-                 <number>16</number>
+                 <number>20</number>
                 </property>
                 <property name="bottomMargin">
-                 <number>20</number>
+                 <number>25</number>
                 </property>
                 <item alignment="Qt::AlignHCenter">
                  <widget class="QLabel" name="label_20">
                   <property name="font">
                    <font>
                     <family>Open Sans</family>
-                    <pointsize>9</pointsize>
+                    <pointsize>14</pointsize>
                     <weight>50</weight>
                     <bold>false</bold>
                    </font>
@@ -1432,10 +1347,16 @@ QLabel:disabled{ color: rgb(180,180,180); }</string>
                 </item>
                 <item>
                  <widget class="QLabel" name="fault_status">
+                  <property name="minimumSize">
+                   <size>
+                    <width>0</width>
+                    <height>0</height>
+                   </size>
+                  </property>
                   <property name="font">
                    <font>
                     <family>Open Sans</family>
-                    <pointsize>12</pointsize>
+                    <pointsize>18</pointsize>
                     <weight>75</weight>
                     <bold>true</bold>
                    </font>
@@ -1462,18 +1383,23 @@ QLabel:disabled{ color: rgb(180,180,180); }</string>
                </property>
                <property name="minimumSize">
                 <size>
-                 <width>120</width>
-                 <height>80</height>
+                 <width>180</width>
+                 <height>120</height>
                 </size>
                </property>
                <property name="maximumSize">
                 <size>
-                 <width>120</width>
+                 <width>180</width>
                  <height>120</height>
                 </size>
                </property>
+               <property name="font">
+                <font>
+                 <pointsize>10</pointsize>
+                </font>
+               </property>
                <property name="styleSheet">
-                <string notr="true">QFrame { background: #46812B; color: white; border: none; border-radius: 40px; }
+                <string notr="true">QFrame { background: #46812B; color: white; border: none; border-radius: 60px; }
 QFrame:disabled { background: rgb(220,220,220); }</string>
                </property>
                <property name="frameShape">
@@ -1483,18 +1409,21 @@ QFrame:disabled { background: rgb(220,220,220); }</string>
                 <enum>QFrame::Raised</enum>
                </property>
                <layout class="QVBoxLayout" name="verticalLayout_18">
+                <property name="spacing">
+                 <number>0</number>
+                </property>
                 <property name="topMargin">
-                 <number>16</number>
+                 <number>20</number>
                 </property>
                 <property name="bottomMargin">
-                 <number>20</number>
+                 <number>25</number>
                 </property>
                 <item alignment="Qt::AlignHCenter">
                  <widget class="QLabel" name="label_24">
                   <property name="font">
                    <font>
                     <family>Open Sans</family>
-                    <pointsize>9</pointsize>
+                    <pointsize>14</pointsize>
                     <weight>50</weight>
                     <bold>false</bold>
                    </font>
@@ -1519,7 +1448,7 @@ QLabel:disabled{ color: rgb(180,180,180); }</string>
                   <property name="font">
                    <font>
                     <family>Open Sans</family>
-                    <pointsize>12</pointsize>
+                    <pointsize>19</pointsize>
                     <weight>75</weight>
                     <bold>true</bold>
                    </font>
@@ -1555,50 +1484,29 @@ QLabel:disabled{ color: rgb(180,180,180); }</string>
             </property>
             <property name="maximumSize">
              <size>
-              <width>425</width>
-              <height>125</height>
+              <width>600</width>
+              <height>200</height>
              </size>
             </property>
             <property name="font">
              <font>
               <family>Open Sans</family>
-              <pointsize>11</pointsize>
+              <pointsize>13</pointsize>
               <weight>75</weight>
               <bold>true</bold>
              </font>
             </property>
             <property name="styleSheet">
-             <string notr="true">QGroupBox {
-/*border: 1px solid rgb(180, 180, 180);*/
-border: none;
-background: white;
-border-radius: 20px;
-/*margin-top: 12px;*/
-border: 1px solid rgb(220,220,220);
-background-image: none;
-}
-
-QGroupBox::title {
-subcontrol-origin: margin;
-/*left: 20px;*/
-padding: 0px 3px;
-left: 12px;
-top: 6px;
-color: rgb(85, 87, 83);
-}
-
-QGroupBox:disabled {
-background-image: url(:/images/dc_icon2.png);
-background-repeat: no-repeat;
-background-position: center;
-}</string>
+             <string notr="true">QGroupBox { border: none; background: white; border-radius: 40px; border: 1px solid rgb(220,220,220); }
+QGroupBox::title { subcontrol-origin: margin; padding: 0px 8px; left: 16px; top: 16px; color: rgb(85, 87, 83); }
+QGroupBox::title:disabled { color: rgb(180,180,180); }</string>
             </property>
             <property name="title">
              <string>FMS</string>
             </property>
             <layout class="QHBoxLayout" name="horizontalLayout_4">
              <property name="spacing">
-              <number>15</number>
+              <number>30</number>
              </property>
              <property name="leftMargin">
               <number>31</number>
@@ -1642,7 +1550,7 @@ background-position: center;
                <property name="font">
                 <font>
                  <family>Open Sans</family>
-                 <pointsize>9</pointsize>
+                 <pointsize>14</pointsize>
                 </font>
                </property>
                <property name="styleSheet">
@@ -1674,7 +1582,7 @@ QLabel:disabled{ color: transparent; }</string>
                <property name="font">
                 <font>
                  <family>Open Sans</family>
-                 <pointsize>12</pointsize>
+                 <pointsize>18</pointsize>
                  <weight>75</weight>
                  <bold>true</bold>
                 </font>
@@ -1702,14 +1610,14 @@ QLineEdit:disabled { color: transparent; }
                </property>
                <property name="minimumSize">
                 <size>
-                 <width>36</width>
-                 <height>36</height>
+                 <width>40</width>
+                 <height>40</height>
                 </size>
                </property>
                <property name="maximumSize">
                 <size>
-                 <width>100000</width>
-                 <height>36</height>
+                 <width>40</width>
+                 <height>40</height>
                 </size>
                </property>
                <property name="font">
@@ -1725,10 +1633,10 @@ QLineEdit:disabled { color: transparent; }
                 <string notr="true">QPushButton {
 	background-color: rgb(85,87,83);
 	border: none;
-	border-radius: 18px;
+	border-radius: 20px;
 	color: white;
-	height: 36px;
-	width: 36px;
+	height: 40px;
+	width: 40px;
 }
 QPushButton:hover { background-color: rgb(66,68,65); }
 QPushButton:hover:pressed { background-color: rgb(48,49,47); }
@@ -1755,182 +1663,6 @@ QPushButton:disabled { background-color: rgb(220,220,220); }</string>
             </layout>
            </widget>
           </item>
-          <item row="1" column="2">
-           <widget class="QGroupBox" name="pid_group">
-            <property name="enabled">
-             <bool>true</bool>
-            </property>
-            <property name="minimumSize">
-             <size>
-              <width>300</width>
-              <height>98</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>425</width>
-              <height>125</height>
-             </size>
-            </property>
-            <property name="font">
-             <font>
-              <family>Open Sans</family>
-              <pointsize>11</pointsize>
-              <weight>75</weight>
-              <bold>true</bold>
-             </font>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">QGroupBox {
-/*border: 1px solid rgb(180, 180, 180);*/
-border: none;
-background: white;
-border-radius: 20px;
-/*margin-top: 12px;*/
-border: 1px solid rgb(220,220,220);
-}
-
-QGroupBox::title {
-subcontrol-origin: margin;
-/*left: 20px;*/
-padding: 0px 3px;
-left: 12px;
-top: 6px;
-color: rgb(85, 87, 83);
-}</string>
-            </property>
-            <property name="title">
-             <string>Auto Control</string>
-            </property>
-            <layout class="QHBoxLayout" name="horizontalLayout">
-             <property name="topMargin">
-              <number>28</number>
-             </property>
-             <property name="bottomMargin">
-              <number>22</number>
-             </property>
-             <item>
-              <widget class="QComboBox" name="pid_dropdown">
-               <property name="minimumSize">
-                <size>
-                 <width>112</width>
-                 <height>36</height>
-                </size>
-               </property>
-               <property name="maximumSize">
-                <size>
-                 <width>112</width>
-                 <height>36</height>
-                </size>
-               </property>
-               <property name="font">
-                <font>
-                 <family>Open Sans</family>
-                 <pointsize>10</pointsize>
-                 <weight>75</weight>
-                 <bold>true</bold>
-                </font>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">QComboBox {
-/*background-color: white;*/
-background-color: red;
-color: rgb(85, 87, 83);
-border: none;
-border-radius: 15px;
-padding-top: -1px;
-padding-left: 8px;
-padding-right: 8px;
-font-size: 10pt;
-}
-QComboBox:on {
-border: none;
-}
-QComboBox QAbstractItemView {
-border: none;
-background: white;
-background: red;
-}
-QComboBox:disabled {
-color: rgb(180,180,180);
-}
-QComboBox::drop-down {
-border: none;
-}
-QComboBox::down-arrow {
-image: url(:/images/down_arrow.png);
-padding-right: 13px;
-}
-QComboBox::down-arrow:disabled {
-image: url(:/images/down_arrow_disabled.png);
-}
-QComboBox:active {
-background-color: white;
-border: none;
-}
-QComboBox:!active {
-background-color: white;
-border: none;
-}</string>
-               </property>
-               <item>
-                <property name="text">
-                 <string>POWER</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>FREQUENCY</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>CURRENT</string>
-                </property>
-               </item>
-              </widget>
-             </item>
-             <item>
-              <widget class="QPushButton" name="enable_button">
-               <property name="minimumSize">
-                <size>
-                 <width>90</width>
-                 <height>36</height>
-                </size>
-               </property>
-               <property name="maximumSize">
-                <size>
-                 <width>90</width>
-                 <height>36</height>
-                </size>
-               </property>
-               <property name="font">
-                <font>
-                 <family>Open Sans</family>
-                 <pointsize>10</pointsize>
-                 <weight>75</weight>
-                 <bold>true</bold>
-                </font>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">QPushButton {
-	background-color: rgb(85,87,83);
-	border: none;
-	color: white;
-	border-radius: 18px;
-}
-QPushButton:hover:pressed { background-color: rgb(48,49,47); }
-QPushButton:hover { background-color: rgb(66,68,65); }
-QPushButton:disabled { background-color: rgb(220,220,220); }</string>
-               </property>
-               <property name="text">
-                <string>ENABLE</string>
-               </property>
-              </widget>
-             </item>
-            </layout>
-           </widget>
-          </item>
           <item row="0" column="1" colspan="2">
            <widget class="QGroupBox" name="state_group">
             <property name="enabled">
@@ -1945,25 +1677,26 @@ QPushButton:disabled { background-color: rgb(220,220,220); }</string>
             <property name="minimumSize">
              <size>
               <width>695</width>
-              <height>260</height>
+              <height>400</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
               <width>1300</width>
-              <height>350</height>
+              <height>500</height>
              </size>
             </property>
             <property name="font">
              <font>
               <family>Open Sans</family>
+              <pointsize>13</pointsize>
               <weight>75</weight>
               <bold>true</bold>
              </font>
             </property>
             <property name="styleSheet">
-             <string notr="true">QGroupBox { border: none; background: white; border-radius: 20px; border: 1px solid rgb(220,220,220); width: 695px; }
-QGroupBox::title { subcontrol-origin: margin; padding: 0px 3px; left: 12px; top: 6px; color: rgb(85, 87, 83); }
+             <string notr="true">QGroupBox { border: none; background: white; border-radius: 40px; border: 1px solid rgb(220,220,220); }
+QGroupBox::title { subcontrol-origin: margin; padding: 0px 8px; left: 16px; top: 16px; color: rgb(85, 87, 83); }
 QGroupBox::title:disabled { color: rgb(180,180,180); }</string>
             </property>
             <property name="title">
@@ -1992,14 +1725,14 @@ QGroupBox::title:disabled { color: rgb(180,180,180); }</string>
                  </property>
                  <property name="minimumSize">
                   <size>
-                   <width>125</width>
-                   <height>125</height>
+                   <width>218</width>
+                   <height>218</height>
                   </size>
                  </property>
                  <property name="maximumSize">
                   <size>
-                   <width>125</width>
-                   <height>125</height>
+                   <width>218</width>
+                   <height>218</height>
                   </size>
                  </property>
                  <property name="font">
@@ -2063,7 +1796,7 @@ border-image: url(:/images/back_disabled.png) 0 0 0 0 stretch stretch;
                  <property name="font">
                   <font>
                    <family>Open Sans</family>
-                   <pointsize>10</pointsize>
+                   <pointsize>14</pointsize>
                   </font>
                  </property>
                  <property name="styleSheet">
@@ -2084,14 +1817,14 @@ QLabel:disabled { color: transparent; }</string>
                </property>
                <property name="minimumSize">
                 <size>
-                 <width>200</width>
-                 <height>200</height>
+                 <width>320</width>
+                 <height>320</height>
                 </size>
                </property>
                <property name="maximumSize">
                 <size>
-                 <width>200</width>
-                 <height>200</height>
+                 <width>320</width>
+                 <height>320</height>
                 </size>
                </property>
                <property name="font">
@@ -2101,7 +1834,7 @@ QLabel:disabled { color: transparent; }</string>
                 </font>
                </property>
                <property name="styleSheet">
-                <string notr="true">QFrame { background-color: rgb(85,87,83); color: white; border: none; border-radius: 100px; }</string>
+                <string notr="true">QFrame { background-color: rgb(85,87,83); color: white; border: none; border-radius: 160px; }</string>
                </property>
                <property name="frameShape">
                 <enum>QFrame::StyledPanel</enum>
@@ -2111,17 +1844,17 @@ QLabel:disabled { color: transparent; }</string>
                </property>
                <layout class="QVBoxLayout" name="verticalLayout_8" stretch="0,0,0,0,0">
                 <property name="topMargin">
-                 <number>30</number>
+                 <number>40</number>
                 </property>
                 <property name="bottomMargin">
-                 <number>30</number>
+                 <number>40</number>
                 </property>
                 <item alignment="Qt::AlignHCenter">
                  <widget class="QLabel" name="label_15">
                   <property name="font">
                    <font>
                     <family>Open Sans</family>
-                    <pointsize>10</pointsize>
+                    <pointsize>14</pointsize>
                     <weight>50</weight>
                     <italic>false</italic>
                     <bold>false</bold>
@@ -2157,7 +1890,7 @@ QLabel:disabled { color: transparent; }</string>
                   <property name="font">
                    <font>
                     <family>Open Sans</family>
-                    <pointsize>14</pointsize>
+                    <pointsize>20</pointsize>
                     <weight>75</weight>
                     <bold>true</bold>
                    </font>
@@ -2193,7 +1926,7 @@ POWER ON</string>
                   <property name="font">
                    <font>
                     <family>Open Sans</family>
-                    <pointsize>11</pointsize>
+                    <pointsize>14</pointsize>
                     <weight>50</weight>
                     <italic>true</italic>
                     <bold>false</bold>
@@ -2235,14 +1968,14 @@ POWER ON</string>
                  </property>
                  <property name="minimumSize">
                   <size>
-                   <width>125</width>
-                   <height>125</height>
+                   <width>218</width>
+                   <height>218</height>
                   </size>
                  </property>
                  <property name="maximumSize">
                   <size>
-                   <width>125</width>
-                   <height>125</height>
+                   <width>218</width>
+                   <height>218</height>
                   </size>
                  </property>
                  <property name="font">
@@ -2291,7 +2024,7 @@ border-image: url(:/images/forward_disabled.png) 0 0 0 0 stretch stretch;
                  <property name="font">
                   <font>
                    <family>Open Sans</family>
-                   <pointsize>10</pointsize>
+                   <pointsize>14</pointsize>
                   </font>
                  </property>
                  <property name="styleSheet">
@@ -2304,6 +2037,188 @@ QLabel:disabled { color: transparent; }</string>
                 </widget>
                </item>
               </layout>
+             </item>
+            </layout>
+           </widget>
+          </item>
+          <item row="1" column="2">
+           <widget class="QGroupBox" name="pid_group">
+            <property name="enabled">
+             <bool>true</bool>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>300</width>
+              <height>98</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>600</width>
+              <height>200</height>
+             </size>
+            </property>
+            <property name="font">
+             <font>
+              <family>Open Sans</family>
+              <pointsize>13</pointsize>
+              <weight>75</weight>
+              <bold>true</bold>
+             </font>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">QGroupBox {
+/*border: 1px solid rgb(180, 180, 180);*/
+border: none;
+background: white;
+border-radius: 40px;
+/*margin-top: 12px;*/
+border: 1px solid rgb(220,220,220);
+}
+
+QGroupBox::title {
+subcontrol-origin: margin;
+/*left: 20px;*/
+padding: 0px 8px;
+left: 16px;
+top: 16px;
+color: rgb(85, 87, 83);
+}</string>
+            </property>
+            <property name="title">
+             <string>Auto Control</string>
+            </property>
+            <layout class="QHBoxLayout" name="horizontalLayout">
+             <property name="topMargin">
+              <number>28</number>
+             </property>
+             <property name="bottomMargin">
+              <number>22</number>
+             </property>
+             <item>
+              <widget class="QComboBox" name="pid_dropdown">
+               <property name="minimumSize">
+                <size>
+                 <width>112</width>
+                 <height>36</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>112</width>
+                 <height>36</height>
+                </size>
+               </property>
+               <property name="font">
+                <font>
+                 <family>Open Sans</family>
+                 <pointsize>14</pointsize>
+                 <weight>75</weight>
+                 <bold>true</bold>
+                </font>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">QComboBox {
+/*background-color: white;*/
+background-color: red;
+color: rgb(85, 87, 83);
+border: none;
+border-radius: 15px;
+padding-top: -1px;
+padding-left: 8px;
+padding-right: 8px;
+font-size: 14pt;
+}
+QComboBox:on {
+border: none;
+}
+QComboBox QAbstractItemView {
+border: none;
+background: white;
+background: red;
+}
+QComboBox:disabled {
+color: rgb(180,180,180);
+}
+QComboBox::drop-down {
+border: none;
+}
+QComboBox::down-arrow {
+image: url(:/images/down_arrow.png);
+padding-right: 13px;
+}
+QComboBox::down-arrow:disabled {
+image: url(:/images/down_arrow_disabled.png);
+}
+QComboBox:active {
+background-color: white;
+border: none;
+}
+QComboBox:!active {
+background-color: white;
+border: none;
+}</string>
+               </property>
+               <property name="iconSize">
+                <size>
+                 <width>32</width>
+                 <height>32</height>
+                </size>
+               </property>
+               <item>
+                <property name="text">
+                 <string>POWER</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>FREQUENCY</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>CURRENT</string>
+                </property>
+               </item>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="enable_button">
+               <property name="minimumSize">
+                <size>
+                 <width>140</width>
+                 <height>70</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>140</width>
+                 <height>70</height>
+                </size>
+               </property>
+               <property name="font">
+                <font>
+                 <family>Open Sans</family>
+                 <pointsize>14</pointsize>
+                 <weight>75</weight>
+                 <bold>true</bold>
+                </font>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">QPushButton {
+	background-color: rgb(85,87,83);
+	border: none;
+	color: white;
+	border-radius: 35px;
+}
+QPushButton:hover:pressed { background-color: rgb(48,49,47); }
+QPushButton:hover { background-color: rgb(66,68,65); }
+QPushButton:disabled { background-color: rgb(220,220,220); }</string>
+               </property>
+               <property name="text">
+                <string>ENABLE</string>
+               </property>
+              </widget>
              </item>
             </layout>
            </widget>
@@ -2332,20 +2247,20 @@ QLabel:disabled { color: transparent; }</string>
            <widget class="QPushButton" name="more_button">
             <property name="minimumSize">
              <size>
-              <width>80</width>
-              <height>24</height>
+              <width>90</width>
+              <height>34</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>80</width>
-              <height>24</height>
+              <width>90</width>
+              <height>34</height>
              </size>
             </property>
             <property name="font">
              <font>
               <family>Open Sans</family>
-              <pointsize>10</pointsize>
+              <pointsize>12</pointsize>
               <weight>75</weight>
               <bold>true</bold>
              </font>
@@ -2354,7 +2269,7 @@ QLabel:disabled { color: transparent; }</string>
              <string notr="true">QPushButton {
 	background-color: transparent;
 	border: none;
-	border-radius: 12px;
+	border-radius: 17px;
 	color: rgb(85,87,83);
 }
 QPushButton:hover { background-color: rgb(220,220,220); }
@@ -2381,12 +2296,12 @@ QPushButton:hover:pressed { background-color: rgb(200,200,200); }</string>
          </layout>
         </item>
         <item>
-         <layout class="QHBoxLayout" name="show_more_layout">
+         <layout class="QHBoxLayout" name="show_more_layout" stretch="1,0">
           <property name="spacing">
-           <number>20</number>
+           <number>40</number>
           </property>
           <property name="bottomMargin">
-           <number>20</number>
+           <number>30</number>
           </property>
           <item>
            <widget class="QGroupBox" name="beam_params_group">
@@ -2402,19 +2317,19 @@ QPushButton:hover:pressed { background-color: rgb(200,200,200); }</string>
             <property name="minimumSize">
              <size>
               <width>375</width>
-              <height>140</height>
+              <height>300</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>1000</width>
+              <width>10000</width>
               <height>800</height>
              </size>
             </property>
             <property name="font">
              <font>
               <family>Open Sans</family>
-              <pointsize>11</pointsize>
+              <pointsize>13</pointsize>
               <weight>75</weight>
               <bold>true</bold>
               <kerning>true</kerning>
@@ -2428,7 +2343,7 @@ QPushButton:hover:pressed { background-color: rgb(200,200,200); }</string>
 /*border: 1px solid rgb(180, 180, 180);*/
 border: none;
 background: white;
-border-radius: 20px;
+border-radius: 40px;
 /*margin-top: 12px;*/
 border: 1px solid rgb(220,220,220);
 background-image: none;
@@ -2437,9 +2352,9 @@ background-image: none;
 QGroupBox::title {
 subcontrol-origin: margin;
 /*left: 20px;*/
-padding: 0px 3px;
-left: 12px;
-top: 6px;
+padding: 0px 8px;
+left: 16px;
+top: 16px;
 color: rgb(85, 87, 83);
 }
 
@@ -2484,7 +2399,7 @@ background-position: center;
                 <number>12</number>
                </property>
                <property name="horizontalSpacing">
-                <number>6</number>
+                <number>30</number>
                </property>
                <property name="verticalSpacing">
                 <number>0</number>
@@ -2493,20 +2408,20 @@ background-position: center;
                 <widget class="QPushButton" name="gtc_curr_button">
                  <property name="minimumSize">
                   <size>
-                   <width>36</width>
-                   <height>36</height>
+                   <width>40</width>
+                   <height>40</height>
                   </size>
                  </property>
                  <property name="maximumSize">
                   <size>
-                   <width>100000</width>
-                   <height>36</height>
+                   <width>40</width>
+                   <height>40</height>
                   </size>
                  </property>
                  <property name="font">
                   <font>
                    <family>Open Sans</family>
-                   <pointsize>17</pointsize>
+                   <pointsize>18</pointsize>
                   </font>
                  </property>
                  <property name="cursor">
@@ -2516,10 +2431,10 @@ background-position: center;
                   <string notr="true">QPushButton {
 	background-color: rgb(85,87,83);
 	border: none;
-	border-radius: 18px;
+	border-radius: 20px;
 	color: white;
-	height: 36px;
-	width: 36px;
+	height: 40px;
+	width: 40px;
 }
 QPushButton:hover { background-color: rgb(66,68,65); }
 QPushButton:hover:pressed { background-color: rgb(48,49,47); }
@@ -2534,20 +2449,20 @@ QPushButton:disabled { background-color: rgb(220,220,220); }</string>
                 <widget class="QPushButton" name="gtc_volt_button">
                  <property name="minimumSize">
                   <size>
-                   <width>36</width>
-                   <height>36</height>
+                   <width>40</width>
+                   <height>40</height>
                   </size>
                  </property>
                  <property name="maximumSize">
                   <size>
-                   <width>100000</width>
-                   <height>36</height>
+                   <width>40</width>
+                   <height>40</height>
                   </size>
                  </property>
                  <property name="font">
                   <font>
                    <family>Open Sans</family>
-                   <pointsize>17</pointsize>
+                   <pointsize>18</pointsize>
                   </font>
                  </property>
                  <property name="cursor">
@@ -2557,10 +2472,10 @@ QPushButton:disabled { background-color: rgb(220,220,220); }</string>
                   <string notr="true">QPushButton {
 	background-color: rgb(85,87,83);
 	border: none;
-	border-radius: 18px;
+	border-radius: 20px;
 	color: white;
-	height: 36px;
-	width: 36px;
+	height: 40px;
+	width: 40px;
 }
 QPushButton:hover { background-color: rgb(66,68,65); }
 QPushButton:hover:pressed { background-color: rgb(48,49,47); }
@@ -2588,7 +2503,7 @@ QPushButton:disabled { background-color: rgb(220,220,220); }</string>
                  <property name="font">
                   <font>
                    <family>Open Sans</family>
-                   <pointsize>12</pointsize>
+                   <pointsize>18</pointsize>
                    <weight>75</weight>
                    <bold>true</bold>
                   </font>
@@ -2626,7 +2541,7 @@ QLineEdit:disabled { color: transparent; }
                  <property name="font">
                   <font>
                    <family>Open Sans</family>
-                   <pointsize>12</pointsize>
+                   <pointsize>18</pointsize>
                    <weight>75</weight>
                    <bold>true</bold>
                   </font>
@@ -2652,7 +2567,7 @@ QLineEdit:disabled { color: transparent; }
                  <property name="font">
                   <font>
                    <family>Open Sans</family>
-                   <pointsize>9</pointsize>
+                   <pointsize>14</pointsize>
                   </font>
                  </property>
                  <property name="styleSheet">
@@ -2672,7 +2587,7 @@ QLabel:disabled{ color: transparent; }</string>
                  <property name="font">
                   <font>
                    <family>Open Sans</family>
-                   <pointsize>9</pointsize>
+                   <pointsize>14</pointsize>
                   </font>
                  </property>
                  <property name="styleSheet">
@@ -2705,7 +2620,7 @@ QLabel:disabled{ color: transparent; }</string>
              <item>
               <layout class="QGridLayout" name="gridLayout_2">
                <property name="horizontalSpacing">
-                <number>6</number>
+                <number>30</number>
                </property>
                <property name="verticalSpacing">
                 <number>0</number>
@@ -2727,7 +2642,7 @@ QLabel:disabled{ color: transparent; }</string>
                  <property name="font">
                   <font>
                    <family>Open Sans</family>
-                   <pointsize>12</pointsize>
+                   <pointsize>18</pointsize>
                    <weight>75</weight>
                    <bold>true</bold>
                   </font>
@@ -2748,24 +2663,24 @@ QLineEdit:disabled { color: transparent; }
                  </property>
                 </widget>
                </item>
-               <item row="0" column="0">
+               <item row="0" column="0" alignment="Qt::AlignRight">
                 <widget class="QLabel" name="label">
                  <property name="minimumSize">
                   <size>
-                   <width>125</width>
-                   <height>34</height>
+                   <width>0</width>
+                   <height>0</height>
                   </size>
                  </property>
                  <property name="maximumSize">
                   <size>
-                   <width>125</width>
-                   <height>34</height>
+                   <width>10000</width>
+                   <height>10000</height>
                   </size>
                  </property>
                  <property name="font">
                   <font>
                    <family>Open Sans</family>
-                   <pointsize>9</pointsize>
+                   <pointsize>14</pointsize>
                    <kerning>true</kerning>
                   </font>
                  </property>
@@ -2792,7 +2707,7 @@ QLabel:disabled{ color: transparent; }</string>
                  <property name="font">
                   <font>
                    <family>Open Sans</family>
-                   <pointsize>9</pointsize>
+                   <pointsize>14</pointsize>
                   </font>
                  </property>
                  <property name="styleSheet">
@@ -2824,7 +2739,7 @@ QLabel:disabled{ color: transparent; }</string>
                  <property name="font">
                   <font>
                    <family>Open Sans</family>
-                   <pointsize>12</pointsize>
+                   <pointsize>18</pointsize>
                    <weight>75</weight>
                    <bold>true</bold>
                   </font>
@@ -2853,7 +2768,7 @@ QLineEdit:disabled { color: transparent; }
                  <property name="font">
                   <font>
                    <family>Open Sans</family>
-                   <pointsize>9</pointsize>
+                   <pointsize>14</pointsize>
                   </font>
                  </property>
                  <property name="styleSheet">
@@ -2888,7 +2803,7 @@ QLabel:disabled{ color: transparent; }</string>
                  <property name="font">
                   <font>
                    <family>Open Sans</family>
-                   <pointsize>12</pointsize>
+                   <pointsize>18</pointsize>
                    <weight>75</weight>
                    <bold>true</bold>
                   </font>
@@ -2958,20 +2873,20 @@ QLineEdit:disabled { color: transparent; }
                     </property>
                     <property name="minimumSize">
                      <size>
-                      <width>36</width>
-                      <height>36</height>
+                      <width>40</width>
+                      <height>40</height>
                      </size>
                     </property>
                     <property name="maximumSize">
                      <size>
-                      <width>100000</width>
-                      <height>36</height>
+                      <width>40</width>
+                      <height>40</height>
                      </size>
                     </property>
                     <property name="font">
                      <font>
                       <family>Open Sans</family>
-                      <pointsize>17</pointsize>
+                      <pointsize>18</pointsize>
                      </font>
                     </property>
                     <property name="cursor">
@@ -2981,10 +2896,10 @@ QLineEdit:disabled { color: transparent; }
                      <string notr="true">QPushButton {
 	background-color: rgb(85,87,83);
 	border: none;
-	border-radius: 18px;
+	border-radius: 20px;
 	color: white;
-	height: 36px;
-	width: 36px;
+	height: 40px;
+	width: 40px;
 }
 QPushButton:hover { background-color: rgb(66,68,65); }
 QPushButton:hover:pressed { background-color: rgb(48,49,47); }
@@ -2999,20 +2914,20 @@ QPushButton:disabled { background-color: rgb(220,220,220); }</string>
                    <widget class="QPushButton" name="beam_volt_button">
                     <property name="minimumSize">
                      <size>
-                      <width>36</width>
-                      <height>36</height>
+                      <width>40</width>
+                      <height>40</height>
                      </size>
                     </property>
                     <property name="maximumSize">
                      <size>
-                      <width>100000</width>
-                      <height>36</height>
+                      <width>40</width>
+                      <height>40</height>
                      </size>
                     </property>
                     <property name="font">
                      <font>
                       <family>Open Sans</family>
-                      <pointsize>17</pointsize>
+                      <pointsize>18</pointsize>
                      </font>
                     </property>
                     <property name="cursor">
@@ -3022,10 +2937,10 @@ QPushButton:disabled { background-color: rgb(220,220,220); }</string>
                      <string notr="true">QPushButton {
 	background-color: rgb(85,87,83);
 	border: none;
-	border-radius: 18px;
+	border-radius: 20px;
 	color: white;
-	height: 36px;
-	width: 36px;
+	height: 40px;
+	width: 40px;
 }
 QPushButton:hover { background-color: rgb(66,68,65); }
 QPushButton:hover:pressed { background-color: rgb(48,49,47); }
@@ -3043,20 +2958,20 @@ QPushButton:disabled { background-color: rgb(220,220,220); }</string>
                     </property>
                     <property name="minimumSize">
                      <size>
-                      <width>36</width>
-                      <height>36</height>
+                      <width>40</width>
+                      <height>40</height>
                      </size>
                     </property>
                     <property name="maximumSize">
                      <size>
-                      <width>100000</width>
-                      <height>36</height>
+                      <width>40</width>
+                      <height>40</height>
                      </size>
                     </property>
                     <property name="font">
                      <font>
                       <family>Open Sans</family>
-                      <pointsize>17</pointsize>
+                      <pointsize>18</pointsize>
                      </font>
                     </property>
                     <property name="cursor">
@@ -3066,10 +2981,10 @@ QPushButton:disabled { background-color: rgb(220,220,220); }</string>
                      <string notr="true">QPushButton {
 	background-color: rgb(85,87,83);
 	border: none;
-	border-radius: 18px;
+	border-radius: 20px;
 	color: white;
-	height: 36px;
-	width: 36px;
+	height: 40px;
+	width: 40px;
 }
 QPushButton:hover { background-color: rgb(66,68,65); }
 QPushButton:hover:pressed { background-color: rgb(48,49,47); }
@@ -3101,7 +3016,7 @@ QPushButton:disabled { background-color: rgb(220,220,220); }</string>
              <item>
               <layout class="QVBoxLayout" name="verticalLayout_19">
                <property name="spacing">
-                <number>0</number>
+                <number>5</number>
                </property>
                <property name="topMargin">
                 <number>0</number>
@@ -3117,7 +3032,7 @@ QPushButton:disabled { background-color: rgb(220,220,220); }</string>
                  <property name="sizeHint" stdset="0">
                   <size>
                    <width>20</width>
-                   <height>40</height>
+                   <height>20</height>
                   </size>
                  </property>
                 </spacer>
@@ -3133,7 +3048,7 @@ QPushButton:disabled { background-color: rgb(220,220,220); }</string>
                  <property name="font">
                   <font>
                    <family>Open Sans</family>
-                   <pointsize>9</pointsize>
+                   <pointsize>14</pointsize>
                   </font>
                  </property>
                  <property name="styleSheet">
@@ -3155,20 +3070,20 @@ QLabel:disabled{ color: transparent; }</string>
                  </property>
                  <property name="minimumSize">
                   <size>
-                   <width>90</width>
-                   <height>32</height>
+                   <width>0</width>
+                   <height>0</height>
                   </size>
                  </property>
                  <property name="maximumSize">
                   <size>
-                   <width>90</width>
-                   <height>32</height>
+                   <width>10000</width>
+                   <height>10000</height>
                   </size>
                  </property>
                  <property name="font">
                   <font>
                    <family>Open Sans</family>
-                   <pointsize>11</pointsize>
+                   <pointsize>18</pointsize>
                    <weight>75</weight>
                    <bold>true</bold>
                   </font>
@@ -3200,7 +3115,7 @@ QLineEdit:disabled { color: white; }
                  <property name="sizeHint" stdset="0">
                   <size>
                    <width>20</width>
-                   <height>40</height>
+                   <height>20</height>
                   </size>
                  </property>
                 </spacer>
@@ -3210,7 +3125,7 @@ QLineEdit:disabled { color: white; }
                  <property name="font">
                   <font>
                    <family>Open Sans</family>
-                   <pointsize>9</pointsize>
+                   <pointsize>14</pointsize>
                   </font>
                  </property>
                  <property name="styleSheet">
@@ -3229,20 +3144,20 @@ QLabel:disabled{ color: transparent; }</string>
                 <widget class="QLineEdit" name="body_read">
                  <property name="minimumSize">
                   <size>
-                   <width>90</width>
-                   <height>32</height>
+                   <width>0</width>
+                   <height>0</height>
                   </size>
                  </property>
                  <property name="maximumSize">
                   <size>
-                   <width>90</width>
-                   <height>32</height>
+                   <width>100000</width>
+                   <height>100000</height>
                   </size>
                  </property>
                  <property name="font">
                   <font>
                    <family>Open Sans</family>
-                   <pointsize>11</pointsize>
+                   <pointsize>18</pointsize>
                    <weight>75</weight>
                    <bold>true</bold>
                   </font>
@@ -3274,7 +3189,7 @@ QLineEdit:disabled { color: white; }
                  <property name="sizeHint" stdset="0">
                   <size>
                    <width>20</width>
-                   <height>40</height>
+                   <height>20</height>
                   </size>
                  </property>
                 </spacer>
@@ -3298,118 +3213,295 @@ QLineEdit:disabled { color: white; }
            </widget>
           </item>
           <item>
-           <widget class="QFrame" name="settings_frame">
-            <property name="styleSheet">
-             <string notr="true">color: rgb(85,87,83);
+           <layout class="QVBoxLayout" name="verticalLayout_22">
+            <property name="spacing">
+             <number>20</number>
+            </property>
+            <item>
+             <widget class="QFrame" name="clock_frame">
+              <property name="maximumSize">
+               <size>
+                <width>16777215</width>
+                <height>80</height>
+               </size>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">color: rgb(85,87,83);
 background: white;
 border: 1px solid rgb(220,220,220);
-border-radius: 20px;</string>
-            </property>
-            <property name="frameShape">
-             <enum>QFrame::StyledPanel</enum>
-            </property>
-            <property name="frameShadow">
-             <enum>QFrame::Raised</enum>
-            </property>
-            <layout class="QVBoxLayout" name="verticalLayout_20">
-             <property name="leftMargin">
-              <number>20</number>
-             </property>
-             <property name="rightMargin">
-              <number>20</number>
-             </property>
-             <item alignment="Qt::AlignHCenter">
-              <widget class="QPushButton" name="settings_button_2">
-               <property name="minimumSize">
-                <size>
-                 <width>56</width>
-                 <height>56</height>
-                </size>
+border-radius: 40px;</string>
+              </property>
+              <property name="frameShape">
+               <enum>QFrame::StyledPanel</enum>
+              </property>
+              <property name="frameShadow">
+               <enum>QFrame::Raised</enum>
+              </property>
+              <layout class="QHBoxLayout" name="horizontalLayout_18">
+               <item alignment="Qt::AlignHCenter">
+                <widget class="QLabel" name="label_5">
+                 <property name="font">
+                  <font>
+                   <family>Open Sans</family>
+                   <pointsize>18</pointsize>
+                   <weight>75</weight>
+                   <bold>true</bold>
+                  </font>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">border: none; background: transparent;</string>
+                 </property>
+                 <property name="text">
+                  <string>12:00 AM</string>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </widget>
+            </item>
+            <item>
+             <widget class="QFrame" name="storage_frame">
+              <property name="styleSheet">
+               <string notr="true">color: rgb(85,87,83);
+background: white;
+border: 1px solid rgb(220,220,220);
+border-radius: 40px;</string>
+              </property>
+              <property name="frameShape">
+               <enum>QFrame::StyledPanel</enum>
+              </property>
+              <property name="frameShadow">
+               <enum>QFrame::Raised</enum>
+              </property>
+              <layout class="QVBoxLayout" name="verticalLayout_20">
+               <property name="leftMargin">
+                <number>20</number>
                </property>
-               <property name="maximumSize">
-                <size>
-                 <width>56</width>
-                 <height>56</height>
-                </size>
+               <property name="topMargin">
+                <number>15</number>
                </property>
-               <property name="font">
-                <font>
-                 <family>Open Sans</family>
-                 <pointsize>27</pointsize>
-                 <weight>75</weight>
-                 <bold>true</bold>
-                </font>
+               <property name="rightMargin">
+                <number>20</number>
                </property>
-               <property name="cursor">
-                <cursorShape>PointingHandCursor</cursorShape>
+               <property name="bottomMargin">
+                <number>15</number>
                </property>
-               <property name="styleSheet">
-                <string notr="true">QPushButton {
+               <item>
+                <layout class="QHBoxLayout" name="horizontalLayout_19" stretch="1,0,1">
+                 <item alignment="Qt::AlignRight">
+                  <widget class="QLabel" name="label_27">
+                   <property name="font">
+                    <font>
+                     <family>Open Sans</family>
+                     <pointsize>11</pointsize>
+                    </font>
+                   </property>
+                   <property name="styleSheet">
+                    <string notr="true">border: none; background: transparent;</string>
+                   </property>
+                   <property name="text">
+                    <string>Storage</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item alignment="Qt::AlignHCenter">
+                  <widget class="QLabel" name="label_33">
+                   <property name="font">
+                    <font>
+                     <family>Open Sans</family>
+                     <pointsize>13</pointsize>
+                     <weight>75</weight>
+                     <bold>true</bold>
+                    </font>
+                   </property>
+                   <property name="styleSheet">
+                    <string notr="true">border: none; background: transparent;</string>
+                   </property>
+                   <property name="text">
+                    <string>50%</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item alignment="Qt::AlignLeft">
+                  <widget class="QLabel" name="label_46">
+                   <property name="font">
+                    <font>
+                     <family>Open Sans</family>
+                     <pointsize>11</pointsize>
+                    </font>
+                   </property>
+                   <property name="styleSheet">
+                    <string notr="true">border: none; background: transparent;</string>
+                   </property>
+                   <property name="text">
+                    <string>full</string>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
+               <item>
+                <layout class="QHBoxLayout" name="horizontalLayout_20" stretch="0,1">
+                 <item alignment="Qt::AlignRight">
+                  <widget class="QLabel" name="label_47">
+                   <property name="font">
+                    <font>
+                     <family>Open Sans</family>
+                     <pointsize>13</pointsize>
+                     <weight>75</weight>
+                     <bold>true</bold>
+                    </font>
+                   </property>
+                   <property name="styleSheet">
+                    <string notr="true">border: none; background: transparent;</string>
+                   </property>
+                   <property name="text">
+                    <string>1000 GB</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item alignment="Qt::AlignLeft">
+                  <widget class="QLabel" name="label_48">
+                   <property name="font">
+                    <font>
+                     <family>Open Sans</family>
+                     <pointsize>11</pointsize>
+                    </font>
+                   </property>
+                   <property name="styleSheet">
+                    <string notr="true">border: none; background: transparent;</string>
+                   </property>
+                   <property name="text">
+                    <string>remaining</string>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
+              </layout>
+             </widget>
+            </item>
+            <item>
+             <widget class="QFrame" name="settings_frame">
+              <property name="minimumSize">
+               <size>
+                <width>200</width>
+                <height>80</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>130</width>
+                <height>80</height>
+               </size>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">color: rgb(85,87,83);
+background: white;
+border: 1px solid rgb(220,220,220);
+border-radius: 40px;</string>
+              </property>
+              <property name="frameShape">
+               <enum>QFrame::StyledPanel</enum>
+              </property>
+              <property name="frameShadow">
+               <enum>QFrame::Raised</enum>
+              </property>
+              <layout class="QHBoxLayout" name="horizontalLayout_17">
+               <item>
+                <widget class="QPushButton" name="settings_button_2">
+                 <property name="minimumSize">
+                  <size>
+                   <width>50</width>
+                   <height>50</height>
+                  </size>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>50</width>
+                   <height>50</height>
+                  </size>
+                 </property>
+                 <property name="font">
+                  <font>
+                   <family>Open Sans</family>
+                   <pointsize>26</pointsize>
+                   <weight>75</weight>
+                   <bold>true</bold>
+                  </font>
+                 </property>
+                 <property name="cursor">
+                  <cursorShape>PointingHandCursor</cursorShape>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">QPushButton {
 	background-color: rgb(85,87,83);
 	border: none;
-	border-radius: 28px;
+	border-radius: 25px;
 	color: white;
 }
 QPushButton:hover { background-color: rgb(66,68,65); }
 QPushButton:hover:pressed { background-color: rgb(48,49,47); }
 QPushButton:disabled { background-color: rgb(220,220,220); }</string>
-               </property>
-               <property name="text">
-                <string>?</string>
-               </property>
-               <property name="iconSize">
-                <size>
-                 <width>36</width>
-                 <height>36</height>
-                </size>
-               </property>
-              </widget>
-             </item>
-             <item alignment="Qt::AlignHCenter">
-              <widget class="QPushButton" name="settings_button">
-               <property name="minimumSize">
-                <size>
-                 <width>56</width>
-                 <height>56</height>
-                </size>
-               </property>
-               <property name="maximumSize">
-                <size>
-                 <width>56</width>
-                 <height>56</height>
-                </size>
-               </property>
-               <property name="cursor">
-                <cursorShape>PointingHandCursor</cursorShape>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">QPushButton {
+                 </property>
+                 <property name="text">
+                  <string>?</string>
+                 </property>
+                 <property name="iconSize">
+                  <size>
+                   <width>36</width>
+                   <height>36</height>
+                  </size>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QPushButton" name="settings_button">
+                 <property name="minimumSize">
+                  <size>
+                   <width>50</width>
+                   <height>50</height>
+                  </size>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>50</width>
+                   <height>50</height>
+                  </size>
+                 </property>
+                 <property name="cursor">
+                  <cursorShape>PointingHandCursor</cursorShape>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">QPushButton {
 	background-color: rgb(85,87,83);
 	border: none;
-	border-radius: 28px;
+	border-radius: 25px;
 	color: white;
 }
 QPushButton:hover { background-color: rgb(66,68,65); }
 QPushButton:hover:pressed { background-color: rgb(48,49,47); }
 QPushButton:disabled { background-color: rgb(220,220,220); }</string>
-               </property>
-               <property name="text">
-                <string/>
-               </property>
-               <property name="icon">
-                <iconset resource="resources.qrc">
-                 <normaloff>:/images/settings.png</normaloff>:/images/settings.png</iconset>
-               </property>
-               <property name="iconSize">
-                <size>
-                 <width>30</width>
-                 <height>30</height>
-                </size>
-               </property>
-              </widget>
-             </item>
-            </layout>
-           </widget>
+                 </property>
+                 <property name="text">
+                  <string/>
+                 </property>
+                 <property name="icon">
+                  <iconset resource="resources.qrc">
+                   <normaloff>:/images/settings.png</normaloff>:/images/settings.png</iconset>
+                 </property>
+                 <property name="iconSize">
+                  <size>
+                   <width>28</width>
+                   <height>28</height>
+                  </size>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </widget>
+            </item>
+           </layout>
           </item>
          </layout>
         </item>
@@ -3418,19 +3510,19 @@ QPushButton:disabled { background-color: rgb(220,220,220); }</string>
       <widget class="QWidget" name="plot_page">
        <layout class="QHBoxLayout" name="horizontalLayout_9" stretch="1,0">
         <property name="spacing">
-         <number>25</number>
+         <number>45</number>
         </property>
         <property name="leftMargin">
-         <number>25</number>
+         <number>45</number>
         </property>
         <property name="topMargin">
-         <number>25</number>
+         <number>45</number>
         </property>
         <property name="rightMargin">
-         <number>25</number>
+         <number>45</number>
         </property>
         <property name="bottomMargin">
-         <number>25</number>
+         <number>45</number>
         </property>
         <item>
          <widget class="QGroupBox" name="plot_group">
@@ -3626,6 +3718,7 @@ background-position: center;
             <property name="font">
              <font>
               <family>Open Sans</family>
+              <pointsize>13</pointsize>
               <weight>75</weight>
               <bold>true</bold>
              </font>
@@ -3702,7 +3795,7 @@ QLabel:disabled{ color: transparent; }</string>
                <property name="font">
                 <font>
                  <family>Open Sans</family>
-                 <pointsize>10</pointsize>
+                 <pointsize>12</pointsize>
                 </font>
                </property>
                <property name="styleSheet">
@@ -3740,6 +3833,7 @@ QLabel:disabled{ color: transparent; }</string>
             <property name="font">
              <font>
               <family>Open Sans</family>
+              <pointsize>13</pointsize>
               <weight>75</weight>
               <bold>true</bold>
              </font>
@@ -3816,7 +3910,7 @@ QLabel:disabled{ color: transparent; }</string>
                <property name="font">
                 <font>
                  <family>Open Sans</family>
-                 <pointsize>10</pointsize>
+                 <pointsize>12</pointsize>
                 </font>
                </property>
                <property name="styleSheet">
@@ -3853,6 +3947,7 @@ QLabel:disabled{ color: transparent; }</string>
             <property name="font">
              <font>
               <family>Open Sans</family>
+              <pointsize>13</pointsize>
               <weight>75</weight>
               <bold>true</bold>
              </font>
@@ -3941,7 +4036,7 @@ QLabel:disabled{ color: transparent; }</string>
                <property name="font">
                 <font>
                  <family>Open Sans</family>
-                 <pointsize>10</pointsize>
+                 <pointsize>12</pointsize>
                 </font>
                </property>
                <property name="styleSheet">
@@ -4033,6 +4128,7 @@ color: rgb(180,180,180);
                <property name="font">
                 <font>
                  <family>Open Sans</family>
+                 <pointsize>13</pointsize>
                  <weight>75</weight>
                  <bold>true</bold>
                 </font>
@@ -4050,6 +4146,7 @@ color: rgb(180,180,180);
                <property name="font">
                 <font>
                  <family>Open Sans</family>
+                 <pointsize>13</pointsize>
                  <weight>50</weight>
                  <bold>false</bold>
                 </font>
@@ -4133,6 +4230,7 @@ color: rgb(180,180,180);
                <property name="font">
                 <font>
                  <family>Open Sans</family>
+                 <pointsize>13</pointsize>
                  <weight>75</weight>
                  <bold>true</bold>
                 </font>
@@ -4150,6 +4248,7 @@ color: rgb(180,180,180);
                <property name="font">
                 <font>
                  <family>Open Sans</family>
+                 <pointsize>13</pointsize>
                  <weight>50</weight>
                  <bold>false</bold>
                 </font>
@@ -4182,6 +4281,7 @@ color: rgb(180,180,180);
             <property name="font">
              <font>
               <family>Open Sans</family>
+              <pointsize>13</pointsize>
               <weight>75</weight>
               <bold>true</bold>
              </font>
@@ -4365,19 +4465,19 @@ border-radius: 7px;
       <widget class="QWidget" name="status_page">
        <layout class="QHBoxLayout" name="horizontalLayout_16">
         <property name="spacing">
-         <number>25</number>
+         <number>45</number>
         </property>
         <property name="leftMargin">
-         <number>25</number>
+         <number>45</number>
         </property>
         <property name="topMargin">
-         <number>25</number>
+         <number>45</number>
         </property>
         <property name="rightMargin">
-         <number>25</number>
+         <number>45</number>
         </property>
         <property name="bottomMargin">
-         <number>25</number>
+         <number>45</number>
         </property>
         <item>
          <widget class="QGroupBox" name="faults_group">
@@ -4405,7 +4505,7 @@ border-radius: 7px;
           <property name="font">
            <font>
             <family>Open Sans</family>
-            <pointsize>11</pointsize>
+            <pointsize>13</pointsize>
             <weight>75</weight>
             <bold>true</bold>
            </font>
@@ -4458,7 +4558,7 @@ color: rgb(180,180,180);
              <property name="font">
               <font>
                <family>Open Sans SemiBold</family>
-               <pointsize>12</pointsize>
+               <pointsize>14</pointsize>
                <weight>50</weight>
                <bold>false</bold>
               </font>
@@ -4536,6 +4636,7 @@ font-size: 12pt;
           <property name="font">
            <font>
             <family>Open Sans</family>
+            <pointsize>13</pointsize>
             <weight>75</weight>
             <bold>true</bold>
            </font>
@@ -4584,7 +4685,7 @@ color: rgb(180,180,180);
              <property name="font">
               <font>
                <family>Open Sans</family>
-               <pointsize>12</pointsize>
+               <pointsize>14</pointsize>
               </font>
              </property>
              <property name="styleSheet">
@@ -4594,8 +4695,8 @@ color: rgb(180,180,180);
               <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Open Sans'; font-size:12pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:'Open Sans';&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Open Sans'; font-size:14pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:'Open Sans'; font-size:12pt;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
              </property>
             </widget>
            </item>
@@ -4607,19 +4708,19 @@ p, li { white-space: pre-wrap; }
       <widget class="QWidget" name="admin_page">
        <layout class="QGridLayout" name="gridLayout_15" rowstretch="2,1,3">
         <property name="leftMargin">
-         <number>25</number>
+         <number>45</number>
         </property>
         <property name="topMargin">
-         <number>25</number>
+         <number>45</number>
         </property>
         <property name="rightMargin">
-         <number>25</number>
+         <number>45</number>
         </property>
         <property name="bottomMargin">
-         <number>25</number>
+         <number>45</number>
         </property>
         <property name="spacing">
-         <number>25</number>
+         <number>40</number>
         </property>
         <item row="0" column="1">
          <widget class="QGroupBox" name="power_pid_group">
@@ -4638,33 +4739,15 @@ p, li { white-space: pre-wrap; }
           <property name="font">
            <font>
             <family>Open Sans</family>
-            <pointsize>11</pointsize>
+            <pointsize>13</pointsize>
             <weight>75</weight>
             <bold>true</bold>
            </font>
           </property>
           <property name="styleSheet">
-           <string notr="true">QGroupBox {
-/*border: 1px solid rgb(180, 180, 180);*/
-border: none;
-background: white;
-border-radius: 20px;
-/*margin-top: 12px;*/
-border: 1px solid rgb(220,220,220);
-}
-
-QGroupBox::title {
-subcontrol-origin: margin;
-/*left: 20px;*/
-padding: 0px 3px;
-left: 12px;
-top: 6px;
-color: rgb(85, 87, 83);
-}
-
-QGroupBox::title:disabled {
-color: rgb(180,180,180);
-}</string>
+           <string notr="true">QGroupBox { border: none; background: white; border-radius: 40px; border: 1px solid rgb(220,220,220); }
+QGroupBox::title { subcontrol-origin: margin; padding: 0px 8px; left: 16px; top: 16px; color: rgb(85, 87, 83); }
+QGroupBox::title:disabled { color: rgb(180,180,180); }</string>
           </property>
           <property name="title">
            <string>Power PID</string>
@@ -4685,12 +4768,15 @@ color: rgb(180,180,180);
            <property name="horizontalSpacing">
             <number>15</number>
            </property>
+           <property name="verticalSpacing">
+            <number>0</number>
+           </property>
            <item row="0" column="0" alignment="Qt::AlignRight">
             <widget class="QLabel" name="label_39">
              <property name="font">
               <font>
                <family>Open Sans</family>
-               <pointsize>9</pointsize>
+               <pointsize>14</pointsize>
               </font>
              </property>
              <property name="styleSheet">
@@ -4719,7 +4805,7 @@ QLabel:disabled{ color: rgb(180,180,180); }</string>
              <property name="font">
               <font>
                <family>Open Sans</family>
-               <pointsize>12</pointsize>
+               <pointsize>18</pointsize>
                <weight>75</weight>
                <bold>true</bold>
               </font>
@@ -4741,14 +4827,14 @@ QLineEdit:disabled { color: white; }
             <widget class="QPushButton" name="power_kp_button">
              <property name="minimumSize">
               <size>
-               <width>36</width>
-               <height>36</height>
+               <width>40</width>
+               <height>40</height>
               </size>
              </property>
              <property name="maximumSize">
               <size>
-               <width>100000</width>
-               <height>36</height>
+               <width>40</width>
+               <height>40</height>
               </size>
              </property>
              <property name="font">
@@ -4764,10 +4850,10 @@ QLineEdit:disabled { color: white; }
               <string notr="true">QPushButton {
 	background-color: rgb(85,87,83);
 	border: none;
-	border-radius: 18px;
+	border-radius: 20px;
 	color: white;
-	height: 36px;
-	width: 36px;
+	height: 40px;
+	width: 40px;
 }
 QPushButton:hover { background-color: rgb(66,68,65); }
 QPushButton:hover:pressed { background-color: rgb(48,49,47); }
@@ -4783,7 +4869,7 @@ QPushButton:disabled { background-color: rgb(220,220,220); }</string>
              <property name="font">
               <font>
                <family>Open Sans</family>
-               <pointsize>9</pointsize>
+               <pointsize>14</pointsize>
               </font>
              </property>
              <property name="styleSheet">
@@ -4812,7 +4898,7 @@ QLabel:disabled{ color: rgb(180,180,180); }</string>
              <property name="font">
               <font>
                <family>Open Sans</family>
-               <pointsize>12</pointsize>
+               <pointsize>18</pointsize>
                <weight>75</weight>
                <bold>true</bold>
               </font>
@@ -4834,14 +4920,14 @@ QLineEdit:disabled { color: white; }
             <widget class="QPushButton" name="power_ki_button">
              <property name="minimumSize">
               <size>
-               <width>36</width>
-               <height>36</height>
+               <width>40</width>
+               <height>40</height>
               </size>
              </property>
              <property name="maximumSize">
               <size>
-               <width>100000</width>
-               <height>36</height>
+               <width>40</width>
+               <height>40</height>
               </size>
              </property>
              <property name="font">
@@ -4857,10 +4943,10 @@ QLineEdit:disabled { color: white; }
               <string notr="true">QPushButton {
 	background-color: rgb(85,87,83);
 	border: none;
-	border-radius: 18px;
+	border-radius: 20px;
 	color: white;
-	height: 36px;
-	width: 36px;
+	height: 40px;
+	width: 40px;
 }
 QPushButton:hover { background-color: rgb(66,68,65); }
 QPushButton:hover:pressed { background-color: rgb(48,49,47); }
@@ -4876,7 +4962,7 @@ QPushButton:disabled { background-color: rgb(220,220,220); }</string>
              <property name="font">
               <font>
                <family>Open Sans</family>
-               <pointsize>9</pointsize>
+               <pointsize>14</pointsize>
               </font>
              </property>
              <property name="styleSheet">
@@ -4905,7 +4991,7 @@ QLabel:disabled{ color: rgb(180,180,180); }</string>
              <property name="font">
               <font>
                <family>Open Sans</family>
-               <pointsize>12</pointsize>
+               <pointsize>18</pointsize>
                <weight>75</weight>
                <bold>true</bold>
               </font>
@@ -4927,14 +5013,14 @@ QLineEdit:disabled { color: white; }
             <widget class="QPushButton" name="power_kd_button">
              <property name="minimumSize">
               <size>
-               <width>36</width>
-               <height>36</height>
+               <width>40</width>
+               <height>40</height>
               </size>
              </property>
              <property name="maximumSize">
               <size>
-               <width>100000</width>
-               <height>36</height>
+               <width>40</width>
+               <height>40</height>
               </size>
              </property>
              <property name="font">
@@ -4950,10 +5036,10 @@ QLineEdit:disabled { color: white; }
               <string notr="true">QPushButton {
 	background-color: rgb(85,87,83);
 	border: none;
-	border-radius: 18px;
+	border-radius: 20px;
 	color: white;
-	height: 36px;
-	width: 36px;
+	height: 40px;
+	width: 40px;
 }
 QPushButton:hover { background-color: rgb(66,68,65); }
 QPushButton:hover:pressed { background-color: rgb(48,49,47); }
@@ -4984,33 +5070,15 @@ QPushButton:disabled { background-color: rgb(220,220,220); }</string>
           <property name="font">
            <font>
             <family>Open Sans</family>
-            <pointsize>11</pointsize>
+            <pointsize>13</pointsize>
             <weight>75</weight>
             <bold>true</bold>
            </font>
           </property>
           <property name="styleSheet">
-           <string notr="true">QGroupBox {
-/*border: 1px solid rgb(180, 180, 180);*/
-border: none;
-background: white;
-border-radius: 20px;
-/*margin-top: 12px;*/
-border: 1px solid rgb(220,220,220);
-}
-
-QGroupBox::title {
-subcontrol-origin: margin;
-/*left: 20px;*/
-padding: 0px 3px;
-left: 12px;
-top: 6px;
-color: rgb(85, 87, 83);
-}
-
-QGroupBox::title:disabled {
-color: rgb(180,180,180);
-}</string>
+           <string notr="true">QGroupBox { border: none; background: white; border-radius: 40px; border: 1px solid rgb(220,220,220); }
+QGroupBox::title { subcontrol-origin: margin; padding: 0px 8px; left: 16px; top: 16px; color: rgb(85, 87, 83); }
+QGroupBox::title:disabled { color: rgb(180,180,180); }</string>
           </property>
           <property name="title">
            <string>Beam Current PID</string>
@@ -5031,12 +5099,15 @@ color: rgb(180,180,180);
            <property name="horizontalSpacing">
             <number>15</number>
            </property>
+           <property name="verticalSpacing">
+            <number>0</number>
+           </property>
            <item row="0" column="0" alignment="Qt::AlignRight">
             <widget class="QLabel" name="label_36">
              <property name="font">
               <font>
                <family>Open Sans</family>
-               <pointsize>9</pointsize>
+               <pointsize>14</pointsize>
               </font>
              </property>
              <property name="styleSheet">
@@ -5065,7 +5136,7 @@ QLabel:disabled{ color: rgb(180,180,180); }</string>
              <property name="font">
               <font>
                <family>Open Sans</family>
-               <pointsize>12</pointsize>
+               <pointsize>18</pointsize>
                <weight>75</weight>
                <bold>true</bold>
               </font>
@@ -5087,14 +5158,14 @@ QLineEdit:disabled { color: white; }
             <widget class="QPushButton" name="beam_kp_button">
              <property name="minimumSize">
               <size>
-               <width>36</width>
-               <height>36</height>
+               <width>40</width>
+               <height>40</height>
               </size>
              </property>
              <property name="maximumSize">
               <size>
-               <width>100000</width>
-               <height>36</height>
+               <width>40</width>
+               <height>40</height>
               </size>
              </property>
              <property name="font">
@@ -5110,10 +5181,10 @@ QLineEdit:disabled { color: white; }
               <string notr="true">QPushButton {
 	background-color: rgb(85,87,83);
 	border: none;
-	border-radius: 18px;
+	border-radius: 20px;
 	color: white;
-	height: 36px;
-	width: 36px;
+	height: 40px;
+	width: 40px;
 }
 QPushButton:hover { background-color: rgb(66,68,65); }
 QPushButton:hover:pressed { background-color: rgb(48,49,47); }
@@ -5129,7 +5200,7 @@ QPushButton:disabled { background-color: rgb(220,220,220); }</string>
              <property name="font">
               <font>
                <family>Open Sans</family>
-               <pointsize>9</pointsize>
+               <pointsize>14</pointsize>
               </font>
              </property>
              <property name="styleSheet">
@@ -5158,7 +5229,7 @@ QLabel:disabled{ color: rgb(180,180,180); }</string>
              <property name="font">
               <font>
                <family>Open Sans</family>
-               <pointsize>12</pointsize>
+               <pointsize>18</pointsize>
                <weight>75</weight>
                <bold>true</bold>
               </font>
@@ -5180,14 +5251,14 @@ QLineEdit:disabled { color: white; }
             <widget class="QPushButton" name="beam_ki_button">
              <property name="minimumSize">
               <size>
-               <width>36</width>
-               <height>36</height>
+               <width>40</width>
+               <height>40</height>
               </size>
              </property>
              <property name="maximumSize">
               <size>
-               <width>100000</width>
-               <height>36</height>
+               <width>40</width>
+               <height>40</height>
               </size>
              </property>
              <property name="font">
@@ -5203,10 +5274,10 @@ QLineEdit:disabled { color: white; }
               <string notr="true">QPushButton {
 	background-color: rgb(85,87,83);
 	border: none;
-	border-radius: 18px;
+	border-radius: 20px;
 	color: white;
-	height: 36px;
-	width: 36px;
+	height: 40px;
+	width: 40px;
 }
 QPushButton:hover { background-color: rgb(66,68,65); }
 QPushButton:hover:pressed { background-color: rgb(48,49,47); }
@@ -5222,7 +5293,7 @@ QPushButton:disabled { background-color: rgb(220,220,220); }</string>
              <property name="font">
               <font>
                <family>Open Sans</family>
-               <pointsize>9</pointsize>
+               <pointsize>14</pointsize>
               </font>
              </property>
              <property name="styleSheet">
@@ -5251,7 +5322,7 @@ QLabel:disabled{ color: rgb(180,180,180); }</string>
              <property name="font">
               <font>
                <family>Open Sans</family>
-               <pointsize>12</pointsize>
+               <pointsize>18</pointsize>
                <weight>75</weight>
                <bold>true</bold>
               </font>
@@ -5273,14 +5344,14 @@ QLineEdit:disabled { color: white; }
             <widget class="QPushButton" name="beam_kd_button">
              <property name="minimumSize">
               <size>
-               <width>36</width>
-               <height>36</height>
+               <width>40</width>
+               <height>40</height>
               </size>
              </property>
              <property name="maximumSize">
               <size>
-               <width>100000</width>
-               <height>36</height>
+               <width>40</width>
+               <height>40</height>
               </size>
              </property>
              <property name="font">
@@ -5296,10 +5367,10 @@ QLineEdit:disabled { color: white; }
               <string notr="true">QPushButton {
 	background-color: rgb(85,87,83);
 	border: none;
-	border-radius: 18px;
+	border-radius: 20px;
 	color: white;
-	height: 36px;
-	width: 36px;
+	height: 40px;
+	width: 40px;
 }
 QPushButton:hover { background-color: rgb(66,68,65); }
 QPushButton:hover:pressed { background-color: rgb(48,49,47); }
@@ -5330,33 +5401,15 @@ QPushButton:disabled { background-color: rgb(220,220,220); }</string>
           <property name="font">
            <font>
             <family>Open Sans</family>
-            <pointsize>11</pointsize>
+            <pointsize>13</pointsize>
             <weight>75</weight>
             <bold>true</bold>
            </font>
           </property>
           <property name="styleSheet">
-           <string notr="true">QGroupBox {
-/*border: 1px solid rgb(180, 180, 180);*/
-border: none;
-background: white;
-border-radius: 20px;
-/*margin-top: 12px;*/
-border: 1px solid rgb(220,220,220);
-}
-
-QGroupBox::title {
-subcontrol-origin: margin;
-/*left: 20px;*/
-padding: 0px 3px;
-left: 12px;
-top: 6px;
-color: rgb(85, 87, 83);
-}
-
-QGroupBox::title:disabled {
-color: rgb(180,180,180);
-}</string>
+           <string notr="true">QGroupBox { border: none; background: white; border-radius: 40px; border: 1px solid rgb(220,220,220); }
+QGroupBox::title { subcontrol-origin: margin; padding: 0px 8px; left: 16px; top: 16px; color: rgb(85, 87, 83); }
+QGroupBox::title:disabled { color: rgb(180,180,180); }</string>
           </property>
           <property name="title">
            <string>Data Log Rate: ASAP</string>
@@ -5366,27 +5419,35 @@ color: rgb(180,180,180);
             <number>0</number>
            </property>
            <property name="leftMargin">
-            <number>18</number>
+            <number>40</number>
            </property>
            <property name="topMargin">
-            <number>32</number>
+            <number>40</number>
            </property>
            <property name="rightMargin">
-            <number>18</number>
+            <number>40</number>
            </property>
            <property name="bottomMargin">
-            <number>14</number>
+            <number>30</number>
            </property>
            <item>
-            <widget class="QSlider" name="log_rate_slider">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
+            <layout class="QHBoxLayout" name="horizontalLayout_22">
+             <property name="leftMargin">
+              <number>10</number>
              </property>
-             <property name="styleSheet">
-              <string notr="true">QSlider {
+             <property name="rightMargin">
+              <number>10</number>
+             </property>
+             <item>
+              <widget class="QSlider" name="log_rate_slider">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">QSlider {
 background: white;
 }
 
@@ -5406,35 +5467,37 @@ QSlider::handle:horizontal {
 background: rgb(85,87,83);
 border-radius: 7px;
 }</string>
-             </property>
-             <property name="minimum">
-              <number>0</number>
-             </property>
-             <property name="maximum">
-              <number>90</number>
-             </property>
-             <property name="singleStep">
-              <number>10</number>
-             </property>
-             <property name="pageStep">
-              <number>10</number>
-             </property>
-             <property name="value">
-              <number>90</number>
-             </property>
-             <property name="orientation">
-              <enum>Qt::Horizontal</enum>
-             </property>
-             <property name="invertedAppearance">
-              <bool>false</bool>
-             </property>
-             <property name="tickPosition">
-              <enum>QSlider::NoTicks</enum>
-             </property>
-             <property name="tickInterval">
-              <number>10</number>
-             </property>
-            </widget>
+               </property>
+               <property name="minimum">
+                <number>0</number>
+               </property>
+               <property name="maximum">
+                <number>90</number>
+               </property>
+               <property name="singleStep">
+                <number>10</number>
+               </property>
+               <property name="pageStep">
+                <number>10</number>
+               </property>
+               <property name="value">
+                <number>0</number>
+               </property>
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <property name="invertedAppearance">
+                <bool>false</bool>
+               </property>
+               <property name="tickPosition">
+                <enum>QSlider::NoTicks</enum>
+               </property>
+               <property name="tickInterval">
+                <number>10</number>
+               </property>
+              </widget>
+             </item>
+            </layout>
            </item>
            <item>
             <layout class="QHBoxLayout" name="horizontalLayout_12">
@@ -5443,7 +5506,7 @@ border-radius: 7px;
                <property name="font">
                 <font>
                  <family>Open Sans</family>
-                 <pointsize>10</pointsize>
+                 <pointsize>12</pointsize>
                 </font>
                </property>
                <property name="styleSheet">
@@ -5459,14 +5522,14 @@ border-radius: 7px;
                <property name="font">
                 <font>
                  <family>Open Sans</family>
-                 <pointsize>10</pointsize>
+                 <pointsize>12</pointsize>
                 </font>
                </property>
                <property name="styleSheet">
                 <string notr="true">background: white; color: rgb(80,80,80);</string>
                </property>
                <property name="text">
-                <string>15 m   </string>
+                <string>15 m     </string>
                </property>
               </widget>
              </item>
@@ -5475,14 +5538,14 @@ border-radius: 7px;
                <property name="font">
                 <font>
                  <family>Open Sans</family>
-                 <pointsize>10</pointsize>
+                 <pointsize>12</pointsize>
                 </font>
                </property>
                <property name="styleSheet">
                 <string notr="true">background: white; color: rgb(80,80,80);</string>
                </property>
                <property name="text">
-                <string>    30 m</string>
+                <string>      30 m</string>
                </property>
               </widget>
              </item>
@@ -5491,7 +5554,7 @@ border-radius: 7px;
                <property name="font">
                 <font>
                  <family>Open Sans</family>
-                 <pointsize>10</pointsize>
+                 <pointsize>12</pointsize>
                 </font>
                </property>
                <property name="styleSheet">
@@ -5524,33 +5587,15 @@ border-radius: 7px;
           <property name="font">
            <font>
             <family>Open Sans</family>
-            <pointsize>11</pointsize>
+            <pointsize>13</pointsize>
             <weight>75</weight>
             <bold>true</bold>
            </font>
           </property>
           <property name="styleSheet">
-           <string notr="true">QGroupBox {
-/*border: 1px solid rgb(180, 180, 180);*/
-border: none;
-background: white;
-border-radius: 20px;
-/*margin-top: 12px;*/
-border: 1px solid rgb(220,220,220);
-}
-
-QGroupBox::title {
-subcontrol-origin: margin;
-/*left: 20px;*/
-padding: 0px 3px;
-left: 12px;
-top: 6px;
-color: rgb(85, 87, 83);
-}
-
-QGroupBox::title:disabled {
-color: rgb(180,180,180);
-}</string>
+           <string notr="true">QGroupBox { border: none; background: white; border-radius: 40px; border: 1px solid rgb(220,220,220); }
+QGroupBox::title { subcontrol-origin: margin; padding: 0px 8px; left: 16px; top: 16px; color: rgb(85, 87, 83); }
+QGroupBox::title:disabled { color: rgb(180,180,180); }</string>
           </property>
           <property name="title">
            <string>Manual Device Reconnect</string>
@@ -5569,20 +5614,20 @@ color: rgb(180,180,180);
              </property>
              <property name="minimumSize">
               <size>
-               <width>110</width>
-               <height>44</height>
+               <width>140</width>
+               <height>60</height>
               </size>
              </property>
              <property name="maximumSize">
               <size>
-               <width>110</width>
-               <height>44</height>
+               <width>140</width>
+               <height>60</height>
               </size>
              </property>
              <property name="font">
               <font>
                <family>Open Sans</family>
-               <pointsize>9</pointsize>
+               <pointsize>12</pointsize>
                <weight>75</weight>
                <bold>true</bold>
               </font>
@@ -5592,7 +5637,7 @@ color: rgb(180,180,180);
 	background-color: rgb(85,87,83);
 	border: none;
 	color: white;
-	border-radius: 22px;
+	border-radius: 30px;
 }
 QPushButton:hover:pressed { background-color: rgb(48,49,47); }
 QPushButton:hover { background-color: rgb(66,68,65); }
@@ -5610,20 +5655,20 @@ QPushButton:disabled { background-color: rgb(200,200,200); }</string>
              </property>
              <property name="minimumSize">
               <size>
-               <width>110</width>
-               <height>44</height>
+               <width>140</width>
+               <height>60</height>
               </size>
              </property>
              <property name="maximumSize">
               <size>
-               <width>110</width>
-               <height>44</height>
+               <width>140</width>
+               <height>60</height>
               </size>
              </property>
              <property name="font">
               <font>
                <family>Open Sans</family>
-               <pointsize>9</pointsize>
+               <pointsize>12</pointsize>
                <weight>75</weight>
                <bold>true</bold>
               </font>
@@ -5633,7 +5678,7 @@ QPushButton:disabled { background-color: rgb(200,200,200); }</string>
 	background-color: rgb(85,87,83);
 	border: none;
 	color: white;
-	border-radius: 22px;
+	border-radius: 30px;
 }
 QPushButton:hover:pressed { background-color: rgb(48,49,47); }
 QPushButton:hover { background-color: rgb(66,68,65); }
@@ -5651,20 +5696,20 @@ QPushButton:disabled { background-color: rgb(200,200,200); }</string>
              </property>
              <property name="minimumSize">
               <size>
-               <width>110</width>
-               <height>44</height>
+               <width>140</width>
+               <height>60</height>
               </size>
              </property>
              <property name="maximumSize">
               <size>
-               <width>110</width>
-               <height>44</height>
+               <width>140</width>
+               <height>60</height>
               </size>
              </property>
              <property name="font">
               <font>
                <family>Open Sans</family>
-               <pointsize>9</pointsize>
+               <pointsize>12</pointsize>
                <weight>75</weight>
                <bold>true</bold>
               </font>
@@ -5674,7 +5719,7 @@ QPushButton:disabled { background-color: rgb(200,200,200); }</string>
 	background-color: rgb(85,87,83);
 	border: none;
 	color: white;
-	border-radius: 22px;
+	border-radius: 30px;
 }
 QPushButton:hover:pressed { background-color: rgb(48,49,47); }
 QPushButton:hover { background-color: rgb(66,68,65); }
@@ -5692,20 +5737,20 @@ QPushButton:disabled { background-color: rgb(200,200,200); }</string>
              </property>
              <property name="minimumSize">
               <size>
-               <width>110</width>
-               <height>44</height>
+               <width>140</width>
+               <height>60</height>
               </size>
              </property>
              <property name="maximumSize">
               <size>
-               <width>110</width>
-               <height>44</height>
+               <width>140</width>
+               <height>60</height>
               </size>
              </property>
              <property name="font">
               <font>
                <family>Open Sans</family>
-               <pointsize>9</pointsize>
+               <pointsize>12</pointsize>
                <weight>75</weight>
                <bold>true</bold>
               </font>
@@ -5715,7 +5760,7 @@ QPushButton:disabled { background-color: rgb(200,200,200); }</string>
 	background-color: rgb(85,87,83);
 	border: none;
 	color: white;
-	border-radius: 22px;
+	border-radius: 30px;
 }
 QPushButton:hover:pressed { background-color: rgb(48,49,47); }
 QPushButton:hover { background-color: rgb(66,68,65); }
@@ -5733,20 +5778,20 @@ QPushButton:disabled { background-color: rgb(200,200,200); }</string>
              </property>
              <property name="minimumSize">
               <size>
-               <width>110</width>
-               <height>44</height>
+               <width>140</width>
+               <height>60</height>
               </size>
              </property>
              <property name="maximumSize">
               <size>
-               <width>110</width>
-               <height>44</height>
+               <width>140</width>
+               <height>60</height>
               </size>
              </property>
              <property name="font">
               <font>
                <family>Open Sans</family>
-               <pointsize>9</pointsize>
+               <pointsize>12</pointsize>
                <weight>75</weight>
                <bold>true</bold>
               </font>
@@ -5756,7 +5801,7 @@ QPushButton:disabled { background-color: rgb(200,200,200); }</string>
 	background-color: rgb(85,87,83);
 	border: none;
 	color: white;
-	border-radius: 22px;
+	border-radius: 30px;
 }
 QPushButton:hover:pressed { background-color: rgb(48,49,47); }
 QPushButton:hover { background-color: rgb(66,68,65); }
@@ -5774,20 +5819,20 @@ QPushButton:disabled { background-color: rgb(200,200,200); }</string>
              </property>
              <property name="minimumSize">
               <size>
-               <width>110</width>
-               <height>44</height>
+               <width>140</width>
+               <height>60</height>
               </size>
              </property>
              <property name="maximumSize">
               <size>
-               <width>110</width>
-               <height>44</height>
+               <width>140</width>
+               <height>60</height>
               </size>
              </property>
              <property name="font">
               <font>
                <family>Open Sans</family>
-               <pointsize>9</pointsize>
+               <pointsize>12</pointsize>
                <weight>75</weight>
                <bold>true</bold>
               </font>
@@ -5797,7 +5842,7 @@ QPushButton:disabled { background-color: rgb(200,200,200); }</string>
 	background-color: rgb(85,87,83);
 	border: none;
 	color: white;
-	border-radius: 22px;
+	border-radius: 30px;
 }
 QPushButton:hover:pressed { background-color: rgb(48,49,47); }
 QPushButton:hover { background-color: rgb(66,68,65); }
@@ -5828,33 +5873,15 @@ QPushButton:disabled { background-color: rgb(200,200,200); }</string>
           <property name="font">
            <font>
             <family>Open Sans</family>
-            <pointsize>11</pointsize>
+            <pointsize>13</pointsize>
             <weight>75</weight>
             <bold>true</bold>
            </font>
           </property>
           <property name="styleSheet">
-           <string notr="true">QGroupBox {
-/*border: 1px solid rgb(180, 180, 180);*/
-border: none;
-background: white;
-border-radius: 20px;
-/*margin-top: 12px;*/
-border: 1px solid rgb(220,220,220);
-}
-
-QGroupBox::title {
-subcontrol-origin: margin;
-/*left: 20px;*/
-padding: 0px 3px;
-left: 12px;
-top: 6px;
-color: rgb(85, 87, 83);
-}
-
-QGroupBox::title:disabled {
-color: rgb(180,180,180);
-}</string>
+           <string notr="true">QGroupBox { border: none; background: white; border-radius: 40px; border: 1px solid rgb(220,220,220); }
+QGroupBox::title { subcontrol-origin: margin; padding: 0px 8px; left: 16px; top: 16px; color: rgb(85, 87, 83); }
+QGroupBox::title:disabled { color: rgb(180,180,180); }</string>
           </property>
           <property name="title">
            <string>Frequency PID</string>
@@ -5875,12 +5902,15 @@ color: rgb(180,180,180);
            <property name="horizontalSpacing">
             <number>15</number>
            </property>
+           <property name="verticalSpacing">
+            <number>0</number>
+           </property>
            <item row="0" column="0" alignment="Qt::AlignRight">
             <widget class="QLabel" name="label_42">
              <property name="font">
               <font>
                <family>Open Sans</family>
-               <pointsize>9</pointsize>
+               <pointsize>14</pointsize>
               </font>
              </property>
              <property name="styleSheet">
@@ -5909,7 +5939,7 @@ QLabel:disabled{ color: rgb(180,180,180); }</string>
              <property name="font">
               <font>
                <family>Open Sans</family>
-               <pointsize>12</pointsize>
+               <pointsize>18</pointsize>
                <weight>75</weight>
                <bold>true</bold>
               </font>
@@ -5931,14 +5961,14 @@ QLineEdit:disabled { color: white; }
             <widget class="QPushButton" name="freq_kp_button">
              <property name="minimumSize">
               <size>
-               <width>36</width>
-               <height>36</height>
+               <width>40</width>
+               <height>40</height>
               </size>
              </property>
              <property name="maximumSize">
               <size>
-               <width>100000</width>
-               <height>36</height>
+               <width>40</width>
+               <height>40</height>
               </size>
              </property>
              <property name="font">
@@ -5954,10 +5984,10 @@ QLineEdit:disabled { color: white; }
               <string notr="true">QPushButton {
 	background-color: rgb(85,87,83);
 	border: none;
-	border-radius: 18px;
+	border-radius: 20px;
 	color: white;
-	height: 36px;
-	width: 36px;
+	height: 40px;
+	width: 40px;
 }
 QPushButton:hover { background-color: rgb(66,68,65); }
 QPushButton:hover:pressed { background-color: rgb(48,49,47); }
@@ -5973,7 +6003,7 @@ QPushButton:disabled { background-color: rgb(220,220,220); }</string>
              <property name="font">
               <font>
                <family>Open Sans</family>
-               <pointsize>9</pointsize>
+               <pointsize>14</pointsize>
               </font>
              </property>
              <property name="styleSheet">
@@ -6002,7 +6032,7 @@ QLabel:disabled{ color: rgb(180,180,180); }</string>
              <property name="font">
               <font>
                <family>Open Sans</family>
-               <pointsize>12</pointsize>
+               <pointsize>18</pointsize>
                <weight>75</weight>
                <bold>true</bold>
               </font>
@@ -6024,14 +6054,14 @@ QLineEdit:disabled { color: white; }
             <widget class="QPushButton" name="freq_ki_button">
              <property name="minimumSize">
               <size>
-               <width>36</width>
-               <height>36</height>
+               <width>40</width>
+               <height>40</height>
               </size>
              </property>
              <property name="maximumSize">
               <size>
-               <width>100000</width>
-               <height>36</height>
+               <width>40</width>
+               <height>40</height>
               </size>
              </property>
              <property name="font">
@@ -6047,10 +6077,10 @@ QLineEdit:disabled { color: white; }
               <string notr="true">QPushButton {
 	background-color: rgb(85,87,83);
 	border: none;
-	border-radius: 18px;
+	border-radius: 20px;
 	color: white;
-	height: 36px;
-	width: 36px;
+	height: 40px;
+	width: 40px;
 }
 QPushButton:hover { background-color: rgb(66,68,65); }
 QPushButton:hover:pressed { background-color: rgb(48,49,47); }
@@ -6066,7 +6096,7 @@ QPushButton:disabled { background-color: rgb(220,220,220); }</string>
              <property name="font">
               <font>
                <family>Open Sans</family>
-               <pointsize>9</pointsize>
+               <pointsize>14</pointsize>
               </font>
              </property>
              <property name="styleSheet">
@@ -6095,7 +6125,7 @@ QLabel:disabled{ color: rgb(180,180,180); }</string>
              <property name="font">
               <font>
                <family>Open Sans</family>
-               <pointsize>12</pointsize>
+               <pointsize>18</pointsize>
                <weight>75</weight>
                <bold>true</bold>
               </font>
@@ -6117,14 +6147,14 @@ QLineEdit:disabled { color: white; }
             <widget class="QPushButton" name="freq_kd_button">
              <property name="minimumSize">
               <size>
-               <width>36</width>
-               <height>36</height>
+               <width>40</width>
+               <height>40</height>
               </size>
              </property>
              <property name="maximumSize">
               <size>
-               <width>100000</width>
-               <height>36</height>
+               <width>40</width>
+               <height>40</height>
               </size>
              </property>
              <property name="font">
@@ -6140,10 +6170,10 @@ QLineEdit:disabled { color: white; }
               <string notr="true">QPushButton {
 	background-color: rgb(85,87,83);
 	border: none;
-	border-radius: 18px;
+	border-radius: 20px;
 	color: white;
-	height: 36px;
-	width: 36px;
+	height: 40px;
+	width: 40px;
 }
 QPushButton:hover { background-color: rgb(66,68,65); }
 QPushButton:hover:pressed { background-color: rgb(48,49,47); }
@@ -6180,44 +6210,29 @@ QPushButton:disabled { background-color: rgb(220,220,220); }</string>
            </font>
           </property>
           <property name="styleSheet">
-           <string notr="true">QGroupBox {
-/*border: 1px solid rgb(180, 180, 180);*/
-border: none;
-background: white;
-border-radius: 20px;
-/*margin-top: 12px;*/
-border: 1px solid rgb(220,220,220);
-}
-
-QGroupBox::title {
-subcontrol-origin: margin;
-/*left: 20px;*/
-padding: 0px 3px;
-left: 12px;
-top: 6px;
-color: rgb(85, 87, 83);
-}
-
-QGroupBox::title:disabled {
-color: rgb(180,180,180);
-}</string>
+           <string notr="true">QGroupBox { border: none; background: white; border-radius: 40px; border: 1px solid rgb(220,220,220); }
+QGroupBox::title { subcontrol-origin: margin; padding: 0px 8px; left: 16px; top: 16px; color: rgb(85, 87, 83); }
+QGroupBox::title:disabled { color: rgb(180,180,180); }</string>
           </property>
           <property name="title">
            <string/>
           </property>
           <layout class="QGridLayout" name="gridLayout_12">
+           <property name="topMargin">
+            <number>18</number>
+           </property>
            <item row="0" column="0">
             <widget class="QLabel" name="label_16">
              <property name="font">
               <font>
                <family>Open Sans ExtraBold</family>
-               <pointsize>12</pointsize>
+               <pointsize>16</pointsize>
                <weight>75</weight>
                <bold>true</bold>
               </font>
              </property>
              <property name="styleSheet">
-              <string notr="true">background: none; border: none; color: rgb(85, 87, 83); padding-left: 4px;</string>
+              <string notr="true">background: none; border: none; color: rgb(85, 87, 83); padding-left: 12px;</string>
              </property>
              <property name="text">
               <string>&gt;</string>
@@ -6229,7 +6244,7 @@ color: rgb(180,180,180);
              <property name="font">
               <font>
                <family>Open Sans</family>
-               <pointsize>11</pointsize>
+               <pointsize>13</pointsize>
                <weight>75</weight>
                <bold>true</bold>
               </font>
@@ -6249,20 +6264,20 @@ color: rgb(180,180,180);
             <widget class="QComboBox" name="console_dropdown">
              <property name="minimumSize">
               <size>
-               <width>110</width>
+               <width>135</width>
                <height>30</height>
               </size>
              </property>
              <property name="maximumSize">
               <size>
-               <width>110</width>
+               <width>135</width>
                <height>30</height>
               </size>
              </property>
              <property name="font">
               <font>
                <family>Open Sans</family>
-               <pointsize>11</pointsize>
+               <pointsize>13</pointsize>
                <weight>75</weight>
                <bold>true</bold>
               </font>
@@ -6277,7 +6292,8 @@ border-radius: 15px;
 padding-top: -1px;
 padding-left: 8px;
 padding-right: 8px;
-font-size: 11pt;
+font-size: 13pt;
+margin-right: 13px;
 }
 QComboBox:on {
 border: none;
@@ -6354,7 +6370,7 @@ border: none;
              <property name="font">
               <font>
                <family>Open Sans</family>
-               <pointsize>11</pointsize>
+               <pointsize>12</pointsize>
               </font>
              </property>
              <property name="styleSheet">
@@ -6370,8 +6386,8 @@ border: none;
               <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Open Sans'; font-size:11pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:'Open Sans';&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Open Sans'; font-size:12pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:'Open Sans'; font-size:11pt;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
              </property>
             </widget>
            </item>
@@ -6395,33 +6411,15 @@ p, li { white-space: pre-wrap; }
           <property name="font">
            <font>
             <family>Open Sans</family>
-            <pointsize>11</pointsize>
+            <pointsize>13</pointsize>
             <weight>75</weight>
             <bold>true</bold>
            </font>
           </property>
           <property name="styleSheet">
-           <string notr="true">QGroupBox {
-/*border: 1px solid rgb(180, 180, 180);*/
-border: none;
-background: white;
-border-radius: 20px;
-/*margin-top: 12px;*/
-border: 1px solid rgb(220,220,220);
-}
-
-QGroupBox::title {
-subcontrol-origin: margin;
-/*left: 20px;*/
-padding: 0px 3px;
-left: 12px;
-top: 6px;
-color: rgb(85, 87, 83);
-}
-
-QGroupBox::title:disabled {
-color: rgb(180,180,180);
-}</string>
+           <string notr="true">QGroupBox { border: none; background: white; border-radius: 40px; border: 1px solid rgb(220,220,220); }
+QGroupBox::title { subcontrol-origin: margin; padding: 0px 8px; left: 16px; top: 16px; color: rgb(85, 87, 83); }
+QGroupBox::title:disabled { color: rgb(180,180,180); }</string>
           </property>
           <property name="title">
            <string>Ramp Rate: 15 min</string>
@@ -6431,27 +6429,35 @@ color: rgb(180,180,180);
             <number>0</number>
            </property>
            <property name="leftMargin">
-            <number>18</number>
+            <number>40</number>
            </property>
            <property name="topMargin">
-            <number>32</number>
+            <number>40</number>
            </property>
            <property name="rightMargin">
-            <number>18</number>
+            <number>40</number>
            </property>
            <property name="bottomMargin">
-            <number>14</number>
+            <number>30</number>
            </property>
            <item>
-            <widget class="QSlider" name="ramp_rate_slider">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
+            <layout class="QHBoxLayout" name="horizontalLayout_21">
+             <property name="leftMargin">
+              <number>10</number>
              </property>
-             <property name="styleSheet">
-              <string notr="true">QSlider {
+             <property name="rightMargin">
+              <number>10</number>
+             </property>
+             <item>
+              <widget class="QSlider" name="ramp_rate_slider">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">QSlider {
 background: white;
 }
 
@@ -6471,35 +6477,37 @@ QSlider::handle:horizontal {
 background: rgb(85,87,83);
 border-radius: 7px;
 }</string>
-             </property>
-             <property name="minimum">
-              <number>0</number>
-             </property>
-             <property name="maximum">
-              <number>90</number>
-             </property>
-             <property name="singleStep">
-              <number>10</number>
-             </property>
-             <property name="pageStep">
-              <number>10</number>
-             </property>
-             <property name="value">
-              <number>60</number>
-             </property>
-             <property name="orientation">
-              <enum>Qt::Horizontal</enum>
-             </property>
-             <property name="invertedAppearance">
-              <bool>false</bool>
-             </property>
-             <property name="tickPosition">
-              <enum>QSlider::NoTicks</enum>
-             </property>
-             <property name="tickInterval">
-              <number>10</number>
-             </property>
-            </widget>
+               </property>
+               <property name="minimum">
+                <number>0</number>
+               </property>
+               <property name="maximum">
+                <number>90</number>
+               </property>
+               <property name="singleStep">
+                <number>10</number>
+               </property>
+               <property name="pageStep">
+                <number>10</number>
+               </property>
+               <property name="value">
+                <number>30</number>
+               </property>
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <property name="invertedAppearance">
+                <bool>false</bool>
+               </property>
+               <property name="tickPosition">
+                <enum>QSlider::NoTicks</enum>
+               </property>
+               <property name="tickInterval">
+                <number>10</number>
+               </property>
+              </widget>
+             </item>
+            </layout>
            </item>
            <item>
             <layout class="QHBoxLayout" name="horizontalLayout_11">
@@ -6508,7 +6516,7 @@ border-radius: 7px;
                <property name="font">
                 <font>
                  <family>Open Sans</family>
-                 <pointsize>10</pointsize>
+                 <pointsize>12</pointsize>
                 </font>
                </property>
                <property name="styleSheet">
@@ -6524,14 +6532,14 @@ border-radius: 7px;
                <property name="font">
                 <font>
                  <family>Open Sans</family>
-                 <pointsize>10</pointsize>
+                 <pointsize>12</pointsize>
                 </font>
                </property>
                <property name="styleSheet">
                 <string notr="true">background: white; color: rgb(80,80,80);</string>
                </property>
                <property name="text">
-                <string>15 m   </string>
+                <string>15 m       </string>
                </property>
               </widget>
              </item>
@@ -6540,14 +6548,14 @@ border-radius: 7px;
                <property name="font">
                 <font>
                  <family>Open Sans</family>
-                 <pointsize>10</pointsize>
+                 <pointsize>12</pointsize>
                 </font>
                </property>
                <property name="styleSheet">
                 <string notr="true">background: white; color: rgb(80,80,80);</string>
                </property>
                <property name="text">
-                <string>    30 m</string>
+                <string>       30 m</string>
                </property>
               </widget>
              </item>
@@ -6556,7 +6564,7 @@ border-radius: 7px;
                <property name="font">
                 <font>
                  <family>Open Sans</family>
-                 <pointsize>10</pointsize>
+                 <pointsize>12</pointsize>
                 </font>
                </property>
                <property name="styleSheet">
@@ -6589,33 +6597,15 @@ border-radius: 7px;
           <property name="font">
            <font>
             <family>Open Sans</family>
-            <pointsize>11</pointsize>
+            <pointsize>13</pointsize>
             <weight>75</weight>
             <bold>true</bold>
            </font>
           </property>
           <property name="styleSheet">
-           <string notr="true">QGroupBox {
-/*border: 1px solid rgb(180, 180, 180);*/
-border: none;
-background: white;
-border-radius: 20px;
-/*margin-top: 12px;*/
-border: 1px solid rgb(220,220,220);
-}
-
-QGroupBox::title {
-subcontrol-origin: margin;
-/*left: 20px;*/
-padding: 0px 3px;
-left: 12px;
-top: 6px;
-color: rgb(85, 87, 83);
-}
-
-QGroupBox::title:disabled {
-color: rgb(180,180,180);
-}</string>
+           <string notr="true">QGroupBox { border: none; background: white; border-radius: 40px; border: 1px solid rgb(220,220,220); }
+QGroupBox::title { subcontrol-origin: margin; padding: 0px 8px; left: 16px; top: 16px; color: rgb(85, 87, 83); }
+QGroupBox::title:disabled { color: rgb(180,180,180); }</string>
           </property>
           <property name="title">
            <string>Misc</string>
@@ -6640,20 +6630,20 @@ color: rgb(180,180,180);
             <widget class="QPushButton" name="reconfig_button">
              <property name="minimumSize">
               <size>
-               <width>160</width>
-               <height>44</height>
+               <width>190</width>
+               <height>60</height>
               </size>
              </property>
              <property name="maximumSize">
               <size>
-               <width>160</width>
-               <height>44</height>
+               <width>190</width>
+               <height>60</height>
               </size>
              </property>
              <property name="font">
               <font>
                <family>Open Sans</family>
-               <pointsize>9</pointsize>
+               <pointsize>12</pointsize>
                <weight>75</weight>
                <bold>true</bold>
               </font>
@@ -6663,7 +6653,7 @@ color: rgb(180,180,180);
 	background-color: rgb(85,87,83);
 	border: none;
 	color: white;
-	border-radius: 22px;
+	border-radius: 30px;
 }
 QPushButton:hover:pressed { background-color: rgb(48,49,47); }
 QPushButton:hover { background-color: rgb(66,68,65); }
@@ -6681,20 +6671,20 @@ QPushButton:disabled { background-color: rgb(200,200,200); }</string>
              </property>
              <property name="minimumSize">
               <size>
-               <width>110</width>
-               <height>44</height>
+               <width>130</width>
+               <height>60</height>
               </size>
              </property>
              <property name="maximumSize">
               <size>
-               <width>110</width>
-               <height>44</height>
+               <width>130</width>
+               <height>60</height>
               </size>
              </property>
              <property name="font">
               <font>
                <family>Open Sans</family>
-               <pointsize>9</pointsize>
+               <pointsize>12</pointsize>
                <weight>75</weight>
                <bold>true</bold>
               </font>
@@ -6704,7 +6694,7 @@ QPushButton:disabled { background-color: rgb(200,200,200); }</string>
 	background-color: rgb(85,87,83);
 	border: none;
 	color: white;
-	border-radius: 22px;
+	border-radius: 30px;
 }
 QPushButton:hover:pressed { background-color: rgb(48,49,47); }
 QPushButton:hover { background-color: rgb(66,68,65); }</string>

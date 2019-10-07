@@ -49,7 +49,7 @@ private slots:
     void on_freq_kd_button_clicked();
     void on_close_button_clicked();
     void on_minimize_button_clicked();
-    void on_maximize_button_clicked();
+    //void on_maximize_button_clicked();
     void on_control_tab_clicked();
     void on_plot_tab_clicked();
     void on_admin_tab_clicked();
@@ -79,7 +79,6 @@ private slots:
     void power_context_menu(const QPoint &pos);
     void clear_power_data();
     void on_settings_button_clicked();
-
     void on_more_button_clicked();
 
 private:
