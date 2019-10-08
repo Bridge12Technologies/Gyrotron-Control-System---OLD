@@ -5,6 +5,7 @@
 #include <QTime>
 #include <QVector>
 #include <vector>
+#include <filesystem>
 //#include "lib/face/face.h"
 #include "lib/qcustomplot.h"
 //#include "gyrotron.h"
@@ -110,8 +111,9 @@ private:
     Gyrotron gyro;
     std::vector<QGraphicsDropShadowEffect*> shadows;
     QTimer data_timer, blink_timer;
+    QDateTime dateTime; // for system clock
     int blink_duration{500};
-    bool blink_on{false}, blink_enabled{true};
+    bool blink_on{false}, blink_enabled{true}, use_24hr_format{false};
     QPoint oldPos;
     std::vector<SmartLineEdit*> smart_edits;
     int last_known_state{0}, last_fault_status{0}, resize_tracker{0};

@@ -854,7 +854,7 @@ border-bottom-left-radius: 18px;
 }</string>
       </property>
       <property name="currentIndex">
-       <number>1</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="control_page">
        <layout class="QVBoxLayout" name="verticalLayout_21" stretch="1,0,0">

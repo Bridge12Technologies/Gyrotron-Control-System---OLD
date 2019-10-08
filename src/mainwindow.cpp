@@ -587,7 +587,46 @@ void MainWindow::realtime_slot()
 {
     static QTime timer(QTime::currentTime()); // setup loop timer
     static double last_key = 0; // used to track differences in time
+    static double last_clock_tick = 0; // used to update clock
+    static double last_storage_check = 0; // used to update storage widget
     key = timer.elapsed()/1000.0; // used to track time
+
+    if(key-last_clock_tick > 30) // update clock every 30 seconds
+    {
+        dateTime = dateTime.currentDateTime();
+        if(use_24hr_format)
+            ui->clock_label->setText(dateTime.time().toString("H:mm"));
+        else
+            ui->clock_label->setText(dateTime.time().toString("h:mm ap"));
+    }
+
+    if(key-last_storage_check > 300) // check storage every 5 minutes
+    {
+        std::filesystem::space_info hdd = std::filesystem::space("/");
+        std::uintmax_t total = hdd.capacity;
+        std::uintmax_t remaining = hdd.free;
+        int percent = int(round((total-remaining)/total));
+        ui->percent_full_label->setText(QString::number(percent) + "%");
+        int gb_remaining = int(round(remaining/1e9));
+        if(gb_remaining < 1)
+        {
+            ui->space_left_label->setText("<1 GB");
+            ui->space_left_label->setStyleSheet("border: none; background: transparent; color: #D16055;");
+            ui->percent_full_label->setStyleSheet("border: none; background: transparent; color: #D16055;");
+        }
+        else if(gb_remaining < 1000)
+        {
+            ui->space_left_label->setText(QString::number(gb_remaining) + " GB");
+            ui->space_left_label->setStyleSheet("border: none; background: transparent; color: rgb(85,87,83);");
+            ui->percent_full_label->setStyleSheet("border: none; background: transparent; color: rgb(85,87,83);");
+        }
+        else
+        {
+            ui->space_left_label->setText(QString::number(gb_remaining/1000) + " TB");
+            ui->space_left_label->setStyleSheet("border: none; background: transparent; color: rgb(85,87,83);");
+            ui->percent_full_label->setStyleSheet("border: none; background: transparent; color: rgb(85,87,83);");
+        }
+    }
 
     if (key-last_key > refresh_rate) // frequency of reiteration is refresh_rate in seconds
     {
