@@ -36,17 +36,18 @@ void MainWindow::shutdown()
 
 void MainWindow::init_gui()
 {
-    QWidget *boxes[23] = {ui->status_group,ui->state_group,ui->beam_params_group,ui->fms_group,ui->power_group,
+    QWidget *boxes[27] = {ui->status_group,ui->state_group,ui->beam_params_group,ui->fms_group,ui->power_group,
                          ui->pid_group,ui->plot_group,ui->fil_curr_group,ui->beam_volt_group,ui->freq_group,ui->curr_state_group,ui->auto_state_group,
                          ui->time_span_group,ui->faults_group,ui->log_group,ui->beam_pid_group,ui->power_pid_group,ui->freq_group,ui->ramp_rate_group,
-                         ui->log_rate_group,ui->misc_group,ui->reconnect_group,ui->console_group};
+                         ui->log_rate_group,ui->misc_group,ui->reconnect_group,ui->console_group,ui->settings_frame,ui->clock_frame,ui->storage_frame,
+                         ui->plot_select_group};
     for(auto box : boxes) { box->installEventFilter(this); }
 
     // apply drop shadows to group boxes
     std::vector<QWidget*> groups{ui->state_group,ui->status_group,ui->beam_params_group,ui->fms_group,ui->power_group,ui->pid_group,
                                    ui->plot_group,ui->fil_curr_group,ui->beam_volt_group,ui->freq_group,ui->curr_state_group,ui->auto_state_group,ui->time_span_group,
                                    ui->beam_pid_group,ui->power_pid_group,ui->freq_pid_group,ui->ramp_rate_group,ui->log_rate_group,ui->misc_group,ui->reconnect_group,ui->console_group,
-                                   ui->faults_group,ui->log_group,ui->settings_frame};
+                                   ui->faults_group,ui->log_group,ui->settings_frame,ui->clock_frame,ui->storage_frame,ui->plot_select_group};
     for(QWidget* group : groups)
     {
         shadows.push_back(new QGraphicsDropShadowEffect);
@@ -63,7 +64,8 @@ void MainWindow::init_gui()
     ui->storage_frame->setVisible(false);
     ui->clock_frame->setVisible(false);
     ui->show_more_layout->setContentsMargins(0,0,0,0);
-    //ui->control_grid->setVerticalSpacing(40);
+    ui->control_grid->setVerticalSpacing(60);
+    ui->control_grid->setHorizontalSpacing(60);
 
     init_plots();
 
@@ -297,7 +299,7 @@ void MainWindow::init_fields()
     ui->gtc_curr_edit->assign_validator([=](QString qstr){return valid_check(qstr,gyro.GTC_CURR_LIMIT);});
 
     smart_edits.push_back(ui->gtc_volt_edit);
-    ui->gtc_volt_edit->assign_items(ui->gtc_volt_button, gyro.gtc_volt_sp_ptr(), gyro.gtc_volt_ptr(), 3);
+    ui->gtc_volt_edit->assign_items(nullptr, gyro.gtc_volt_sp_ptr(), gyro.gtc_volt_ptr(), 3);
     ui->gtc_volt_edit->assign_validator([=](QString qstr){return valid_check(qstr,gyro.GTC_VOLT_LIMIT);});
 
     smart_edits.push_back(ui->beam_kp_edit);
@@ -1041,17 +1043,6 @@ void MainWindow::on_gtc_curr_button_clicked()
     }
 }
 
-void MainWindow::on_gtc_volt_button_clicked()
-{
-    double entry = ui->gtc_volt_edit->toggle_active();
-    if(entry >= 0)
-    {
-        int stat = gyro.set_gtc_volt(entry);
-        if(stat < 0)
-            gui.error_dialog(QString::fromStdString("Error setting GTC voltage! (" + to_str(stat) + ")"),false);
-    }
-}
-
 void MainWindow::on_control_tab_clicked()
 {
     ui->control_tab->setStyleSheet(tab_selected);
@@ -1529,7 +1520,8 @@ void MainWindow::on_more_button_clicked()
         ui->clock_frame->setVisible(false);
         ui->more_button->setText("MORE ▼");
         ui->show_more_layout->setContentsMargins(0,0,0,0);
-        //ui->control_grid->setVerticalSpacing(40);
+        ui->control_grid->setVerticalSpacing(60);
+        ui->control_grid->setHorizontalSpacing(60);
     }
     else
     {
@@ -1539,6 +1531,7 @@ void MainWindow::on_more_button_clicked()
         ui->clock_frame->setVisible(true);
         ui->more_button->setText("LESS ▲");
         ui->show_more_layout->setContentsMargins(0,0,0,20);
-        //ui->control_grid->setVerticalSpacing(20);
+        ui->control_grid->setVerticalSpacing(40);
+        ui->control_grid->setHorizontalSpacing(40);
     }
 }

@@ -34,7 +34,6 @@ private slots:
     void on_power_button_clicked();
     void on_freq_button_clicked();
     void on_gtc_curr_button_clicked();
-    void on_gtc_volt_button_clicked();
     void on_fil_curr_button_clicked();
     void on_prev_state_button_clicked();
     void on_next_state_button_clicked();
