@@ -480,8 +480,7 @@
    <string>MainWindow</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">background-color: rgb(240,240,240);
-color: black;</string>
+   <string notr="true">background: rgb(240,240,240);</string>
   </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QVBoxLayout" name="verticalLayout" stretch="0,0">
@@ -808,50 +807,7 @@ color: rgb(255, 139, 139);
        </font>
       </property>
       <property name="styleSheet">
-       <string notr="true">/*QTabWidget { z-index: -1; }*/
-
-QTabWidget::tab-bar
-{
-	alignment: center;
-}
-QTabWidget::pane
-{
-	border: 0px;
-}
-
-/* Style the tab using the tab sub-control. Note that it reads QTabBar _not_ QTabWidget */
-QTabBar::tab {
-/*margin-bottom: 1px;*/
-background: white;
-/*border: 1px solid #46812B;*/
-border: 1px solid rgb(220,220,220);
-padding: 0px 25px;
-height: 36px !important;
-color: rgb(85, 87, 83);
-}
-QTabBar::tab:selected {
-background: rgb(85,87,83);
-color:white;
-border: none;
-top: 1px;
-}
-QTabBar::tab:!selected:hover {
-background: rgb(220,220,220);
-}
-QTabBar::tab:!selected
-{
-background: white;
-/*border-bottom: 1px solid rgb(180,180,180);*/
-}
-
-QTabBar::tab:last {
-border-top-right-radius: 18px;
-border-bottom-right-radius: 18px;
-}
-QTabBar::tab:first {
-border-top-left-radius: 18px;
-border-bottom-left-radius: 18px;
-}</string>
+       <string notr="true">background: rgb(240,240,240);</string>
       </property>
       <property name="currentIndex">
        <number>0</number>
@@ -967,7 +923,7 @@ QGroupBox::title:disabled { color: rgb(180,180,180); }</string>
                 </font>
                </property>
                <property name="styleSheet">
-                <string notr="true">QLabel{ background: none; color: rgb(30,30,30); }
+                <string notr="true">QLabel{ background: none; color: rgb(85,87,83); }
 QLabel:disabled{ color: transparent; }</string>
                </property>
                <property name="text">
@@ -1004,7 +960,7 @@ QLabel:disabled{ color: transparent; }</string>
                 <enum>Qt::NoFocus</enum>
                </property>
                <property name="styleSheet">
-                <string notr="true">QLineEdit { height: 34px; border-radius: 17px; border: none; background: transparent; color: rgb(20,20,20); }
+                <string notr="true">QLineEdit { height: 34px; border-radius: 17px; border: none; background: transparent; color: rgb(40,40,40); }
 QLineEdit:disabled { color: transparent; }
 </string>
                </property>
@@ -1566,7 +1522,7 @@ QGroupBox::title:disabled { color: rgb(180,180,180); }</string>
                 </font>
                </property>
                <property name="styleSheet">
-                <string notr="true">QLabel{ background: none; color: rgb(30,30,30); }
+                <string notr="true">QLabel{ background: none; color: rgb(85,87,83); }
 QLabel:disabled{ color: transparent; }</string>
                </property>
                <property name="text">
@@ -1600,7 +1556,7 @@ QLabel:disabled{ color: transparent; }</string>
                 </font>
                </property>
                <property name="styleSheet">
-                <string notr="true">QLineEdit { height: 34px; border-radius: 17px; border: none; background: transparent; color: rgb(20,20,20); }
+                <string notr="true">QLineEdit { height: 34px; border-radius: 17px; border: none; background: transparent; color: rgb(40,40,40); }
 QLineEdit:disabled { color: transparent; }
 </string>
                </property>
@@ -1707,7 +1663,7 @@ QPushButton:disabled { background-color: rgb(220,220,220); }</string>
              </font>
             </property>
             <property name="styleSheet">
-             <string notr="true">QGroupBox { border: none; background: rgb(252,252,252); border-radius: 40px; border: 1px solid rgb(220,220,220); }
+             <string notr="true">QGroupBox { border: none; background: white; border-radius: 40px; border: 1px solid rgb(220,220,220); }
 QGroupBox::title { subcontrol-origin: margin; padding: 0px 8px; left: 16px; top: 16px; color: rgb(85, 87, 83); }
 QGroupBox::title:disabled { color: rgb(180,180,180); }</string>
             </property>
@@ -2133,7 +2089,7 @@ color: rgb(85, 87, 83);
                 <string notr="true">QComboBox {
 /*background-color: white;*/
 background-color: red;
-color: rgb(85, 87, 83);
+color: rgb(40, 40, 40);
 border: none;
 border-radius: 15px;
 padding-top: -1px;
@@ -2480,7 +2436,7 @@ QPushButton:disabled { background-color: rgb(220,220,220); }</string>
                   </font>
                  </property>
                  <property name="styleSheet">
-                  <string notr="true">QLineEdit { height: 34px; border-radius: 17px; border: none; background: transparent; color: rgb(20,20,20); }
+                  <string notr="true">QLineEdit { height: 34px; border-radius: 17px; border: none; background: transparent; color: rgb(40,40,40); }
 QLineEdit:disabled { color: transparent; }
 </string>
                  </property>
@@ -2518,7 +2474,7 @@ QLineEdit:disabled { color: transparent; }
                   </font>
                  </property>
                  <property name="styleSheet">
-                  <string notr="true">QLineEdit { height: 34px; border-radius: 17px; border: none; background: transparent; color: rgb(20,20,20); }
+                  <string notr="true">QLineEdit { height: 34px; border-radius: 17px; border: none; background: transparent; color: rgb(40,40,40); }
 QLineEdit:disabled { color: transparent; }
 </string>
                  </property>
@@ -2542,7 +2498,7 @@ QLineEdit:disabled { color: transparent; }
                   </font>
                  </property>
                  <property name="styleSheet">
-                  <string notr="true">QLabel{ background: none; color: rgb(30,30,30); }
+                  <string notr="true">QLabel{ background: none; color: rgb(85,87,83); }
 QLabel:disabled{ color: transparent; }</string>
                  </property>
                  <property name="text">
@@ -2562,7 +2518,7 @@ QLabel:disabled{ color: transparent; }</string>
                   </font>
                  </property>
                  <property name="styleSheet">
-                  <string notr="true">QLabel{ background: none; color: rgb(30,30,30); }
+                  <string notr="true">QLabel{ background: none; color: rgb(85,87,83); }
 QLabel:disabled{ color: transparent; }</string>
                  </property>
                  <property name="text">
@@ -2619,7 +2575,7 @@ QLabel:disabled{ color: transparent; }</string>
                   </font>
                  </property>
                  <property name="styleSheet">
-                  <string notr="true">QLineEdit { height: 34px; border-radius: 17px; border: none; background: transparent; color: rgb(20,20,20); }
+                  <string notr="true">QLineEdit { height: 34px; border-radius: 17px; border: none; background: transparent; color: rgb(40,40,40); }
 QLineEdit:disabled { color: transparent; }
 </string>
                  </property>
@@ -2656,7 +2612,7 @@ QLineEdit:disabled { color: transparent; }
                   </font>
                  </property>
                  <property name="styleSheet">
-                  <string notr="true">QLabel{ background: none; color: rgb(30,30,30); }
+                  <string notr="true">QLabel{ background: none; color: rgb(85,87,83); }
 QLabel:disabled{ color: transparent; }</string>
                  </property>
                  <property name="text">
@@ -2682,7 +2638,7 @@ QLabel:disabled{ color: transparent; }</string>
                   </font>
                  </property>
                  <property name="styleSheet">
-                  <string notr="true">QLabel{ background: none; color: rgb(30,30,30); }
+                  <string notr="true">QLabel{ background: none; color: rgb(85,87,83); }
 QLabel:disabled{ color: transparent; }</string>
                  </property>
                  <property name="text">
@@ -2716,7 +2672,7 @@ QLabel:disabled{ color: transparent; }</string>
                   </font>
                  </property>
                  <property name="styleSheet">
-                  <string notr="true">QLineEdit { height: 34px; border-radius: 17px; border: none; background: transparent; color: rgb(20,20,20); }
+                  <string notr="true">QLineEdit { height: 34px; border-radius: 17px; border: none; background: transparent; color: rgb(40,40,40); }
 QLineEdit:disabled { color: transparent; }
 </string>
                  </property>
@@ -2743,7 +2699,7 @@ QLineEdit:disabled { color: transparent; }
                   </font>
                  </property>
                  <property name="styleSheet">
-                  <string notr="true">QLabel{ background: none; color: rgb(30,30,30); }
+                  <string notr="true">QLabel{ background: none; color: rgb(85,87,83); }
 QLabel:disabled{ color: transparent; }</string>
                  </property>
                  <property name="text">
@@ -2780,7 +2736,7 @@ QLabel:disabled{ color: transparent; }</string>
                   </font>
                  </property>
                  <property name="styleSheet">
-                  <string notr="true">QLineEdit { height: 34px; border-radius: 17px; border: none; background: transparent; color: rgb(20,20,20); }
+                  <string notr="true">QLineEdit { height: 34px; border-radius: 17px; border: none; background: transparent; color: rgb(40,40,40); }
 QLineEdit:disabled { color: transparent; }
 </string>
                  </property>
@@ -3023,7 +2979,7 @@ QPushButton:disabled { background-color: rgb(220,220,220); }</string>
                   </font>
                  </property>
                  <property name="styleSheet">
-                  <string notr="true">QLabel{ background: none; color: rgb(30,30,30); }
+                  <string notr="true">QLabel{ background: none; color: rgb(85,87,83); }
 QLabel:disabled{ color: transparent; }</string>
                  </property>
                  <property name="text">
@@ -3063,7 +3019,7 @@ QLabel:disabled{ color: transparent; }</string>
                   <enum>Qt::NoFocus</enum>
                  </property>
                  <property name="styleSheet">
-                  <string notr="true">QLineEdit { height: 34px; border-radius: 16px; border: none; background: transparent; color: rgb(20,20,20); }
+                  <string notr="true">QLineEdit { height: 34px; border-radius: 16px; border: none; background: transparent; color: rgb(40,40,40); }
 QLineEdit:disabled { color: white; }
 </string>
                  </property>
@@ -3100,7 +3056,7 @@ QLineEdit:disabled { color: white; }
                   </font>
                  </property>
                  <property name="styleSheet">
-                  <string notr="true">QLabel{ background: none; color: rgb(30,30,30); }
+                  <string notr="true">QLabel{ background: none; color: rgb(85,87,83); }
 QLabel:disabled{ color: transparent; }</string>
                  </property>
                  <property name="text">
@@ -3137,7 +3093,7 @@ QLabel:disabled{ color: transparent; }</string>
                   <bool>false</bool>
                  </property>
                  <property name="styleSheet">
-                  <string notr="true">QLineEdit { height: 34px; border-radius: 16px; border: none; background: transparent; color: rgb(20,20,20); }
+                  <string notr="true">QLineEdit { height: 34px; border-radius: 16px; border: none; background: transparent; color: rgb(40,40,40); }
 QLineEdit:disabled { color: white; }
 </string>
                  </property>
@@ -3220,7 +3176,7 @@ border-radius: 40px;</string>
                   </font>
                  </property>
                  <property name="styleSheet">
-                  <string notr="true">border: none; background: transparent;</string>
+                  <string notr="true">border: none; background: transparent; color: rgb(40,40,40);</string>
                  </property>
                  <property name="text">
                   <string>12:00 AM</string>
@@ -3268,7 +3224,7 @@ border-radius: 40px;</string>
                     </font>
                    </property>
                    <property name="styleSheet">
-                    <string notr="true">border: none; background: transparent;</string>
+                    <string notr="true">background: none; color: rgb(85,87,83); border: none;</string>
                    </property>
                    <property name="text">
                     <string>Storage</string>
@@ -3286,7 +3242,7 @@ border-radius: 40px;</string>
                     </font>
                    </property>
                    <property name="styleSheet">
-                    <string notr="true">border: none; background: transparent;</string>
+                    <string notr="true">border: none; background: transparent; color: rgb(40,40,40);</string>
                    </property>
                    <property name="text">
                     <string>50%</string>
@@ -3302,7 +3258,7 @@ border-radius: 40px;</string>
                     </font>
                    </property>
                    <property name="styleSheet">
-                    <string notr="true">border: none; background: transparent;</string>
+                    <string notr="true">background: none; color: rgb(85,87,83); border: none;</string>
                    </property>
                    <property name="text">
                     <string>full</string>
@@ -3324,7 +3280,7 @@ border-radius: 40px;</string>
                     </font>
                    </property>
                    <property name="styleSheet">
-                    <string notr="true">border: none; background: transparent;</string>
+                    <string notr="true">border: none; background: transparent; color: rgb(40,40,40);</string>
                    </property>
                    <property name="text">
                     <string>1000 GB</string>
@@ -3340,7 +3296,7 @@ border-radius: 40px;</string>
                     </font>
                    </property>
                    <property name="styleSheet">
-                    <string notr="true">border: none; background: transparent;</string>
+                    <string notr="true">background: none; color: rgb(85,87,83); border: none;</string>
                    </property>
                    <property name="text">
                     <string>remaining</string>
@@ -3688,13 +3644,13 @@ background-position: center;
            <widget class="QGroupBox" name="plot_select_group">
             <property name="minimumSize">
              <size>
-              <width>350</width>
+              <width>360</width>
               <height>0</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>350</width>
+              <width>360</width>
               <height>16777215</height>
              </size>
             </property>
@@ -3750,13 +3706,13 @@ QGroupBox::title:disabled { color: rgb(180,180,180); }</string>
               <widget class="QComboBox" name="console_dropdown_2">
                <property name="minimumSize">
                 <size>
-                 <width>182</width>
+                 <width>185</width>
                  <height>35</height>
                 </size>
                </property>
                <property name="maximumSize">
                 <size>
-                 <width>182</width>
+                 <width>185</width>
                  <height>35</height>
                 </size>
                </property>
@@ -3772,7 +3728,7 @@ QGroupBox::title:disabled { color: rgb(180,180,180); }</string>
                 <string notr="true">QComboBox {
 /*background-color: white;*/
 background-color: red;
-color: rgb(85, 87, 83);
+color: rgb(40, 40, 40);
 border: none;
 border-radius: 15px;
 padding-top: -1px;
@@ -3787,7 +3743,6 @@ border: none;
 QComboBox QAbstractItemView {
 border: none;
 background: white;
-background: red;
 }
 QComboBox:disabled {
 color: rgb(180,180,180);
@@ -3863,13 +3818,13 @@ border: none;
               <widget class="QComboBox" name="console_dropdown_3">
                <property name="minimumSize">
                 <size>
-                 <width>182</width>
+                 <width>185</width>
                  <height>35</height>
                 </size>
                </property>
                <property name="maximumSize">
                 <size>
-                 <width>182</width>
+                 <width>185</width>
                  <height>35</height>
                 </size>
                </property>
@@ -3885,7 +3840,7 @@ border: none;
                 <string notr="true">QComboBox {
 /*background-color: white;*/
 background-color: red;
-color: rgb(85, 87, 83);
+color: rgb(40, 40, 40);
 border: none;
 border-radius: 15px;
 padding-top: -1px;
@@ -3900,7 +3855,6 @@ border: none;
 QComboBox QAbstractItemView {
 border: none;
 background: white;
-background: red;
 }
 QComboBox:disabled {
 color: rgb(180,180,180);
@@ -3976,13 +3930,13 @@ border: none;
               <widget class="QComboBox" name="console_dropdown_4">
                <property name="minimumSize">
                 <size>
-                 <width>182</width>
+                 <width>185</width>
                  <height>35</height>
                 </size>
                </property>
                <property name="maximumSize">
                 <size>
-                 <width>182</width>
+                 <width>185</width>
                  <height>35</height>
                 </size>
                </property>
@@ -3998,7 +3952,7 @@ border: none;
                 <string notr="true">QComboBox {
 /*background-color: white;*/
 background-color: red;
-color: rgb(85, 87, 83);
+color: rgb(40, 40, 40);
 border: none;
 border-radius: 15px;
 padding-top: -1px;
@@ -4013,7 +3967,6 @@ border: none;
 QComboBox QAbstractItemView {
 border: none;
 background: white;
-background: red;
 }
 QComboBox:disabled {
 color: rgb(180,180,180);
@@ -4079,13 +4032,13 @@ border: none;
             </property>
             <property name="minimumSize">
              <size>
-              <width>350</width>
+              <width>360</width>
               <height>80</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>350</width>
+              <width>360</width>
               <height>80</height>
              </size>
             </property>
@@ -4136,7 +4089,7 @@ QGroupBox::title:disabled { color: rgb(180,180,180); }</string>
                 </font>
                </property>
                <property name="styleSheet">
-                <string notr="true">color: rgb(85, 87, 83); background: white;</string>
+                <string notr="true">color: rgb(85, 87, 83); background: transparent;</string>
                </property>
                <property name="text">
                 <string>Fil. Current</string>
@@ -4154,7 +4107,7 @@ QGroupBox::title:disabled { color: rgb(180,180,180); }</string>
                 </font>
                </property>
                <property name="styleSheet">
-                <string notr="true">color: rgb(85, 87, 83); background: white;</string>
+                <string notr="true">color: rgb(40, 40, 40); background: white;</string>
                </property>
                <property name="text">
                 <string>0.00e-00</string>
@@ -4185,7 +4138,7 @@ QGroupBox::title:disabled { color: rgb(180,180,180); }</string>
                 </font>
                </property>
                <property name="styleSheet">
-                <string notr="true">color: rgb(85, 87, 83); background: white;</string>
+                <string notr="true">color: rgb(85, 87, 83); background: transparent;</string>
                </property>
                <property name="text">
                 <string>A</string>
@@ -4205,13 +4158,13 @@ QGroupBox::title:disabled { color: rgb(180,180,180); }</string>
             </property>
             <property name="minimumSize">
              <size>
-              <width>350</width>
+              <width>360</width>
               <height>80</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>350</width>
+              <width>360</width>
               <height>80</height>
              </size>
             </property>
@@ -4262,7 +4215,7 @@ QGroupBox::title:disabled { color: rgb(180,180,180); }</string>
                 </font>
                </property>
                <property name="styleSheet">
-                <string notr="true">color: rgb(85, 87, 83); background: white;</string>
+                <string notr="true">color: rgb(85, 87, 83); background: transparent;</string>
                </property>
                <property name="text">
                 <string>Beam Voltage</string>
@@ -4280,7 +4233,7 @@ QGroupBox::title:disabled { color: rgb(180,180,180); }</string>
                 </font>
                </property>
                <property name="styleSheet">
-                <string notr="true">color: rgb(85, 87, 83); background: white;</string>
+                <string notr="true">color: rgb(40, 40, 40); background: white;</string>
                </property>
                <property name="text">
                 <string>0.00e-00</string>
@@ -4311,7 +4264,7 @@ QGroupBox::title:disabled { color: rgb(180,180,180); }</string>
                 </font>
                </property>
                <property name="styleSheet">
-                <string notr="true">color: rgb(85, 87, 83); background: white;</string>
+                <string notr="true">color: rgb(85, 87, 83); background: transparent;</string>
                </property>
                <property name="text">
                 <string>kV</string>
@@ -4331,13 +4284,13 @@ QGroupBox::title:disabled { color: rgb(180,180,180); }</string>
            <widget class="QGroupBox" name="freq_group">
             <property name="minimumSize">
              <size>
-              <width>350</width>
+              <width>360</width>
               <height>80</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>350</width>
+              <width>360</width>
               <height>80</height>
              </size>
             </property>
@@ -4390,7 +4343,7 @@ QGroupBox::title:disabled { color: rgb(180,180,180); }</string>
                 </font>
                </property>
                <property name="styleSheet">
-                <string notr="true">color: rgb(85, 87, 83); background: white;</string>
+                <string notr="true">color: rgb(85, 87, 83); background: transparent;</string>
                </property>
                <property name="text">
                 <string>Frequency</string>
@@ -4408,7 +4361,7 @@ QGroupBox::title:disabled { color: rgb(180,180,180); }</string>
                 </font>
                </property>
                <property name="styleSheet">
-                <string notr="true">color: rgb(85, 87, 83); background: white;</string>
+                <string notr="true">color: rgb(40, 40, 40); background: white;</string>
                </property>
                <property name="text">
                 <string>000.000</string>
@@ -4436,7 +4389,7 @@ QGroupBox::title:disabled { color: rgb(180,180,180); }</string>
                 </font>
                </property>
                <property name="styleSheet">
-                <string notr="true">color: rgb(85, 87, 83); background: white;</string>
+                <string notr="true">color: rgb(85, 87, 83); background: transparent;</string>
                </property>
                <property name="text">
                 <string>GHz</string>
@@ -4450,13 +4403,13 @@ QGroupBox::title:disabled { color: rgb(180,180,180); }</string>
            <widget class="QGroupBox" name="curr_state_group">
             <property name="minimumSize">
              <size>
-              <width>350</width>
+              <width>360</width>
               <height>80</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>350</width>
+              <width>360</width>
               <height>80</height>
              </size>
             </property>
@@ -4538,7 +4491,7 @@ color: rgb(180,180,180);
                 </font>
                </property>
                <property name="styleSheet">
-                <string notr="true">color: rgb(85, 87, 83); background: white;</string>
+                <string notr="true">color: rgb(85, 87, 83); background: transparent;</string>
                </property>
                <property name="text">
                 <string>Current State</string>
@@ -4556,7 +4509,7 @@ color: rgb(180,180,180);
                 </font>
                </property>
                <property name="styleSheet">
-                <string notr="true">color: rgb(85, 87, 83); background: white;</string>
+                <string notr="true">color: rgb(40, 40, 40); background: white;</string>
                </property>
                <property name="text">
                 <string>CTRL PW ON</string>
@@ -4570,13 +4523,13 @@ color: rgb(180,180,180);
            <widget class="QGroupBox" name="auto_state_group">
             <property name="minimumSize">
              <size>
-              <width>350</width>
+              <width>360</width>
               <height>80</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>350</width>
+              <width>360</width>
               <height>80</height>
              </size>
             </property>
@@ -4658,7 +4611,7 @@ color: rgb(180,180,180);
                 </font>
                </property>
                <property name="styleSheet">
-                <string notr="true">color: rgb(85, 87, 83); background: white;</string>
+                <string notr="true">color: rgb(40, 40, 40); background: white;</string>
                </property>
                <property name="text">
                 <string>NONE</string>
@@ -4672,13 +4625,13 @@ color: rgb(180,180,180);
            <widget class="QGroupBox" name="time_span_group">
             <property name="minimumSize">
              <size>
-              <width>350</width>
+              <width>360</width>
               <height>140</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>350</width>
+              <width>360</width>
               <height>140</height>
              </size>
             </property>
@@ -6691,7 +6644,7 @@ QGroupBox::title:disabled { color: rgb(180,180,180); }</string>
               <string notr="true">QComboBox {
 /*background-color: white;*/
 background-color: red;
-color: rgb(85, 87, 83);
+color: rgb(40, 40, 40);
 border: none;
 border-radius: 15px;
 padding-top: -1px;
@@ -6706,7 +6659,6 @@ border: none;
 QComboBox QAbstractItemView {
 border: none;
 background: white;
-background: red;
 }
 QComboBox:disabled {
 color: rgb(180,180,180);

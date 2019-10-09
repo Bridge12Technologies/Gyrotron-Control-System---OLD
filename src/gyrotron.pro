@@ -12,7 +12,7 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets printsupport
 
 TARGET = GYROTRON
 TEMPLATE = app
-LIBS += -lpthread -L"/usr/local/lib"
+LIBS += -lpthread -lstdc++fs -L"/usr/local/lib"
 INCLUDEPATH += "./lib" "./lib/face/" "./lib/spine"
 # The following define makes your compiler emit warnings if you use
 # any feature of Qt which as been marked as deprecated (the exact warnings

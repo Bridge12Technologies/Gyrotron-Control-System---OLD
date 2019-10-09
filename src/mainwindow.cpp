@@ -1545,7 +1545,8 @@ void MainWindow::on_maximize_button_clicked()
 void MainWindow::on_settings_button_clicked()
 {
     settings_window settings_popup(&admin_mode,ui->admin_tab,ui->stackedWidget,
-                                   &blink_enabled,[=](bool e){set_blink_enabled(e);},this);
+                                   &blink_enabled,[=](bool e){set_blink_enabled(e);},
+                                   &use_24hr_format, this);
     settings_popup.exec();
 }
 
