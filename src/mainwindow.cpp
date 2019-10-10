@@ -609,23 +609,9 @@ void MainWindow::realtime_slot()
         ui->percent_full_label->setText(QString::number(percent) + "%");
         int gb_remaining = int(round(remaining/1e9));
         if(gb_remaining < 1)
-        {
-            ui->space_left_label->setText("<1 GB");
-            ui->space_left_label->setStyleSheet("border: none; background: transparent; color: #D16055;");
-            ui->percent_full_label->setStyleSheet("border: none; background: transparent; color: #D16055;");
-        }
-        else if(gb_remaining < 1000)
-        {
-            ui->space_left_label->setText(QString::number(gb_remaining) + " GB");
-            ui->space_left_label->setStyleSheet("border: none; background: transparent; color: rgb(85,87,83);");
-            ui->percent_full_label->setStyleSheet("border: none; background: transparent; color: rgb(85,87,83);");
-        }
+           ui->percent_full_label->setStyleSheet("border: none; background: transparent; color: #D16055;");
         else
-        {
-            ui->space_left_label->setText(QString::number(gb_remaining/1000) + " TB");
-            ui->space_left_label->setStyleSheet("border: none; background: transparent; color: rgb(85,87,83);");
-            ui->percent_full_label->setStyleSheet("border: none; background: transparent; color: rgb(85,87,83);");
-        }
+           ui->percent_full_label->setStyleSheet("border: none; background: transparent; color: rgb(85,87,83);");
     }
 
     if (key-last_key > refresh_rate) // frequency of reiteration is refresh_rate in seconds
@@ -1571,7 +1557,7 @@ void MainWindow::on_more_button_clicked()
         ui->clock_frame->setVisible(true);
         ui->more_button->setText("LESS ▲");
         ui->show_more_layout->setContentsMargins(0,0,0,20);
-        ui->control_grid->setVerticalSpacing(40);
-        ui->control_grid->setHorizontalSpacing(40);
+        ui->control_grid->setVerticalSpacing(50);
+        ui->control_grid->setHorizontalSpacing(50);
     }
 }
