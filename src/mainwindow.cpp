@@ -62,7 +62,7 @@ void MainWindow::init_gui()
     ui->beam_params_group->setVisible(false);
     ui->settings_frame->setVisible(false);
     ui->storage_frame->setVisible(false);
-    ui->clock_frame->setVisible(false);
+    //ui->clock_frame->setVisible(false);
     ui->show_more_layout->setContentsMargins(0,0,0,0);
     ui->control_grid->setVerticalSpacing(60);
     ui->control_grid->setHorizontalSpacing(60);
@@ -1543,9 +1543,9 @@ void MainWindow::on_more_button_clicked()
         ui->beam_params_group->setVisible(false);
         ui->settings_frame->setVisible(false);
         ui->storage_frame->setVisible(false);
-        ui->clock_frame->setVisible(false);
+        //ui->clock_frame->setVisible(false);
         ui->more_button->setText("MORE ▼");
-        ui->show_more_layout->setContentsMargins(0,0,0,0);
+        ui->show_more_layout->setContentsMargins(0,0,0,18);
         ui->control_grid->setVerticalSpacing(60);
         ui->control_grid->setHorizontalSpacing(60);
     }
@@ -1554,7 +1554,7 @@ void MainWindow::on_more_button_clicked()
         ui->beam_params_group->setVisible(true);
         ui->settings_frame->setVisible(true);
         ui->storage_frame->setVisible(true);
-        ui->clock_frame->setVisible(true);
+        //ui->clock_frame->setVisible(true);
         ui->more_button->setText("LESS ▲");
         ui->show_more_layout->setContentsMargins(0,0,0,20);
         ui->control_grid->setVerticalSpacing(50);
