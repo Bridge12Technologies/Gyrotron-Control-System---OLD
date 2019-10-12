@@ -852,99 +852,99 @@ void MainWindow::closeEvent (QCloseEvent *event)
 }
 
 void MainWindow::on_reconfig_button_clicked() { gyro.extract_config(); }
-/*
-void MainWindow::on_beam_pid_button_clicked()
-{
-    gyro.toggle_beam_pid();
 
-    if(gyro.beam_pid_is_on())
+void MainWindow::on_enable_button_clicked()
+{
+    if(gyro.pid_is_on())
     {
-        ui->enable_button->setStyleSheet(gui.orange_button(36));
-        ui->beam_curr_button->setEnabled(true);
-        ui->small_pid_label->setText("CURRENT");
-        ui->fil_curr_button->setEnabled(false);
-        ui->fil_curr_button->setText("set: ");
-        ui->fil_curr_button->setFont(small_button_font);
-        ui->fil_curr_button->setStyleSheet(orange_pid_button);
-        gyro.log_event("automatic beam current control enabled");
+        gyro.turn_off_pid();
+        ui->enable_button->setStyleSheet(gui.grey_button(60));
+        ui->enable_button->setText("ENABLE");
+        ui->pid_dropdown->setEnabled(true);
+        ui->pid_group->setTitle("Auto Control");
+
+        if(ui->pid_dropdown->currentText() == "POWER")
+        {
+            ui->power_button->setEnabled(false);
+            ui->small_pid_label->setText("NONE");
+            ui->fil_curr_button->setEnabled(true);
+            ui->fil_curr_button->setText("✎");
+            ui->fil_curr_button->setFont(button_font);
+            ui->fil_curr_button->setStyleSheet(green_edit_button);
+            gyro.log_event("automatic power control disabled");
+        }
+        else if(ui->pid_dropdown->currentText() == "CURRENT")
+        {
+            ui->beam_curr_button->setEnabled(false);
+            ui->small_pid_label->setText("NONE");
+            ui->fil_curr_button->setEnabled(true);
+            ui->fil_curr_button->setText("✎");
+            ui->fil_curr_button->setFont(button_font);
+            ui->fil_curr_button->setStyleSheet(green_edit_button);
+            gyro.log_event("automatic beam current control disabled");
+        }
+        else if(ui->pid_dropdown->currentText() == "FREQUENCY")
+        {
+            ui->freq_button->setEnabled(false);
+            ui->small_pid_label->setText("NONE");
+            ui->fil_curr_button->setEnabled(true);
+            ui->fil_curr_button->setText("✎");
+            ui->fil_curr_button->setFont(button_font);
+            ui->fil_curr_button->setStyleSheet(green_edit_button);
+            ui->beam_volt_button->setEnabled(true);
+            ui->beam_volt_button->setText("✎");
+            ui->beam_volt_button->setFont(button_font);
+            ui->beam_volt_button->setStyleSheet(green_edit_button);
+            gyro.log_event("automatic frequency control disabled");
+        }
     }
     else
     {
-        ui->enable_button->setStyleSheet(gui.grey_button(36));
-        ui->beam_curr_button->setEnabled(false);
-        ui->small_pid_label->setText("NONE");
-        ui->fil_curr_button->setEnabled(true);
-        ui->fil_curr_button->setText("✎");
-        ui->fil_curr_button->setFont(button_font);
-        ui->fil_curr_button->setStyleSheet(green_edit_button);
-        gyro.log_event("automatic beam current control disabled");
+        ui->enable_button->setStyleSheet(gui.orange_button(60));
+        ui->enable_button->setText("DISABLE");
+        ui->pid_dropdown->setEnabled(false);
+        ui->pid_group->setTitle("Auto Control [ON]");
+
+        if(ui->pid_dropdown->currentText() == "POWER")
+        {
+            gyro.toggle_power_pid(true);
+            ui->power_button->setEnabled(true);
+            ui->small_pid_label->setText("POWER");
+            ui->fil_curr_button->setEnabled(false);
+            ui->fil_curr_button->setText("set: ");
+            ui->fil_curr_button->setFont(small_button_font);
+            ui->fil_curr_button->setStyleSheet(orange_pid_button);
+            gyro.log_event("automatic power control enabled");
+        }
+        else if(ui->pid_dropdown->currentText() == "CURRENT")
+        {
+            gyro.toggle_beam_pid(true);
+            ui->beam_curr_button->setEnabled(true);
+            ui->small_pid_label->setText("CURRENT");
+            ui->fil_curr_button->setEnabled(false);
+            ui->fil_curr_button->setText("set: ");
+            ui->fil_curr_button->setFont(small_button_font);
+            ui->fil_curr_button->setStyleSheet(orange_pid_button);
+            gyro.log_event("automatic beam current control enabled");
+        }
+        else if(ui->pid_dropdown->currentText() == "FREQUENCY")
+        {
+            gyro.toggle_freq_pid(true);
+            ui->freq_button->setEnabled(true);
+            ui->small_pid_label->setText("FREQUENCY");
+            ui->fil_curr_button->setEnabled(false);
+            ui->fil_curr_button->setText("set: ");
+            ui->fil_curr_button->setFont(small_button_font);
+            ui->fil_curr_button->setStyleSheet(orange_pid_button);
+            ui->beam_volt_button->setEnabled(false);
+            ui->beam_volt_button->setText("set: ");
+            ui->beam_volt_button->setFont(small_button_font);
+            ui->beam_volt_button->setStyleSheet(orange_pid_button);
+            gyro.log_event("automatic frequency control enabled");
+        }
     }
 }
 
-void MainWindow::on_power_pid_button_clicked()
-{
-    gyro.toggle_power_pid();
-
-    if(gyro.power_pid_is_on())
-    {
-        ui->enable_button->setStyleSheet(gui.orange_button(36));
-        ui->power_button->setEnabled(true);
-        ui->small_pid_label->setText("POWER");
-        ui->fil_curr_button->setEnabled(false);
-        ui->fil_curr_button->setText("set: ");
-        ui->fil_curr_button->setFont(small_button_font);
-        ui->fil_curr_button->setStyleSheet(orange_pid_button);
-        gyro.log_event("automatic power control enabled");
-    }
-    else
-    {
-        ui->enable_button->setStyleSheet(gui.grey_button(36));
-        ui->power_button->setEnabled(false);
-        ui->small_pid_label->setText("NONE");
-        ui->fil_curr_button->setEnabled(true);
-        ui->fil_curr_button->setText("✎");
-        ui->fil_curr_button->setFont(button_font);
-        ui->fil_curr_button->setStyleSheet(green_edit_button);
-        gyro.log_event("automatic power control disabled");
-    }
-}
-
-void MainWindow::on_freq_pid_button_clicked()
-{
-    gyro.toggle_freq_pid();
-
-    if(gyro.freq_pid_is_on())
-    {
-        ui->enable_button->setStyleSheet(gui.orange_button(36));
-        ui->freq_button->setEnabled(true);
-        ui->small_pid_label->setText("FREQUENCY");
-        ui->fil_curr_button->setEnabled(false);
-        ui->fil_curr_button->setText("set: ");
-        ui->fil_curr_button->setFont(small_button_font);
-        ui->fil_curr_button->setStyleSheet(orange_pid_button);
-        ui->beam_volt_button->setEnabled(false);
-        ui->beam_volt_button->setText("set: ");
-        ui->beam_volt_button->setFont(small_button_font);
-        ui->beam_volt_button->setStyleSheet(orange_pid_button);
-        gyro.log_event("automatic frequency control enabled");
-    }
-    else
-    {
-        ui->enable_button->setStyleSheet(gui.grey_button(36));
-        ui->freq_button->setEnabled(false);
-        ui->small_pid_label->setText("NONE");
-        ui->fil_curr_button->setEnabled(true);
-        ui->fil_curr_button->setText("✎");
-        ui->fil_curr_button->setFont(button_font);
-        ui->fil_curr_button->setStyleSheet(green_edit_button);
-        ui->beam_volt_button->setEnabled(true);
-        ui->beam_volt_button->setText("✎");
-        ui->beam_volt_button->setFont(button_font);
-        ui->beam_volt_button->setStyleSheet(green_edit_button);
-        gyro.log_event("automatic frequency control disabled");
-    }
-}
-*/
 void MainWindow::on_beam_kp_button_clicked()
 {
     double entry = ui->beam_kp_edit->toggle_active();
@@ -1561,3 +1561,5 @@ void MainWindow::on_more_button_clicked()
         ui->control_grid->setHorizontalSpacing(50);
     }
 }
+
+

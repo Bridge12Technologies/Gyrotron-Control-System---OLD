@@ -56,6 +56,7 @@ public:
     void toggle_power_pid(bool turn_on);
     void toggle_freq_pid();
     void toggle_freq_pid(bool turn_on);
+    void turn_off_pid();
 
     bool all_clear(); // true if all devs enabled, connected, & no errors
     bool is_paused() { return paused; }
@@ -81,6 +82,7 @@ public:
     bool beam_pid_is_on() { return beam_pid_on; }
     bool power_pid_is_on() { return power_pid_on; }
     bool freq_pid_is_on() { return freq_pid_on; }
+    bool pid_is_on() { return (beam_pid_on || power_pid_on || freq_pid_on); }
 
     int get_fault_status(); // 0 = no faults, -1 = warnings, -2 = errors
     int get_temp_status();  // 0 = safe temp, -1 = warning, -2 = fatal

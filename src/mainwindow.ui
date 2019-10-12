@@ -1693,6 +1693,9 @@ QGroupBox::title:disabled { color: rgb(180,180,180); }</string>
              </item>
              <item>
               <widget class="QComboBox" name="pid_dropdown">
+               <property name="enabled">
+                <bool>true</bool>
+               </property>
                <property name="minimumSize">
                 <size>
                  <width>160</width>
@@ -1733,7 +1736,7 @@ border: none;
 background: white;
 }
 QComboBox:disabled {
-color: rgb(180,180,180);
+/*color: rgb(180,180,180);*/
 }
 QComboBox::drop-down {
 border: none;

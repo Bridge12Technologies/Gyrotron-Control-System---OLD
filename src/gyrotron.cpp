@@ -909,6 +909,14 @@ void Gyrotron::toggle_freq_pid(bool turn_on)
     log_event("automatic frequency control " + std::string(turn_on ? "enabled" : "disabled"));
 }
 
+void Gyrotron::turn_off_pid()
+{
+    freq_pid_on = false;
+    power_pid_on = false;
+    beam_pid_on = false;
+    log_event("automatic control disabled");
+}
+
 int Gyrotron::enter_standby()
 {
     beam_pid_on = power_pid_on = freq_pid_on = false;
