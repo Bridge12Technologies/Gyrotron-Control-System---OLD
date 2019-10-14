@@ -80,6 +80,7 @@ private slots:
     void clear_power_data();
     void on_settings_button_clicked();
     void on_more_button_clicked();
+    void on_enable_button_clicked();
 
 private:
     void shutdown();

@@ -772,6 +772,11 @@ void MainWindow::update_labels()
 
 void MainWindow::check_connections()
 {
+    if((!gyro.cath_is_connected() || !gyro.cath_is_enabled()) && (!gyro.gtc_is_connected() || !gyro.gtc_is_enabled()))
+        ui->beam_params_group->setEnabled(false);
+    else
+        ui->beam_params_group->setEnabled(true);
+
     if(gyro.cath_is_connected() && gyro.cath_is_enabled())
     {
         ui->fil_curr_group->setEnabled(true);
@@ -795,7 +800,10 @@ void MainWindow::check_connections()
     {
         ui->gtc_curr_edit->setText("N/A");
         ui->gtc_volt_edit->setText("N/A");
+        ui->gtc_curr_button->setVisible(false);
     }
+    else
+        ui->gtc_curr_button->setVisible(true);
     if(gyro.rsi_is_connected() && gyro.rsi_is_enabled())
     {
         ui->power_group->setEnabled(true);
