@@ -87,161 +87,161 @@ void MainWindow::init_gui()
 void MainWindow::init_plots()
 {
     // align all left/right plot margins
-    QCPMarginGroup *group = new QCPMarginGroup(ui->power_plot); // previously used the press_plot
-    ui->press_plot->axisRect()->setMarginGroup(QCP::msLeft|QCP::msRight, group);
-    ui->beam_plot->axisRect()->setMarginGroup(QCP::msLeft|QCP::msRight, group);
-    ui->power_plot->axisRect()->setMarginGroup(QCP::msLeft|QCP::msRight, group);
+    QCPMarginGroup *group = new QCPMarginGroup(ui->plot3); // previously used the plot1
+    ui->plot1->axisRect()->setMarginGroup(QCP::msLeft|QCP::msRight, group);
+    ui->plot2->axisRect()->setMarginGroup(QCP::msLeft|QCP::msRight, group);
+    ui->plot3->axisRect()->setMarginGroup(QCP::msLeft|QCP::msRight, group);
 
-    ui->press_plot->setContextMenuPolicy(Qt::CustomContextMenu);
-    ui->beam_plot->setContextMenuPolicy(Qt::CustomContextMenu);
-    ui->power_plot->setContextMenuPolicy(Qt::CustomContextMenu);
-    connect(ui->press_plot, SIGNAL(customContextMenuRequested(const QPoint &)), this, SLOT(press_context_menu(const QPoint &)));
-    connect(ui->beam_plot, SIGNAL(customContextMenuRequested(const QPoint &)), this, SLOT(beam_context_menu(const QPoint &)));
-    connect(ui->power_plot, SIGNAL(customContextMenuRequested(const QPoint &)), this, SLOT(power_context_menu(const QPoint &)));
+    ui->plot1->setContextMenuPolicy(Qt::CustomContextMenu);
+    ui->plot2->setContextMenuPolicy(Qt::CustomContextMenu);
+    ui->plot3->setContextMenuPolicy(Qt::CustomContextMenu);
+    connect(ui->plot1, SIGNAL(customContextMenuRequested(const QPoint &)), this, SLOT(press_context_menu(const QPoint &)));
+    connect(ui->plot2, SIGNAL(customContextMenuRequested(const QPoint &)), this, SLOT(beam_context_menu(const QPoint &)));
+    connect(ui->plot3, SIGNAL(customContextMenuRequested(const QPoint &)), this, SLOT(power_context_menu(const QPoint &)));
 
-    ui->press_plot->setBackground(QBrush(Qt::white));
-    ui->press_plot->axisRect()->setBackground(Qt::white);
-    //ui->press_plot->xAxis->setVisible(false);
-    ui->press_plot->xAxis->setBasePen(Qt::NoPen);
-    ui->press_plot->xAxis->setTickLabels(false);
-    ui->press_plot->xAxis->setTickPen(Qt::NoPen);
-    ui->press_plot->xAxis->setSubTickPen(Qt::NoPen);
-    ui->press_plot->yAxis->setTickLabelFont(plot_axis_font);
-    ui->press_plot->yAxis->setLabelFont(small_plot_label_font);
-    ui->press_plot->yAxis->setLabelColor(QColor(85, 87, 83));
-    ui->press_plot->yAxis->setBasePen(Qt::NoPen);
-    ui->press_plot->yAxis->setTickPen(Qt::NoPen);
-    ui->press_plot->yAxis->setSubTickPen(Qt::NoPen);
-    ui->press_plot->yAxis->setTickLabelColor(QColor(85, 87, 83));
-    ui->press_plot->yAxis->grid()->setPen(QPen(QColor(200,200,200),1,Qt::DotLine));
-    ui->press_plot->yAxis->grid()->setSubGridPen(QPen(QColor(200,200,200),1,Qt::DotLine));
-    ui->press_plot->xAxis->grid()->setPen(QPen(QColor(200,200,200),1,Qt::DotLine));
+    ui->plot1->setBackground(QBrush(Qt::white));
+    ui->plot1->axisRect()->setBackground(Qt::white);
+    //ui->plot1->xAxis->setVisible(false);
+    ui->plot1->xAxis->setBasePen(Qt::NoPen);
+    ui->plot1->xAxis->setTickLabels(false);
+    ui->plot1->xAxis->setTickPen(Qt::NoPen);
+    ui->plot1->xAxis->setSubTickPen(Qt::NoPen);
+    ui->plot1->yAxis->setTickLabelFont(plot_axis_font);
+    ui->plot1->yAxis->setLabelFont(small_plot_label_font);
+    ui->plot1->yAxis->setLabelColor(QColor(85, 87, 83));
+    ui->plot1->yAxis->setBasePen(Qt::NoPen);
+    ui->plot1->yAxis->setTickPen(Qt::NoPen);
+    ui->plot1->yAxis->setSubTickPen(Qt::NoPen);
+    ui->plot1->yAxis->setTickLabelColor(QColor(85, 87, 83));
+    ui->plot1->yAxis->grid()->setPen(QPen(QColor(200,200,200),1,Qt::DotLine));
+    ui->plot1->yAxis->grid()->setSubGridPen(QPen(QColor(200,200,200),1,Qt::DotLine));
+    ui->plot1->xAxis->grid()->setPen(QPen(QColor(200,200,200),1,Qt::DotLine));
 
-    ui->beam_plot->setBackground(QBrush(Qt::white));
-    ui->beam_plot->axisRect()->setBackground(Qt::white);
-    //ui->beam_plot->xAxis->setVisible(false);
-    ui->beam_plot->xAxis->setBasePen(Qt::NoPen);
-    ui->beam_plot->xAxis->setTickLabels(false);
-    ui->beam_plot->xAxis->setTickPen(Qt::NoPen);
-    ui->beam_plot->xAxis->setSubTickPen(Qt::NoPen);
-    ui->beam_plot->yAxis->setTickLabelFont(plot_axis_font);
-    ui->beam_plot->yAxis->setLabelFont(small_plot_label_font);
-    ui->beam_plot->yAxis->setLabelColor(QColor(85, 87, 83));
-    ui->beam_plot->yAxis->setBasePen(Qt::NoPen);
-    ui->beam_plot->yAxis->setTickPen(Qt::NoPen);
-    ui->beam_plot->yAxis->setSubTickPen(Qt::NoPen);
-    ui->beam_plot->yAxis->setTickLabelColor(QColor(85, 87, 83));
-    ui->beam_plot->yAxis->grid()->setPen(QPen(QColor(200,200,200),1,Qt::DotLine));
-    ui->beam_plot->xAxis->grid()->setPen(QPen(QColor(200,200,200),1,Qt::DotLine));
+    ui->plot2->setBackground(QBrush(Qt::white));
+    ui->plot2->axisRect()->setBackground(Qt::white);
+    //ui->plot2->xAxis->setVisible(false);
+    ui->plot2->xAxis->setBasePen(Qt::NoPen);
+    ui->plot2->xAxis->setTickLabels(false);
+    ui->plot2->xAxis->setTickPen(Qt::NoPen);
+    ui->plot2->xAxis->setSubTickPen(Qt::NoPen);
+    ui->plot2->yAxis->setTickLabelFont(plot_axis_font);
+    ui->plot2->yAxis->setLabelFont(small_plot_label_font);
+    ui->plot2->yAxis->setLabelColor(QColor(85, 87, 83));
+    ui->plot2->yAxis->setBasePen(Qt::NoPen);
+    ui->plot2->yAxis->setTickPen(Qt::NoPen);
+    ui->plot2->yAxis->setSubTickPen(Qt::NoPen);
+    ui->plot2->yAxis->setTickLabelColor(QColor(85, 87, 83));
+    ui->plot2->yAxis->grid()->setPen(QPen(QColor(200,200,200),1,Qt::DotLine));
+    ui->plot2->xAxis->grid()->setPen(QPen(QColor(200,200,200),1,Qt::DotLine));
 
-    ui->power_plot->setBackground(QBrush(Qt::white));
-    ui->power_plot->axisRect()->setBackground(Qt::white);
-    ui->power_plot->xAxis->setTickLabelFont(plot_axis_font);
-    ui->power_plot->xAxis->setLabelFont(small_plot_label_font);
-    ui->power_plot->xAxis->setLabelColor(QColor(85, 87, 83));
-    ui->power_plot->xAxis->setBasePen(Qt::NoPen);
-    ui->power_plot->xAxis->setTickLabelColor(QColor(85, 87, 83));
-    ui->power_plot->xAxis->setTickPen(Qt::NoPen);
-    ui->power_plot->xAxis->setSubTickPen(Qt::NoPen);
-    ui->power_plot->yAxis->setTickLabelFont(plot_axis_font);
-    ui->power_plot->yAxis->setLabelFont(small_plot_label_font);
-    ui->power_plot->yAxis->setLabelColor(QColor(85, 87, 83));
-    ui->power_plot->yAxis->setBasePen(Qt::NoPen);
-    ui->power_plot->yAxis->setTickPen(Qt::NoPen);
-    ui->power_plot->yAxis->setSubTickPen(Qt::NoPen);
-    ui->power_plot->yAxis->setTickLabelColor(QColor(85, 87, 83));
-    ui->power_plot->yAxis->grid()->setPen(QPen(QColor(200,200,200),1,Qt::DotLine));
-    ui->power_plot->xAxis->grid()->setPen(QPen(QColor(200,200,200),1,Qt::DotLine));
+    ui->plot3->setBackground(QBrush(Qt::white));
+    ui->plot3->axisRect()->setBackground(Qt::white);
+    ui->plot3->xAxis->setTickLabelFont(plot_axis_font);
+    ui->plot3->xAxis->setLabelFont(small_plot_label_font);
+    ui->plot3->xAxis->setLabelColor(QColor(85, 87, 83));
+    ui->plot3->xAxis->setBasePen(Qt::NoPen);
+    ui->plot3->xAxis->setTickLabelColor(QColor(85, 87, 83));
+    ui->plot3->xAxis->setTickPen(Qt::NoPen);
+    ui->plot3->xAxis->setSubTickPen(Qt::NoPen);
+    ui->plot3->yAxis->setTickLabelFont(plot_axis_font);
+    ui->plot3->yAxis->setLabelFont(small_plot_label_font);
+    ui->plot3->yAxis->setLabelColor(QColor(85, 87, 83));
+    ui->plot3->yAxis->setBasePen(Qt::NoPen);
+    ui->plot3->yAxis->setTickPen(Qt::NoPen);
+    ui->plot3->yAxis->setSubTickPen(Qt::NoPen);
+    ui->plot3->yAxis->setTickLabelColor(QColor(85, 87, 83));
+    ui->plot3->yAxis->grid()->setPen(QPen(QColor(200,200,200),1,Qt::DotLine));
+    ui->plot3->xAxis->grid()->setPen(QPen(QColor(200,200,200),1,Qt::DotLine));
 
     // PRESSURE PLOT
 
     // setup pressure plot
-    ui->press_plot->addGraph(); // light green line
-    ui->press_plot->graph(0)->setPen(QPen(QColor(70, 129, 43)));
-    ui->press_plot->yAxis->setLabel("Vacuum (Torr)");
-    ui->press_plot->yAxis->setNumberPrecision(10);
+    ui->plot1->addGraph(); // light green line
+    ui->plot1->graph(0)->setPen(QPen(QColor(70, 129, 43)));
+    ui->plot1->yAxis->setLabel("Vacuum (Torr)");
+    ui->plot1->yAxis->setNumberPrecision(10);
 
     // set axes
     QSharedPointer<QCPAxisTickerTime> timeTicker(new QCPAxisTickerTime);
     timeTicker->setTimeFormat("%h:%m:%s");
-    ui->press_plot->xAxis->setTicker(timeTicker);
-    ui->press_plot->yAxis->setScaleType(QCPAxis::stLogarithmic);
+    ui->plot1->xAxis->setTicker(timeTicker);
+    ui->plot1->yAxis->setScaleType(QCPAxis::stLogarithmic);
     QSharedPointer<QCPAxisTickerLog> logTicker(new QCPAxisTickerLog);
-    ui->press_plot->yAxis->setTicker(logTicker);
-    ui->press_plot->yAxis->setNumberFormat("eb"); // e = exponential, b = beautiful decimal powers
-    ui->press_plot->yAxis->setNumberPrecision(0); // makes sure "1*10^4" is displayed only as "10^4"
-    ui->press_plot->yAxis->grid()->setSubGridVisible(true);
-    ui->press_plot->yAxis->setRange(1e-8, 2e-6); // default range
-    ui->press_plot->xAxis->setPadding(10);
-    ui->press_plot->yAxis->setPadding(10);
+    ui->plot1->yAxis->setTicker(logTicker);
+    ui->plot1->yAxis->setNumberFormat("eb"); // e = exponential, b = beautiful decimal powers
+    ui->plot1->yAxis->setNumberPrecision(0); // makes sure "1*10^4" is displayed only as "10^4"
+    ui->plot1->yAxis->grid()->setSubGridVisible(true);
+    ui->plot1->yAxis->setRange(1e-8, 2e-6); // default range
+    ui->plot1->xAxis->setPadding(10);
+    ui->plot1->yAxis->setPadding(10);
 
     // add label
-    press_plot_label = new QCPItemText(ui->press_plot);
-    press_plot_label->setPositionAlignment(Qt::AlignTop|Qt::AlignRight);
-    press_plot_label->position->setType(QCPItemPosition::ptAxisRectRatio);
-    press_plot_label->position->setCoords(0.99, 0.01);
-    press_plot_label->setText("");
-    press_plot_label->setFont(plot_big_label_font);
+    plot1_label = new QCPItemText(ui->plot1);
+    plot1_label->setPositionAlignment(Qt::AlignTop|Qt::AlignRight);
+    plot1_label->position->setType(QCPItemPosition::ptAxisRectRatio);
+    plot1_label->position->setCoords(0.99, 0.01);
+    plot1_label->setText("");
+    plot1_label->setFont(plot_big_label_font);
 
-    //ui->press_plot->setInteraction(QCP::iRangeDrag, true); // enable plot dragging
-    //ui->press_plot->setInteraction(QCP::iRangeZoom, true); // enable plot zoom
+    //ui->plot1->setInteraction(QCP::iRangeDrag, true); // enable plot dragging
+    //ui->plot1->setInteraction(QCP::iRangeZoom, true); // enable plot zoom
 
     // setup beam plot
-    ui->beam_plot->addGraph(); // light green line
-    ui->beam_plot->graph(0)->setPen(QPen(QColor(70, 129, 43)));
-    ui->beam_plot->addGraph(); // gray line
-    ui->beam_plot->graph(1)->setPen(QPen(QColor(180, 180, 180)));
-    ui->beam_plot->yAxis->setLabel("Beam Current (mA)");
+    ui->plot2->addGraph(); // light green line
+    ui->plot2->graph(0)->setPen(QPen(QColor(70, 129, 43)));
+    ui->plot2->addGraph(); // gray line
+    ui->plot2->graph(1)->setPen(QPen(QColor(180, 180, 180)));
+    ui->plot2->yAxis->setLabel("Beam Current (mA)");
 
     // set axes
-    ui->beam_plot->xAxis->setTicker(timeTicker);
-    ui->beam_plot->yAxis->setRange(0, 30); // default range
-    ui->beam_plot->xAxis->setPadding(10);
-    ui->beam_plot->yAxis->setPadding(10);
+    ui->plot2->xAxis->setTicker(timeTicker);
+    ui->plot2->yAxis->setRange(0, 30); // default range
+    ui->plot2->xAxis->setPadding(10);
+    ui->plot2->yAxis->setPadding(10);
 
     // add label
-    beam_plot_label = new QCPItemText(ui->beam_plot);
-    beam_plot_label->setPositionAlignment(Qt::AlignTop|Qt::AlignRight);
-    beam_plot_label->position->setType(QCPItemPosition::ptAxisRectRatio);
-    beam_plot_label->position->setCoords(0.99, 0.01);
-    beam_plot_label->setText("");
-    beam_plot_label->setFont(plot_big_label_font);
+    plot2_label = new QCPItemText(ui->plot2);
+    plot2_label->setPositionAlignment(Qt::AlignTop|Qt::AlignRight);
+    plot2_label->position->setType(QCPItemPosition::ptAxisRectRatio);
+    plot2_label->position->setCoords(0.99, 0.01);
+    plot2_label->setText("");
+    plot2_label->setFont(plot_big_label_font);
 
-    //ui->beam_plot->setInteraction(QCP::iRangeDrag, true); // enable plot dragging
-    //ui->beam_plot->setInteraction(QCP::iRangeZoom, true); // enable plot zoom
+    //ui->plot2->setInteraction(QCP::iRangeDrag, true); // enable plot dragging
+    //ui->plot2->setInteraction(QCP::iRangeZoom, true); // enable plot zoom
 
     // setup power plot
-    ui->power_plot->addGraph(); // light green line -> power in W
-    ui->power_plot->graph(0)->setPen(QPen(QColor(70, 129, 43)));
-    ui->power_plot->addGraph(); // grey line -> power in W setpoint
-    ui->power_plot->graph(1)->setPen(QPen(QColor(180, 180, 180)));
-    ui->power_plot->xAxis->setLabel("Run Time (h:m:s)");
-    ui->power_plot->yAxis->setLabel("Voltage (mV)");
-    ui->power_plot->yAxis->setNumberPrecision(3);
-    ui->press_plot->yAxis->setNumberFormat("g"); // display numbers in short scientific format or fixed, whichever is shorter
+    ui->plot3->addGraph(); // light green line -> power in W
+    ui->plot3->graph(0)->setPen(QPen(QColor(70, 129, 43)));
+    ui->plot3->addGraph(); // grey line -> power in W setpoint
+    ui->plot3->graph(1)->setPen(QPen(QColor(180, 180, 180)));
+    ui->plot3->xAxis->setLabel("Run Time (h:m:s)");
+    ui->plot3->yAxis->setLabel("Voltage (mV)");
+    ui->plot3->yAxis->setNumberPrecision(3);
+    ui->plot1->yAxis->setNumberFormat("g"); // display numbers in short scientific format or fixed, whichever is shorter
 
     // set axes
-    ui->power_plot->xAxis->setTicker(timeTicker);
-    ui->power_plot->yAxis->setRange(0, 5);
-    ui->power_plot->xAxis->setPadding(10);
-    ui->power_plot->yAxis->setPadding(10);
+    ui->plot3->xAxis->setTicker(timeTicker);
+    ui->plot3->yAxis->setRange(0, 5);
+    ui->plot3->xAxis->setPadding(10);
+    ui->plot3->yAxis->setPadding(10);
 
     // make left and bottom axes transfer their ranges to right and top axes:
-    connect(ui->power_plot->xAxis, SIGNAL(rangeChanged(QCPRange)), ui->power_plot->xAxis2, SLOT(setRange(QCPRange)));
-    //connect(ui->power_plot->yAxis, SIGNAL(rangeChanged(QCPRange)), ui->power_plot->yAxis2, SLOT(setRange(QCPRange)));
+    connect(ui->plot3->xAxis, SIGNAL(rangeChanged(QCPRange)), ui->plot3->xAxis2, SLOT(setRange(QCPRange)));
+    //connect(ui->plot3->yAxis, SIGNAL(rangeChanged(QCPRange)), ui->plot3->yAxis2, SLOT(setRange(QCPRange)));
 
     // add label for power in mV
-    power_plot_label = new QCPItemText(ui->power_plot);
-    power_plot_label->setPositionAlignment(Qt::AlignTop|Qt::AlignRight);
-    power_plot_label->position->setType(QCPItemPosition::ptAxisRectRatio);
-    power_plot_label->position->setCoords(0.99, 0.01);
-    power_plot_label->setText("");
-    power_plot_label->setFont(plot_big_label_font);
+    plot3_label = new QCPItemText(ui->plot3);
+    plot3_label->setPositionAlignment(Qt::AlignTop|Qt::AlignRight);
+    plot3_label->position->setType(QCPItemPosition::ptAxisRectRatio);
+    plot3_label->position->setCoords(0.99, 0.01);
+    plot3_label->setText("");
+    plot3_label->setFont(plot_big_label_font);
 
     // force redraw
-    ui->beam_plot->replot();
-    ui->press_plot->replot();
-    ui->power_plot->replot();
+    ui->plot2->replot();
+    ui->plot1->replot();
+    ui->plot3->replot();
 }
 
 void MainWindow::init_fail_dialog(int err_code)
@@ -515,22 +515,22 @@ void MainWindow::update_plots()
 
     // update plot labels
     if(gyro.spc_available())
-        press_plot_label->setText(QString::number(gyro.get_pressure()) + QString(" Torr"));
+        plot1_label->setText(QString::number(gyro.get_pressure()) + QString(" Torr"));
     else
-        press_plot_label->setText("D/C");
+        plot1_label->setText("D/C");
     if(gyro.cath_available())
-        beam_plot_label->setText(QString::number(gyro.get_beam_curr(),'f',2) + QString(" mA"));
+        plot2_label->setText(QString::number(gyro.get_beam_curr(),'f',2) + QString(" mA"));
     else
-        beam_plot_label->setText("D/C");
+        plot2_label->setText("D/C");
     if(gyro.rsi_available())
-        power_plot_label->setText(QString::number(gyro.get_power()) + QString(" W"));
+        plot3_label->setText(QString::number(gyro.get_power()) + QString(" W"));
     else
-        power_plot_label->setText("D/C");
+        plot3_label->setText("D/C");
 
     // update beam plot, with bounds being nearest multiple of 5 above/below
-    ui->beam_plot->graph(0)->setData(beam_time_data, beam_data, true);
-    ui->beam_plot->graph(1)->setData(beam_time_data, beam_sp_data, true);
-    ui->beam_plot->xAxis->setRange(key, plot_span, Qt::AlignRight);
+    ui->plot2->graph(0)->setData(beam_time_data, beam_data, true);
+    ui->plot2->graph(1)->setData(beam_time_data, beam_sp_data, true);
+    ui->plot2->xAxis->setRange(key, plot_span, Qt::AlignRight);
     if(resize_tracker == 0)
     {
         // calculate new bounds and re-apply them
@@ -541,13 +541,13 @@ void MainWindow::update_plots()
         //beam_min_bound = (floor(beam_min/5)-1)*5;
         beam_min_bound = beam_min-((beam_max-beam_min)*0.1);
         if(beam_min_bound < 0) beam_min_bound = 0;
-        ui->beam_plot->yAxis->setRange(beam_min_bound,beam_max_bound);
+        ui->plot2->yAxis->setRange(beam_min_bound,beam_max_bound);
         resize_tracker++;
     }
 
     // update pressure plot, with upper bound being nearest decade above/below
-    ui->press_plot->graph(0)->setData(press_time_data, press_data, true);
-    ui->press_plot->xAxis->setRange(key, plot_span, Qt::AlignRight);
+    ui->plot1->graph(0)->setData(press_time_data, press_data, true);
+    ui->plot1->xAxis->setRange(key, plot_span, Qt::AlignRight);
     if(resize_tracker == 1)
     {
         // calculate new bounds and re-apply them
@@ -555,14 +555,14 @@ void MainWindow::update_plots()
         press_min = *std::min_element(press_data.constBegin(), press_data.constEnd());
         press_max_bound = pow(10,ceil(log10 (press_max)));
         press_min_bound = pow(10,floor(log10 (press_min)));
-        ui->press_plot->yAxis->setRange(press_min_bound,press_max_bound);
+        ui->plot1->yAxis->setRange(press_min_bound,press_max_bound);
         resize_tracker++;
     }
 
     // update power plot, with bounds being nearest quarter watt above/below
-    ui->power_plot->graph(0)->setData(power_time_data, power_data, true);
-    ui->power_plot->graph(1)->setData(power_time_data, power_sp_data, true);
-    ui->power_plot->xAxis->setRange(key, plot_span, Qt::AlignRight);
+    ui->plot3->graph(0)->setData(power_time_data, power_data, true);
+    ui->plot3->graph(1)->setData(power_time_data, power_sp_data, true);
+    ui->plot3->xAxis->setRange(key, plot_span, Qt::AlignRight);
     if(resize_tracker == 2)
     {
         // calculate new bounds and re-apply them
@@ -571,15 +571,15 @@ void MainWindow::update_plots()
         power_max_bound = (floor(power_max/5)+1)*5;
         power_min_bound = (floor(power_min/5)-1)*5;
         if(power_min_bound < 0) power_min_bound = 0;
-        ui->power_plot->yAxis2->setRange(power_min_bound,power_max_bound);
+        ui->plot3->yAxis2->setRange(power_min_bound,power_max_bound);
         resize_tracker = 0;
     }
 
     if(ui->stackedWidget->currentIndex() == 1)
     {
-        ui->press_plot->replot(); // update plot if visible
-        ui->beam_plot->replot();
-        ui->power_plot->replot();
+        ui->plot1->replot(); // update plot if visible
+        ui->plot2->replot();
+        ui->plot3->replot();
     }
 }
 
@@ -1091,9 +1091,9 @@ void MainWindow::on_plot_tab_clicked()
     ui->plot_tab->setStyleSheet(tab_selected);
     (gyro.get_fault_status() == 0) ? ui->status_tab->setStyleSheet(tab_unselected) : ui->status_tab->setStyleSheet(tab_blink_off_unselected);
     ui->admin_tab->setStyleSheet(tab_unselected);
-    ui->press_plot->replot();
-    ui->beam_plot->replot();
-    ui->power_plot->replot();
+    ui->plot1->replot();
+    ui->plot2->replot();
+    ui->plot3->replot();
     ui->stackedWidget->setCurrentIndex(1);
 }
 

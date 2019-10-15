@@ -810,7 +810,7 @@ color: rgb(255, 139, 139);
        <string notr="true">background: rgb(240,240,240);</string>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="control_page">
        <layout class="QVBoxLayout" name="verticalLayout_21" stretch="1,0,0">
@@ -3556,7 +3556,7 @@ color: rgb(180,180,180);
                 <number>10</number>
                </property>
                <item row="0" column="0">
-                <widget class="QCustomPlot" name="press_plot" native="true">
+                <widget class="QCustomPlot" name="plot1" native="true">
                  <property name="enabled">
                   <bool>true</bool>
                  </property>
@@ -3596,7 +3596,7 @@ background-position: center;
                 <number>10</number>
                </property>
                <item row="0" column="0">
-                <widget class="QCustomPlot" name="beam_plot" native="true">
+                <widget class="QCustomPlot" name="plot2" native="true">
                  <property name="sizePolicy">
                   <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
                    <horstretch>2</horstretch>
@@ -3633,7 +3633,7 @@ background-position: center;
                 <number>10</number>
                </property>
                <item row="0" column="0">
-                <widget class="QCustomPlot" name="power_plot" native="true">
+                <widget class="QCustomPlot" name="plot3" native="true">
                  <property name="enabled">
                   <bool>true</bool>
                  </property>

@@ -26,9 +26,6 @@ public:
 
 private slots:
     void realtime_slot();
-    //void on_beam_pid_button_clicked();
-    //void on_power_pid_button_clicked();
-    //void on_freq_pid_button_clicked();
     void on_reconfig_button_clicked();
     void on_beam_volt_button_clicked();
     void on_beam_curr_button_clicked();
@@ -177,7 +174,7 @@ private:
     char timestamp_full[20], timestamp[10];
     double time_span{900}; // default 15 mins (in sync with gyrotron default)
 
-    QCPItemText *press_plot_label, *beam_plot_label, *power_plot_label, *power_plot_label2;
+    QCPItemText *plot1_label, *plot2_label, *plot3_label;
 
 protected:
     bool eventFilter(QObject *object, QEvent *event);
