@@ -78,6 +78,9 @@ private slots:
     void on_settings_button_clicked();
     void on_more_button_clicked();
     void on_enable_button_clicked();
+    void on_plot1_dropdown_currentIndexChanged(const QString &arg1);
+    void on_plot2_dropdown_currentIndexChanged(const QString &arg1);
+    void on_plot3_dropdown_currentIndexChanged(const QString &arg1);
 
 private:
     void shutdown();

@@ -159,9 +159,6 @@ void MainWindow::init_plots()
     ui->plot1->addGraph(); // light green line
     ui->plot1->graph(0)->setPen(QPen(QColor(70, 129, 43)));
     ui->plot1->yAxis->setLabel("Vacuum (Torr)");
-    ui->plot1->yAxis->setNumberPrecision(10);
-
-    // set axes
     QSharedPointer<QCPAxisTickerTime> timeTicker(new QCPAxisTickerTime);
     timeTicker->setTimeFormat("%h:%m:%s");
     ui->plot1->xAxis->setTicker(timeTicker);
@@ -218,7 +215,7 @@ void MainWindow::init_plots()
     ui->plot3->xAxis->setLabel("Run Time (h:m:s)");
     ui->plot3->yAxis->setLabel("Voltage (mV)");
     ui->plot3->yAxis->setNumberPrecision(3);
-    ui->plot1->yAxis->setNumberFormat("g"); // display numbers in short scientific format or fixed, whichever is shorter
+    ui->plot3->yAxis->setNumberFormat("g"); // display numbers in short scientific format or fixed, whichever is shorter
 
     // set axes
     ui->plot3->xAxis->setTicker(timeTicker);
@@ -1570,4 +1567,125 @@ void MainWindow::on_more_button_clicked()
     }
 }
 
+void MainWindow::on_plot1_dropdown_currentIndexChanged(const QString &item)
+{
+    if(item == "VACUUM")
+    {
+        ui->plot1->yAxis->setLabel("Vacuum (Torr)");
+        ui->plot1->yAxis->setNumberFormat("eb");
+        ui->plot1->yAxis->setNumberPrecision(0);
+    }
+    else if(item == "BEAM CURRENT")
+    {
+        ui->plot1->yAxis->setLabel("Beam Current (mA)");
+        ui->plot1->yAxis->setNumberFormat("g");
+        ui->plot1->yAxis->setNumberPrecision(3);
+    }
+    else if(item == "BEAM VOLTAGE")
+    {
+        ui->plot1->yAxis->setLabel("Beam Voltage (kV)");
+        ui->plot1->yAxis->setNumberFormat("g");
+        ui->plot1->yAxis->setNumberPrecision(3);
+    }
+    else if(item == "POWER")
+    {
+        ui->plot1->yAxis->setLabel("Power (W)");
+        ui->plot1->yAxis->setNumberFormat("g");
+        ui->plot1->yAxis->setNumberPrecision(3);
+    }
+    else if(item == "FIL. CURRENT")
+    {
+        ui->plot1->yAxis->setLabel("Filament Current (mA)");
+        ui->plot1->yAxis->setNumberFormat("g");
+        ui->plot1->yAxis->setNumberPrecision(3);
+    }
+    else if(item == "FREQUENCY")
+    {
+        ui->plot1->yAxis->setLabel("Frequency (GHz)");
+        ui->plot1->yAxis->setNumberFormat("g");
+        ui->plot1->yAxis->setNumberPrecision(3);
+    }
+    update_plots();
+}
 
+void MainWindow::on_plot2_dropdown_currentIndexChanged(const QString &item)
+{
+    if(item == "VACUUM")
+    {
+        ui->plot2->yAxis->setLabel("Vacuum (Torr)");
+        ui->plot2->yAxis->setNumberFormat("eb");
+        ui->plot2->yAxis->setNumberPrecision(0);
+    }
+    else if(item == "BEAM CURRENT")
+    {
+        ui->plot2->yAxis->setLabel("Beam Current (mA)");
+        ui->plot2->yAxis->setNumberFormat("g");
+        ui->plot2->yAxis->setNumberPrecision(3);
+    }
+    else if(item == "BEAM VOLTAGE")
+    {
+        ui->plot2->yAxis->setLabel("Beam Voltage (kV)");
+        ui->plot2->yAxis->setNumberFormat("g");
+        ui->plot2->yAxis->setNumberPrecision(3);
+    }
+    else if(item == "POWER")
+    {
+        ui->plot2->yAxis->setLabel("Power (W)");
+        ui->plot2->yAxis->setNumberFormat("g");
+        ui->plot2->yAxis->setNumberPrecision(3);
+    }
+    else if(item == "FIL. CURRENT")
+    {
+        ui->plot2->yAxis->setLabel("Filament Current (mA)");
+        ui->plot2->yAxis->setNumberFormat("g");
+        ui->plot2->yAxis->setNumberPrecision(3);
+    }
+    else if(item == "FREQUENCY")
+    {
+        ui->plot2->yAxis->setLabel("Frequency (GHz)");
+        ui->plot2->yAxis->setNumberFormat("g");
+        ui->plot2->yAxis->setNumberPrecision(3);
+    }
+    update_plots();
+}
+
+void MainWindow::on_plot3_dropdown_currentIndexChanged(const QString &item)
+{
+    if(item == "VACUUM")
+    {
+        ui->plot3->yAxis->setLabel("Vacuum (Torr)");
+        ui->plot3->yAxis->setNumberFormat("eb");
+        ui->plot3->yAxis->setNumberPrecision(0);
+    }
+    else if(item == "BEAM CURRENT")
+    {
+        ui->plot3->yAxis->setLabel("Beam Current (mA)");
+        ui->plot3->yAxis->setNumberFormat("g");
+        ui->plot3->yAxis->setNumberPrecision(3);
+    }
+    else if(item == "BEAM VOLTAGE")
+    {
+        ui->plot3->yAxis->setLabel("Beam Voltage (kV)");
+        ui->plot3->yAxis->setNumberFormat("g");
+        ui->plot3->yAxis->setNumberPrecision(3);
+    }
+    else if(item == "POWER")
+    {
+        ui->plot3->yAxis->setLabel("Power (W)");
+        ui->plot3->yAxis->setNumberFormat("g");
+        ui->plot3->yAxis->setNumberPrecision(3);
+    }
+    else if(item == "FIL. CURRENT")
+    {
+        ui->plot3->yAxis->setLabel("Filament Current (mA)");
+        ui->plot3->yAxis->setNumberFormat("g");
+        ui->plot3->yAxis->setNumberPrecision(3);
+    }
+    else if(item == "FREQUENCY")
+    {
+        ui->plot3->yAxis->setLabel("Frequency (GHz)");
+        ui->plot3->yAxis->setNumberFormat("g");
+        ui->plot3->yAxis->setNumberPrecision(3);
+    }
+    update_plots();
+}

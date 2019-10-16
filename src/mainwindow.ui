@@ -3737,7 +3737,7 @@ QGroupBox::title:disabled { color: rgb(180,180,180); }</string>
               </widget>
              </item>
              <item row="0" column="1">
-              <widget class="QComboBox" name="console_dropdown_2">
+              <widget class="QComboBox" name="plot1_dropdown">
                <property name="minimumSize">
                 <size>
                  <width>185</width>
@@ -3849,7 +3849,7 @@ border: none;
               </widget>
              </item>
              <item row="1" column="1">
-              <widget class="QComboBox" name="console_dropdown_3">
+              <widget class="QComboBox" name="plot2_dropdown">
                <property name="minimumSize">
                 <size>
                  <width>185</width>
@@ -3961,7 +3961,7 @@ border: none;
               </widget>
              </item>
              <item row="2" column="1">
-              <widget class="QComboBox" name="console_dropdown_4">
+              <widget class="QComboBox" name="plot3_dropdown">
                <property name="minimumSize">
                 <size>
                  <width>185</width>
