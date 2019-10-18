@@ -62,7 +62,7 @@ void MainWindow::init_gui()
     ui->beam_params_group->setVisible(false);
     ui->settings_frame->setVisible(false);
     ui->storage_frame->setVisible(false);
-    //ui->clock_frame->setVisible(false);
+    ui->clock_frame->setVisible(false);
     ui->show_more_layout->setContentsMargins(0,0,0,0);
     ui->control_grid->setVerticalSpacing(60);
     ui->control_grid->setHorizontalSpacing(60);
@@ -95,9 +95,9 @@ void MainWindow::init_plots()
     ui->plot1->setContextMenuPolicy(Qt::CustomContextMenu);
     ui->plot2->setContextMenuPolicy(Qt::CustomContextMenu);
     ui->plot3->setContextMenuPolicy(Qt::CustomContextMenu);
-    connect(ui->plot1, SIGNAL(customContextMenuRequested(const QPoint &)), this, SLOT(press_context_menu(const QPoint &)));
-    connect(ui->plot2, SIGNAL(customContextMenuRequested(const QPoint &)), this, SLOT(beam_context_menu(const QPoint &)));
-    connect(ui->plot3, SIGNAL(customContextMenuRequested(const QPoint &)), this, SLOT(power_context_menu(const QPoint &)));
+    connect(ui->plot1, SIGNAL(customContextMenuRequested(const QPoint &)), this, SLOT(plot1_context_menu(const QPoint &)));
+    connect(ui->plot2, SIGNAL(customContextMenuRequested(const QPoint &)), this, SLOT(plot2_context_menu(const QPoint &)));
+    connect(ui->plot3, SIGNAL(customContextMenuRequested(const QPoint &)), this, SLOT(plot3_context_menu(const QPoint &)));
 
     ui->plot1->setBackground(QBrush(Qt::white));
     ui->plot1->axisRect()->setBackground(Qt::white);
@@ -497,86 +497,98 @@ void MainWindow::detect_state_change(bool manual_update)
 
 void MainWindow::update_plots()
 {
-    double beam_max, beam_min, beam_max_bound, beam_min_bound;
-    double press_max, press_min, press_max_bound, press_min_bound;
-    double power_max, power_min, power_max_bound, power_min_bound;
+    double plot_max, plot_min, plot_max_bound{0}, plot_min_bound{0};
+    QVector<double> plot_data, plot_sp_data, plot_time_data;
+    QCustomPlot* plot[3] = {ui->plot1,ui->plot2,ui->plot3};
+    QCPItemText* label[3] = {plot1_label,plot2_label,plot3_label};
+    QString selection[3] = {ui->plot1_dropdown->currentText(),
+                            ui->plot1_dropdown->currentText(),
+                            ui->plot1_dropdown->currentText()};
 
-    QVector<double> press_data = QVector<double>::fromStdVector(gyro.get_press_data());
-    QVector<double> press_time_data = QVector<double>::fromStdVector(gyro.get_press_time_data());
-    QVector<double> beam_data = QVector<double>::fromStdVector(gyro.get_beam_data());
-    QVector<double> beam_sp_data = QVector<double>::fromStdVector(gyro.get_beam_sp_data());
-    QVector<double> beam_time_data = QVector<double>::fromStdVector(gyro.get_beam_time_data());
-    QVector<double> power_data = QVector<double>::fromStdVector(gyro.get_power_data());
-    QVector<double> power_sp_data = QVector<double>::fromStdVector(gyro.get_power_sp_data());
-    QVector<double> power_time_data = QVector<double>::fromStdVector(gyro.get_power_time_data());
-
-    // update plot labels
-    if(gyro.spc_available())
-        plot1_label->setText(QString::number(gyro.get_pressure()) + QString(" Torr"));
-    else
-        plot1_label->setText("D/C");
-    if(gyro.cath_available())
-        plot2_label->setText(QString::number(gyro.get_beam_curr(),'f',2) + QString(" mA"));
-    else
-        plot2_label->setText("D/C");
-    if(gyro.rsi_available())
-        plot3_label->setText(QString::number(gyro.get_power()) + QString(" W"));
-    else
-        plot3_label->setText("D/C");
-
-    // update beam plot, with bounds being nearest multiple of 5 above/below
-    ui->plot2->graph(0)->setData(beam_time_data, beam_data, true);
-    ui->plot2->graph(1)->setData(beam_time_data, beam_sp_data, true);
-    ui->plot2->xAxis->setRange(key, plot_span, Qt::AlignRight);
-    if(resize_tracker == 0)
+    for(int i=0; i<3; i++)
     {
-        // calculate new bounds and re-apply them
-        beam_max = *std::max_element(beam_data.constBegin(), beam_data.constEnd());
-        beam_min = *std::min_element(beam_data.constBegin(), beam_data.constEnd());
-        //beam_max_bound = (floor(beam_max/5)+1)*5;
-        beam_max_bound = beam_max+((beam_max-beam_min)*0.1);
-        //beam_min_bound = (floor(beam_min/5)-1)*5;
-        beam_min_bound = beam_min-((beam_max-beam_min)*0.1);
-        if(beam_min_bound < 0) beam_min_bound = 0;
-        ui->plot2->yAxis->setRange(beam_min_bound,beam_max_bound);
-        resize_tracker++;
-    }
+        if(selection[i] == "VACUUM")
+        {
+            plot_data = QVector<double>::fromStdVector(gyro.get_press_data());
+            plot_time_data = QVector<double>::fromStdVector(gyro.get_press_time_data());
+            if(gyro.spc_available()) label[i]->setText(QString::number(gyro.get_pressure()) + QString(" Torr"));
+            else label[i]->setText("D/C");
+            plot_max = *std::max_element(plot_data.constBegin(), plot_data.constEnd());
+            plot_min = *std::min_element(plot_data.constBegin(), plot_data.constEnd());
+            plot_max_bound = pow(10,ceil(log10(plot_max)));
+            plot_min_bound = pow(10,floor(log10(plot_min)));
+        }
+        else if(selection[i] == "BEAM CURRENT")
+        {
+            plot_data = QVector<double>::fromStdVector(gyro.get_beam_curr_data());
+            plot_sp_data = QVector<double>::fromStdVector(gyro.get_beam_curr_sp_data());
+            plot_time_data = QVector<double>::fromStdVector(gyro.get_beam_curr_time_data());
+            if(gyro.cath_available()) label[i]->setText(QString::number(gyro.get_beam_curr(),'f',2) + QString(" mA"));
+            else label[i]->setText("D/C");
+            plot_max = *std::max_element(plot_data.constBegin(), plot_data.constEnd());
+            plot_min = *std::min_element(plot_data.constBegin(), plot_data.constEnd());
+            plot_max_bound = plot_max+((plot_max-plot_min)*0.1);
+            plot_min_bound = plot_min-((plot_max-plot_min)*0.1);
+            if(plot_min_bound < 0) plot_min_bound = 0;
+        }
+        else if(selection[i] == "BEAM VOLTAGE")
+        {
+            plot_data = QVector<double>::fromStdVector(gyro.get_beam_volt_data());
+            plot_sp_data = QVector<double>::fromStdVector(gyro.get_beam_volt_sp_data());
+            plot_time_data = QVector<double>::fromStdVector(gyro.get_beam_volt_time_data());
+            if(gyro.cath_available()) label[i]->setText(QString::number(gyro.get_beam_volt(),'f',2) + QString(" V"));
+            else label[i]->setText("D/C");
+            plot_max = *std::max_element(plot_data.constBegin(), plot_data.constEnd());
+            plot_min = *std::min_element(plot_data.constBegin(), plot_data.constEnd());
+            plot_max_bound = plot_max+((plot_max-plot_min)*0.1);
+            plot_min_bound = plot_min-((plot_max-plot_min)*0.1);
+            if(plot_min_bound < 0) plot_min_bound = 0;
+        }
+        else if(selection[i] == "POWER")
+        {
+            plot_data = QVector<double>::fromStdVector(gyro.get_power_data());
+            plot_sp_data = QVector<double>::fromStdVector(gyro.get_power_sp_data());
+            plot_time_data = QVector<double>::fromStdVector(gyro.get_power_time_data());
+            if(gyro.rsi_available()) label[i]->setText(QString::number(gyro.get_power()) + QString(" W"));
+            else label[i]->setText("D/C");
+            plot_max = *std::max_element(plot_data.constBegin(), plot_data.constEnd());
+            plot_min = *std::min_element(plot_data.constBegin(), plot_data.constEnd());
+            plot_max_bound = (floor(plot_max/5)+1)*5;
+            plot_min_bound = (floor(plot_min/5)-1)*5;
+            if(plot_min_bound < 0) plot_min_bound = 0;
+        }
+        else if(selection[i] == "FIL. CURRENT")
+        {
+            plot_data = QVector<double>::fromStdVector(gyro.get_fil_curr_data());
+            plot_sp_data = QVector<double>::fromStdVector(gyro.get_fil_curr_sp_data());
+            plot_time_data = QVector<double>::fromStdVector(gyro.get_fil_curr_time_data());
+            if(gyro.cath_available()) label[i]->setText(QString::number(gyro.get_fil_curr(),'f',2) + QString(" mA"));
+            else label[i]->setText("D/C");
+            plot_max = *std::max_element(plot_data.constBegin(), plot_data.constEnd());
+            plot_min = *std::min_element(plot_data.constBegin(), plot_data.constEnd());
+            plot_max_bound = plot_max+((plot_max-plot_min)*0.1);
+            plot_min_bound = plot_min-((plot_max-plot_min)*0.1);
+            if(plot_min_bound < 0) plot_min_bound = 0;
+        }
+        else if(selection[i] == "FREQUENCY")
+        {
+            plot_data = QVector<double>::fromStdVector(gyro.get_freq_data());
+            plot_sp_data = QVector<double>::fromStdVector(gyro.get_freq_sp_data());
+            plot_time_data = QVector<double>::fromStdVector(gyro.get_freq_time_data());
+            if(gyro.cath_available()) label[i]->setText(QString::number(gyro.get_freq(),'f',2) + QString(" GHz"));
+            else label[i]->setText("D/C");
+            plot_max = *std::max_element(plot_data.constBegin(), plot_data.constEnd());
+            plot_min = *std::min_element(plot_data.constBegin(), plot_data.constEnd());
+            plot_max_bound = plot_max+((plot_max-plot_min)*0.1);
+            plot_min_bound = plot_min-((plot_max-plot_min)*0.1);
+            if(plot_min_bound < 0) plot_min_bound = 0;
+        }
 
-    // update pressure plot, with upper bound being nearest decade above/below
-    ui->plot1->graph(0)->setData(press_time_data, press_data, true);
-    ui->plot1->xAxis->setRange(key, plot_span, Qt::AlignRight);
-    if(resize_tracker == 1)
-    {
-        // calculate new bounds and re-apply them
-        press_max = *std::max_element(press_data.constBegin(), press_data.constEnd());
-        press_min = *std::min_element(press_data.constBegin(), press_data.constEnd());
-        press_max_bound = pow(10,ceil(log10 (press_max)));
-        press_min_bound = pow(10,floor(log10 (press_min)));
-        ui->plot1->yAxis->setRange(press_min_bound,press_max_bound);
-        resize_tracker++;
-    }
-
-    // update power plot, with bounds being nearest quarter watt above/below
-    ui->plot3->graph(0)->setData(power_time_data, power_data, true);
-    ui->plot3->graph(1)->setData(power_time_data, power_sp_data, true);
-    ui->plot3->xAxis->setRange(key, plot_span, Qt::AlignRight);
-    if(resize_tracker == 2)
-    {
-        // calculate new bounds and re-apply them
-        power_max = *std::max_element(power_data.constBegin(), power_data.constEnd());
-        power_min = *std::min_element(power_data.constBegin(), power_data.constEnd());
-        power_max_bound = (floor(power_max/5)+1)*5;
-        power_min_bound = (floor(power_min/5)-1)*5;
-        if(power_min_bound < 0) power_min_bound = 0;
-        ui->plot3->yAxis2->setRange(power_min_bound,power_max_bound);
-        resize_tracker = 0;
-    }
-
-    if(ui->stackedWidget->currentIndex() == 1)
-    {
-        ui->plot1->replot(); // update plot if visible
-        ui->plot2->replot();
-        ui->plot3->replot();
+        plot[i]->graph(0)->setData(plot_time_data, plot_data, true);
+        if(selection[i] != "VACUUM") plot[i]->graph(1)->setData(plot_time_data, plot_sp_data, true);
+        plot[i]->xAxis->setRange(key, plot_span, Qt::AlignRight);
+        plot[i]->yAxis->setRange(plot_min_bound,plot_max_bound);
+        if(ui->stackedWidget->currentIndex() == 1) plot[i]->replot();
     }
 }
 
@@ -1454,30 +1466,74 @@ void MainWindow::on_save_pid_button_clicked()
     qApp->restoreOverrideCursor();
 }
 
-void MainWindow::clear_press_data() { gyro.clear_press_data(); }
-void MainWindow::clear_beam_data() { gyro.clear_beam_data(); }
-void MainWindow::clear_power_data() { gyro.clear_power_data(); }
+void MainWindow::clear_plot1_data()
+{
+    if(ui->plot1_dropdown->currentText() == "VACUUM")
+        gyro.clear_press_data();
+    else if(ui->plot1_dropdown->currentText() == "BEAM CURRENT")
+        gyro.clear_beam_curr_data();
+    else if(ui->plot1_dropdown->currentText() == "BEAM VOLTAGE")
+        gyro.clear_beam_volt_data();
+    else if(ui->plot1_dropdown->currentText() == "POWER")
+        gyro.clear_power_data();
+    else if(ui->plot1_dropdown->currentText() == "FIL. CURRENT")
+        gyro.clear_fil_curr_data();
+    else if(ui->plot1_dropdown->currentText() == "FREQUENCY")
+        gyro.clear_freq_data();
+}
 
-void MainWindow::press_context_menu(const QPoint &pos)
+void MainWindow::clear_plot2_data()
+{
+    if(ui->plot2_dropdown->currentText() == "VACUUM")
+        gyro.clear_press_data();
+    else if(ui->plot2_dropdown->currentText() == "BEAM CURRENT")
+        gyro.clear_beam_curr_data();
+    else if(ui->plot2_dropdown->currentText() == "BEAM VOLTAGE")
+        gyro.clear_beam_volt_data();
+    else if(ui->plot2_dropdown->currentText() == "POWER")
+        gyro.clear_power_data();
+    else if(ui->plot2_dropdown->currentText() == "FIL. CURRENT")
+        gyro.clear_fil_curr_data();
+    else if(ui->plot2_dropdown->currentText() == "FREQUENCY")
+        gyro.clear_freq_data();
+}
+
+void MainWindow::clear_plot3_data()
+{
+    if(ui->plot3_dropdown->currentText() == "VACUUM")
+        gyro.clear_press_data();
+    else if(ui->plot3_dropdown->currentText() == "BEAM CURRENT")
+        gyro.clear_beam_curr_data();
+    else if(ui->plot3_dropdown->currentText() == "BEAM VOLTAGE")
+        gyro.clear_beam_volt_data();
+    else if(ui->plot3_dropdown->currentText() == "POWER")
+        gyro.clear_power_data();
+    else if(ui->plot3_dropdown->currentText() == "FIL. CURRENT")
+        gyro.clear_fil_curr_data();
+    else if(ui->plot3_dropdown->currentText() == "FREQUENCY")
+        gyro.clear_freq_data();
+}
+
+void MainWindow::plot1_context_menu(const QPoint &pos)
 {
     QMenu contextMenu;
-    contextMenu.addAction("Clear Vacuum Data", this, SLOT(clear_press_data()));
+    contextMenu.addAction("Clear Vacuum Data", this, SLOT(clear_plot1_data()));
     contextMenu.exec(QCursor::pos());
     (void)pos;
 }
 
-void MainWindow::beam_context_menu(const QPoint &pos)
+void MainWindow::plot2_context_menu(const QPoint &pos)
 {
     QMenu contextMenu;
-    contextMenu.addAction("Clear Beam Data", this, SLOT(clear_beam_data()));
+    contextMenu.addAction("Clear Beam Data", this, SLOT(clear_plot2_data()));
     contextMenu.exec(QCursor::pos());
     (void)pos;
 }
 
-void MainWindow::power_context_menu(const QPoint &pos)
+void MainWindow::plot3_context_menu(const QPoint &pos)
 {
     QMenu contextMenu;
-    contextMenu.addAction("Clear Power Data", this, SLOT(clear_power_data()));
+    contextMenu.addAction("Clear Power Data", this, SLOT(clear_plot3_data()));
     contextMenu.exec(QCursor::pos());
     (void)pos;
 }
@@ -1548,18 +1604,21 @@ void MainWindow::on_more_button_clicked()
         ui->beam_params_group->setVisible(false);
         ui->settings_frame->setVisible(false);
         ui->storage_frame->setVisible(false);
-        //ui->clock_frame->setVisible(false);
+        ui->clock_frame->setVisible(false);
         ui->more_button->setText("MORE ▼");
         ui->show_more_layout->setContentsMargins(0,0,0,18);
         ui->control_grid->setVerticalSpacing(60);
         ui->control_grid->setHorizontalSpacing(60);
+        // set large state frame depending on system state
+        // set indicator frames depending on each status
+        // set forward/back buttons based on system state
     }
     else
     {
         ui->beam_params_group->setVisible(true);
         ui->settings_frame->setVisible(true);
         ui->storage_frame->setVisible(true);
-        //ui->clock_frame->setVisible(true);
+        ui->clock_frame->setVisible(true);
         ui->more_button->setText("LESS ▲");
         ui->show_more_layout->setContentsMargins(0,0,0,20);
         ui->control_grid->setVerticalSpacing(50);

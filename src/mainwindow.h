@@ -69,18 +69,18 @@ private slots:
     void on_console_edit_returnPressed();
     void on_save_pid_button_clicked();
     void blink_status();
-    void press_context_menu(const QPoint &pos);
-    void clear_press_data();
-    void beam_context_menu(const QPoint &pos);
-    void clear_beam_data();
-    void power_context_menu(const QPoint &pos);
-    void clear_power_data();
+    void plot1_context_menu(const QPoint &pos);
+    void plot2_context_menu(const QPoint &pos);
+    void plot3_context_menu(const QPoint &pos);
     void on_settings_button_clicked();
     void on_more_button_clicked();
     void on_enable_button_clicked();
     void on_plot1_dropdown_currentIndexChanged(const QString &arg1);
     void on_plot2_dropdown_currentIndexChanged(const QString &arg1);
     void on_plot3_dropdown_currentIndexChanged(const QString &arg1);
+    void clear_plot1_data();
+    void clear_plot2_data();
+    void clear_plot3_data();
 
 private:
     void shutdown();
@@ -141,11 +141,6 @@ private:
                           "QPushButton:hover { background: rgb(225,225,225); }"
                           "QPushButton:hover:pressed { background: rgb(240,240,240); }"};
 
-    QString grey_state_bubble{"QFrame { background-color: rgb(85,87,83); color: white; border: none; border-radius: 100px; }"};
-    QString green_state_bubble{"QFrame { background-color: #46812B; color: white; border: none; border-radius: 100px; }"};
-    QString orange_state_bubble{"QFrame { background-color: #F37021; color: white; border: none; border-radius: 100px; }"};
-    QString red_state_bubble{"QFrame { background-color: #D16055; color: white; border: none; border-radius: 100px; }"};
-
     QString green_status_bubble{"QFrame { background: #46812B; color: white; border: none; border-radius: 40px; }"
                                 "QFrame:disabled { background: rgb(220,220,220); }"};
     QString yellow_status_bubble{"QFrame { background: #E89831; color: white; border: none; border-radius: 40px; }"
@@ -170,6 +165,16 @@ private:
     QString state_group_max{"QGroupBox { border: none; background: white; border-radius: 20px; border: 1px solid rgb(220,220,220); width: 950px; }"
                             "QGroupBox::title { subcontrol-origin: margin; padding: 0px 3px; left: 12px; top: 6px; color: rgb(85, 87, 83); }"
                             "QGroupBox::title:disabled { color: rgb(180,180,180); }"};
+
+    QString lg_grey_state_frame{"QFrame { background-color: rgb(85,87,83); color: white; border: none; width: 400px; height: 400px; border-radius: 200px; }"};
+    QString sm_grey_state_frame{"QFrame { background-color: rgb(85,87,83); color: white; border: none; width: 320px; height: 320px; border-radius: 160px; }"};
+    QString lg_green_state_frame{"QFrame { background-color: #46812B; color: white; border: none; width: 400px; height: 400px; border-radius: 200px; }"};
+    QString sm_green_state_frame{"QFrame { background-color: #46812B; color: white; border: none; width: 320px; height: 320px; border-radius: 160px; }"};
+    QString lg_orange_state_frame{"QFrame { background-color: #F37021; color: white; border: none; width: 400px; height: 400px; border-radius: 200px; }"};
+    QString sm_orange_state_frame{"QFrame { background-color: #F37021; color: white; border: none; width: 320px; height: 320px; border-radius: 160px; }"};
+    QString lg_red_state_frame{"QFrame { background-color: #D16055; color: white; border: none; width: 400px; height: 400px; border-radius: 200px; }"};
+    QString sm_red_state_frame{"QFrame { background-color: #D16055; color: white; border: none; width: 320px; height: 320px; border-radius: 160px; }"};
+
 
     int init_error_code{0};
     double key, plot_span{0}, refresh_rate{0.5};

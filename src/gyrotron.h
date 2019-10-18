@@ -116,15 +116,32 @@ public:
 
     std::vector<double> get_press_data() { std::lock_guard<std::mutex> lock(press_m); return press_data; }
     std::vector<double> get_press_time_data() { std::lock_guard<std::mutex> lock(press_m); return press_time_data; }
-    std::vector<double> get_beam_data() { std::lock_guard<std::mutex> lock(beam_m); return beam_data; }
-    std::vector<double> get_beam_sp_data() { std::lock_guard<std::mutex> lock(beam_m); return beam_sp_data; }
-    std::vector<double> get_beam_time_data() { std::lock_guard<std::mutex> lock(beam_m); return beam_time_data; }
+    void clear_press_data() { std::lock_guard<std::mutex> lock(press_m); press_data.clear(); press_time_data.clear(); }
+
+    std::vector<double> get_beam_curr_data() { std::lock_guard<std::mutex> lock(beam_curr_m); return beam_curr_data; }
+    std::vector<double> get_beam_curr_sp_data() { std::lock_guard<std::mutex> lock(beam_curr_m); return beam_curr_sp_data; }
+    std::vector<double> get_beam_curr_time_data() { std::lock_guard<std::mutex> lock(beam_curr_m); return beam_curr_time_data; }
+    void clear_beam_curr_data() { std::lock_guard<std::mutex> lock(beam_curr_m); beam_curr_data.clear(); beam_curr_sp_data.clear(); beam_curr_time_data.clear(); }
+
+    std::vector<double> get_beam_volt_data() { std::lock_guard<std::mutex> lock(beam_volt_m); return beam_volt_data; }
+    std::vector<double> get_beam_volt_sp_data() { std::lock_guard<std::mutex> lock(beam_volt_m); return beam_volt_sp_data; }
+    std::vector<double> get_beam_volt_time_data() { std::lock_guard<std::mutex> lock(beam_volt_m); return beam_volt_time_data; }
+    void clear_beam_volt_data() { std::lock_guard<std::mutex> lock(beam_volt_m); beam_volt_data.clear(); beam_volt_sp_data.clear(); beam_volt_time_data.clear(); }
+
     std::vector<double> get_power_data() { std::lock_guard<std::mutex> lock(power_m); return power_data; }
     std::vector<double> get_power_sp_data() { std::lock_guard<std::mutex> lock(power_m); return power_sp_data; }
     std::vector<double> get_power_time_data() { std::lock_guard<std::mutex> lock(power_m); return power_time_data; }
-    void clear_press_data() { std::lock_guard<std::mutex> lock(press_m); press_data.clear(); press_time_data.clear(); }
-    void clear_beam_data() { std::lock_guard<std::mutex> lock(beam_m); beam_data.clear(); beam_time_data.clear(); }
-    void clear_power_data() { std::lock_guard<std::mutex> lock(power_m); power_data.clear(); power_time_data.clear(); }
+    void clear_power_data() { std::lock_guard<std::mutex> lock(power_m); power_data.clear(); power_sp_data.clear(); power_time_data.clear(); }
+
+    std::vector<double> get_fil_curr_data() { std::lock_guard<std::mutex> lock(fil_curr_m); return fil_curr_data; }
+    std::vector<double> get_fil_curr_sp_data() { std::lock_guard<std::mutex> lock(fil_curr_m); return fil_curr_sp_data; }
+    std::vector<double> get_fil_curr_time_data() { std::lock_guard<std::mutex> lock(fil_curr_m); return fil_curr_time_data; }
+    void clear_fil_curr_data() { std::lock_guard<std::mutex> lock(fil_curr_m); fil_curr_data.clear(); fil_curr_sp_data.clear(); fil_curr_time_data.clear(); }
+
+    std::vector<double> get_freq_data() { std::lock_guard<std::mutex> lock(freq_m); return freq_data; }
+    std::vector<double> get_freq_sp_data() { std::lock_guard<std::mutex> lock(freq_m); return freq_sp_data; }
+    std::vector<double> get_freq_time_data() { std::lock_guard<std::mutex> lock(freq_m); return freq_time_data; }
+    void clear_freq_data() { std::lock_guard<std::mutex> lock(freq_m); freq_data.clear(); freq_sp_data.clear(); freq_time_data.clear(); }
 
     std::vector<std::string> get_warnings();
     std::vector<std::string> get_errors();
@@ -250,13 +267,13 @@ private:
     std::atomic<double> body_curr{0}, collector_curr{0}, beam_ocp;
     std::atomic<double> pressure{0}, query_rate{0.5}, rec_rate{0};
     std::atomic<double> freq, power;
-    std::atomic<double> beam_curr_sp{-1}, power_sp{-1}, freq_sp{-1}, beam_volt_sp{0};
-    std::atomic<double> fil_curr, fil_curr_sp{0}, beam_curr{0}, beam_volt{0}, beam_volt_ref{0};
+    std::atomic<double> beam_curr_sp{-1}, power_sp{-1}, freq_sp{-1}, beam_volt_sp{-1};
+    std::atomic<double> fil_curr, fil_curr_sp{-1}, beam_curr{0}, beam_volt{0}, beam_volt_ref{0};
     std::atomic<double> gtc_curr{0}, gtc_volt{0};
     std::atomic<double> diode_volt{-1}, body_volt{-1}, collector_volt{-1};
     std::atomic<double> main_chill_temp{-1}, cav_chill_temp{-1}, collector_temp{-1}, cav_temp{-1}, body_temp{-1};
     std::atomic<double> main_chill_flow{-1}, cav_chill_flow{-1}, collector_flow{-1}, gun_air_flow{-1};
-    std::atomic<double> gtc_curr_sp{0}, gtc_volt_sp{0};
+    std::atomic<double> gtc_curr_sp{-1}, gtc_volt_sp{-1};
 
     std::atomic<bool> gtc_hv_on{false}, cath_hv_on{false}, cath_hv_on_prev{false};
     std::atomic<bool> e_ramping{false}, hv_blocked{false}, reset_pid_time{false};
@@ -265,10 +282,11 @@ private:
     std::atomic<bool> ramping_up{false}, ramping_down{false};
     std::atomic<bool> relaxing{false}, paused{false};
 
-    std::mutex press_m, beam_m, power_m;
+    std::mutex press_m, beam_curr_m, beam_volt_m, power_m, fil_curr_m, freq_m;
     std::atomic<double> plot_span{900}; // default 15 mins
-    std::vector<double> press_data, press_time_data, beam_data, beam_sp_data, beam_time_data;
-    std::vector<double> power_array, power_sp_data, power_data, power_time_data;
+    std::vector<double> press_data, beam_curr_data, beam_volt_data, power_data, fil_curr_data, freq_data;
+    std::vector<double> beam_curr_sp_data, beam_volt_sp_data, power_sp_data, fil_curr_sp_data, freq_sp_data;
+    std::vector<double> press_time_data, beam_curr_time_data, beam_volt_time_data, power_time_data, fil_curr_time_data, freq_time_data;
 };
 
 #endif

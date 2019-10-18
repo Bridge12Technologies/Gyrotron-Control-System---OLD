@@ -104,6 +104,38 @@ void Gyrotron::query_cath()
         ss >> temp_double;
         fil_curr = (temp_double/4095)*MAX_FIL_CURR;
 
+        beam_volt_m.lock();
+        beam_volt_time_data.push_back(runtime());
+        beam_volt_data.push_back(beam_volt);
+        if(beam_volt_sp > 0)
+            beam_volt_sp_data.push_back(beam_volt_sp);
+        else
+            beam_volt_sp_data.push_back(std::numeric_limits<double>::quiet_NaN());
+
+        while(runtime() - *beam_volt_time_data.begin() > plot_span)
+        {
+            if(!beam_volt_data.empty()) beam_volt_data.erase(beam_volt_data.begin());
+            if(!beam_volt_sp_data.empty()) beam_volt_sp_data.erase(beam_volt_sp_data.begin());
+            if(!beam_volt_time_data.empty()) beam_volt_time_data.erase(beam_volt_time_data.begin());
+        }
+        beam_volt_m.unlock();
+
+        fil_curr_m.lock();
+        fil_curr_time_data.push_back(runtime());
+        fil_curr_data.push_back(fil_curr);
+        if(fil_curr_sp > 0)
+            fil_curr_sp_data.push_back(fil_curr_sp);
+        else
+            fil_curr_sp_data.push_back(std::numeric_limits<double>::quiet_NaN());
+
+        while(runtime() - *fil_curr_time_data.begin() > plot_span)
+        {
+            if(!fil_curr_data.empty()) fil_curr_data.erase(fil_curr_data.begin());
+            if(!fil_curr_sp_data.empty()) fil_curr_sp_data.erase(fil_curr_sp_data.begin());
+            if(!fil_curr_time_data.empty()) fil_curr_time_data.erase(fil_curr_time_data.begin());
+        }
+        fil_curr_m.unlock();
+
         cath.error_m()->lock();
         cath.warning_m()->lock();
         cath.clear_errors();
@@ -134,22 +166,22 @@ void Gyrotron::query_cath()
         
         cath.warning_m()->unlock(); 
         cath.error_m()->unlock();
-        beam_m.lock();
+        beam_curr_m.lock();
 
-        beam_time_data.push_back(runtime());
-        beam_data.push_back(beam_curr);
+        beam_curr_time_data.push_back(runtime());
+        beam_curr_data.push_back(beam_curr);
         if(beam_pid_on)
-            beam_sp_data.push_back(beam_curr_sp);
+            beam_curr_sp_data.push_back(beam_curr_sp);
         else
-            beam_sp_data.push_back(std::numeric_limits<double>::quiet_NaN());
+            beam_curr_sp_data.push_back(std::numeric_limits<double>::quiet_NaN());
 
-        while(runtime() - *beam_time_data.begin() > plot_span)
+        while(runtime() - *beam_curr_time_data.begin() > plot_span)
         {
-            if(!beam_data.empty()) beam_data.erase(beam_data.begin());
-            if(!beam_sp_data.empty()) beam_sp_data.erase(beam_sp_data.begin());
-            if(!beam_time_data.empty()) beam_time_data.erase(beam_time_data.begin());
+            if(!beam_curr_data.empty()) beam_curr_data.erase(beam_curr_data.begin());
+            if(!beam_curr_sp_data.empty()) beam_curr_sp_data.erase(beam_curr_sp_data.begin());
+            if(!beam_curr_time_data.empty()) beam_curr_time_data.erase(beam_curr_time_data.begin());
         }
-        beam_m.unlock();
+        beam_curr_m.unlock();
         steer_cath();
     }
     else  
@@ -311,7 +343,25 @@ void Gyrotron::query_fms()
         resp.erase(0,6); // erase "#2 OK "
         temp_double = to_doub(resp);
         if(temp_double > 0)
+        {
             freq = temp_double;
+
+            freq_m.lock();
+            freq_time_data.push_back(runtime());
+            freq_data.push_back(freq);
+            if(freq_pid_on)
+                freq_sp_data.push_back(freq_sp);
+            else
+                freq_sp_data.push_back(std::numeric_limits<double>::quiet_NaN());
+
+            while(runtime() - *freq_time_data.begin() > plot_span)
+            {
+                if(!freq_data.empty()) freq_data.erase(freq_data.begin());
+                if(!freq_sp_data.empty()) freq_sp_data.erase(freq_sp_data.begin());
+                if(!freq_time_data.empty()) freq_time_data.erase(freq_time_data.begin());
+            }
+            freq_m.unlock();
+        }
         else
             log_event("FMS bad conversion: " + resp);
     }
@@ -520,7 +570,7 @@ void Gyrotron::steer_cath()
 
             last_pid_time = current_time;
         }
-        else if(power_pid_on && power_sp >= 0 && power_array.size() >= 3 && !relaxing && !hv_blocked) // power PID control
+        else if(power_pid_on && power_sp >= 0 && power_data.size() >= 3 && !relaxing && !hv_blocked) // power PID control
         {
             if(reset_pid_time) // set default dt if pid control is just starting/resuming
             {
@@ -871,8 +921,8 @@ void Gyrotron::toggle_beam_pid(bool turn_on)
     {
         freq_pid_on = power_pid_on = false;
         beam_curr_sp.store(beam_curr);
-        beam_sp_data.push_back(beam_curr_sp);
-        beam_time_data.push_back(runtime());
+        beam_curr_sp_data.push_back(beam_curr_sp);
+        beam_curr_time_data.push_back(runtime());
         beam_pid = new PID(beam_kp, beam_ki, beam_kd); // re-initialize PID controller
         reset_pid_time = true; // FIX THIS
     } 
@@ -930,8 +980,8 @@ int Gyrotron::enter_standby()
 
 void Gyrotron::set_beam_curr(double c) {
     beam_curr_sp = c;
-    beam_sp_data.push_back(beam_curr_sp);
-    beam_time_data.push_back(runtime());
+    beam_curr_sp_data.push_back(beam_curr_sp);
+    beam_curr_time_data.push_back(runtime());
     beam_pid = new PID(beam_kp, beam_ki, beam_kd); // re-initialize PID controller
     reset_pid_time = true;
     log_event("applied new beam PID setpoint at " + to_str(c) + "A");
