@@ -106,6 +106,7 @@ private:
     void set_blink_enabled(bool enable);
     bool lists_equal(std::vector<QListWidgetItem*> list1, std::vector<QListWidgetItem*> list2);
     void update_margins();
+    void set_ui_expanded(bool expand);
 
     Ui::MainWindow *ui;
     Face gui{this};
@@ -141,13 +142,6 @@ private:
                           "QPushButton:hover { background: rgb(225,225,225); }"
                           "QPushButton:hover:pressed { background: rgb(240,240,240); }"};
 
-    QString green_status_bubble{"QFrame { background: #46812B; color: white; border: none; border-radius: 40px; }"
-                                "QFrame:disabled { background: rgb(220,220,220); }"};
-    QString yellow_status_bubble{"QFrame { background: #E89831; color: white; border: none; border-radius: 40px; }"
-                                "QFrame:disabled { background: rgb(220,220,220); }"};
-    QString red_status_bubble{"QFrame { background: #D16055; color: white; border: none; border-radius: 40px; }"
-                                "QFrame:disabled { background: rgb(220,220,220); }"};
-
     QString empty_faults_list{"background: white; border: none; background-image: url(:/images/no_faults.png);"
                               "background-position: center; background-repeat: no-repeat;"};
     QString faults_list{"background: white; border: none; background-image: none;"};
@@ -175,7 +169,44 @@ private:
     QString lg_red_state_frame{"QFrame { background-color: #D16055; color: white; border: none; width: 400px; height: 400px; border-radius: 200px; }"};
     QString sm_red_state_frame{"QFrame { background-color: #D16055; color: white; border: none; width: 320px; height: 320px; border-radius: 160px; }"};
 
+    QString sm_prev_arrow{"QPushButton { width: 216px; height: 216px; border: none; background: none; border-image: url(:/images/back_small.png) 0 0 0 0 stretch stretch; }"
+                          "QPushButton:hover { border-image: url(:/images/back_small_hover.png) 0 0 0 0 stretch stretch; }"
+                          "QPushButton:hover:pressed { border-image: url(:/images/back_small_press.png) 0 0 0 0 stretch stretch; }"
+                          "QPushButton:disabled { border-image: url(:/images/back_small_disabled.png) 0 0 0 0 stretch stretch; }"};
+    QString lg_prev_arrow{"QPushButton { width: 270px; height: 270px; border: none; background: none; border-image: url(:/images/back.png) 0 0 0 0 stretch stretch; }"
+                          "QPushButton:hover { border-image: url(:/images/back_hover.png) 0 0 0 0 stretch stretch; }"
+                          "QPushButton:hover:pressed { border-image: url(:/images/back_press.png) 0 0 0 0 stretch stretch; }"
+                          "QPushButton:disabled { border-image: url(:/images/back_disabled.png) 0 0 0 0 stretch stretch; }"};
+    QString sm_next_arrow{"QPushButton { width: 216px; height: 216px; border: none; background: none; border-image: url(:/images/forward_small.png) 0 0 0 0 stretch stretch; }"
+                          "QPushButton:hover { border-image: url(:/images/forward_small_hover.png) 0 0 0 0 stretch stretch; }"
+                          "QPushButton:hover:pressed { border-image: url(:/images/forward_small_press.png) 0 0 0 0 stretch stretch; }"
+                          "QPushButton:disabled { border-image: url(:/images/forward_small_disabled.png) 0 0 0 0 stretch stretch; }"};
+    QString lg_next_arrow{"QPushButton { width: 270px; height: 270px; border: none; background: none; border-image: url(:/images/forward.png) 0 0 0 0 stretch stretch; }"
+                          "QPushButton:hover { border-image: url(:/images/forward_hover.png) 0 0 0 0 stretch stretch; }"
+                          "QPushButton:hover:pressed { border-image: url(:/images/forward_press.png) 0 0 0 0 stretch stretch; }"
+                          "QPushButton:disabled { border-image: url(:/images/forward_disabled.png) 0 0 0 0 stretch stretch; }"};
 
+    QString lg_pause_bubble{"QPushButton { width: 200px; height: 200px; border: none; background: #46812B; border-radius: 100px; margin: 10px; color: white; }"
+                            "QPushButton:hover { background: #407527; }"
+                            "QPushButton:hover:pressed { background: #2f5b12; }"};
+    QString sm_pause_bubble{"QPushButton { width: 160px; height: 160px; border: none; background: #46812B; border-radius: 80px; margin: 10px; color: white; }"
+                            "QPushButton:hover { background: #407527; }"
+                            "QPushButton:hover:pressed { background: #2f5b12; }"};
+
+    QString lg_green_bubble{"QFrame { height: 180px; width: 180px; background: #46812B; color: white; border: none; border-radius: 90px; }"
+                            "QFrame:disabled { background: rgb(220,220,220); }"};
+    QString sm_green_bubble{"QFrame { height: 120px; width: 180px; background: #46812B; color: white; border: none; border-radius: 90px; }"
+                            "QFrame:disabled { background: rgb(220,220,220); }"};
+    QString lg_yellow_bubble{"QFrame { height: 180px; width: 180px; background: #E89831; color: white; border: none; border-radius: 90px; }"
+                            "QFrame:disabled { background: rgb(220,220,220); }"};
+    QString sm_yellow_bubble{"QFrame { height: 120px; width: 180px; background: #E89831; color: white; border: none; border-radius: 90px; }"
+                            "QFrame:disabled { background: rgb(220,220,220); }"};
+    QString lg_red_bubble{"QFrame { height: 180px; width: 180px; background: #D16055; color: white; border: none; border-radius: 90px; }"
+                            "QFrame:disabled { background: rgb(220,220,220); }"};
+    QString sm_red_bubble{"QFrame { height: 120px; width: 180px; background: #D16055; color: white; border: none; border-radius: 90px; }"
+                            "QFrame:disabled { background: rgb(220,220,220); }"};
+
+    bool showing_more{false};
     int init_error_code{0};
     double key, plot_span{0}, refresh_rate{0.5};
     std::string press_str{"----------"};

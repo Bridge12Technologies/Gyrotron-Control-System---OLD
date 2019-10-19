@@ -26,5 +26,13 @@
         <file>lib/face/icons/question54.png</file>
         <file>lib/face/icons/warning54.png</file>
         <file>images/no_faults450.png</file>
+        <file>images/back_small.png</file>
+        <file>images/back_small_disabled.png</file>
+        <file>images/back_small_hover.png</file>
+        <file>images/back_small_press.png</file>
+        <file>images/forward_small.png</file>
+        <file>images/forward_small_disabled.png</file>
+        <file>images/forward_small_hover.png</file>
+        <file>images/forward_small_press.png</file>
     </qresource>
 </RCC>

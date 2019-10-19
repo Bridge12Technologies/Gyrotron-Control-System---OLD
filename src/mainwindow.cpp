@@ -58,14 +58,7 @@ void MainWindow::init_gui()
         group->setGraphicsEffect(shadows.back());
     }
 
-    // hide beam parameter group initially
-    ui->beam_params_group->setVisible(false);
-    ui->settings_frame->setVisible(false);
-    ui->storage_frame->setVisible(false);
-    ui->clock_frame->setVisible(false);
-    ui->show_more_layout->setContentsMargins(0,0,0,0);
-    ui->control_grid->setVerticalSpacing(60);
-    ui->control_grid->setHorizontalSpacing(60);
+    set_ui_expanded(false);
 
     init_plots();
 
@@ -376,12 +369,13 @@ void MainWindow::detect_state_change(bool manual_update)
     {
         ui->state_label->setText("EMERGENCY\nRAMP DOWN");
         ui->small_state_label->setText("E RAMP DOWN");
-        ui->state_frame->setStyleSheet(red_state_bubble);
+        if(showing_more) ui->state_frame->setStyleSheet(sm_red_state_frame);
+        else ui->state_frame->setStyleSheet(lg_red_state_frame);
         ui->prev_state_label->setEnabled(false);
         ui->next_state_label->setEnabled(false);
-        ui->prev_state_button->setStyleSheet(prev_style);
+        ui->prev_state_button->setStyleSheet(showing_more ? sm_prev_arrow : lg_prev_arrow);
         ui->prev_state_button->setText("");
-        ui->next_state_button->setStyleSheet(next_style);
+        ui->next_state_button->setStyleSheet(showing_more ? sm_next_arrow : lg_next_arrow);
         ui->next_state_button->setText("");
         ui->state_mini_label->setText(QString::number(100*(1-(gyro.get_fil_curr()/gyro.FIL_CURR_LIMIT))) + "%");
     }
@@ -392,13 +386,14 @@ void MainWindow::detect_state_change(bool manual_update)
         case 0:
             ui->state_label->setText("CONTROL\nPOWER ON");
             ui->small_state_label->setText("CTRL PW ON");
-            ui->state_frame->setStyleSheet(grey_state_bubble);
+            if(showing_more) ui->state_frame->setStyleSheet(sm_grey_state_frame);
+            else ui->state_frame->setStyleSheet(lg_grey_state_frame);
             ui->prev_state_label->setEnabled(false);
             ui->next_state_label->setEnabled(true);
             ui->next_state_label->setText("Warm Up →");
-            ui->prev_state_button->setStyleSheet(prev_style);
+            ui->prev_state_button->setStyleSheet(showing_more ? sm_prev_arrow : lg_prev_arrow);
             ui->prev_state_button->setText("");
-            ui->next_state_button->setStyleSheet(next_style);
+            ui->next_state_button->setStyleSheet(showing_more ? sm_next_arrow : lg_next_arrow);
             ui->next_state_button->setText("");
             ui->state_mini_label->setText("MW Off");
             break;
@@ -407,15 +402,16 @@ void MainWindow::detect_state_change(bool manual_update)
             ui->next_state_label->setEnabled(true);
             if(gyro.is_paused())
             {
-                ui->state_frame->setStyleSheet(grey_state_bubble);
+                if(showing_more) ui->state_frame->setStyleSheet(sm_grey_state_frame);
+                else ui->state_frame->setStyleSheet(lg_grey_state_frame);
 
                 if(ramping_up)
                 {
                     ui->state_label->setText("WARM UP\n(PAUSED)");
                     ui->small_state_label->setText("WARM UP");
-                    ui->prev_state_button->setStyleSheet(prev_style);
+                    ui->prev_state_button->setStyleSheet(showing_more ? sm_prev_arrow : lg_prev_arrow);
                     ui->prev_state_button->setText("");
-                    ui->next_state_button->setStyleSheet(next_style);
+                    ui->next_state_button->setStyleSheet(showing_more ? sm_next_arrow : lg_next_arrow);
                     ui->next_state_button->setText("");
                     ui->prev_state_label->setText("← Cool Down");
                     ui->next_state_label->setText("Resume Warm Up →");
@@ -425,9 +421,9 @@ void MainWindow::detect_state_change(bool manual_update)
                 {
                     ui->state_label->setText("COOL DOWN\n(PAUSED)");
                     ui->small_state_label->setText("COOL DOWN");
-                    ui->prev_state_button->setStyleSheet(prev_style);
+                    ui->prev_state_button->setStyleSheet(showing_more ? sm_prev_arrow : lg_prev_arrow);
                     ui->prev_state_button->setText("");
-                    ui->next_state_button->setStyleSheet(next_style);
+                    ui->next_state_button->setStyleSheet(showing_more ? sm_next_arrow : lg_next_arrow);
                     ui->next_state_button->setText("");
                     ui->prev_state_label->setText("← Resume Cool Down");
                     ui->next_state_label->setText("Warm Up →");
@@ -436,15 +432,16 @@ void MainWindow::detect_state_change(bool manual_update)
             }
             else
             {
-                ui->state_frame->setStyleSheet(orange_state_bubble);
+                if(showing_more) ui->state_frame->setStyleSheet(sm_orange_state_frame);
+                else ui->state_frame->setStyleSheet(lg_orange_state_frame);
 
                 if(ramping_up)
                 {
                     ui->state_label->setText("WARM UP");
                     ui->small_state_label->setText("WARM UP");
-                    ui->prev_state_button->setStyleSheet(pause_style);
+                    ui->prev_state_button->setStyleSheet(showing_more ? sm_pause_bubble : lg_pause_bubble);
                     ui->prev_state_button->setText("II");
-                    ui->next_state_button->setStyleSheet(next_style);
+                    ui->next_state_button->setStyleSheet(showing_more ? sm_next_arrow : lg_next_arrow);
                     ui->next_state_button->setText("");
                     ui->prev_state_label->setText("← Pause");
                     ui->next_state_label->setText("HV Standby →");
@@ -454,9 +451,9 @@ void MainWindow::detect_state_change(bool manual_update)
                 {
                     ui->state_label->setText("COOL DOWN");
                     ui->small_state_label->setText("COOL DOWN");
-                    ui->prev_state_button->setStyleSheet(prev_style);
+                    ui->prev_state_button->setStyleSheet(showing_more ? sm_prev_arrow : lg_prev_arrow);
                     ui->prev_state_button->setText("");
-                    ui->next_state_button->setStyleSheet(pause_style);
+                    ui->next_state_button->setStyleSheet(showing_more ? sm_pause_bubble : lg_pause_bubble);
                     ui->next_state_button->setText("II");
                     ui->prev_state_label->setText("← Control Power On");
                     ui->next_state_label->setText("Pause →");
@@ -465,15 +462,16 @@ void MainWindow::detect_state_change(bool manual_update)
             }
             break;
         case 2:
-            ui->prev_state_button->setStyleSheet(prev_style);
+            ui->prev_state_button->setStyleSheet(showing_more ? sm_prev_arrow : lg_prev_arrow);
             ui->prev_state_button->setText("");
-            ui->next_state_button->setStyleSheet(next_style);
+            ui->next_state_button->setStyleSheet(showing_more ? sm_next_arrow : lg_next_arrow);
             ui->next_state_button->setText("");
             ui->prev_state_label->setEnabled(true);
             ui->next_state_label->setEnabled(true);
             ui->state_label->setText("HV STANDBY");
             ui->small_state_label->setText("HV STANDBY");
-            ui->state_frame->setStyleSheet(grey_state_bubble);
+            if(showing_more) ui->state_frame->setStyleSheet(sm_grey_state_frame);
+            else ui->state_frame->setStyleSheet(lg_grey_state_frame);
             ui->prev_state_label->setText("← Cool Down");
             ui->next_state_label->setText("MW On →");
             ui->state_mini_label->setText("MW Off");
@@ -483,7 +481,8 @@ void MainWindow::detect_state_change(bool manual_update)
             ui->small_state_label->setText("MW ON");
             ui->prev_state_label->setEnabled(true);
             ui->next_state_label->setEnabled(false);
-            ui->state_frame->setStyleSheet(green_state_bubble);
+            if(showing_more) ui->state_frame->setStyleSheet(sm_green_state_frame);
+            else ui->state_frame->setStyleSheet(lg_green_state_frame);
             ui->prev_state_label->setText("← HV Standby");
             ui->state_mini_label->setText(QString::number(100*(gyro.get_power()/gyro.POWER_LIMIT)) + "% power");
             break;
@@ -727,31 +726,31 @@ void MainWindow::update_indicators()
     {
         switch(gyro.get_temp_status())
         {
-        case 0: ui->temp_indicator->setStyleSheet(green_status_bubble); ui->temp_status->setText("OK"); break;
-        case -1: ui->temp_indicator->setStyleSheet(yellow_status_bubble); ui->temp_status->setText("WARN"); break;
-        case -2: ui->temp_indicator->setStyleSheet(red_status_bubble); ui->temp_status->setText("HIGH!"); break;
+        case 0: ui->temp_indicator->setStyleSheet(showing_more ? sm_green_bubble : lg_green_bubble); ui->temp_status->setText("OK"); break;
+        case -1: ui->temp_indicator->setStyleSheet(showing_more ? sm_yellow_bubble : lg_yellow_bubble); ui->temp_status->setText("WARN"); break;
+        case -2: ui->temp_indicator->setStyleSheet(showing_more ? sm_red_bubble : lg_red_bubble); ui->temp_status->setText("HIGH!"); break;
         }
         switch(gyro.get_flow_status())
         {
-        case 0: ui->flow_indicator->setStyleSheet(green_status_bubble); ui->flow_status->setText("OK"); break;
-        case -1: ui->flow_indicator->setStyleSheet(yellow_status_bubble); ui->flow_status->setText("WARN"); break;
-        case -2: ui->flow_indicator->setStyleSheet(red_status_bubble); ui->flow_status->setText("LOW!"); break;
+        case 0: ui->flow_indicator->setStyleSheet(showing_more ? sm_green_bubble : lg_green_bubble); ui->flow_status->setText("OK"); break;
+        case -1: ui->flow_indicator->setStyleSheet(showing_more ? sm_yellow_bubble : lg_yellow_bubble); ui->flow_status->setText("WARN"); break;
+        case -2: ui->flow_indicator->setStyleSheet(showing_more ? sm_red_bubble : lg_red_bubble); ui->flow_status->setText("LOW!"); break;
         }
     }
     switch(gyro.get_fault_status())
     {
-    case 0: ui->faults_indicator->setStyleSheet(green_status_bubble); ui->fault_status->setText("OK"); break;
-    case -1: ui->faults_indicator->setStyleSheet(yellow_status_bubble); ui->fault_status->setText("WARN ×" + QString::number(gyro.get_num_warnings())); break;
-    case -2: ui->faults_indicator->setStyleSheet(red_status_bubble); ui->fault_status->setText("ERR ×" + QString::number(gyro.get_num_errors())); break;
+    case 0: ui->faults_indicator->setStyleSheet(showing_more ? sm_green_bubble : lg_green_bubble); ui->fault_status->setText("OK"); break;
+    case -1: ui->faults_indicator->setStyleSheet(showing_more ? sm_yellow_bubble : lg_yellow_bubble); ui->fault_status->setText("WARN ×" + QString::number(gyro.get_num_warnings())); break;
+    case -2: ui->faults_indicator->setStyleSheet(showing_more ? sm_red_bubble : lg_red_bubble); ui->fault_status->setText("ERR ×" + QString::number(gyro.get_num_errors())); break;
     }
     if(gyro.spc_available())
     {
         ui->press_label->setText(QString::number(gyro.get_pressure()));
         switch(gyro.get_press_status())
         {
-        case 0: ui->press_indicator->setStyleSheet(green_status_bubble); break;
-        case -1: ui->press_indicator->setStyleSheet(yellow_status_bubble); break;
-        case -2: ui->press_indicator->setStyleSheet(red_status_bubble); break;
+        case 0: ui->press_indicator->setStyleSheet(showing_more ? sm_green_bubble : lg_green_bubble); break;
+        case -1: ui->press_indicator->setStyleSheet(showing_more ? sm_yellow_bubble : lg_yellow_bubble); break;
+        case -2: ui->press_indicator->setStyleSheet(showing_more ? sm_red_bubble : lg_red_bubble); break;
         }
     }
 }
@@ -1597,24 +1596,11 @@ void MainWindow::on_settings_button_clicked()
     settings_popup.exec();
 }
 
-void MainWindow::on_more_button_clicked()
+void MainWindow::set_ui_expanded(bool expand)
 {
-    if(ui->beam_params_group->isVisible())
+    if(expand)
     {
-        ui->beam_params_group->setVisible(false);
-        ui->settings_frame->setVisible(false);
-        ui->storage_frame->setVisible(false);
-        ui->clock_frame->setVisible(false);
-        ui->more_button->setText("MORE ▼");
-        ui->show_more_layout->setContentsMargins(0,0,0,18);
-        ui->control_grid->setVerticalSpacing(60);
-        ui->control_grid->setHorizontalSpacing(60);
-        // set large state frame depending on system state
-        // set indicator frames depending on each status
-        // set forward/back buttons based on system state
-    }
-    else
-    {
+        showing_more = true;
         ui->beam_params_group->setVisible(true);
         ui->settings_frame->setVisible(true);
         ui->storage_frame->setVisible(true);
@@ -1623,7 +1609,47 @@ void MainWindow::on_more_button_clicked()
         ui->show_more_layout->setContentsMargins(0,0,0,20);
         ui->control_grid->setVerticalSpacing(50);
         ui->control_grid->setHorizontalSpacing(50);
+        ui->state_frame->setContentsMargins(9,40,9,40);
+        ui->state_top_label->setStyleSheet("background: transparent; font-size: 14pt;");
+        ui->state_mini_label->setStyleSheet("background: transparent; font-size: 14pt;");
+        ui->state_label->setStyleSheet("QLabel { color: white; background: none; font-size: 20pt; }"
+                                       "QLabel:disabled { color: rgb(180,180,180); }");
+        ui->temp_indicator->setContentsMargins(9,20,9,25);
+        ui->flow_indicator->setContentsMargins(9,20,9,25);
+        ui->faults_indicator->setContentsMargins(9,20,9,25);
+        ui->press_indicator->setContentsMargins(9,20,9,25);
     }
+    else
+    {
+        showing_more = false;
+        ui->beam_params_group->setVisible(false);
+        ui->settings_frame->setVisible(false);
+        ui->storage_frame->setVisible(false);
+        ui->clock_frame->setVisible(false);
+        ui->more_button->setText("MORE ▼");
+        ui->show_more_layout->setContentsMargins(0,0,0,18);
+        ui->control_grid->setVerticalSpacing(60);
+        ui->control_grid->setHorizontalSpacing(60);
+        ui->state_frame->setContentsMargins(9,50,9,50);
+        ui->state_top_label->setStyleSheet("background: transparent; font-size: 16pt;");
+        ui->state_mini_label->setStyleSheet("background: transparent; font-size: 16pt;");
+        ui->state_label->setStyleSheet("QLabel { color: white; background: none; font-size: 26pt; }"
+                                       "QLabel:disabled { color: rgb(180,180,180); }");
+        ui->temp_indicator->setContentsMargins(9,30,9,40);
+        ui->flow_indicator->setContentsMargins(9,30,9,40);
+        ui->faults_indicator->setContentsMargins(9,30,9,40);
+        ui->press_indicator->setContentsMargins(9,30,9,40);
+    }
+    update_indicators();
+    detect_state_change(true);
+}
+
+void MainWindow::on_more_button_clicked()
+{
+    if(showing_more)
+        set_ui_expanded(false);
+    else
+        set_ui_expanded(true);
 }
 
 void MainWindow::on_plot1_dropdown_currentIndexChanged(const QString &item)
