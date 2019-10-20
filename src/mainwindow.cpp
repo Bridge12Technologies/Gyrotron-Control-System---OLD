@@ -724,6 +724,8 @@ void MainWindow::update_indicators()
 {
     if(gyro.rsi_available())
     {
+        ui->temp_indicator->setEnabled(true);
+        ui->flow_indicator->setEnabled(true);
         switch(gyro.get_temp_status())
         {
         case 0: ui->temp_indicator->setStyleSheet(showing_more ? sm_green_bubble : lg_green_bubble); ui->temp_status->setText("OK"); break;
@@ -737,6 +739,15 @@ void MainWindow::update_indicators()
         case -2: ui->flow_indicator->setStyleSheet(showing_more ? sm_red_bubble : lg_red_bubble); ui->flow_status->setText("LOW!"); break;
         }
     }
+    else
+    {
+        ui->temp_indicator->setEnabled(false);
+        ui->flow_indicator->setEnabled(false);
+        ui->temp_indicator->setStyleSheet(showing_more ? sm_green_bubble : lg_green_bubble);
+        ui->flow_indicator->setStyleSheet(showing_more ? sm_green_bubble : lg_green_bubble);
+        ui->temp_status->setText("N/A");
+        ui->flow_status->setText("N/A");
+    }
     switch(gyro.get_fault_status())
     {
     case 0: ui->faults_indicator->setStyleSheet(showing_more ? sm_green_bubble : lg_green_bubble); ui->fault_status->setText("OK"); break;
@@ -745,6 +756,7 @@ void MainWindow::update_indicators()
     }
     if(gyro.spc_available())
     {
+        ui->press_indicator->setEnabled(true);
         ui->press_label->setText(QString::number(gyro.get_pressure()));
         switch(gyro.get_press_status())
         {
@@ -752,6 +764,12 @@ void MainWindow::update_indicators()
         case -1: ui->press_indicator->setStyleSheet(showing_more ? sm_yellow_bubble : lg_yellow_bubble); break;
         case -2: ui->press_indicator->setStyleSheet(showing_more ? sm_red_bubble : lg_red_bubble); break;
         }
+    }
+    else
+    {
+        ui->press_indicator->setEnabled(false);
+        ui->press_indicator->setStyleSheet(showing_more ? sm_green_bubble : lg_green_bubble);
+        ui->press_label->setText("N/A");
     }
 }
 
@@ -816,28 +834,13 @@ void MainWindow::check_connections()
     {
         ui->power_group->setEnabled(true);
         ui->power_button->setVisible(true);
-        ui->temp_indicator->setEnabled(true);
-        ui->flow_indicator->setEnabled(true);
     }
     else
     {
         ui->power_group->setEnabled(false);
         ui->power_button->setVisible(false);
-        ui->temp_indicator->setEnabled(false);
-        ui->temp_status->setText("N/A");
-        ui->flow_indicator->setEnabled(false);
-        ui->flow_status->setText("N/A");
     }
-    if(gyro.spc_is_connected() && gyro.spc_is_enabled())
-    {
-        ui->press_indicator->setEnabled(true);
-        ui->press_label->setText("N/A");
-    }
-    else
-    {
-        ui->press_indicator->setEnabled(false);
-        ui->press_label->setText("N/A");
-    }
+
     if(gyro.fms_is_connected() && gyro.fms_is_enabled())
     {
         ui->fms_group->setEnabled(true);
@@ -1618,6 +1621,11 @@ void MainWindow::set_ui_expanded(bool expand)
         ui->flow_indicator->setContentsMargins(9,20,9,25);
         ui->faults_indicator->setContentsMargins(9,20,9,25);
         ui->press_indicator->setContentsMargins(9,20,9,25);
+        ui->temp_indicator->setSizePolicy(QSizePolicy::Minimum,QSizePolicy::Minimum);
+        ui->flow_indicator->setSizePolicy(QSizePolicy::Minimum,QSizePolicy::Minimum);
+        ui->faults_indicator->setSizePolicy(QSizePolicy::Minimum,QSizePolicy::Minimum);
+        ui->press_indicator->setSizePolicy(QSizePolicy::Minimum,QSizePolicy::Minimum);
+        ui->state_frame->setSizePolicy(QSizePolicy::Minimum,QSizePolicy::Minimum);
     }
     else
     {
@@ -1639,6 +1647,11 @@ void MainWindow::set_ui_expanded(bool expand)
         ui->flow_indicator->setContentsMargins(9,30,9,40);
         ui->faults_indicator->setContentsMargins(9,30,9,40);
         ui->press_indicator->setContentsMargins(9,30,9,40);
+        ui->temp_indicator->setSizePolicy(QSizePolicy::Maximum,QSizePolicy::Maximum);
+        ui->flow_indicator->setSizePolicy(QSizePolicy::Maximum,QSizePolicy::Maximum);
+        ui->faults_indicator->setSizePolicy(QSizePolicy::Maximum,QSizePolicy::Maximum);
+        ui->press_indicator->setSizePolicy(QSizePolicy::Maximum,QSizePolicy::Maximum);
+        ui->state_frame->setSizePolicy(QSizePolicy::Maximum,QSizePolicy::Maximum);
     }
     update_indicators();
     detect_state_change(true);
