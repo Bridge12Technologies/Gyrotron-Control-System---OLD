@@ -818,13 +818,13 @@ color: rgb(255, 139, 139);
          <number>15</number>
         </property>
         <property name="leftMargin">
-         <number>45</number>
+         <number>50</number>
         </property>
         <property name="topMargin">
-         <number>45</number>
+         <number>50</number>
         </property>
         <property name="rightMargin">
-         <number>45</number>
+         <number>50</number>
         </property>
         <property name="bottomMargin">
          <number>15</number>
@@ -894,12 +894,12 @@ QGroupBox::title:disabled { color: rgb(180,180,180); }</string>
                <property name="maximumSize">
                 <size>
                  <width>180</width>
-                 <height>180</height>
+                 <height>120</height>
                 </size>
                </property>
                <property name="styleSheet">
-                <string notr="true">QFrame { background: #46812B; color: white; height: 180px; width: 180px; border: none; border-radius: 90px; }
-QFrame:disabled { background: rgb(220,220,220); }</string>
+                <string notr="true">QFrame{ max-height: 120px; max-width: 180px; min-height: 120px; min-width: 180px; border: none; border-radius: 60px; background: #46812B; }
+QFrame:disabled{ background: rgb(220,220,220); }</string>
                </property>
                <property name="frameShape">
                 <enum>QFrame::StyledPanel</enum>
@@ -907,28 +907,59 @@ QFrame:disabled { background: rgb(220,220,220); }</string>
                <property name="frameShadow">
                 <enum>QFrame::Raised</enum>
                </property>
-               <layout class="QVBoxLayout" name="verticalLayout_6">
+               <layout class="QVBoxLayout" name="verticalLayout_6" stretch="1,0,0,1">
                 <property name="spacing">
+                 <number>8</number>
+                </property>
+                <property name="leftMargin">
                  <number>0</number>
                 </property>
                 <property name="topMargin">
-                 <number>30</number>
+                 <number>0</number>
+                </property>
+                <property name="rightMargin">
+                 <number>0</number>
                 </property>
                 <property name="bottomMargin">
-                 <number>40</number>
+                 <number>0</number>
                 </property>
-                <item alignment="Qt::AlignHCenter">
+                <item>
+                 <spacer name="verticalSpacer_8">
+                  <property name="orientation">
+                   <enum>Qt::Vertical</enum>
+                  </property>
+                  <property name="sizeHint" stdset="0">
+                   <size>
+                    <width>20</width>
+                    <height>40</height>
+                   </size>
+                  </property>
+                 </spacer>
+                </item>
+                <item alignment="Qt::AlignHCenter|Qt::AlignBottom">
                  <widget class="QLabel" name="label_12">
+                  <property name="minimumSize">
+                   <size>
+                    <width>140</width>
+                    <height>30</height>
+                   </size>
+                  </property>
+                  <property name="maximumSize">
+                   <size>
+                    <width>140</width>
+                    <height>30</height>
+                   </size>
+                  </property>
                   <property name="font">
                    <font>
                     <family>Open Sans</family>
-                    <pointsize>14</pointsize>
+                    <pointsize>12</pointsize>
                     <weight>50</weight>
                     <bold>false</bold>
                    </font>
                   </property>
                   <property name="styleSheet">
-                   <string notr="true">QLabel{ background: none; color: white; border: none; }
+                   <string notr="true">QLabel{ background: none; color: white; border: none; max-height: 30px; min-height: 30px; max-width: 140px; min-width: 140px; }
 QLabel:disabled{ color: rgb(180,180,180); }</string>
                   </property>
                   <property name="text">
@@ -939,8 +970,20 @@ QLabel:disabled{ color: rgb(180,180,180); }</string>
                   </property>
                  </widget>
                 </item>
-                <item alignment="Qt::AlignHCenter|Qt::AlignVCenter">
+                <item alignment="Qt::AlignHCenter|Qt::AlignTop">
                  <widget class="QLabel" name="temp_status">
+                  <property name="minimumSize">
+                   <size>
+                    <width>140</width>
+                    <height>30</height>
+                   </size>
+                  </property>
+                  <property name="maximumSize">
+                   <size>
+                    <width>140</width>
+                    <height>30</height>
+                   </size>
+                  </property>
                   <property name="font">
                    <font>
                     <family>Open Sans</family>
@@ -950,7 +993,7 @@ QLabel:disabled{ color: rgb(180,180,180); }</string>
                    </font>
                   </property>
                   <property name="styleSheet">
-                   <string notr="true">QLabel{ background: none; color: white; border: none; }
+                   <string notr="true">QLabel{ background: none; color: white; border: none; max-height: 30px; min-height: 30px; max-width: 140px; min-width: 140px; }
 QLabel:disabled{ color: rgb(180,180,180); }</string>
                   </property>
                   <property name="text">
@@ -960,6 +1003,19 @@ QLabel:disabled{ color: rgb(180,180,180); }</string>
                    <set>Qt::AlignCenter</set>
                   </property>
                  </widget>
+                </item>
+                <item>
+                 <spacer name="verticalSpacer_10">
+                  <property name="orientation">
+                   <enum>Qt::Vertical</enum>
+                  </property>
+                  <property name="sizeHint" stdset="0">
+                   <size>
+                    <width>20</width>
+                    <height>40</height>
+                   </size>
+                  </property>
+                 </spacer>
                 </item>
                </layout>
               </widget>
@@ -978,12 +1034,12 @@ QLabel:disabled{ color: rgb(180,180,180); }</string>
                <property name="maximumSize">
                 <size>
                  <width>180</width>
-                 <height>180</height>
+                 <height>120</height>
                 </size>
                </property>
                <property name="styleSheet">
-                <string notr="true">QFrame { background: #46812B; color: white; height: 180px; width: 180px; border: none; border-radius: 90px; }
-QFrame:disabled { background: rgb(220,220,220); }</string>
+                <string notr="true">QFrame{ max-height: 120px; max-width: 180px; min-height: 120px; min-width: 180px; border: none; border-radius: 60px; background: #46812B; }
+QFrame:disabled{ background: rgb(220,220,220); }</string>
                </property>
                <property name="frameShape">
                 <enum>QFrame::StyledPanel</enum>
@@ -991,28 +1047,47 @@ QFrame:disabled { background: rgb(220,220,220); }</string>
                <property name="frameShadow">
                 <enum>QFrame::Raised</enum>
                </property>
-               <layout class="QVBoxLayout" name="verticalLayout_7">
+               <layout class="QVBoxLayout" name="verticalLayout_7" stretch="1,0,0,1">
                 <property name="spacing">
+                 <number>8</number>
+                </property>
+                <property name="leftMargin">
                  <number>0</number>
                 </property>
                 <property name="topMargin">
-                 <number>30</number>
+                 <number>0</number>
+                </property>
+                <property name="rightMargin">
+                 <number>0</number>
                 </property>
                 <property name="bottomMargin">
-                 <number>40</number>
+                 <number>0</number>
                 </property>
-                <item alignment="Qt::AlignHCenter">
+                <item>
+                 <spacer name="verticalSpacer_11">
+                  <property name="orientation">
+                   <enum>Qt::Vertical</enum>
+                  </property>
+                  <property name="sizeHint" stdset="0">
+                   <size>
+                    <width>20</width>
+                    <height>40</height>
+                   </size>
+                  </property>
+                 </spacer>
+                </item>
+                <item alignment="Qt::AlignHCenter|Qt::AlignBottom">
                  <widget class="QLabel" name="label_13">
                   <property name="font">
                    <font>
                     <family>Open Sans</family>
-                    <pointsize>14</pointsize>
+                    <pointsize>12</pointsize>
                     <weight>50</weight>
                     <bold>false</bold>
                    </font>
                   </property>
                   <property name="styleSheet">
-                   <string notr="true">QLabel{ background: none; color: white; }
+                   <string notr="true">QLabel{ background: none; color: white; border: none; max-height: 30px; min-height: 30px; max-width: 140px; min-width: 140px; }
 QLabel:disabled{ color: rgb(180,180,180); }</string>
                   </property>
                   <property name="text">
@@ -1023,7 +1098,7 @@ QLabel:disabled{ color: rgb(180,180,180); }</string>
                   </property>
                  </widget>
                 </item>
-                <item>
+                <item alignment="Qt::AlignHCenter|Qt::AlignTop">
                  <widget class="QLabel" name="flow_status">
                   <property name="font">
                    <font>
@@ -1034,7 +1109,7 @@ QLabel:disabled{ color: rgb(180,180,180); }</string>
                    </font>
                   </property>
                   <property name="styleSheet">
-                   <string notr="true">QLabel{ background: none; color: white; }
+                   <string notr="true">QLabel{ background: none; color: white; border: none; max-height: 30px; min-height: 30px; max-width: 140px; min-width: 140px; }
 QLabel:disabled{ color: rgb(180,180,180); }</string>
                   </property>
                   <property name="text">
@@ -1044,6 +1119,19 @@ QLabel:disabled{ color: rgb(180,180,180); }</string>
                    <set>Qt::AlignCenter</set>
                   </property>
                  </widget>
+                </item>
+                <item>
+                 <spacer name="verticalSpacer_13">
+                  <property name="orientation">
+                   <enum>Qt::Vertical</enum>
+                  </property>
+                  <property name="sizeHint" stdset="0">
+                   <size>
+                    <width>20</width>
+                    <height>40</height>
+                   </size>
+                  </property>
+                 </spacer>
                 </item>
                </layout>
               </widget>
@@ -1062,7 +1150,7 @@ QLabel:disabled{ color: rgb(180,180,180); }</string>
                <property name="maximumSize">
                 <size>
                  <width>180</width>
-                 <height>180</height>
+                 <height>120</height>
                 </size>
                </property>
                <property name="font">
@@ -1071,8 +1159,8 @@ QLabel:disabled{ color: rgb(180,180,180); }</string>
                 </font>
                </property>
                <property name="styleSheet">
-                <string notr="true">QFrame { background: #46812B; color: white; height: 180px; width: 180px; border: none; border-radius: 90px; }
-QFrame:disabled { background: rgb(220,220,220); }</string>
+                <string notr="true">QFrame{ max-height: 120px; max-width: 180px; min-height: 120px; min-width: 180px; border: none; border-radius: 60px; background: #46812B; }
+QFrame:disabled{ background: rgb(220,220,220); }</string>
                </property>
                <property name="frameShape">
                 <enum>QFrame::StyledPanel</enum>
@@ -1080,28 +1168,47 @@ QFrame:disabled { background: rgb(220,220,220); }</string>
                <property name="frameShadow">
                 <enum>QFrame::Raised</enum>
                </property>
-               <layout class="QVBoxLayout" name="verticalLayout_9">
+               <layout class="QVBoxLayout" name="verticalLayout_9" stretch="1,0,0,1">
                 <property name="spacing">
+                 <number>8</number>
+                </property>
+                <property name="leftMargin">
                  <number>0</number>
                 </property>
                 <property name="topMargin">
-                 <number>30</number>
+                 <number>0</number>
+                </property>
+                <property name="rightMargin">
+                 <number>0</number>
                 </property>
                 <property name="bottomMargin">
-                 <number>40</number>
+                 <number>0</number>
                 </property>
-                <item alignment="Qt::AlignHCenter">
+                <item>
+                 <spacer name="verticalSpacer_4">
+                  <property name="orientation">
+                   <enum>Qt::Vertical</enum>
+                  </property>
+                  <property name="sizeHint" stdset="0">
+                   <size>
+                    <width>20</width>
+                    <height>80</height>
+                   </size>
+                  </property>
+                 </spacer>
+                </item>
+                <item alignment="Qt::AlignHCenter|Qt::AlignBottom">
                  <widget class="QLabel" name="label_20">
                   <property name="font">
                    <font>
                     <family>Open Sans</family>
-                    <pointsize>14</pointsize>
+                    <pointsize>12</pointsize>
                     <weight>50</weight>
                     <bold>false</bold>
                    </font>
                   </property>
                   <property name="styleSheet">
-                   <string notr="true">QLabel{ background: none; color: white; }
+                   <string notr="true">QLabel{ background: none; color: white; border: none; max-height: 30px; min-height: 30px; max-width: 140px; min-width: 140px; }
 QLabel:disabled{ color: rgb(180,180,180); }</string>
                   </property>
                   <property name="text">
@@ -1112,12 +1219,12 @@ QLabel:disabled{ color: rgb(180,180,180); }</string>
                   </property>
                  </widget>
                 </item>
-                <item>
+                <item alignment="Qt::AlignHCenter">
                  <widget class="QLabel" name="fault_status">
                   <property name="minimumSize">
                    <size>
-                    <width>0</width>
-                    <height>0</height>
+                    <width>140</width>
+                    <height>30</height>
                    </size>
                   </property>
                   <property name="font">
@@ -1129,7 +1236,7 @@ QLabel:disabled{ color: rgb(180,180,180); }</string>
                    </font>
                   </property>
                   <property name="styleSheet">
-                   <string notr="true">QLabel{ background: none; color: white; }
+                   <string notr="true">QLabel{ background: none; color: white; border: none; max-height: 30px; min-height: 30px; max-width: 140px; min-width: 140px; }
 QLabel:disabled{ color: rgb(180,180,180); }</string>
                   </property>
                   <property name="text">
@@ -1139,6 +1246,19 @@ QLabel:disabled{ color: rgb(180,180,180); }</string>
                    <set>Qt::AlignCenter</set>
                   </property>
                  </widget>
+                </item>
+                <item>
+                 <spacer name="verticalSpacer_5">
+                  <property name="orientation">
+                   <enum>Qt::Vertical</enum>
+                  </property>
+                  <property name="sizeHint" stdset="0">
+                   <size>
+                    <width>20</width>
+                    <height>80</height>
+                   </size>
+                  </property>
+                 </spacer>
                 </item>
                </layout>
               </widget>
@@ -1157,7 +1277,7 @@ QLabel:disabled{ color: rgb(180,180,180); }</string>
                <property name="maximumSize">
                 <size>
                  <width>180</width>
-                 <height>180</height>
+                 <height>120</height>
                 </size>
                </property>
                <property name="font">
@@ -1166,8 +1286,8 @@ QLabel:disabled{ color: rgb(180,180,180); }</string>
                 </font>
                </property>
                <property name="styleSheet">
-                <string notr="true">QFrame { background: #46812B; color: white; height: 180px; width: 180px; border: none; border-radius: 90px; }
-QFrame:disabled { background: rgb(220,220,220); }</string>
+                <string notr="true">QFrame{ max-height: 120px; max-width: 180px; min-height: 120px; min-width: 180px; border: none; border-radius: 60px; background: #46812B; }
+QFrame:disabled{ background: rgb(220,220,220); }</string>
                </property>
                <property name="frameShape">
                 <enum>QFrame::StyledPanel</enum>
@@ -1175,29 +1295,48 @@ QFrame:disabled { background: rgb(220,220,220); }</string>
                <property name="frameShadow">
                 <enum>QFrame::Raised</enum>
                </property>
-               <layout class="QVBoxLayout" name="verticalLayout_18">
+               <layout class="QVBoxLayout" name="verticalLayout_18" stretch="1,0,0,1">
                 <property name="spacing">
+                 <number>8</number>
+                </property>
+                <property name="leftMargin">
                  <number>0</number>
                 </property>
                 <property name="topMargin">
-                 <number>30</number>
+                 <number>0</number>
+                </property>
+                <property name="rightMargin">
+                 <number>0</number>
                 </property>
                 <property name="bottomMargin">
-                 <number>40</number>
+                 <number>0</number>
                 </property>
-                <item alignment="Qt::AlignHCenter">
+                <item>
+                 <spacer name="verticalSpacer_6">
+                  <property name="orientation">
+                   <enum>Qt::Vertical</enum>
+                  </property>
+                  <property name="sizeHint" stdset="0">
+                   <size>
+                    <width>20</width>
+                    <height>40</height>
+                   </size>
+                  </property>
+                 </spacer>
+                </item>
+                <item alignment="Qt::AlignHCenter|Qt::AlignBottom">
                  <widget class="QLabel" name="label_24">
                   <property name="font">
                    <font>
                     <family>Open Sans</family>
-                    <pointsize>14</pointsize>
+                    <pointsize>12</pointsize>
                     <weight>50</weight>
                     <italic>false</italic>
                     <bold>false</bold>
                    </font>
                   </property>
                   <property name="styleSheet">
-                   <string notr="true">QLabel{ background: none; color: white; border: none; }
+                   <string notr="true">QLabel{ background: none; color: white; border: none; max-height: 30px; min-height: 30px; max-width: 140px; min-width: 140px; }
 QLabel:disabled{ color: rgb(180,180,180); }</string>
                   </property>
                   <property name="text">
@@ -1208,7 +1347,7 @@ QLabel:disabled{ color: rgb(180,180,180); }</string>
                   </property>
                  </widget>
                 </item>
-                <item>
+                <item alignment="Qt::AlignHCenter|Qt::AlignTop">
                  <widget class="QLabel" name="press_label">
                   <property name="enabled">
                    <bool>true</bool>
@@ -1216,22 +1355,35 @@ QLabel:disabled{ color: rgb(180,180,180); }</string>
                   <property name="font">
                    <font>
                     <family>Open Sans</family>
-                    <pointsize>19</pointsize>
+                    <pointsize>18</pointsize>
                     <weight>75</weight>
                     <bold>true</bold>
                    </font>
                   </property>
                   <property name="styleSheet">
-                   <string notr="true">QLabel{ background: none; color: white; border: none; }
+                   <string notr="true">QLabel{ background: none; color: white; border: none; max-height: 30px; min-height: 30px; max-width: 140px; min-width: 140px; }
 QLabel:disabled{ color: rgb(180,180,180); }</string>
                   </property>
                   <property name="text">
-                   <string>0.00e-00</string>
+                   <string>0.00E-00</string>
                   </property>
                   <property name="alignment">
                    <set>Qt::AlignCenter</set>
                   </property>
                  </widget>
+                </item>
+                <item>
+                 <spacer name="verticalSpacer_7">
+                  <property name="orientation">
+                   <enum>Qt::Vertical</enum>
+                  </property>
+                  <property name="sizeHint" stdset="0">
+                   <size>
+                    <width>20</width>
+                    <height>40</height>
+                   </size>
+                  </property>
+                 </spacer>
                 </item>
                </layout>
               </widget>
@@ -1307,8 +1459,8 @@ QGroupBox::title:disabled { color: rgb(180,180,180); }</string>
                  </property>
                  <property name="maximumSize">
                   <size>
-                   <width>270</width>
-                   <height>270</height>
+                   <width>216</width>
+                   <height>216</height>
                   </size>
                  </property>
                  <property name="font">
@@ -1327,6 +1479,10 @@ QGroupBox::title:disabled { color: rgb(180,180,180); }</string>
 border: none;
 background: none;
 border-image: url(:/images/back.png) 0 0 0 0 stretch stretch;
+max-height: 216px;
+min-height: 216px;
+max-width: 216px;
+min-width: 216px;
 }
 
 QPushButton:hover {
@@ -1393,14 +1549,14 @@ QLabel:disabled { color: transparent; }</string>
                </property>
                <property name="minimumSize">
                 <size>
-                 <width>0</width>
-                 <height>0</height>
+                 <width>320</width>
+                 <height>320</height>
                 </size>
                </property>
                <property name="maximumSize">
                 <size>
-                 <width>400</width>
-                 <height>400</height>
+                 <width>320</width>
+                 <height>320</height>
                 </size>
                </property>
                <property name="font">
@@ -1410,7 +1566,8 @@ QLabel:disabled { color: transparent; }</string>
                 </font>
                </property>
                <property name="styleSheet">
-                <string notr="true">background-color: rgb(85,87,83); color: white; border: none; width: 400px; height: 400px; border-radius: 200px;</string>
+                <string notr="true">#state_frame { background-color: rgb(85,87,83); color: white; border: none; border-radius: 160px;
+max-height: 320px; min-height: 320px; max-width: 320px; min-width: 320px; }</string>
                </property>
                <property name="frameShape">
                 <enum>QFrame::StyledPanel</enum>
@@ -1420,17 +1577,17 @@ QLabel:disabled { color: transparent; }</string>
                </property>
                <layout class="QVBoxLayout" name="verticalLayout_8" stretch="0,0,0,0,0">
                 <property name="topMargin">
-                 <number>50</number>
+                 <number>40</number>
                 </property>
                 <property name="bottomMargin">
-                 <number>50</number>
+                 <number>40</number>
                 </property>
                 <item alignment="Qt::AlignHCenter">
                  <widget class="QLabel" name="state_top_label">
                   <property name="font">
                    <font>
                     <family>Open Sans</family>
-                    <pointsize>16</pointsize>
+                    <pointsize>14</pointsize>
                     <weight>50</weight>
                     <italic>false</italic>
                     <bold>false</bold>
@@ -1438,7 +1595,7 @@ QLabel:disabled { color: transparent; }</string>
                    </font>
                   </property>
                   <property name="styleSheet">
-                   <string notr="true">background: none; font-size: 16pt;</string>
+                   <string notr="true">background: none; font-size: 14pt; color: white;</string>
                   </property>
                   <property name="text">
                    <string>Current State:</string>
@@ -1466,13 +1623,13 @@ QLabel:disabled { color: transparent; }</string>
                   <property name="font">
                    <font>
                     <family>Open Sans</family>
-                    <pointsize>26</pointsize>
+                    <pointsize>20</pointsize>
                     <weight>75</weight>
                     <bold>true</bold>
                    </font>
                   </property>
                   <property name="styleSheet">
-                   <string notr="true">QLabel { color: white; background: none; font-size: 26pt; }
+                   <string notr="true">QLabel { color: white; background: none; font-size: 20pt; }
 QLabel:disabled { color: rgb(180,180,180); }</string>
                   </property>
                   <property name="text">
@@ -1502,14 +1659,14 @@ POWER ON</string>
                   <property name="font">
                    <font>
                     <family>Open Sans</family>
-                    <pointsize>16</pointsize>
+                    <pointsize>14</pointsize>
                     <weight>50</weight>
                     <italic>true</italic>
                     <bold>false</bold>
                    </font>
                   </property>
                   <property name="styleSheet">
-                   <string notr="true">background: transparent; font-size: 16pt;</string>
+                   <string notr="true">background: transparent; font-size: 14pt; color: white;</string>
                   </property>
                   <property name="text">
                    <string>MW Off</string>
@@ -1545,13 +1702,13 @@ POWER ON</string>
                  <property name="minimumSize">
                   <size>
                    <width>216</width>
-                   <height>270</height>
+                   <height>216</height>
                   </size>
                  </property>
                  <property name="maximumSize">
                   <size>
-                   <width>270</width>
-                   <height>270</height>
+                   <width>216</width>
+                   <height>216</height>
                   </size>
                  </property>
                  <property name="font">
@@ -1570,6 +1727,10 @@ POWER ON</string>
 border: none;
 background: none;
 border-image: url(:/images/forward.png) 0 0 0 0 stretch stretch;
+max-height: 216px;
+min-height: 216px;
+max-width: 216px;
+min-width: 216px;
 }
 
 QPushButton:hover {
@@ -2430,7 +2591,7 @@ QPushButton:disabled { background-color: rgb(220,220,220); }</string>
                  <property name="font">
                   <font>
                    <family>Open Sans</family>
-                   <pointsize>18</pointsize>
+                   <pointsize>17</pointsize>
                    <weight>75</weight>
                    <bold>true</bold>
                   </font>
@@ -2468,7 +2629,7 @@ QLineEdit:disabled { color: transparent; }
                  <property name="font">
                   <font>
                    <family>Open Sans</family>
-                   <pointsize>18</pointsize>
+                   <pointsize>17</pointsize>
                    <weight>75</weight>
                    <bold>true</bold>
                   </font>
@@ -2494,7 +2655,7 @@ QLineEdit:disabled { color: transparent; }
                  <property name="font">
                   <font>
                    <family>Open Sans</family>
-                   <pointsize>14</pointsize>
+                   <pointsize>13</pointsize>
                   </font>
                  </property>
                  <property name="styleSheet">
@@ -2514,7 +2675,7 @@ QLabel:disabled{ color: transparent; }</string>
                  <property name="font">
                   <font>
                    <family>Open Sans</family>
-                   <pointsize>14</pointsize>
+                   <pointsize>13</pointsize>
                   </font>
                  </property>
                  <property name="styleSheet">
@@ -2569,7 +2730,7 @@ QLabel:disabled{ color: transparent; }</string>
                  <property name="font">
                   <font>
                    <family>Open Sans</family>
-                   <pointsize>18</pointsize>
+                   <pointsize>17</pointsize>
                    <weight>75</weight>
                    <bold>true</bold>
                   </font>
@@ -2607,7 +2768,7 @@ QLineEdit:disabled { color: transparent; }
                  <property name="font">
                   <font>
                    <family>Open Sans</family>
-                   <pointsize>14</pointsize>
+                   <pointsize>13</pointsize>
                    <kerning>true</kerning>
                   </font>
                  </property>
@@ -2634,7 +2795,7 @@ QLabel:disabled{ color: transparent; }</string>
                  <property name="font">
                   <font>
                    <family>Open Sans</family>
-                   <pointsize>14</pointsize>
+                   <pointsize>13</pointsize>
                   </font>
                  </property>
                  <property name="styleSheet">
@@ -2666,7 +2827,7 @@ QLabel:disabled{ color: transparent; }</string>
                  <property name="font">
                   <font>
                    <family>Open Sans</family>
-                   <pointsize>18</pointsize>
+                   <pointsize>17</pointsize>
                    <weight>75</weight>
                    <bold>true</bold>
                   </font>
@@ -2695,7 +2856,7 @@ QLineEdit:disabled { color: transparent; }
                  <property name="font">
                   <font>
                    <family>Open Sans</family>
-                   <pointsize>14</pointsize>
+                   <pointsize>13</pointsize>
                   </font>
                  </property>
                  <property name="styleSheet">
@@ -2730,7 +2891,7 @@ QLabel:disabled{ color: transparent; }</string>
                  <property name="font">
                   <font>
                    <family>Open Sans</family>
-                   <pointsize>18</pointsize>
+                   <pointsize>17</pointsize>
                    <weight>75</weight>
                    <bold>true</bold>
                   </font>
@@ -2975,7 +3136,7 @@ QPushButton:disabled { background-color: rgb(220,220,220); }</string>
                  <property name="font">
                   <font>
                    <family>Open Sans</family>
-                   <pointsize>14</pointsize>
+                   <pointsize>13</pointsize>
                   </font>
                  </property>
                  <property name="styleSheet">
@@ -3010,7 +3171,7 @@ QLabel:disabled{ color: transparent; }</string>
                  <property name="font">
                   <font>
                    <family>Open Sans</family>
-                   <pointsize>18</pointsize>
+                   <pointsize>17</pointsize>
                    <weight>75</weight>
                    <bold>true</bold>
                   </font>
@@ -3052,7 +3213,7 @@ QLineEdit:disabled { color: white; }
                  <property name="font">
                   <font>
                    <family>Open Sans</family>
-                   <pointsize>14</pointsize>
+                   <pointsize>13</pointsize>
                   </font>
                  </property>
                  <property name="styleSheet">
@@ -3084,7 +3245,7 @@ QLabel:disabled{ color: transparent; }</string>
                  <property name="font">
                   <font>
                    <family>Open Sans</family>
-                   <pointsize>18</pointsize>
+                   <pointsize>17</pointsize>
                    <weight>75</weight>
                    <bold>true</bold>
                   </font>
@@ -4903,28 +5064,9 @@ border-radius: 7px;
            </font>
           </property>
           <property name="styleSheet">
-           <string notr="true">QGroupBox {
-/*border: 1px solid rgb(180, 180, 180);*/
-border: none;
-background: white;
-background-image: none;
-border-radius: 20px;
-/*margin-top: 12px;*/
-border: 1px solid rgb(220,220,220);
-}
-
-QGroupBox::title {
-subcontrol-origin: margin;
-/*left: 20px;*/
-padding: 0px 3px;
-left: 12px;
-top: 6px;
-color: rgb(85, 87, 83);
-}
-
-QGroupBox::title:disabled {
-color: rgb(180,180,180);
-}</string>
+           <string notr="true">QGroupBox { border: none; background: white; border-radius: 40px; border: 1px solid rgb(220,220,220); }
+QGroupBox::title { subcontrol-origin: margin; padding: 0px 8px; left: 16px; top: 16px; color: rgb(85, 87, 83); }
+QGroupBox::title:disabled { color: rgb(180,180,180); }</string>
           </property>
           <property name="title">
            <string>Faults</string>
@@ -4934,16 +5076,16 @@ color: rgb(180,180,180);
             <number>15</number>
            </property>
            <property name="leftMargin">
-            <number>18</number>
+            <number>16</number>
            </property>
            <property name="topMargin">
             <number>35</number>
            </property>
            <property name="rightMargin">
-            <number>18</number>
+            <number>16</number>
            </property>
            <property name="bottomMargin">
-            <number>18</number>
+            <number>35</number>
            </property>
            <item>
             <widget class="QListWidget" name="fault_list">
@@ -5034,27 +5176,9 @@ font-size: 12pt;
            </font>
           </property>
           <property name="styleSheet">
-           <string notr="true">QGroupBox {
-/*border: 1px solid rgb(180, 180, 180);*/
-border: none;
-background: white;
-border-radius: 20px;
-/*margin-top: 12px;*/
-border: 1px solid rgb(220,220,220);
-}
-
-QGroupBox::title {
-subcontrol-origin: margin;
-/*left: 20px;*/
-padding: 0px 3px;
-left: 12px;
-top: 6px;
-color: rgb(85, 87, 83);
-}
-
-QGroupBox::title:disabled {
-color: rgb(180,180,180);
-}</string>
+           <string notr="true">QGroupBox { border: none; background: white; border-radius: 40px; border: 1px solid rgb(220,220,220); }
+QGroupBox::title { subcontrol-origin: margin; padding: 0px 8px; left: 16px; top: 16px; color: rgb(85, 87, 83); }
+QGroupBox::title:disabled { color: rgb(180,180,180); }</string>
           </property>
           <property name="title">
            <string>Log Stream</string>
@@ -5067,10 +5191,10 @@ color: rgb(180,180,180);
             <number>35</number>
            </property>
            <property name="rightMargin">
-            <number>0</number>
+            <number>16</number>
            </property>
            <property name="bottomMargin">
-            <number>0</number>
+            <number>35</number>
            </property>
            <item>
             <widget class="QTextEdit" name="log_box">

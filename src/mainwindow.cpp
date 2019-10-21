@@ -54,7 +54,7 @@ void MainWindow::init_gui()
         shadows.back()->setBlurRadius(25);
         shadows.back()->setXOffset(0);
         shadows.back()->setYOffset(0);
-        shadows.back()->setColor(QColor(30,30,30,35));
+        shadows.back()->setColor(QColor(30,30,30,30));
         group->setGraphicsEffect(shadows.back());
     }
 
@@ -1612,15 +1612,20 @@ void MainWindow::set_ui_expanded(bool expand)
         ui->show_more_layout->setContentsMargins(0,0,0,20);
         ui->control_grid->setVerticalSpacing(50);
         ui->control_grid->setHorizontalSpacing(50);
-        ui->state_frame->setContentsMargins(9,40,9,40);
-        ui->state_top_label->setStyleSheet("background: transparent; font-size: 14pt;");
-        ui->state_mini_label->setStyleSheet("background: transparent; font-size: 14pt;");
+        ui->control_page->layout()->setContentsMargins(50,50,50,15);
+        //ui->state_frame->setContentsMargins(9,40,9,40);
+        ui->state_top_label->setStyleSheet("background: transparent; font-size: 14pt; color: white;");
+        ui->state_mini_label->setStyleSheet("background: transparent; font-size: 14pt; color: white;");
         ui->state_label->setStyleSheet("QLabel { color: white; background: none; font-size: 20pt; }"
                                        "QLabel:disabled { color: rgb(180,180,180); }");
-        ui->temp_indicator->setContentsMargins(9,20,9,25);
-        ui->flow_indicator->setContentsMargins(9,20,9,25);
-        ui->faults_indicator->setContentsMargins(9,20,9,25);
-        ui->press_indicator->setContentsMargins(9,20,9,25);
+        //ui->temp_indicator->setContentsMargins(9,24,9,24);
+        //ui->flow_indicator->setContentsMargins(9,24,9,24);
+        //ui->faults_indicator->setContentsMargins(9,24,9,24);
+        //ui->press_indicator->setContentsMargins(9,24,9,24);
+        ui->temp_indicator->layout()->setSpacing(8);
+        ui->flow_indicator->layout()->setSpacing(8);
+        ui->faults_indicator->layout()->setSpacing(8);
+        ui->press_indicator->layout()->setSpacing(8);
         ui->temp_indicator->setSizePolicy(QSizePolicy::Minimum,QSizePolicy::Minimum);
         ui->flow_indicator->setSizePolicy(QSizePolicy::Minimum,QSizePolicy::Minimum);
         ui->faults_indicator->setSizePolicy(QSizePolicy::Minimum,QSizePolicy::Minimum);
@@ -1638,15 +1643,20 @@ void MainWindow::set_ui_expanded(bool expand)
         ui->show_more_layout->setContentsMargins(0,0,0,18);
         ui->control_grid->setVerticalSpacing(60);
         ui->control_grid->setHorizontalSpacing(60);
-        ui->state_frame->setContentsMargins(9,50,9,50);
-        ui->state_top_label->setStyleSheet("background: transparent; font-size: 16pt;");
-        ui->state_mini_label->setStyleSheet("background: transparent; font-size: 16pt;");
+        ui->control_page->layout()->setContentsMargins(60,60,60,15);
+        //ui->state_frame->setContentsMargins(9,50,9,50);
+        ui->state_top_label->setStyleSheet("background: transparent; font-size: 16pt; color: white; margin-top: 10px;");
+        ui->state_mini_label->setStyleSheet("background: transparent; font-size: 16pt; color: white; margin-bottom: 10px;");
         ui->state_label->setStyleSheet("QLabel { color: white; background: none; font-size: 26pt; }"
                                        "QLabel:disabled { color: rgb(180,180,180); }");
-        ui->temp_indicator->setContentsMargins(9,30,9,40);
-        ui->flow_indicator->setContentsMargins(9,30,9,40);
-        ui->faults_indicator->setContentsMargins(9,30,9,40);
-        ui->press_indicator->setContentsMargins(9,30,9,40);
+        //ui->temp_indicator->setContentsMargins(9,30,9,40);
+        //ui->flow_indicator->setContentsMargins(9,30,9,40);
+        //ui->faults_indicator->setContentsMargins(9,30,9,40);
+        //ui->press_indicator->setContentsMargins(9,30,9,40);
+        ui->temp_indicator->layout()->setSpacing(0);
+        ui->flow_indicator->layout()->setSpacing(0);
+        ui->faults_indicator->layout()->setSpacing(0);
+        ui->press_indicator->layout()->setSpacing(0);
         ui->temp_indicator->setSizePolicy(QSizePolicy::Maximum,QSizePolicy::Maximum);
         ui->flow_indicator->setSizePolicy(QSizePolicy::Maximum,QSizePolicy::Maximum);
         ui->faults_indicator->setSizePolicy(QSizePolicy::Maximum,QSizePolicy::Maximum);

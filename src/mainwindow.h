@@ -160,51 +160,71 @@ private:
                             "QGroupBox::title { subcontrol-origin: margin; padding: 0px 3px; left: 12px; top: 6px; color: rgb(85, 87, 83); }"
                             "QGroupBox::title:disabled { color: rgb(180,180,180); }"};
 
-    QString lg_grey_state_frame{"QFrame { background-color: rgb(85,87,83); color: white; border: none; width: 400px; height: 400px; border-radius: 200px; }"};
-    QString sm_grey_state_frame{"QFrame { background-color: rgb(85,87,83); color: white; border: none; width: 320px; height: 320px; border-radius: 160px; }"};
-    QString lg_green_state_frame{"QFrame { background-color: #46812B; color: white; border: none; width: 400px; height: 400px; border-radius: 200px; }"};
-    QString sm_green_state_frame{"QFrame { background-color: #46812B; color: white; border: none; width: 320px; height: 320px; border-radius: 160px; }"};
-    QString lg_orange_state_frame{"QFrame { background-color: #F37021; color: white; border: none; width: 400px; height: 400px; border-radius: 200px; }"};
-    QString sm_orange_state_frame{"QFrame { background-color: #F37021; color: white; border: none; width: 320px; height: 320px; border-radius: 160px; }"};
-    QString lg_red_state_frame{"QFrame { background-color: #D16055; color: white; border: none; width: 400px; height: 400px; border-radius: 200px; }"};
-    QString sm_red_state_frame{"QFrame { background-color: #D16055; color: white; border: none; width: 320px; height: 320px; border-radius: 160px; }"};
+    QString lg_grey_state_frame{"#state_frame { background-color: rgb(85,87,83); color: white; border: none; border-radius: 200px;"
+                                "max-width: 400px; min-width: 400px; max-height: 400px; min-height: 400px; }"};
+    QString sm_grey_state_frame{"#state_frame { background-color: rgb(85,87,83); color: white; border: none; border-radius: 160px;"
+                                "max-width: 320px; min-width: 320px; max-height: 320px; min-height: 320px; }"};
+    QString lg_green_state_frame{"#state_frame { background-color: #46812B; color: white; border: none; border-radius: 200px;"
+                                 "max-width: 400px; min-width: 400px; max-height: 400px; min-height: 400px; }"};
+    QString sm_green_state_frame{"#state_frame { background-color: #46812B; color: white; border: none; border-radius: 160px;"
+                                 "max-width: 320px; min-width: 320px; max-height: 320px; min-height: 320px; }"};
+    QString lg_orange_state_frame{"#state_frame { background-color: #F37021; color: white; border: none; border-radius: 200px;"
+                                  "max-width: 400px; min-width: 400px; max-height: 400px; min-height: 400px; }"};
+    QString sm_orange_state_frame{"#state_frame { background-color: #F37021; color: white; border: none; border-radius: 160px;"
+                                  "max-width: 320px; min-width: 320px; max-height: 320px; min-height: 320px; }"};
+    QString lg_red_state_frame{"#state_frame { background-color: #D16055; color: white; border: none; border-radius: 200px;"
+                               "max-width: 400px; min-width: 400px; max-height: 400px; min-height: 400px; }"};
+    QString sm_red_state_frame{"#state_frame { background-color: #D16055; color: white; border: none; border-radius: 160px;"
+                               "max-width: 320px; min-width: 320px; max-height: 320px; min-height: 320px; }"};
 
-    QString sm_prev_arrow{"QPushButton { width: 216px; height: 216px; border: none; background: none; border-image: url(:/images/back_small.png) 0 0 0 0 stretch stretch; }"
+    QString sm_prev_arrow{"QPushButton { max-width: 216px; min-width: 216px; max-height: 216px; min-height: 216px;"
+                          "border: none; background: none; border-image: url(:/images/back_small.png) 0 0 0 0 stretch stretch; }"
                           "QPushButton:hover { border-image: url(:/images/back_small_hover.png) 0 0 0 0 stretch stretch; }"
                           "QPushButton:hover:pressed { border-image: url(:/images/back_small_press.png) 0 0 0 0 stretch stretch; }"
                           "QPushButton:disabled { border-image: url(:/images/back_small_disabled.png) 0 0 0 0 stretch stretch; }"};
-    QString lg_prev_arrow{"QPushButton { width: 270px; height: 270px; border: none; background: none; border-image: url(:/images/back.png) 0 0 0 0 stretch stretch; }"
+    QString lg_prev_arrow{"QPushButton { max-width: 270px; min-width: 270px; max-height: 270px; min-height: 270px;"
+                          "border: none; background: none; border-image: url(:/images/back.png) 0 0 0 0 stretch stretch; }"
                           "QPushButton:hover { border-image: url(:/images/back_hover.png) 0 0 0 0 stretch stretch; }"
                           "QPushButton:hover:pressed { border-image: url(:/images/back_press.png) 0 0 0 0 stretch stretch; }"
                           "QPushButton:disabled { border-image: url(:/images/back_disabled.png) 0 0 0 0 stretch stretch; }"};
-    QString sm_next_arrow{"QPushButton { width: 216px; height: 216px; border: none; background: none; border-image: url(:/images/forward_small.png) 0 0 0 0 stretch stretch; }"
+    QString sm_next_arrow{"QPushButton { max-width: 216px; min-width: 216px; max-height: 216px; min-height: 216px;"
+                          "border: none; background: none; border-image: url(:/images/forward_small.png) 0 0 0 0 stretch stretch; }"
                           "QPushButton:hover { border-image: url(:/images/forward_small_hover.png) 0 0 0 0 stretch stretch; }"
                           "QPushButton:hover:pressed { border-image: url(:/images/forward_small_press.png) 0 0 0 0 stretch stretch; }"
                           "QPushButton:disabled { border-image: url(:/images/forward_small_disabled.png) 0 0 0 0 stretch stretch; }"};
-    QString lg_next_arrow{"QPushButton { width: 270px; height: 270px; border: none; background: none; border-image: url(:/images/forward.png) 0 0 0 0 stretch stretch; }"
+    QString lg_next_arrow{"QPushButton { max-width: 270px; min-width: 270px; max-height: 270px; min-height: 270px;"
+                          "border: none; background: none; border-image: url(:/images/forward.png) 0 0 0 0 stretch stretch; }"
                           "QPushButton:hover { border-image: url(:/images/forward_hover.png) 0 0 0 0 stretch stretch; }"
                           "QPushButton:hover:pressed { border-image: url(:/images/forward_press.png) 0 0 0 0 stretch stretch; }"
                           "QPushButton:disabled { border-image: url(:/images/forward_disabled.png) 0 0 0 0 stretch stretch; }"};
 
-    QString lg_pause_bubble{"QPushButton { width: 200px; height: 200px; border: none; background: #46812B; border-radius: 100px; margin: 10px; color: white; }"
+    QString lg_pause_bubble{"QPushButton { max-width: 200px; min-width: 200px; max-height: 200px; min-height: 200px;"
+                            "border: none; background: #46812B; border-radius: 100px; margin: 10px; color: white; }"
                             "QPushButton:hover { background: #407527; }"
                             "QPushButton:hover:pressed { background: #2f5b12; }"};
-    QString sm_pause_bubble{"QPushButton { width: 160px; height: 160px; border: none; background: #46812B; border-radius: 80px; margin: 10px; color: white; }"
+    QString sm_pause_bubble{"QPushButton { max-width: 160px; min-width: 160px; max-height: 160px; min-height: 160px;"
+                            "border: none; background: #46812B; border-radius: 80px; margin: 10px; color: white; }"
                             "QPushButton:hover { background: #407527; }"
                             "QPushButton:hover:pressed { background: #2f5b12; }"};
 
-    QString lg_green_bubble{"QFrame { height: 180px; width: 180px; background: #46812B; color: white; border: none; border-radius: 90px; }"
+    QString lg_green_bubble{"QFrame { max-height: 180px; min-height: 180px; max-width: 180px; min-width: 180px;"
+                            "margin-top: 10px; margin-bottom: 15px; background: #46812B; color: white; border: none; border-radius: 90px; }"
                             "QFrame:disabled { background: rgb(220,220,220); }"};
-    QString sm_green_bubble{"QFrame { height: 120px; width: 180px; background: #46812B; color: white; border: none; border-radius: 60px; }"
+    QString sm_green_bubble{"QFrame { max-height: 120px; min-height: 120px; max-width: 180px; min-width: 180px;"
+                            "background: #46812B; color: white; border: none; border-radius: 60px; }"
                             "QFrame:disabled { background: rgb(220,220,220); }"};
-    QString lg_yellow_bubble{"QFrame { height: 180px; width: 180px; background: #E89831; color: white; border: none; border-radius: 90px; }"
-                            "QFrame:disabled { background: rgb(220,220,220); }"};
-    QString sm_yellow_bubble{"QFrame { height: 120px; width: 180px; background: #E89831; color: white; border: none; border-radius: 60px; }"
-                            "QFrame:disabled { background: rgb(220,220,220); }"};
-    QString lg_red_bubble{"QFrame { height: 180px; width: 180px; background: #D16055; color: white; border: none; border-radius: 90px; }"
-                            "QFrame:disabled { background: rgb(220,220,220); }"};
-    QString sm_red_bubble{"QFrame { height: 120px; width: 180px; background: #D16055; color: white; border: none; border-radius: 60px; }"
-                            "QFrame:disabled { background: rgb(220,220,220); }"};
+    QString lg_yellow_bubble{"QFrame { max-height: 180px; min-height: 180px; max-width: 180px; min-width: 180px;"
+                             "margin-top: 10px; margin-bottom: 15px; background: #E89831; color: white; border: none; border-radius: 90px; }"
+                             "QFrame:disabled { background: rgb(220,220,220); }"};
+    QString sm_yellow_bubble{"QFrame { max-height: 120px; min-height: 120px; max-width: 180px; min-width: 180px;"
+                             "background: #E89831; color: white; border: none; border-radius: 60px; }"
+                             "QFrame:disabled { background: rgb(220,220,220); }"};
+    QString lg_red_bubble{"QFrame { max-height: 180px; min-height: 180px; max-width: 180px; min-width: 180px;"
+                          "margin-top: 10px; margin-bottom: 15px; background: #D16055; color: white; border: none; border-radius: 90px; }"
+                          "QFrame:disabled { background: rgb(220,220,220); }"};
+    QString sm_red_bubble{"QFrame { max-height: 120px; min-height: 120px; max-width: 180px; min-width: 180px;"
+                          "background: #D16055; color: white; border: none; border-radius: 60px; }"
+                          "QFrame:disabled { background: rgb(220,220,220); }"};
 
     bool showing_more{false};
     int init_error_code{0};
