@@ -1,11 +1,7 @@
 #ifndef GYROTRON_H
 #define GYROTRON_H
 
-#include <atomic>
-#include <algorithm>
-#include <unistd.h>
 #include <math.h>
-#include <iomanip> // used to set precision of a number in string stream
 #include <limits> // for NaN
 #include "lib/spine/spine.h"
 #include "lib/pid.h"
