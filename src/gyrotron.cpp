@@ -224,9 +224,7 @@ void Gyrotron::query_gtc() // still need to check responses manually and apply t
                 resp = gtc.m_smart_io(":SYST:ERR:COUNT?");
                 if(contains(resp,"0"))
                 {
-                    gtc.error_m()->lock();
-                    gtc.clear_errors();
-                    gtc.error_m()->unlock();
+                    gtc.m_clear_errors();
                 }
                 else
                 {

@@ -7,9 +7,10 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),ui(new Ui::MainWin
     setWindowFlags(Qt::FramelessWindowHint);
     showFullScreen();
 
-    if(gyro.gui_debug_mode)
+    if(gyro.gui_debug_mode) {
         init_gui();
-    else {
+        showFullScreen();
+    } else {
         int init_stat = gyro.init(); // parse config, spawn threads, connect/probe devices, and exec pre-funcs
         if(init_stat < 0)
             init_fail_dialog(init_stat);
@@ -58,7 +59,7 @@ void MainWindow::init_gui()
         group->setGraphicsEffect(shadows.back());
     }
 
-    set_ui_expanded(false);
+    set_ui_expanded(true);
 
     init_plots();
 
@@ -510,8 +511,13 @@ void MainWindow::update_plots()
         {
             plot_data = QVector<double>::fromStdVector(gyro.get_press_data());
             plot_time_data = QVector<double>::fromStdVector(gyro.get_press_time_data());
-            if(gyro.spc_available()) label[i]->setText(QString::number(gyro.get_pressure()) + QString(" Torr"));
-            else label[i]->setText("D/C");
+            if(gyro.spc_available()) {
+                label[i]->setText(QString::number(gyro.get_pressure()) + QString(" Torr"));
+                label[i]->setColor(QColor(0,0,0));
+            } else {
+                label[i]->setText("D/C");
+                label[i]->setColor(QColor(244,67,54));
+            }
             plot_max = *std::max_element(plot_data.constBegin(), plot_data.constEnd());
             plot_min = *std::min_element(plot_data.constBegin(), plot_data.constEnd());
             plot_max_bound = pow(10,ceil(log10(plot_max)));
@@ -855,12 +861,12 @@ void MainWindow::check_connections()
     }
 
     if(ui->beam_params_group->isEnabled() && gyro.get_state() == 3 && !gyro.power_pid_is_on() && !gyro.freq_pid_is_on() && ui->pid_dropdown->currentIndex() == 2)
-        ui->enable_button->setEnabled(false);
+        ui->enable_button->setEnabled(true);
     else if(ui->beam_params_group->isEnabled() && gyro.get_state() == 3 && ui->power_group->isEnabled() && !gyro.beam_pid_is_on() && !gyro.freq_pid_is_on() && ui->pid_dropdown->currentIndex() == 0)
-        ui->enable_button->setEnabled(false);
+        ui->enable_button->setEnabled(true);
     else if(ui->beam_params_group->isEnabled() && gyro.get_state() == 3 && ui->freq_group->isEnabled() && !gyro.beam_pid_is_on() && !gyro.power_pid_is_on() && ui->pid_dropdown->currentIndex() == 1)
-        ui->enable_button->setEnabled(false);
-    else ui->enable_button->setEnabled(true);
+        ui->enable_button->setEnabled(true);
+    else ui->enable_button->setEnabled(false);
 }
 
 void MainWindow::closeEvent (QCloseEvent *event)

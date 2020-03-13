@@ -243,7 +243,7 @@ private:
     void eval_sys_stat(); // check system status, determine system fault state
     double runtime(); // return elapsed seconds since initialization
 
-    Device cath{"DXM","Cathode"}, gtc{"ACOPIAN","GTC"}, rsi{"RSI"}, spc{"GAMMA_VAC","SPC"}, fms{"FMS"};
+    Device cath{"DF","Cathode"}, gtc{"ACOPIAN","GTC"}, rsi{"RSI"}, spc{"GAMMA_VAC","SPC"}, fms{"FMS"};
 
     PID *beam_pid, *power_pid, *freq_pid;
     double pid_dt;
