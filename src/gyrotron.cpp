@@ -88,104 +88,85 @@ int Gyrotron::extract_config()
 
 void Gyrotron::query_cath()
 {
-    std::stringstream ss;
-    double temp_double, temp_int;
-    char comma;
+    std::string temp_hex;
     // get filament current and beam current monitors
-    std::string resp = cath.m_smart_io("19,","19,",true);
+    std::string resp = cath.m_smart_io("Q51","R");
     if(!err(resp))
     {
-        resp.erase(0,3); // erase first 3 chars with echoed cmd
-        ss.str(resp);
-        ss >> temp_double; ss >> comma;
-        beam_volt = (temp_double/4095)*MAX_BEAM_VOLT;
-        ss >> temp_double; ss >> comma;
-        beam_curr = (temp_double/4095)*MAX_BEAM_CURR;
-        ss >> temp_double;
-        fil_curr = (temp_double/4095)*MAX_FIL_CURR;
+        resp.erase(0,1); // erase R at the beginning of cmd
+        temp_hex = resp.substr(0,3);
+        resp.erase(0,3);
 
-        beam_volt_m.lock();
-        beam_volt_time_data.push_back(runtime());
-        beam_volt_data.push_back(beam_volt);
-        if(beam_volt_sp > 0)
-            beam_volt_sp_data.push_back(beam_volt_sp);
-        else
-            beam_volt_sp_data.push_back(std::numeric_limits<double>::quiet_NaN());
 
-        while(runtime() - *beam_volt_time_data.begin() > plot_span)
-        {
-            if(!beam_volt_data.empty()) beam_volt_data.erase(beam_volt_data.begin());
-            if(!beam_volt_sp_data.empty()) beam_volt_sp_data.erase(beam_volt_sp_data.begin());
-            if(!beam_volt_time_data.empty()) beam_volt_time_data.erase(beam_volt_time_data.begin());
-        }
-        beam_volt_m.unlock();
-
-        fil_curr_m.lock();
-        fil_curr_time_data.push_back(runtime());
-        fil_curr_data.push_back(fil_curr);
-        if(fil_curr_sp > 0)
-            fil_curr_sp_data.push_back(fil_curr_sp);
-        else
-            fil_curr_sp_data.push_back(std::numeric_limits<double>::quiet_NaN());
-
-        while(runtime() - *fil_curr_time_data.begin() > plot_span)
-        {
-            if(!fil_curr_data.empty()) fil_curr_data.erase(fil_curr_data.begin());
-            if(!fil_curr_sp_data.empty()) fil_curr_sp_data.erase(fil_curr_sp_data.begin());
-            if(!fil_curr_time_data.empty()) fil_curr_time_data.erase(fil_curr_time_data.begin());
-        }
-        fil_curr_m.unlock();
+        //ss.str(resp);
+        //ss >> temp_double; ss >> comma;
+        //beam_volt = (temp_double/4095)*MAX_BEAM_VOLT;
+        //ss >> temp_double; ss >> comma;
+        //beam_curr = (temp_double/4095)*MAX_BEAM_CURR;
+        //ss >> temp_double;
+        //fil_curr = (temp_double/4095)*MAX_FIL_CURR;
 
         cath.error_m()->lock();
-        cath.warning_m()->lock();
         cath.clear_errors();
-        cath.clear_warnings();
-
-        resp = cath.smart_io("68,","68,",true);
-        if(!err(resp) && resp.length() > 10)
-        {
-            resp.erase(0,3);
-            ss.clear();
-            ss.str(resp);
-            ss >> temp_int; ss >> comma;
-            if(int(temp_int) == 1) cath.push_error("arc detected");
-            ss >> temp_int; ss >> comma;
-            if(int(temp_int) == 1) cath.push_error("over temperature");
-            ss >> temp_int; ss >> comma;
-            if(int(temp_int) == 1) cath.push_warning("over voltage");
-            ss >> temp_int; ss >> comma;
-            if(int(temp_int) == 1) cath.push_warning("under voltage");
-            ss >> temp_int; ss >> comma;
-            if(int(temp_int) == 1) cath.push_warning("over current");
-            ss >> temp_int;
-            if(int(temp_int) == 1) cath.push_warning("under current");
-
-        }
-        else if(err(resp))
-            log_event("Cathode D/C, moving to reconnect loop");
-        
-        cath.warning_m()->unlock(); 
+        // store errors
         cath.error_m()->unlock();
-        beam_curr_m.lock();
 
-        beam_curr_time_data.push_back(runtime());
-        beam_curr_data.push_back(beam_curr);
-        if(beam_pid_on)
-            beam_curr_sp_data.push_back(beam_curr_sp);
-        else
-            beam_curr_sp_data.push_back(std::numeric_limits<double>::quiet_NaN());
-
-        while(runtime() - *beam_curr_time_data.begin() > plot_span)
-        {
-            if(!beam_curr_data.empty()) beam_curr_data.erase(beam_curr_data.begin());
-            if(!beam_curr_sp_data.empty()) beam_curr_sp_data.erase(beam_curr_sp_data.begin());
-            if(!beam_curr_time_data.empty()) beam_curr_time_data.erase(beam_curr_time_data.begin());
-        }
-        beam_curr_m.unlock();
+        update_cath_plot_data();
         steer_cath();
     }
     else  
         log_event("Cathode D/C, moving to reconnect loop");
+}
+
+void Gyrotron::update_cath_plot_data()
+{
+    beam_volt_m.lock();
+    beam_volt_time_data.push_back(runtime());
+    beam_volt_data.push_back(beam_volt);
+    if(beam_volt_sp > 0)
+        beam_volt_sp_data.push_back(beam_volt_sp);
+    else
+        beam_volt_sp_data.push_back(std::numeric_limits<double>::quiet_NaN());
+
+    while(runtime() - *beam_volt_time_data.begin() > plot_span)
+    {
+        if(!beam_volt_data.empty()) beam_volt_data.erase(beam_volt_data.begin());
+        if(!beam_volt_sp_data.empty()) beam_volt_sp_data.erase(beam_volt_sp_data.begin());
+        if(!beam_volt_time_data.empty()) beam_volt_time_data.erase(beam_volt_time_data.begin());
+    }
+    beam_volt_m.unlock();
+
+    fil_curr_m.lock();
+    fil_curr_time_data.push_back(runtime());
+    fil_curr_data.push_back(fil_curr);
+    if(fil_curr_sp > 0)
+        fil_curr_sp_data.push_back(fil_curr_sp);
+    else
+        fil_curr_sp_data.push_back(std::numeric_limits<double>::quiet_NaN());
+
+    while(runtime() - *fil_curr_time_data.begin() > plot_span)
+    {
+        if(!fil_curr_data.empty()) fil_curr_data.erase(fil_curr_data.begin());
+        if(!fil_curr_sp_data.empty()) fil_curr_sp_data.erase(fil_curr_sp_data.begin());
+        if(!fil_curr_time_data.empty()) fil_curr_time_data.erase(fil_curr_time_data.begin());
+    }
+    fil_curr_m.unlock();
+
+    beam_curr_m.lock();
+    beam_curr_time_data.push_back(runtime());
+    beam_curr_data.push_back(beam_curr);
+    if(beam_pid_on)
+        beam_curr_sp_data.push_back(beam_curr_sp);
+    else
+        beam_curr_sp_data.push_back(std::numeric_limits<double>::quiet_NaN());
+
+    while(runtime() - *beam_curr_time_data.begin() > plot_span)
+    {
+        if(!beam_curr_data.empty()) beam_curr_data.erase(beam_curr_data.begin());
+        if(!beam_curr_sp_data.empty()) beam_curr_sp_data.erase(beam_curr_sp_data.begin());
+        if(!beam_curr_time_data.empty()) beam_curr_time_data.erase(beam_curr_time_data.begin());
+    }
+    beam_curr_m.unlock();
 }
 
 void Gyrotron::query_gtc() // still need to check responses manually and apply to error checks

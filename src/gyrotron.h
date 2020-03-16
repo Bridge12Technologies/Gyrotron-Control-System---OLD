@@ -242,6 +242,7 @@ private:
     int apply_beam_curr_limit(double current); // write beam current limit to cathode
     void eval_sys_stat(); // check system status, determine system fault state
     double runtime(); // return elapsed seconds since initialization
+    void update_cath_plot_data();
 
     Device cath{"DF","Cathode"}, gtc{"ACOPIAN","GTC"}, rsi{"RSI"}, spc{"GAMMA_VAC","SPC"}, fms{"FMS"};
 
