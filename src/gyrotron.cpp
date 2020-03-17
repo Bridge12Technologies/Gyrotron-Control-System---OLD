@@ -88,34 +88,50 @@ int Gyrotron::extract_config()
 
 void Gyrotron::query_cath()
 {
-    std::string temp_hex;
-    // get filament current and beam current monitors
-    std::string resp = cath.m_smart_io("Q51","R");
-    if(!err(resp))
-    {
-        resp.erase(0,1); // erase R at the beginning of cmd
-        temp_hex = resp.substr(0,3);
-        resp.erase(0,3);
+    std::string hex, bin;
+    std::vector<char> resp;
+    int tries = 0;
 
-
-        //ss.str(resp);
-        //ss >> temp_double; ss >> comma;
-        //beam_volt = (temp_double/4095)*MAX_BEAM_VOLT;
-        //ss >> temp_double; ss >> comma;
-        //beam_curr = (temp_double/4095)*MAX_BEAM_CURR;
-        //ss >> temp_double;
-        //fil_curr = (temp_double/4095)*MAX_FIL_CURR;
-
-        cath.error_m()->lock();
-        cath.clear_errors();
-        // store errors
-        cath.error_m()->unlock();
-
-        update_cath_plot_data();
-        steer_cath();
+    cath.m()->lock();
+    while(tries < 3 && resp.front() != 'R' && resp.back() != '\r') {
+        cath.write("Q51");
+        resp = cath.read_chars(16); // ***************** RESUME *****************
+        tries++;
     }
-    else  
+    cath.m()->unlock();
+    if(tries == 3) {
+        cath.disconnect();
         log_event("Cathode D/C, moving to reconnect loop");
+        return;
+    }
+
+    hex = ""; hex.push_back(resp[1]); hex.push_back(resp[2]); hex.push_back(resp[3]);
+    beam_volt = (double(hex2dec(hex))/1023.0)*60.0;
+    hex = ""; hex.push_back(resp[4]); hex.push_back(resp[5]); hex.push_back(resp[6]);
+    beam_curr = (double(hex2dec(hex))/1023.0)*80.0;
+    hex = ""; hex.push_back(resp[7]); hex.push_back(resp[8]); hex.push_back(resp[9]);
+    fil_curr = (double(hex2dec(hex))/1023.0)*5.0;
+
+    cath.error_m()->lock();
+    cath.clear_errors();
+    hex = ""; hex.push_back(resp[10]);
+    bin = hex2bin_str(hex); while(bin.length() < 4) bin = "0" + bin;
+    if(bin[0] == 1) cath.push_error("fil. current limit fault");
+    if(bin[1] == 1) cath.push_error("PS fault");
+    if(bin[2] == 1) cath_hv_on = true; else cath_hv_on = false;
+    hex = ""; hex.push_back(resp[11]);
+    bin = hex2bin_str(hex); while(bin.length() < 4) bin = "0" + bin;
+    if(bin[0] == 1) cath.push_error("kV min fault");
+    if(bin[1] == 1) cath.push_error("overcurrent");
+    if(bin[2] == 1) cath.push_error("overpower");
+    if(bin[3] == 1) cath.push_error("overvoltage");
+    hex = ""; hex.push_back(resp[12]);
+    bin = hex2bin_str(hex); while(bin.length() < 4) bin = "0" + bin;
+    if(bin[0] == 1) cath.push_error("set to local mode");
+    cath.error_m()->unlock();
+
+    update_cath_plot_data();
+    steer_cath();
 }
 
 void Gyrotron::update_cath_plot_data()

@@ -109,6 +109,7 @@ public:
     void get_fpid_consts(double& p, double& i, double& d);
     double get_ramp_time() { return ramp_time; }
     double get_ramp_sp() { return ramp_sp; }
+    bool cath_output_is_on() { return  }
 
     std::vector<double> get_press_data() { std::lock_guard<std::mutex> lock(press_m); return press_data; }
     std::vector<double> get_press_time_data() { std::lock_guard<std::mutex> lock(press_m); return press_time_data; }
