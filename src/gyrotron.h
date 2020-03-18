@@ -215,11 +215,11 @@ public:
     const double WARN_AIR_FLOW{-1}, FATAL_AIR_FLOW{-1};
 
     // hardware limits
-    const double MAX_BEAM_VOLT{20}, MAX_BEAM_CURR{30}, MAX_FIL_CURR{5};
+    const double MAX_BEAM_VOLT{60}, MAX_BEAM_CURR{80}, MAX_FIL_CURR{5};
     const double MAX_GTC_VOLT{-1}, MAX_GTC_CURR{-1};
 
     // operational limits (also used for OVP/OCP values)
-    const double BEAM_VOLT_LIMIT{-1}, BEAM_CURR_LIMIT{-1}, FIL_CURR_LIMIT{3.3};
+    const double BEAM_VOLT_LIMIT{60}, BEAM_CURR_LIMIT{80}, FIL_CURR_LIMIT{5};
     const double GTC_VOLT_LIMIT{-1}, GTC_CURR_LIMIT{-1}; // TBD, max for now
     const double POWER_LIMIT{-1}, UPPER_FREQ_LIMIT{-1}, LOWER_FREQ_LIMIT{-1};
 
@@ -257,7 +257,7 @@ private:
     std::atomic<double> e_ramp_rate{0.5}, e_ramp_time, ramp_rate{0}, ramp_sp{0}, ramp_time{0};
     double press_bound1{8e-8}, press_bound2{4e-7}, press_bound3{1e-6}, fatal_press{5e-6};
     double power_limit, power_calibrate;
-
+    std::string cath_set_cmd{"S000000000000255"}; // default all setpoints zero and output off
     std::chrono::duration<double,std::milli> pid_elapsed;
     clk::time_point last_recording{clk::now()};
 
@@ -280,7 +280,7 @@ private:
     std::atomic<bool> ramping_up{false}, ramping_down{false};
     std::atomic<bool> relaxing{false}, paused{false};
 
-    std::mutex press_m, beam_curr_m, beam_volt_m, power_m, fil_curr_m, freq_m;
+    std::mutex press_m, beam_curr_m, beam_volt_m, power_m, fil_curr_m, freq_m, cath_cmd_m;
     std::atomic<double> plot_span{900}; // default 15 mins
     std::vector<double> press_data, beam_curr_data, beam_volt_data, power_data, fil_curr_data, freq_data;
     std::vector<double> beam_curr_sp_data, beam_volt_sp_data, power_sp_data, fil_curr_sp_data, freq_sp_data;

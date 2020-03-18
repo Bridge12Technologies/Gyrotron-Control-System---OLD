@@ -1,7 +1,7 @@
 #include "settings_window.h"
 #include "ui_settings_window.h"
 
-settings_window::settings_window(bool* am, QPushButton* at, QStackedWidget* sw, bool* be, Fbool sbe, bool* tm, QWidget *parent) :
+settings_window::settings_window(bool* am, QPushButton* at, QStackedWidget* sw, bool* be, F_bool sbe, bool* tm, QWidget *parent) :
     QDialog(parent),ui(new Ui::settings_window),
     admin_mode(am),blink_enabled(be),time_mode(tm),admin_tab(at),stack_widget(sw),set_blink_enabled(sbe)
 {

@@ -11,8 +11,7 @@ Gyrotron::Gyrotron() : Spine()
     add_device(&spc,[=](){query_spc();},[=](){spc_recon();},"spc 01","00");
     add_device(&fms,[=](){query_fms();},[=](){fms_recon();},"#0","0");
 
-    add_pre_func([=](){apply_beam_curr_limit(BEAM_CURR_LIMIT);});
-    add_pre_func([=](){gtc.m_write(":SYST:REM");});
+    add_preprobe_func([=](){gtc.m_write(":SYST:REM");});
 
     add_loop_func([=](){record_data();});
     add_loop_func([=](){eval_sys_stat();});
@@ -92,13 +91,13 @@ void Gyrotron::query_cath()
     std::vector<char> resp;
     int tries = 0;
 
-    cath.m()->lock();
+    LOCK(cath);
     while(tries < 3 && resp.front() != 'R' && resp.back() != '\r') {
-        cath.write("Q51");
-        resp = cath.read_chars(16); // ***************** RESUME *****************
+        cath.write(get_checksum_cmd("Q51"));
+        resp = cath.read_chars_vec(16);
         tries++;
     }
-    cath.m()->unlock();
+    UNLOCK(cath);
     if(tries == 3) {
         cath.disconnect();
         log_event("Cathode D/C, moving to reconnect loop");
@@ -453,48 +452,6 @@ void Gyrotron::eval_sys_stat()
     sys_warning_m()->unlock();
 }
 
-std::vector<std::string> Gyrotron::get_warnings()
-{
-    std::vector<std::string> warnings, temp;
-
-    // collect system warnings
-    warnings = get_sys_warnings();
-    // collect cathode warnings
-    if(cath.is_enabled() && cath.is_connected())
-    {
-        temp = cath.m_get_warnings();
-        warnings.insert(warnings.end(), temp.begin(), temp.end());
-    }
-    // collect GTC warnings
-    //temp = gtc.m_get_warnings();
-    //warnings.insert(warnings.end(), temp.begin(), temp.end());
-
-    return warnings;
-}
-
-std::vector<std::string> Gyrotron::get_errors()
-{
-    std::vector<std::string> errors, temp;
-
-    // collect system errors
-    errors = get_sys_errors(!gui_debug_mode);
-    // collect cathode errors
-    if(cath.is_enabled() && cath.is_connected())
-    {
-        temp = cath.m_get_errors();
-        errors.insert(errors.end(), temp.begin(), temp.end());
-    }
-
-    // collect gtc errors
-    if(gtc.is_enabled() && gtc.is_connected())
-    {
-        temp = gtc.m_get_errors();
-        errors.insert(errors.end(), temp.begin(), temp.end());
-    }
-
-    return errors;
-}
-
 void Gyrotron::steer_cath()
 {
     int stat;
@@ -696,39 +653,36 @@ void Gyrotron::record_data()
 
 int Gyrotron::set_fil_curr(double current) 
 {
-    if(current < 0 || current > FIL_CURR_LIMIT)
-        return -2;
-
-    double convert = (current/FIL_CURR_LIMIT)*4095;
-    std::string cmd = "13," + to_str(int(convert)) + ",";
-    std::string resp = cath.smart_io(cmd,"13,$",true);
-    if(err(resp))
-    {
+    lock_grd lock(cath_cmd_m);
+    if(current < 0 || current > FIL_CURR_LIMIT) return -2;
+    std::string first_half = cath_set_cmd.substr(0,4);
+    std::string hex = dec2hex(int((current/MAX_FIL_CURR)*4095));
+    while(hex.length() < 3) hex = "0" + hex;
+    cath_set_cmd = first_half + hex + cath_set_cmd.substr(7,7);
+    append_checksum(cath_set_cmd);
+    std::string resp = cath.m_smart_io(cath_set_cmd,"A");
+    if(err(resp)) {
         log_event("failed to set filament current to " + to_str(current));
         log_event("moving cathode to reconnect loop");
         return -1;
-    }
-    else
-        log_event("set filament current to " + to_str(current));
+    } else log_event("set filament current to " + to_str(current));
     return 0;
 }
 
 int Gyrotron::set_beam_volt(double voltage) 
 {
-    if(voltage < 0 || voltage > MAX_BEAM_VOLT)
-        return -2;
-
-    double convert = (voltage/MAX_BEAM_VOLT)*4095;
-    std::string cmd = "10," + to_str(int(convert)) + ",";
-    std::string resp = cath.smart_io(cmd,"10,$",true);
-    if(err(resp))
-    {
+    lock_grd lock(cath_cmd_m);
+    if(voltage < 0 || voltage > MAX_BEAM_VOLT) return -2;
+    std::string hex = dec2hex(int((voltage/MAX_BEAM_VOLT)*4095));
+    while(hex.length() < 3) hex = "0" + hex;
+    cath_set_cmd = "S" + hex + cath_set_cmd.substr(4,10);
+    append_checksum(cath_set_cmd);
+    std::string resp = cath.m_smart_io(cath_set_cmd,"A");
+    if(err(resp)) {
         log_event("failed to set beam voltage to " + to_str(voltage));
         log_event("moving cathode to reconnect loop");
         return -1;
-    }
-    else
-        log_event("set filament current to " + to_str(voltage));
+    } else log_event("set beam voltage to " + to_str(voltage));
     return 0;
 }
 
@@ -763,50 +717,19 @@ int Gyrotron::set_gtc_volt(double voltage)
 
 int Gyrotron::set_fil_curr_limit(double current) // cathode
 {
-    if(current < 0 || current > MAX_FIL_CURR)
-        return -2;
-    
-    double convert = (current/MAX_FIL_CURR)*4095;
-    std::string cmd = "12," + to_str(int(convert)) + ",";
-    std::string resp = cath.smart_io(cmd,"12,$",true);
-    if(err(resp))
-    {
+    lock_grd lock(cath_cmd_m);
+    if(current < 0 || current > MAX_FIL_CURR) return -2;
+    std::string first_half = cath_set_cmd.substr(0,10);
+    std::string hex = dec2hex(int((current/MAX_FIL_CURR)*4095));
+    while(hex.length() < 3) hex = "0" + hex;
+    cath_set_cmd = first_half + hex + cath_set_cmd.substr(13,1);
+    append_checksum(cath_set_cmd);
+    std::string resp = cath.m_smart_io(cath_set_cmd,"A");
+    if(err(resp)) {
         log_event("failed to set filament current limit to " + to_str(current));
         log_event("moving cathode to reconnect loop");
         return -1;
-    }
-    else
-        log_event("set filament current limit to " + to_str(current));
-    return 0;
-}
-
-int Gyrotron::set_beam_curr_limit(double current)
-{
-    if(current <= 0 || current > 30)
-        return -2;
-    else
-    {
-        beam_ocp = current;
-        return apply_beam_curr_limit(beam_ocp);
-    }
-}
-
-int Gyrotron::apply_beam_curr_limit(double current)
-{
-    if(current < 0 || current > MAX_BEAM_CURR)
-        return -2;
-    
-    double convert = (current/MAX_BEAM_CURR)*4095;
-    std::string cmd = "11," + to_str(int(convert)) + ",";
-    std::string resp = cath.smart_io(cmd,"11,$",true);
-    if(err(resp))
-    {
-        log_event("failed to set beam current to " + to_str(current));
-        log_event("moving cathode to reconnect loop");
-        return -1;
-    }
-    else
-        log_event("set beam current to " + to_str(current));
+    } else log_event("set filament current limit to " + to_str(current));
     return 0;
 }
 
@@ -878,10 +801,11 @@ void Gyrotron::set_freq_kd(double kd) {
 
 int Gyrotron::toggle_cath_output(bool turn_on)
 {
-    std::string cmd = "98," + std::string(turn_on ? "1," : "0,");
-    std::string resp = cath.smart_io(cmd,"98,$",true);
-    if(err(resp))
-    {
+    lock_grd lock(cath_cmd_m);
+    cath_set_cmd = cath_set_cmd.substr(0,13) + (turn_on ? "1" : "2");
+    append_checksum(cath_set_cmd);
+    std::string resp = cath.m_smart_io(cath_set_cmd,"A");
+    if(err(resp)) {
         log_event("failed to " + std::string(turn_on ? "enable" : "disable") + " cathode output");
         log_event("moving cathode to reconnect loop");
         return -1;

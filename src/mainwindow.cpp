@@ -669,8 +669,8 @@ bool MainWindow::lists_equal(std::vector<QListWidgetItem*> list1, std::vector<QL
 
 void MainWindow::update_faults()
 {
-    std::vector<std::string> warnings = gyro.get_warnings();
-    std::vector<std::string> errors = gyro.get_errors();
+    std::vector<std::string> warnings = gyro.get_all_warnings();
+    std::vector<std::string> errors = gyro.get_all_errors(!gyro.gui_debug_mode);
     int fault_status = gyro.get_fault_status();
     std::vector<QListWidgetItem*> temp_fault_items;
 
@@ -883,7 +883,7 @@ void MainWindow::on_enable_button_clicked()
     if(gyro.pid_is_on())
     {
         gyro.turn_off_pid();
-        ui->enable_button->setStyleSheet(gui.grey_button(60));
+        ui->enable_button->setStyleSheet(grey_pill_button(60));
         ui->enable_button->setText("ENABLE");
         ui->pid_dropdown->setEnabled(true);
         ui->pid_group->setTitle("Auto Control");
@@ -925,7 +925,7 @@ void MainWindow::on_enable_button_clicked()
     }
     else
     {
-        ui->enable_button->setStyleSheet(gui.orange_button(60));
+        ui->enable_button->setStyleSheet(orange_pill_button(60));
         ui->enable_button->setText("DISABLE");
         ui->pid_dropdown->setEnabled(false);
         ui->pid_group->setTitle("Auto Control [ON]");

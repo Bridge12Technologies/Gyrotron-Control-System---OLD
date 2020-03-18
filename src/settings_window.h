@@ -8,7 +8,7 @@
 #include "gyrotron.h"
 #include "lib/face/face.h"
 
-typedef std::function<void(bool)> Fbool;
+typedef std::function<void(bool)> F_bool;
 
 namespace Ui {
 class settings_window;
@@ -19,7 +19,7 @@ class settings_window : public QDialog
     Q_OBJECT
 
 public:
-    explicit settings_window(bool* am, QPushButton* at, QStackedWidget* sw, bool* be, Fbool sbe, bool* tm, QWidget *parent = nullptr);
+    explicit settings_window(bool* am, QPushButton* at, QStackedWidget* sw, bool* be, F_bool sbe, bool* tm, QWidget *parent = nullptr);
     ~settings_window();
 
 private slots:
@@ -40,7 +40,7 @@ private:
     bool *admin_mode, *blink_enabled, *time_mode;
     QPushButton *admin_tab;
     QStackedWidget *stack_widget;
-    Fbool set_blink_enabled;
+    F_bool set_blink_enabled;
 
 protected:
     bool eventFilter(QObject *obj, QEvent *event);
