@@ -19,14 +19,13 @@ class settings_window : public QDialog
     Q_OBJECT
 
 public:
-    explicit settings_window(bool* am, QPushButton* at, QStackedWidget* sw, bool* be, F_bool sbe, bool* tm, QWidget *parent = nullptr);
+    explicit settings_window(bool* am, QPushButton* at, QStackedWidget* sw, bool* be, F_bool sbe, QWidget *parent = nullptr);
     ~settings_window();
 
 private slots:
     void on_done_button_clicked();
     void on_admin_mode_switch_valueChanged(int value);
     void on_blink_switch_valueChanged(int value);
-    void on_time_mode_switch_valueChanged(int value);
 
 private:
     void apply_drop_shadow();

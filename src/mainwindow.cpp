@@ -5,11 +5,10 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),ui(new Ui::MainWin
 {
     ui->setupUi(this);
     setWindowFlags(Qt::FramelessWindowHint);
-    showFullScreen();
 
     if(gyro.gui_debug_mode) {
         init_gui();
-        showFullScreen();
+        //showFullScreen();
     } else {
         int init_stat = gyro.init(); // parse config, spawn threads, connect/probe devices, and exec pre-funcs
         if(init_stat < 0)
@@ -37,18 +36,17 @@ void MainWindow::shutdown()
 
 void MainWindow::init_gui()
 {
-    QWidget *boxes[27] = {ui->status_group,ui->state_group,ui->beam_params_group,ui->fms_group,ui->power_group,
+    std::vector<QWidget*> boxes = {ui->status_group,ui->state_group,ui->beam_params_group,ui->fms_group,ui->power_group,
                          ui->pid_group,ui->plot_group,ui->fil_curr_group,ui->beam_volt_group,ui->freq_group,ui->curr_state_group,ui->auto_state_group,
                          ui->time_span_group,ui->faults_group,ui->log_group,ui->beam_pid_group,ui->power_pid_group,ui->freq_group,ui->ramp_rate_group,
-                         ui->log_rate_group,ui->misc_group,ui->reconnect_group,ui->console_group,ui->settings_frame,ui->clock_frame,ui->storage_frame,
-                         ui->plot_select_group};
+                         ui->log_rate_group,ui->misc_group,ui->reconnect_group,ui->console_group,ui->settings_frame,ui->clock_frame,ui->plot_select_group};
     for(auto box : boxes) { box->installEventFilter(this); }
 
     // apply drop shadows to group boxes
     std::vector<QWidget*> groups{ui->state_group,ui->status_group,ui->beam_params_group,ui->fms_group,ui->power_group,ui->pid_group,
                                    ui->plot_group,ui->fil_curr_group,ui->beam_volt_group,ui->freq_group,ui->curr_state_group,ui->auto_state_group,ui->time_span_group,
                                    ui->beam_pid_group,ui->power_pid_group,ui->freq_pid_group,ui->ramp_rate_group,ui->log_rate_group,ui->misc_group,ui->reconnect_group,ui->console_group,
-                                   ui->faults_group,ui->log_group,ui->settings_frame,ui->clock_frame,ui->storage_frame,ui->plot_select_group};
+                                   ui->faults_group,ui->log_group,ui->settings_frame,ui->clock_frame,ui->plot_select_group};
     for(QWidget* group : groups)
     {
         shadows.push_back(new QGraphicsDropShadowEffect);
@@ -326,19 +324,15 @@ void MainWindow::set_blink_on(bool enable)
 {
     if(enable && blink_enabled)
     {
-        if(ui->stackedWidget->currentIndex() == 2)
-            ui->status_tab->setStyleSheet(tab_blink_off_selected);
-        else
-            ui->status_tab->setStyleSheet(tab_blink_off_unselected);
-        blink_timer.start(blink_duration);
+        //if(ui->stackedWidget->currentIndex() == 2) ui->status_tab->setStyleSheet(tab_blink_selected);
+        //else ui->status_tab->setStyleSheet(tab_blink_unselected);
+        //blink_timer.start(blink_duration);
     }
     else
     {
-        blink_timer.stop();
-        if(ui->stackedWidget->currentIndex() == 2)
-            ui->status_tab->setStyleSheet(tab_selected);
-        else
-            ui->status_tab->setStyleSheet(tab_unselected);
+        //blink_timer.stop();
+        //if(ui->stackedWidget->currentIndex() == 2) ui->status_tab->setStyleSheet(tab_selected);
+        //else ui->status_tab->setStyleSheet(tab_unselected);
     }
 }
 
@@ -348,7 +342,7 @@ void MainWindow::blink_status()
     {
         if(blink_on)
         {
-            ui->status_tab->setStyleSheet(tab_blink_off_unselected);
+            //ui->status_tab->setStyleSheet(tab_blink_off_unselected);
             blink_on = false;
         }
         else
@@ -601,32 +595,7 @@ void MainWindow::realtime_slot()
 {
     static QTime timer(QTime::currentTime()); // setup loop timer
     static double last_key = 0; // used to track differences in time
-    static double last_clock_tick = 0; // used to update clock
-    static double last_storage_check = 0; // used to update storage widget
     key = timer.elapsed()/1000.0; // used to track time
-
-    if(key-last_clock_tick > 30) // update clock every 30 seconds
-    {
-        dateTime = dateTime.currentDateTime();
-        if(use_24hr_format)
-            ui->clock_label->setText(dateTime.time().toString("H:mm"));
-        else
-            ui->clock_label->setText(dateTime.time().toString("h:mm ap"));
-    }
-
-    if(key-last_storage_check > 300) // check storage every 5 minutes
-    {
-        std::filesystem::space_info hdd = std::filesystem::space("/");
-        std::uintmax_t total = hdd.capacity;
-        std::uintmax_t remaining = hdd.free;
-        int percent = int(round((total-remaining)/total));
-        ui->percent_full_label->setText(QString::number(percent) + "%");
-        int gb_remaining = int(round(remaining/1e9));
-        if(gb_remaining < 1)
-           ui->percent_full_label->setStyleSheet("border: none; background: transparent; color: #D16055;");
-        else
-           ui->percent_full_label->setStyleSheet("border: none; background: transparent; color: rgb(85,87,83);");
-    }
 
     if (key-last_key > refresh_rate) // frequency of reiteration is refresh_rate in seconds
     {
@@ -677,10 +646,8 @@ void MainWindow::update_faults()
     if(fault_status == -2 && last_fault_status != -2)
     {
         set_blink_on(true);
-        if(ui->stackedWidget->currentIndex() == 2)
-            ui->status_tab->setStyleSheet(tab_blink_off_selected);
-        else
-            ui->status_tab->setStyleSheet(tab_blink_off_unselected);
+        //if(ui->stackedWidget->currentIndex() == 2) ui->status_tab->setStyleSheet(tab_blink_off_selected);
+        //else ui->status_tab->setStyleSheet(tab_blink_off_unselected);
     }
     else if(fault_status > -2 && last_fault_status == -2)
     {
@@ -727,7 +694,7 @@ void MainWindow::update_faults()
 }
 
 void MainWindow::update_indicators()
-{
+{/*
     if(gyro.rsi_available())
     {
         ui->temp_indicator->setEnabled(true);
@@ -777,7 +744,7 @@ void MainWindow::update_indicators()
         ui->press_indicator->setStyleSheet(showing_more ? sm_green_bubble : lg_green_bubble);
         ui->press_label->setText("N/A");
     }
-}
+*/}
 
 void MainWindow::update_labels()
 {
@@ -1097,7 +1064,7 @@ void MainWindow::on_control_tab_clicked()
 {
     ui->control_tab->setStyleSheet(tab_selected);
     ui->plot_tab->setStyleSheet(tab_unselected);
-    (gyro.get_fault_status() == 0) ? ui->status_tab->setStyleSheet(tab_unselected) : ui->status_tab->setStyleSheet(tab_blink_off_unselected);
+    //(gyro.get_fault_status() == 0) ? ui->status_tab->setStyleSheet(tab_unselected) : ui->status_tab->setStyleSheet(tab_blink_off_unselected);
     ui->admin_tab->setStyleSheet(tab_unselected);
     ui->stackedWidget->setCurrentIndex(0);
 }
@@ -1106,7 +1073,7 @@ void MainWindow::on_plot_tab_clicked()
 {
     ui->control_tab->setStyleSheet(tab_unselected);
     ui->plot_tab->setStyleSheet(tab_selected);
-    (gyro.get_fault_status() == 0) ? ui->status_tab->setStyleSheet(tab_unselected) : ui->status_tab->setStyleSheet(tab_blink_off_unselected);
+    //(gyro.get_fault_status() == 0) ? ui->status_tab->setStyleSheet(tab_unselected) : ui->status_tab->setStyleSheet(tab_blink_off);
     ui->admin_tab->setStyleSheet(tab_unselected);
     ui->plot1->replot();
     ui->plot2->replot();
@@ -1118,7 +1085,7 @@ void MainWindow::on_status_tab_clicked()
 {
     ui->control_tab->setStyleSheet(tab_unselected);
     ui->plot_tab->setStyleSheet(tab_unselected);
-    (gyro.get_fault_status() == 0) ? ui->status_tab->setStyleSheet(tab_selected) : ui->status_tab->setStyleSheet(tab_blink_off_selected);
+    //(gyro.get_fault_status() == 0) ? ui->status_tab->setStyleSheet(tab_selected) : ui->status_tab->setStyleSheet(tab_blink_off_selected);
     ui->admin_tab->setStyleSheet(tab_unselected);
     ui->stackedWidget->setCurrentIndex(2);
 }
@@ -1127,7 +1094,7 @@ void MainWindow::on_admin_tab_clicked()
 {
     ui->control_tab->setStyleSheet(tab_unselected);
     ui->plot_tab->setStyleSheet(tab_unselected);
-    (gyro.get_fault_status() == 0) ? ui->status_tab->setStyleSheet(tab_unselected) : ui->status_tab->setStyleSheet(tab_blink_off_unselected);
+    //(gyro.get_fault_status() == 0) ? ui->status_tab->setStyleSheet(tab_unselected) : ui->status_tab->setStyleSheet(tab_blink_off_unselected);
     ui->admin_tab->setStyleSheet(tab_selected);
     ui->stackedWidget->setCurrentIndex(3);
 }
@@ -1589,19 +1556,17 @@ void MainWindow::resizeEvent(QResizeEvent* evt)
 
 void MainWindow::on_close_button_clicked() { this->close(); }
 void MainWindow::on_minimize_button_clicked() { this->showMinimized(); }
-/*
 void MainWindow::on_maximize_button_clicked()
 {
     if(this->isMaximized()) this->showNormal();
     else this->showMaximized();
     update_margins();
 }
-*/
+
 void MainWindow::on_settings_button_clicked()
 {
     settings_window settings_popup(&admin_mode,ui->admin_tab,ui->stackedWidget,
-                                   &blink_enabled,[=](bool e){set_blink_enabled(e);},
-                                   &use_24hr_format, this);
+                                   &blink_enabled,[=](bool e){set_blink_enabled(e);},this);
     settings_popup.exec();
 }
 
@@ -1612,65 +1577,39 @@ void MainWindow::set_ui_expanded(bool expand)
         showing_more = true;
         ui->beam_params_group->setVisible(true);
         ui->settings_frame->setVisible(true);
-        ui->storage_frame->setVisible(true);
         ui->clock_frame->setVisible(true);
         ui->more_button->setText("LESS ▲");
-        ui->show_more_layout->setContentsMargins(0,0,0,20);
-        ui->control_grid->setVerticalSpacing(50);
-        ui->control_grid->setHorizontalSpacing(50);
-        ui->control_page->layout()->setContentsMargins(50,50,50,15);
+        //ui->show_more_layout->setContentsMargins(0,0,0,20);
+        //ui->control_grid->setVerticalSpacing(50);
+        //ui->control_grid->setHorizontalSpacing(50);
+        //ui->control_page->layout()->setContentsMargins(50,50,50,15);
         //ui->state_frame->setContentsMargins(9,40,9,40);
-        ui->state_top_label->setStyleSheet("background: transparent; font-size: 14pt; color: white;");
-        ui->state_mini_label->setStyleSheet("background: transparent; font-size: 14pt; color: white;");
-        ui->state_label->setStyleSheet("QLabel { color: white; background: none; font-size: 20pt; }"
-                                       "QLabel:disabled { color: rgb(180,180,180); }");
-        //ui->temp_indicator->setContentsMargins(9,24,9,24);
-        //ui->flow_indicator->setContentsMargins(9,24,9,24);
-        //ui->faults_indicator->setContentsMargins(9,24,9,24);
-        //ui->press_indicator->setContentsMargins(9,24,9,24);
-        ui->temp_indicator->layout()->setSpacing(8);
-        ui->flow_indicator->layout()->setSpacing(8);
-        ui->faults_indicator->layout()->setSpacing(8);
-        ui->press_indicator->layout()->setSpacing(8);
-        ui->temp_indicator->setSizePolicy(QSizePolicy::Minimum,QSizePolicy::Minimum);
-        ui->flow_indicator->setSizePolicy(QSizePolicy::Minimum,QSizePolicy::Minimum);
-        ui->faults_indicator->setSizePolicy(QSizePolicy::Minimum,QSizePolicy::Minimum);
-        ui->press_indicator->setSizePolicy(QSizePolicy::Minimum,QSizePolicy::Minimum);
-        ui->state_frame->setSizePolicy(QSizePolicy::Minimum,QSizePolicy::Minimum);
+        //ui->state_top_label->setStyleSheet("background: transparent; font-size: 14pt; color: white;");
+        //ui->state_mini_label->setStyleSheet("background: transparent; font-size: 14pt; color: white;");
+        //ui->state_label->setStyleSheet("QLabel { color: white; background: none; font-size: 20pt; }"
+        //                               "QLabel:disabled { color: rgb(180,180,180); }");
+        //ui->state_frame->setSizePolicy(QSizePolicy::Minimum,QSizePolicy::Minimum);
     }
     else
     {
         showing_more = false;
         ui->beam_params_group->setVisible(false);
         ui->settings_frame->setVisible(false);
-        ui->storage_frame->setVisible(false);
         ui->clock_frame->setVisible(false);
         ui->more_button->setText("MORE ▼");
-        ui->show_more_layout->setContentsMargins(0,0,0,18);
-        ui->control_grid->setVerticalSpacing(60);
-        ui->control_grid->setHorizontalSpacing(60);
-        ui->control_page->layout()->setContentsMargins(60,60,60,15);
+        //ui->show_more_layout->setContentsMargins(0,0,0,18);
+        //ui->control_grid->setVerticalSpacing(60);
+        //ui->control_grid->setHorizontalSpacing(60);
+        //ui->control_page->layout()->setContentsMargins(60,60,60,15);
         //ui->state_frame->setContentsMargins(9,50,9,50);
-        ui->state_top_label->setStyleSheet("background: transparent; font-size: 16pt; color: white; margin-top: 10px;");
-        ui->state_mini_label->setStyleSheet("background: transparent; font-size: 16pt; color: white; margin-bottom: 10px;");
-        ui->state_label->setStyleSheet("QLabel { color: white; background: none; font-size: 26pt; }"
-                                       "QLabel:disabled { color: rgb(180,180,180); }");
-        //ui->temp_indicator->setContentsMargins(9,30,9,40);
-        //ui->flow_indicator->setContentsMargins(9,30,9,40);
-        //ui->faults_indicator->setContentsMargins(9,30,9,40);
-        //ui->press_indicator->setContentsMargins(9,30,9,40);
-        ui->temp_indicator->layout()->setSpacing(0);
-        ui->flow_indicator->layout()->setSpacing(0);
-        ui->faults_indicator->layout()->setSpacing(0);
-        ui->press_indicator->layout()->setSpacing(0);
-        ui->temp_indicator->setSizePolicy(QSizePolicy::Maximum,QSizePolicy::Maximum);
-        ui->flow_indicator->setSizePolicy(QSizePolicy::Maximum,QSizePolicy::Maximum);
-        ui->faults_indicator->setSizePolicy(QSizePolicy::Maximum,QSizePolicy::Maximum);
-        ui->press_indicator->setSizePolicy(QSizePolicy::Maximum,QSizePolicy::Maximum);
-        ui->state_frame->setSizePolicy(QSizePolicy::Maximum,QSizePolicy::Maximum);
+        //ui->state_top_label->setStyleSheet("background: transparent; font-size: 16pt; color: white; margin-top: 10px;");
+        //ui->state_mini_label->setStyleSheet("background: transparent; font-size: 16pt; color: white; margin-bottom: 10px;");
+        //ui->state_label->setStyleSheet("QLabel { color: white; background: none; font-size: 26pt; }"
+        //                               "QLabel:disabled { color: rgb(180,180,180); }");
+        //ui->state_frame->setSizePolicy(QSizePolicy::Maximum,QSizePolicy::Maximum);
     }
     update_indicators();
-    detect_state_change(true);
+    //detect_state_change(true);
 }
 
 void MainWindow::on_more_button_clicked()

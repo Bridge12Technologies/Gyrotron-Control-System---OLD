@@ -46,7 +46,7 @@ private slots:
     void on_freq_kd_button_clicked();
     void on_close_button_clicked();
     void on_minimize_button_clicked();
-    //void on_maximize_button_clicked();
+    void on_maximize_button_clicked();
     void on_control_tab_clicked();
     void on_plot_tab_clicked();
     void on_admin_tab_clicked();
@@ -128,17 +128,14 @@ private:
     QIcon warning_icon{":/images/warning_yellow.png"};
     QIcon error_icon{":/images/error_red.png"};
 
-    QString tab_selected{"QPushButton{color: rgb(85,87,83); border: none; background: rgb(240,240,240);}"};
-    QString tab_unselected{"QPushButton { color: rgb(85,87,83); border: none; background: rgb(220,220,220); }"
-                           "QPushButton:hover { background: rgb(225,225,225); }"
-                           "QPushButton:hover:pressed { background: rgb(240,240,240); }"};
+    QString tab_selected{"QPushButton { color: rgb(85,87,83); border: none; background: #e6e6e6; }"};
+    QString tab_unselected{"QPushButton { color: rgb(85,87,83); border: none; background: rgb(210,210,210); }"
+                           "QPushButton:hover { background: rgb(215,215,215); }"
+                           "QPushButton:hover:pressed { background: rgb(220,220,220); }"};
     QString tab_blink_on{"QPushButton { color: #D16055; text-decoration: underline; border: none; background: #dbc8c8; }"
                          "QPushButton:hover { background: rgb(225,225,225); }"
                          "QPushButton:hover:pressed { background: rgb(240,240,240); }"};
-    QString tab_blink_off_selected{"QPushButton { color: #D16055; text-decoration: underline; border: none; background: rgb(240,240,240); }"
-                          "QPushButton:hover { background: rgb(225,225,225); }"
-                          "QPushButton:hover:pressed { background: rgb(240,240,240); }"};
-    QString tab_blink_off_unselected{"QPushButton { color: #D16055; text-decoration: underline; border: none; background: rgb(220,220,220); }"
+    QString tab_blink_off{"QPushButton { color: #D16055; text-decoration: underline; border: none; background: rgb(220,220,220); }"
                           "QPushButton:hover { background: rgb(225,225,225); }"
                           "QPushButton:hover:pressed { background: rgb(240,240,240); }"};
 

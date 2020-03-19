@@ -5,13 +5,14 @@ Gyrotron::Gyrotron() : Spine()
     elog.set_history_enabled(true);
     dlog.set_header("system time (H:M:S), pressure (Torr), etc etc");
 
-    add_device(&cath,[=](){query_cath();},[=](){cath_recon();},"99,1,","$");
-    add_device(&gtc,[=](){query_gtc();},[=](){gtc_recon();},"*IDN?","DP821A");
+    add_device(&cath,[=](){query_cath();},[=](){cath_recon();},cath_set_cmd,"A");
+    add_device(&gtc,[=](){query_gtc();},[=](){gtc_recon();},"REMOTE","REMOTE");
     add_device(&rsi,[=](){query_rsi();},[=](){rsi_recon();},"ping","OK");
     add_device(&spc,[=](){query_spc();},[=](){spc_recon();},"spc 01","00");
     add_device(&fms,[=](){query_fms();},[=](){fms_recon();},"#0","0");
 
-    add_preprobe_func([=](){gtc.m_write(":SYST:REM");});
+    add_preprobe_func([=](){ gtc.read(); gtc.m_io("REMOTE REMOTE"); });
+    add_preprobe_func([=](){  });
 
     add_loop_func([=](){record_data();});
     add_loop_func([=](){eval_sys_stat();});
@@ -93,7 +94,7 @@ void Gyrotron::query_cath()
 
     LOCK(cath);
     while(tries < 3 && resp.front() != 'R' && resp.back() != '\r') {
-        cath.write(get_checksum_cmd("Q51"));
+        cath.write("Q51");
         resp = cath.read_chars_vec(16);
         tries++;
     }
@@ -189,68 +190,41 @@ void Gyrotron::query_gtc() // still need to check responses manually and apply t
     std::stringstream ss;
     double temp_double;
 
-    std::string resp = gtc.m_smart_io("VREAD","error",false);
-    if(!err(resp))
-    {
+    std::string resp = gtc.m_smart_io("VREAD","V");
+    if(!err(resp)) {
         temp_double = to_doub(resp);
-        if(temp_double >= 0) // check conversion
-            gtc_volt = temp_double;
-        else
-            log_event(shout("invalid gtc voltage conversion: " + resp));
+        if(temp_double >= 0)  gtc_volt = temp_double;
+        else log_event(shout("invalid gtc voltage conversion: " + resp));
         
-        resp = gtc.m_smart_io("IREAD","error",false);
-        if(!err(resp))
-        {
+        resp = gtc.m_smart_io("IREAD","A");
+        if(!err(resp)) {
             temp_double = to_doub(resp);
-            if(temp_double >= 0) // check conversion
-                gtc_curr = temp_double;
-            else
-                log_event(shout("invalid gtc current conversion: " + resp));
+            if(temp_double >= 0)  gtc_curr = temp_double;
+            else log_event(shout("invalid gtc current conversion: " + resp));
 
             resp = gtc.m_smart_io("PWR");
-            if(!err(resp))
-            {
-                if(contains(resp,"ON"))
-                    gtc_hv_on = true;
-                else if(contains(resp,"OFF"))
-                    gtc_hv_on = false;
-                else
-                    log_event("couldn't read GTC HV status: " + resp);
+            if(!err(resp)) {
+                if(contains(resp,"ON")) gtc_hv_on = true;
+                else if(contains(resp,"OFF")) gtc_hv_on = false;
+                else log_event("couldn't read GTC HV status: " + resp);
                 
                 resp = gtc.m_smart_io(":SYST:ERR:COUNT?");
-                if(contains(resp,"0"))
-                {
-                    gtc.m_clear_errors();
-                }
-                else
-                {
+                if(contains(resp,"0")) gtc.m_clear_errors();
+                else if(!err(resp)) {
                     resp = gtc.m_smart_io(":SYST:ERR:ALL?");
-                    if(!err(resp))
-                    {
+                    if(!err(resp)) {
                         gtc.error_m()->lock();
-                        //gtc.warning_m()->lock();
                         gtc.clear_errors();
-                        //gtc.clear_warnings();
-
-                        if(contains(resp,"-"))
-                            gtc.push_error(resp);
-
-                        //gtc.warning_m()->unlock();
+                        while(contains(resp,",")) {
+                            gtc.push_error(resp.substr(0,resp.find(",")));
+                            resp.erase(0,resp.find(",")+1);
+                        }
                         gtc.error_m()->unlock();
-                    }
-                    else
-                        log_event("GTC D/C, moving to reconnect loop");
-                }
-
-            }
-            else
-                log_event("GTC D/C, moving to reconnect loop");
-        }
-        else
-            log_event("GTC D/C, moving to reconnect loop");
-    }
-    else
-        log_event("GTC D/C, moving to reconnect loop");
+                    } else log_event("GTC D/C, moving to reconnect loop");
+                } else log_event("GTC D/C, moving to reconnect loop");
+            } else log_event("GTC D/C, moving to reconnect loop");
+        } else log_event("GTC D/C, moving to reconnect loop");
+    } else log_event("GTC D/C, moving to reconnect loop");
 }
 
 void Gyrotron::query_spc()
@@ -688,30 +662,14 @@ int Gyrotron::set_beam_volt(double voltage)
 
 int Gyrotron::set_gtc_volt(double voltage)
 {
-    if(voltage < 0 || voltage > MAX_GTC_VOLT)
-        return -2;
-
+    if(voltage < 0 || voltage > MAX_GTC_VOLT) return -2;
     std::string cmd = "VSET " + to_str(voltage);
-    std::string resp = gtc.smart_write(cmd,"VSET");
-    if(err(resp))
-    {
+    std::string resp = gtc.m_smart_io(cmd,"V");
+    if(err(resp)) {
         log_event("failed to set GTC voltage to " + to_str(voltage));
         log_event("moving GTC to reconnect loop");
         return -1;
-    }
-    else
-    {
-        if(approx_equal(to_doub(resp),voltage))
-            log_event("set GTC voltage to " + to_str(voltage));
-        else
-        {
-            log_event("ERROR GTC voltage setpoint =/= applied value (set: " +
-                        to_str(voltage) + ", got: " + resp + ")");
-            shout("ERROR! GTC voltage setpoint =/= applied value");
-            return -3;
-        }
-        
-    }
+    } else log_event("set GTC voltage to " + to_str(voltage));
     return 0;
 }
 
@@ -735,30 +693,14 @@ int Gyrotron::set_fil_curr_limit(double current) // cathode
 
 int Gyrotron::set_gtc_curr_limit(double current) // need to manually check output for this cmd
 {
-    if(current < 0 || current > MAX_GTC_CURR)
-        return -2;
-
+    if(current < 0 || current > MAX_GTC_CURR) return -2;
     std::string cmd = "ISET " + to_str(current);
-    std::string resp = gtc.m_smart_write(cmd,"ISET");
-    if(err(resp))
-    {
+    std::string resp = gtc.m_smart_io(cmd,"A");
+    if(err(resp)) {
         log_event("failed to set GTC OCP to " + to_str(current));
         log_event("moving GTC to reconnect loop");
         return -1;
-    }
-    else
-    {
-        if(approx_equal(to_doub(resp),current))
-            log_event("set GTC OCP to " + to_str(current));
-        else
-        {
-            log_event("ERROR GTC OCP setpoint =/= applied value (set: " +
-                        to_str(current) + ", got: " + resp + ")");
-            shout("ERROR! GTC OCP setpoint =/= applied value");
-            return -3;
-        }
-        
-    }
+    } else log_event("set GTC OCP to " + to_str(current));
     return 0;
 }
 
@@ -809,8 +751,7 @@ int Gyrotron::toggle_cath_output(bool turn_on)
         log_event("failed to " + std::string(turn_on ? "enable" : "disable") + " cathode output");
         log_event("moving cathode to reconnect loop");
         return -1;
-    }
-    log_event(std::string(turn_on ? "enabled" : "disabled") + " cathode output");
+    } else log_event(std::string(turn_on ? "enabled" : "disabled") + " cathode output");
     cath_hv_on = turn_on;
     return 0;
 }
@@ -818,14 +759,12 @@ int Gyrotron::toggle_cath_output(bool turn_on)
 int Gyrotron::toggle_gtc_output(bool turn_on)
 {
     std::string cmd = "PWR " + std::string(turn_on ? "ON" : "OFF");
-    std::string resp = gtc.m_smart_write(cmd,"PWR",std::string(turn_on ? "ON" : "OFF"));
-    if(err(resp))
-    {
+    std::string resp = gtc.m_smart_io(cmd,std::string(turn_on ? "ON" : "OFF"));
+    if(err(resp)) {
         log_event("failed to " + std::string(turn_on ? "enable" : "disable") + " GTC output");
         log_event("moving GTC to reconnect loop");
         return -1;
-    }
-    log_event(std::string(turn_on ? "enabled" : "disabled") + " GTC output");
+    } else log_event(std::string(turn_on ? "enabled" : "disabled") + " GTC output");
     gtc_hv_on = turn_on;
     return 0;
 }
@@ -1017,9 +956,9 @@ int Gyrotron::get_flow_status() // 0 = safe flow, -1 = warning, -2 = fatal
 
 int Gyrotron::get_fault_status() // 0 = no faults, -1 = warnings, -2 = errors
 {
-    if(get_num_errors() > 0)
+    if(num_errors() > 0)
         return -2;
-    else if(get_num_warnings() > 0)
+    else if(num_warnings() > 0)
         return -1;
     return 0;
 }

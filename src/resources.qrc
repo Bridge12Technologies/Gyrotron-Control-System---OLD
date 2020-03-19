@@ -34,5 +34,14 @@
         <file>images/forward_small_disabled.png</file>
         <file>images/forward_small_hover.png</file>
         <file>images/forward_small_press.png</file>
+        <file>images/cog_grey_24.png</file>
+        <file>lib/face/icons/pencil.png</file>
+        <file>lib/face/icons/submit.png</file>
+        <file>images/gauge.png</file>
+        <file>images/gauge-alert.png</file>
+        <file>images/thermometer.png</file>
+        <file>images/thermometer-alert.png</file>
+        <file>images/water.png</file>
+        <file>images/water-off.png</file>
     </qresource>
 </RCC>

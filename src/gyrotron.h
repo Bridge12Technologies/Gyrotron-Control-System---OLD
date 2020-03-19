@@ -109,7 +109,9 @@ public:
     void get_fpid_consts(double& p, double& i, double& d);
     double get_ramp_time() { return ramp_time; }
     double get_ramp_sp() { return ramp_sp; }
-    bool cath_output_is_on() { return  }
+
+    bool cath_output_is_on() { return cath_hv_on; }
+    bool gtc_output_is_on() { return gtc_hv_on; }
 
     std::vector<double> get_press_data() { std::lock_guard<std::mutex> lock(press_m); return press_data; }
     std::vector<double> get_press_time_data() { std::lock_guard<std::mutex> lock(press_m); return press_time_data; }
@@ -140,12 +142,7 @@ public:
     std::vector<double> get_freq_time_data() { std::lock_guard<std::mutex> lock(freq_m); return freq_time_data; }
     void clear_freq_data() { std::lock_guard<std::mutex> lock(freq_m); freq_data.clear(); freq_sp_data.clear(); freq_time_data.clear(); }
 
-    std::vector<std::string> get_warnings();
-    std::vector<std::string> get_errors();
-    unsigned int get_num_warnings() { return unsigned(get_warnings().size()); }
-    unsigned int get_num_errors() { return unsigned(get_errors().size()); }
     double get_plot_span() { return plot_span; }
-
     double get_temp(int num); // 1=main chiller, 2=cavity chiller, 3=collector, 4=cavity, 5=body
     double get_flow(int num); // 1=main chiller, 2=cavity chiller, 3=collector, 4=gun air
     double get_main_chill_temp() { return main_chill_temp; }
@@ -216,11 +213,11 @@ public:
 
     // hardware limits
     const double MAX_BEAM_VOLT{60}, MAX_BEAM_CURR{80}, MAX_FIL_CURR{5};
-    const double MAX_GTC_VOLT{-1}, MAX_GTC_CURR{-1};
+    const double MAX_GTC_VOLT{12}, MAX_GTC_CURR{60};
 
     // operational limits (also used for OVP/OCP values)
     const double BEAM_VOLT_LIMIT{60}, BEAM_CURR_LIMIT{80}, FIL_CURR_LIMIT{5};
-    const double GTC_VOLT_LIMIT{-1}, GTC_CURR_LIMIT{-1}; // TBD, max for now
+    const double GTC_VOLT_LIMIT{12}, GTC_CURR_LIMIT{60}; // TBD, max for now
     const double POWER_LIMIT{-1}, UPPER_FREQ_LIMIT{-1}, LOWER_FREQ_LIMIT{-1};
 
     // other constants

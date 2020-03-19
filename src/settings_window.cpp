@@ -1,9 +1,9 @@
 #include "settings_window.h"
 #include "ui_settings_window.h"
 
-settings_window::settings_window(bool* am, QPushButton* at, QStackedWidget* sw, bool* be, F_bool sbe, bool* tm, QWidget *parent) :
+settings_window::settings_window(bool* am, QPushButton* at, QStackedWidget* sw, bool* be, F_bool sbe, QWidget *parent) :
     QDialog(parent),ui(new Ui::settings_window),
-    admin_mode(am),blink_enabled(be),time_mode(tm),admin_tab(at),stack_widget(sw),set_blink_enabled(sbe)
+    admin_mode(am),blink_enabled(be),admin_tab(at),stack_widget(sw),set_blink_enabled(sbe)
 {
     parent->setGraphicsEffect(new DarkenEffect);
     setWindowFlags(Qt::Window | Qt::FramelessWindowHint | Qt::WindowStaysOnTopHint);
@@ -21,7 +21,7 @@ settings_window::~settings_window() { delete ui; delete shadow; }
 void settings_window::init_event_filter()
 {
     // install event filter to prevent wheel events on sliders
-    QSlider *sliders[] = {ui->admin_mode_switch,ui->blink_switch,ui->time_mode_switch};
+    QSlider *sliders[] = {ui->admin_mode_switch,ui->blink_switch};
     for(auto obj : sliders) { obj->installEventFilter(this); }
 }
 
@@ -37,10 +37,10 @@ void settings_window::apply_drop_shadow()
 
 void settings_window::update()
 {
-    QSlider *sliders[] = {ui->admin_mode_switch,ui->blink_switch,ui->time_mode_switch};
-    QLabel *labels[] = {ui->admin_mode_label,ui->blink_label,ui->time_mode_label};
-    bool states[] = {*admin_mode,*blink_enabled,*time_mode};
-    for(int i = 0; i < 3; i++) { set_switch_state(states[i], sliders[i], labels[i]); }
+    QSlider *sliders[] = {ui->admin_mode_switch,ui->blink_switch};
+    QLabel *labels[] = {ui->admin_mode_label,ui->blink_label};
+    bool states[] = {*admin_mode,*blink_enabled};
+    for(int i = 0; i < 2; i++) { set_switch_state(states[i], sliders[i], labels[i]); }
 }
 
 void settings_window::set_switch_state(bool set_on, QSlider *slider, QLabel *label)
@@ -91,19 +91,5 @@ void settings_window::on_blink_switch_valueChanged(int value)
     {
         set_blink_enabled(false);
         set_switch_state(false,ui->blink_switch,ui->blink_label);
-    }
-}
-
-void settings_window::on_time_mode_switch_valueChanged(int value)
-{
-    if(value == 1)
-    {
-        *time_mode = true;
-        set_switch_state(true,ui->time_mode_switch,ui->time_mode_label);
-    }
-    else
-    {
-        *time_mode = false;
-        set_switch_state(false,ui->time_mode_switch,ui->time_mode_label);
     }
 }
