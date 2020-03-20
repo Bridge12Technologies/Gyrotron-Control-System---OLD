@@ -43,5 +43,20 @@
         <file>images/thermometer-alert.png</file>
         <file>images/water.png</file>
         <file>images/water-off.png</file>
+        <file>images/flash_grey.png</file>
+        <file>images/flash_white.png</file>
+        <file>images/noflash_grey.png</file>
+        <file>images/noflash_white.png</file>
+        <file>images/power_grey.png</file>
+        <file>images/power_white.png</file>
+        <file>images/updown_grey.png</file>
+        <file>images/updown_white.png</file>
+        <file>images/flash_lgrey.png</file>
+        <file>images/noflash_lgrey.png</file>
+        <file>images/power_lgrey.png</file>
+        <file>images/updown_lgrey.png</file>
+        <file>images/pointer.png</file>
+        <file>images/menu.png</file>
+        <file>images/pointer_lgrey.png</file>
     </qresource>
 </RCC>

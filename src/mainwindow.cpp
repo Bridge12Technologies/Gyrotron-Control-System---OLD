@@ -5,21 +5,16 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),ui(new Ui::MainWin
 {
     ui->setupUi(this);
     setWindowFlags(Qt::FramelessWindowHint);
-
-    if(gyro.gui_debug_mode) {
-        init_gui();
-        //showFullScreen();
-    } else {
+    if(gyro.gui_debug_mode) init_gui();
+    else {
         int init_stat = gyro.init(); // parse config, spawn threads, connect/probe devices, and exec pre-funcs
         if(init_stat < 0)
             init_fail_dialog(init_stat);
-        else
-        {
+        else {
             init_gui();
             init_fields(); // initialize SmartLineEdits
             admin_mode = gyro.admin_mode_config(); // get admin mode setting from config file
-            if(!admin_mode)
-                ui->admin_tab->setVisible(false);
+            if(!admin_mode) ui->admin_tab->setVisible(false);
         }
     }
 }
@@ -39,14 +34,14 @@ void MainWindow::init_gui()
     std::vector<QWidget*> boxes = {ui->status_group,ui->state_group,ui->beam_params_group,ui->fms_group,ui->power_group,
                          ui->pid_group,ui->plot_group,ui->fil_curr_group,ui->beam_volt_group,ui->freq_group,ui->curr_state_group,ui->auto_state_group,
                          ui->time_span_group,ui->faults_group,ui->log_group,ui->beam_pid_group,ui->power_pid_group,ui->freq_group,ui->ramp_rate_group,
-                         ui->log_rate_group,ui->misc_group,ui->reconnect_group,ui->console_group,ui->settings_frame,ui->clock_frame,ui->plot_select_group};
+                         ui->log_rate_group,ui->misc_group,ui->reconnect_group,ui->console_group,ui->plot_select_group};
     for(auto box : boxes) { box->installEventFilter(this); }
 
     // apply drop shadows to group boxes
     std::vector<QWidget*> groups{ui->state_group,ui->status_group,ui->beam_params_group,ui->fms_group,ui->power_group,ui->pid_group,
                                    ui->plot_group,ui->fil_curr_group,ui->beam_volt_group,ui->freq_group,ui->curr_state_group,ui->auto_state_group,ui->time_span_group,
                                    ui->beam_pid_group,ui->power_pid_group,ui->freq_pid_group,ui->ramp_rate_group,ui->log_rate_group,ui->misc_group,ui->reconnect_group,ui->console_group,
-                                   ui->faults_group,ui->log_group,ui->settings_frame,ui->clock_frame,ui->plot_select_group};
+                                   ui->faults_group,ui->log_group,ui->plot_select_group};
     for(QWidget* group : groups)
     {
         shadows.push_back(new QGraphicsDropShadowEffect);
@@ -364,13 +359,11 @@ void MainWindow::detect_state_change(bool manual_update)
     {
         ui->state_label->setText("EMERGENCY\nRAMP DOWN");
         ui->small_state_label->setText("E RAMP DOWN");
-        if(showing_more) ui->state_frame->setStyleSheet(sm_red_state_frame);
-        else ui->state_frame->setStyleSheet(lg_red_state_frame);
-        ui->prev_state_label->setEnabled(false);
-        ui->next_state_label->setEnabled(false);
-        ui->prev_state_button->setStyleSheet(showing_more ? sm_prev_arrow : lg_prev_arrow);
+        if(showing_more) ui->state_frame->setStyleSheet(med_red_state);
+        else ui->state_frame->setStyleSheet(lg_red_state);
+        ui->prev_state_button->setStyleSheet(showing_more ? med_prev_arrow : lg_prev_arrow);
         ui->prev_state_button->setText("");
-        ui->next_state_button->setStyleSheet(showing_more ? sm_next_arrow : lg_next_arrow);
+        ui->next_state_button->setStyleSheet(showing_more ? med_next_arrow : lg_next_arrow);
         ui->next_state_button->setText("");
         ui->state_mini_label->setText(QString::number(100*(1-(gyro.get_fil_curr()/gyro.FIL_CURR_LIMIT))) + "%");
     }
@@ -381,104 +374,84 @@ void MainWindow::detect_state_change(bool manual_update)
         case 0:
             ui->state_label->setText("CONTROL\nPOWER ON");
             ui->small_state_label->setText("CTRL PW ON");
-            if(showing_more) ui->state_frame->setStyleSheet(sm_grey_state_frame);
-            else ui->state_frame->setStyleSheet(lg_grey_state_frame);
-            ui->prev_state_label->setEnabled(false);
-            ui->next_state_label->setEnabled(true);
-            ui->next_state_label->setText("Warm Up →");
-            ui->prev_state_button->setStyleSheet(showing_more ? sm_prev_arrow : lg_prev_arrow);
+            if(showing_more) ui->state_frame->setStyleSheet(med_grey_state);
+            else ui->state_frame->setStyleSheet(lg_grey_state);
+            ui->prev_state_button->setStyleSheet(showing_more ? med_prev_arrow : lg_prev_arrow);
             ui->prev_state_button->setText("");
-            ui->next_state_button->setStyleSheet(showing_more ? sm_next_arrow : lg_next_arrow);
+            ui->next_state_button->setStyleSheet(showing_more ? med_next_arrow : lg_next_arrow);
             ui->next_state_button->setText("");
             ui->state_mini_label->setText("MW Off");
             break;
         case 1:
-            ui->prev_state_label->setEnabled(true);
-            ui->next_state_label->setEnabled(true);
             if(gyro.is_paused())
             {
-                if(showing_more) ui->state_frame->setStyleSheet(sm_grey_state_frame);
-                else ui->state_frame->setStyleSheet(lg_grey_state_frame);
+                if(showing_more) ui->state_frame->setStyleSheet(med_grey_state);
+                else ui->state_frame->setStyleSheet(lg_grey_state);
 
                 if(ramping_up)
                 {
                     ui->state_label->setText("WARM UP\n(PAUSED)");
                     ui->small_state_label->setText("WARM UP");
-                    ui->prev_state_button->setStyleSheet(showing_more ? sm_prev_arrow : lg_prev_arrow);
+                    ui->prev_state_button->setStyleSheet(showing_more ? med_prev_arrow : lg_prev_arrow);
                     ui->prev_state_button->setText("");
-                    ui->next_state_button->setStyleSheet(showing_more ? sm_next_arrow : lg_next_arrow);
+                    ui->next_state_button->setStyleSheet(showing_more ? med_next_arrow : lg_next_arrow);
                     ui->next_state_button->setText("");
-                    ui->prev_state_label->setText("← Cool Down");
-                    ui->next_state_label->setText("Resume Warm Up →");
                     ui->state_mini_label->setText(QString::number(100*(gyro.get_fil_curr()/gyro.FIL_CURR_LIMIT)) + "%");
                 }
                 else if(ramping_down)
                 {
                     ui->state_label->setText("COOL DOWN\n(PAUSED)");
                     ui->small_state_label->setText("COOL DOWN");
-                    ui->prev_state_button->setStyleSheet(showing_more ? sm_prev_arrow : lg_prev_arrow);
+                    ui->prev_state_button->setStyleSheet(showing_more ? med_prev_arrow : lg_prev_arrow);
                     ui->prev_state_button->setText("");
-                    ui->next_state_button->setStyleSheet(showing_more ? sm_next_arrow : lg_next_arrow);
+                    ui->next_state_button->setStyleSheet(showing_more ? med_next_arrow : lg_next_arrow);
                     ui->next_state_button->setText("");
-                    ui->prev_state_label->setText("← Resume Cool Down");
-                    ui->next_state_label->setText("Warm Up →");
                     ui->state_mini_label->setText(QString::number(100*(1-(gyro.get_fil_curr()/gyro.FIL_CURR_LIMIT))) + "%");
                 }
             }
             else
             {
-                if(showing_more) ui->state_frame->setStyleSheet(sm_orange_state_frame);
-                else ui->state_frame->setStyleSheet(lg_orange_state_frame);
+                if(showing_more) ui->state_frame->setStyleSheet(med_orange_state);
+                else ui->state_frame->setStyleSheet(lg_orange_state);
 
                 if(ramping_up)
                 {
                     ui->state_label->setText("WARM UP");
                     ui->small_state_label->setText("WARM UP");
-                    ui->prev_state_button->setStyleSheet(showing_more ? sm_pause_bubble : lg_pause_bubble);
+                    ui->prev_state_button->setStyleSheet(showing_more ? med_pause_bubble : lg_pause_bubble);
                     ui->prev_state_button->setText("II");
-                    ui->next_state_button->setStyleSheet(showing_more ? sm_next_arrow : lg_next_arrow);
+                    ui->next_state_button->setStyleSheet(showing_more ? med_next_arrow : lg_next_arrow);
                     ui->next_state_button->setText("");
-                    ui->prev_state_label->setText("← Pause");
-                    ui->next_state_label->setText("HV Standby →");
                     ui->state_mini_label->setText(QString::number(100*(gyro.get_fil_curr()/gyro.FIL_CURR_LIMIT)) + "%");
                 }
                 else if(ramping_down)
                 {
                     ui->state_label->setText("COOL DOWN");
                     ui->small_state_label->setText("COOL DOWN");
-                    ui->prev_state_button->setStyleSheet(showing_more ? sm_prev_arrow : lg_prev_arrow);
+                    ui->prev_state_button->setStyleSheet(showing_more ? med_prev_arrow : lg_prev_arrow);
                     ui->prev_state_button->setText("");
-                    ui->next_state_button->setStyleSheet(showing_more ? sm_pause_bubble : lg_pause_bubble);
+                    ui->next_state_button->setStyleSheet(showing_more ? med_pause_bubble : lg_pause_bubble);
                     ui->next_state_button->setText("II");
-                    ui->prev_state_label->setText("← Control Power On");
-                    ui->next_state_label->setText("Pause →");
                     ui->state_mini_label->setText(QString::number(100*(1-(gyro.get_fil_curr()/gyro.FIL_CURR_LIMIT))) + "%");
                 }
             }
             break;
         case 2:
-            ui->prev_state_button->setStyleSheet(showing_more ? sm_prev_arrow : lg_prev_arrow);
+            ui->prev_state_button->setStyleSheet(showing_more ? med_prev_arrow : lg_prev_arrow);
             ui->prev_state_button->setText("");
-            ui->next_state_button->setStyleSheet(showing_more ? sm_next_arrow : lg_next_arrow);
+            ui->next_state_button->setStyleSheet(showing_more ? med_next_arrow : lg_next_arrow);
             ui->next_state_button->setText("");
-            ui->prev_state_label->setEnabled(true);
-            ui->next_state_label->setEnabled(true);
             ui->state_label->setText("HV STANDBY");
             ui->small_state_label->setText("HV STANDBY");
-            if(showing_more) ui->state_frame->setStyleSheet(sm_grey_state_frame);
-            else ui->state_frame->setStyleSheet(lg_grey_state_frame);
-            ui->prev_state_label->setText("← Cool Down");
-            ui->next_state_label->setText("MW On →");
+            if(showing_more) ui->state_frame->setStyleSheet(med_grey_state);
+            else ui->state_frame->setStyleSheet(lg_grey_state);
             ui->state_mini_label->setText("MW Off");
             break;
         case 3:
             ui->state_label->setText("MW ON ⚡");
             ui->small_state_label->setText("MW ON");
-            ui->prev_state_label->setEnabled(true);
-            ui->next_state_label->setEnabled(false);
-            if(showing_more) ui->state_frame->setStyleSheet(sm_green_state_frame);
-            else ui->state_frame->setStyleSheet(lg_green_state_frame);
-            ui->prev_state_label->setText("← HV Standby");
+            if(showing_more) ui->state_frame->setStyleSheet(med_green_state);
+            else ui->state_frame->setStyleSheet(lg_green_state);
             ui->state_mini_label->setText(QString::number(100*(gyro.get_power()/gyro.POWER_LIMIT)) + "% power");
             break;
         }
@@ -1560,7 +1533,7 @@ void MainWindow::on_maximize_button_clicked()
 {
     if(this->isMaximized()) this->showNormal();
     else this->showMaximized();
-    update_margins();
+    //update_margins();
 }
 
 void MainWindow::on_settings_button_clicked()
@@ -1576,8 +1549,6 @@ void MainWindow::set_ui_expanded(bool expand)
     {
         showing_more = true;
         ui->beam_params_group->setVisible(true);
-        ui->settings_frame->setVisible(true);
-        ui->clock_frame->setVisible(true);
         ui->more_button->setText("LESS ▲");
         //ui->show_more_layout->setContentsMargins(0,0,0,20);
         //ui->control_grid->setVerticalSpacing(50);
@@ -1594,8 +1565,6 @@ void MainWindow::set_ui_expanded(bool expand)
     {
         showing_more = false;
         ui->beam_params_group->setVisible(false);
-        ui->settings_frame->setVisible(false);
-        ui->clock_frame->setVisible(false);
         ui->more_button->setText("MORE ▼");
         //ui->show_more_layout->setContentsMargins(0,0,0,18);
         //ui->control_grid->setVerticalSpacing(60);
