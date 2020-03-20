@@ -1549,6 +1549,8 @@ void MainWindow::set_ui_expanded(bool expand)
     {
         showing_more = true;
         ui->beam_params_group->setVisible(true);
+        ui->show_more_layout->setContentsMargins(0,0,0,30);
+        ui->control_toggle_layout->setContentsMargins(0,10,0,10);
         ui->more_button->setText("LESS ▲");
         //ui->show_more_layout->setContentsMargins(0,0,0,20);
         //ui->control_grid->setVerticalSpacing(50);
@@ -1565,6 +1567,8 @@ void MainWindow::set_ui_expanded(bool expand)
     {
         showing_more = false;
         ui->beam_params_group->setVisible(false);
+        ui->show_more_layout->setContentsMargins(0,0,0,0);
+        ui->control_toggle_layout->setContentsMargins(0,20,0,20);
         ui->more_button->setText("MORE ▼");
         //ui->show_more_layout->setContentsMargins(0,0,0,18);
         //ui->control_grid->setVerticalSpacing(60);

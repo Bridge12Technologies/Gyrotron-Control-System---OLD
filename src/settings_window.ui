@@ -152,7 +152,7 @@ QPushButton:disabled {
            </size>
           </property>
           <property name="styleSheet">
-           <string notr="true">border: none; background-image: url(:/images/cog_grey_24.png);</string>
+           <string notr="true">border: none; background: transparent; background-image: url(:/images/cog_grey_24.png);</string>
           </property>
           <property name="frameShape">
            <enum>QFrame::StyledPanel</enum>

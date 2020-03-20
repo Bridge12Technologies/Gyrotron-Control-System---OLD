@@ -58,5 +58,7 @@
         <file>images/pointer.png</file>
         <file>images/menu.png</file>
         <file>images/pointer_lgrey.png</file>
+        <file>images/arrows_lgrey.png</file>
+        <file>images/arrows_white.png</file>
     </qresource>
 </RCC>

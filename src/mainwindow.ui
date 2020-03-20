@@ -897,9 +897,9 @@ color: #555753;
        <number>0</number>
       </property>
       <widget class="QWidget" name="control_page">
-       <layout class="QVBoxLayout" name="verticalLayout_21" stretch="3,0,1">
+       <layout class="QVBoxLayout" name="verticalLayout_21" stretch="1,0,0">
         <property name="spacing">
-         <number>15</number>
+         <number>0</number>
         </property>
         <property name="leftMargin">
          <number>30</number>
@@ -911,10 +911,10 @@ color: #555753;
          <number>30</number>
         </property>
         <property name="bottomMargin">
-         <number>30</number>
+         <number>0</number>
         </property>
         <item>
-         <layout class="QGridLayout" name="control_grid" rowminimumheight="1,0,0">
+         <layout class="QGridLayout" name="control_grid" rowminimumheight="0,0,0">
           <property name="spacing">
            <number>30</number>
           </property>
@@ -932,7 +932,7 @@ color: #555753;
             <property name="maximumSize">
              <size>
               <width>600</width>
-              <height>150</height>
+              <height>130</height>
              </size>
             </property>
             <property name="font">
@@ -997,7 +997,7 @@ QGroupBox::title:disabled { color: rgb(180,180,180); }</string>
                <property name="font">
                 <font>
                  <family>Open Sans</family>
-                 <pointsize>12</pointsize>
+                 <pointsize>11</pointsize>
                 </font>
                </property>
                <property name="styleSheet">
@@ -1133,14 +1133,14 @@ QPushButton:disabled { background-color: rgb(220,220,220); }</string>
             </property>
             <property name="minimumSize">
              <size>
-              <width>350</width>
+              <width>310</width>
               <height>100</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
               <width>600</width>
-              <height>150</height>
+              <height>130</height>
              </size>
             </property>
             <property name="font">
@@ -1205,7 +1205,7 @@ QGroupBox::title:disabled { color: rgb(180,180,180); }</string>
                <property name="font">
                 <font>
                  <family>Open Sans</family>
-                 <pointsize>12</pointsize>
+                 <pointsize>11</pointsize>
                 </font>
                </property>
                <property name="styleSheet">
@@ -1338,14 +1338,14 @@ QPushButton:disabled { background-color: rgb(220,220,220); }</string>
             </property>
             <property name="minimumSize">
              <size>
-              <width>400</width>
-              <height>290</height>
+              <width>430</width>
+              <height>325</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>420</width>
-              <height>400</height>
+              <width>500</width>
+              <height>500</height>
              </size>
             </property>
             <property name="font">
@@ -1769,14 +1769,14 @@ QLabel:disabled{ color: rgb(180,180,180); }</string>
             </property>
             <property name="minimumSize">
              <size>
-              <width>400</width>
+              <width>430</width>
               <height>100</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>420</width>
-              <height>150</height>
+              <width>500</width>
+              <height>130</height>
              </size>
             </property>
             <property name="font">
@@ -1831,13 +1831,13 @@ QGroupBox::title:disabled { color: rgb(180,180,180); }</string>
                </property>
                <property name="minimumSize">
                 <size>
-                 <width>212</width>
+                 <width>232</width>
                  <height>45</height>
                 </size>
                </property>
                <property name="maximumSize">
                 <size>
-                 <width>220</width>
+                 <width>232</width>
                  <height>45</height>
                 </size>
                </property>
@@ -1892,10 +1892,10 @@ background-color: white;
 }</string>
                </property>
                <property name="currentText">
-                <string> FREQUENCY CONTROL</string>
+                <string>  AUTO POWER CONTROL</string>
                </property>
                <property name="currentIndex">
-                <number>1</number>
+                <number>0</number>
                </property>
                <property name="iconSize">
                 <size>
@@ -1905,17 +1905,17 @@ background-color: white;
                </property>
                <item>
                 <property name="text">
-                 <string>      POWER CONTROL</string>
+                 <string>  AUTO POWER CONTROL</string>
                 </property>
                </item>
                <item>
                 <property name="text">
-                 <string> FREQUENCY CONTROL</string>
+                 <string>    AUTO FREQ CONTROL</string>
                 </property>
                </item>
                <item>
                 <property name="text">
-                 <string>    CURRENT CONTROL</string>
+                 <string>AUTO CURRENT CONTROL</string>
                 </property>
                </item>
               </widget>
@@ -1996,21 +1996,21 @@ QPushButton:disabled { background-color: rgb(220,220,220); }</string>
              <bool>true</bool>
             </property>
             <property name="sizePolicy">
-             <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
+             <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
               <horstretch>0</horstretch>
               <verstretch>0</verstretch>
              </sizepolicy>
             </property>
             <property name="minimumSize">
              <size>
-              <width>695</width>
-              <height>290</height>
+              <width>680</width>
+              <height>325</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
               <width>1300</width>
-              <height>400</height>
+              <height>500</height>
              </size>
             </property>
             <property name="font">
@@ -2055,7 +2055,7 @@ QGroupBox::title:disabled { color: rgb(180,180,180); }</string>
                  </property>
                  <property name="sizeHint" stdset="0">
                   <size>
-                   <width>40</width>
+                   <width>0</width>
                    <height>20</height>
                   </size>
                  </property>
@@ -2354,7 +2354,7 @@ border-image: url(:/images/forward_disabled.png) 0 0 0 0 stretch stretch;
                  </property>
                  <property name="sizeHint" stdset="0">
                   <size>
-                   <width>40</width>
+                   <width>0</width>
                    <height>20</height>
                   </size>
                  </property>
@@ -2376,7 +2376,7 @@ border-image: url(:/images/forward_disabled.png) 0 0 0 0 stretch stretch;
               </spacer>
              </item>
              <item>
-              <layout class="QGridLayout" name="gridLayout_2" columnstretch="1,0,1,0,1,0,1,0,1">
+              <layout class="QGridLayout" name="gridLayout_2" columnstretch="2,0,3,0,3,0,3,0,2">
                <property name="horizontalSpacing">
                 <number>0</number>
                </property>
@@ -2390,7 +2390,7 @@ border-image: url(:/images/forward_disabled.png) 0 0 0 0 stretch stretch;
                  </property>
                  <property name="sizeHint" stdset="0">
                   <size>
-                   <width>40</width>
+                   <width>0</width>
                    <height>20</height>
                   </size>
                  </property>
@@ -2403,7 +2403,7 @@ border-image: url(:/images/forward_disabled.png) 0 0 0 0 stretch stretch;
                  </property>
                  <property name="sizeHint" stdset="0">
                   <size>
-                   <width>40</width>
+                   <width>0</width>
                    <height>20</height>
                   </size>
                  </property>
@@ -2487,7 +2487,7 @@ border-image: url(:/images/forward_disabled.png) 0 0 0 0 stretch stretch;
                   </size>
                  </property>
                  <property name="styleSheet">
-                  <string notr="true">background: transparent; border: none; padding-left: 1px;</string>
+                  <string notr="true">background: transparent; border: none; color: #a4a4a4; padding-left: 1px;</string>
                  </property>
                  <property name="text">
                   <string/>
@@ -2571,8 +2571,9 @@ border-image: url(:/images/forward_disabled.png) 0 0 0 0 stretch stretch;
                  </property>
                  <property name="icon">
                   <iconset resource="resources.qrc">
-                   <normaloff>:/images/updown_lgrey.png</normaloff>
-                   <disabledoff>:/images/updown_lgrey.png</disabledoff>:/images/updown_lgrey.png</iconset>
+                   <normaloff>:/images/arrows_lgrey.png</normaloff>
+                   <disabledoff>:/images/arrows_lgrey.png</disabledoff>
+                   <disabledon>:/images/arrows_lgrey.png</disabledon>:/images/arrows_lgrey.png</iconset>
                  </property>
                  <property name="iconSize">
                   <size>
@@ -2665,11 +2666,17 @@ border-image: url(:/images/forward_disabled.png) 0 0 0 0 stretch stretch;
                    <height>20</height>
                   </size>
                  </property>
+                 <property name="font">
+                  <font>
+                   <family>Open Sans</family>
+                   <pointsize>10</pointsize>
+                  </font>
+                 </property>
                  <property name="styleSheet">
-                  <string notr="true">background: transparent; border: none;</string>
+                  <string notr="true">background: transparent; border: none; color: #a4a4a4; padding-left: 1px;</string>
                  </property>
                  <property name="text">
-                  <string/>
+                  <string>Warm/Cool</string>
                  </property>
                  <property name="iconSize">
                   <size>
@@ -2696,11 +2703,17 @@ border-image: url(:/images/forward_disabled.png) 0 0 0 0 stretch stretch;
                    <height>20</height>
                   </size>
                  </property>
+                 <property name="font">
+                  <font>
+                   <family>Open Sans</family>
+                   <pointsize>10</pointsize>
+                  </font>
+                 </property>
                  <property name="styleSheet">
-                  <string notr="true">background: transparent; border: none;</string>
+                  <string notr="true">background: transparent; border: none; color: #a4a4a4; padding-left: 1px;</string>
                  </property>
                  <property name="text">
-                  <string/>
+                  <string>HV Standby</string>
                  </property>
                  <property name="iconSize">
                   <size>
@@ -2727,11 +2740,17 @@ border-image: url(:/images/forward_disabled.png) 0 0 0 0 stretch stretch;
                    <height>20</height>
                   </size>
                  </property>
+                 <property name="font">
+                  <font>
+                   <family>Open Sans</family>
+                   <pointsize>10</pointsize>
+                  </font>
+                 </property>
                  <property name="styleSheet">
-                  <string notr="true">background: transparent; border: none;</string>
+                  <string notr="true">background: transparent; border: none; color: #a4a4a4; padding-left: 1px;</string>
                  </property>
                  <property name="text">
-                  <string/>
+                  <string>MW On</string>
                  </property>
                  <property name="iconSize">
                   <size>
@@ -2762,9 +2781,15 @@ border-image: url(:/images/forward_disabled.png) 0 0 0 0 stretch stretch;
          </layout>
         </item>
         <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_10">
+         <layout class="QHBoxLayout" name="control_toggle_layout">
           <property name="spacing">
            <number>0</number>
+          </property>
+          <property name="topMargin">
+           <number>10</number>
+          </property>
+          <property name="bottomMargin">
+           <number>10</number>
           </property>
           <item>
            <widget class="Line" name="line_3">
@@ -2834,10 +2859,13 @@ QPushButton:hover:pressed { background-color: rgb(200,200,200); }</string>
         <item>
          <layout class="QHBoxLayout" name="show_more_layout" stretch="1">
           <property name="spacing">
-           <number>30</number>
+           <number>0</number>
+          </property>
+          <property name="topMargin">
+           <number>0</number>
           </property>
           <property name="bottomMargin">
-           <number>0</number>
+           <number>30</number>
           </property>
           <item>
            <widget class="QGroupBox" name="beam_params_group">
@@ -2858,7 +2886,7 @@ QPushButton:hover:pressed { background-color: rgb(200,200,200); }</string>
             </property>
             <property name="maximumSize">
              <size>
-              <width>10000</width>
+              <width>1808</width>
               <height>800</height>
              </size>
             </property>
@@ -4035,7 +4063,7 @@ background-position: center;
             <property name="maximumSize">
              <size>
               <width>360</width>
-              <height>16777215</height>
+              <height>200</height>
              </size>
             </property>
             <property name="font">
@@ -4423,7 +4451,7 @@ border: none;
             <property name="maximumSize">
              <size>
               <width>360</width>
-              <height>80</height>
+              <height>100</height>
              </size>
             </property>
             <property name="font">
@@ -4549,7 +4577,7 @@ QGroupBox::title:disabled { color: rgb(180,180,180); }</string>
             <property name="maximumSize">
              <size>
               <width>360</width>
-              <height>80</height>
+              <height>100</height>
              </size>
             </property>
             <property name="font">
@@ -4675,7 +4703,7 @@ QGroupBox::title:disabled { color: rgb(180,180,180); }</string>
             <property name="maximumSize">
              <size>
               <width>360</width>
-              <height>80</height>
+              <height>100</height>
              </size>
             </property>
             <property name="font">
@@ -4794,7 +4822,7 @@ QGroupBox::title:disabled { color: rgb(180,180,180); }</string>
             <property name="maximumSize">
              <size>
               <width>360</width>
-              <height>80</height>
+              <height>100</height>
              </size>
             </property>
             <property name="sizeIncrement">
@@ -4896,7 +4924,7 @@ QGroupBox::title:disabled { color: rgb(180,180,180); }</string>
             <property name="maximumSize">
              <size>
               <width>360</width>
-              <height>80</height>
+              <height>100</height>
              </size>
             </property>
             <property name="font">
