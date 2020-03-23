@@ -16,10 +16,8 @@
         <file>images/no_faults.png</file>
         <file>images/error_red.png</file>
         <file>images/warning_yellow.png</file>
-        <file>images/clear_icon.png</file>
         <file>images/dc_icon.png</file>
         <file>images/dc_icon2.png</file>
-        <file>images/clear_icon2.png</file>
         <file>images/settings_dark.png</file>
         <file>lib/face/icons/error54.png</file>
         <file>lib/face/icons/info.png</file>
@@ -38,27 +36,18 @@
         <file>lib/face/icons/pencil.png</file>
         <file>lib/face/icons/submit.png</file>
         <file>images/gauge.png</file>
-        <file>images/gauge-alert.png</file>
         <file>images/thermometer.png</file>
-        <file>images/thermometer-alert.png</file>
         <file>images/water.png</file>
-        <file>images/water-off.png</file>
         <file>images/flash_grey.png</file>
         <file>images/flash_white.png</file>
         <file>images/noflash_grey.png</file>
         <file>images/noflash_white.png</file>
         <file>images/power_grey.png</file>
         <file>images/power_white.png</file>
-        <file>images/updown_grey.png</file>
-        <file>images/updown_white.png</file>
-        <file>images/flash_lgrey.png</file>
-        <file>images/noflash_lgrey.png</file>
-        <file>images/power_lgrey.png</file>
-        <file>images/updown_lgrey.png</file>
         <file>images/pointer.png</file>
         <file>images/menu.png</file>
-        <file>images/pointer_lgrey.png</file>
-        <file>images/arrows_lgrey.png</file>
         <file>images/arrows_white.png</file>
+        <file>images/arrows_grey.png</file>
+        <file>images/water-pump.png</file>
     </qresource>
 </RCC>

@@ -52,8 +52,6 @@ void MainWindow::init_gui()
         group->setGraphicsEffect(shadows.back());
     }
 
-    set_ui_expanded(true);
-
     init_plots();
 
     QPalette palette;
@@ -354,16 +352,27 @@ void MainWindow::detect_state_change(bool manual_update)
     bool e_ramping = gyro.is_e_ramping();
     bool ramping_up = gyro.is_ramping_up();
     bool ramping_down = gyro.is_ramping_down();
+    bool windowed_mode = !(this->isMaximized());
+
+    if(windowed_mode) {
+        ui->state_label->setStyleSheet("color: white; background: none; font-size: 16pt;");
+        ui->state_top_label->setStyleSheet("background: transparent; font-size: 11pt; color: white;");
+        ui->state_mini_label->setStyleSheet("background: transparent; font-size: 11pt; color: white;");
+    } else {
+        ui->state_label->setStyleSheet("color: white; background: none; font-size: 18pt;");
+        ui->state_top_label->setStyleSheet("background: transparent; font-size: 13pt; color: white;");
+        ui->state_mini_label->setStyleSheet("background: transparent; font-size: 13pt; color: white;");
+    }
 
     if(e_ramping)
     {
-        ui->state_label->setText("EMERGENCY\nRAMP DOWN");
+        ui->state_label->setText("EMERGENCY RAMP DOWN");
         ui->small_state_label->setText("E RAMP DOWN");
-        if(showing_more) ui->state_frame->setStyleSheet(med_red_state);
+        if(windowed_mode) ui->state_frame->setStyleSheet(med_red_state);
         else ui->state_frame->setStyleSheet(lg_red_state);
-        ui->prev_state_button->setStyleSheet(showing_more ? med_prev_arrow : lg_prev_arrow);
+        ui->prev_state_button->setStyleSheet(windowed_mode ? med_prev_arrow : lg_prev_arrow);
         ui->prev_state_button->setText("");
-        ui->next_state_button->setStyleSheet(showing_more ? med_next_arrow : lg_next_arrow);
+        ui->next_state_button->setStyleSheet(windowed_mode ? med_next_arrow : lg_next_arrow);
         ui->next_state_button->setText("");
         ui->state_mini_label->setText(QString::number(100*(1-(gyro.get_fil_curr()/gyro.FIL_CURR_LIMIT))) + "%");
     }
@@ -372,55 +381,52 @@ void MainWindow::detect_state_change(bool manual_update)
         switch(current_state)
         {
         case 0:
-            ui->state_label->setText("CONTROL\nPOWER ON");
+            ui->state_label->setText("CONTROL POWER ON");
             ui->small_state_label->setText("CTRL PW ON");
-            if(showing_more) ui->state_frame->setStyleSheet(med_grey_state);
-            else ui->state_frame->setStyleSheet(lg_grey_state);
-            ui->prev_state_button->setStyleSheet(showing_more ? med_prev_arrow : lg_prev_arrow);
+            if(windowed_mode) ui->state_frame->setStyleSheet(med_blue_state);
+            else ui->state_frame->setStyleSheet(lg_blue_state);
+            ui->prev_state_button->setStyleSheet(windowed_mode ? med_prev_arrow : lg_prev_arrow);
             ui->prev_state_button->setText("");
-            ui->next_state_button->setStyleSheet(showing_more ? med_next_arrow : lg_next_arrow);
+            ui->next_state_button->setStyleSheet(windowed_mode ? med_next_arrow : lg_next_arrow);
             ui->next_state_button->setText("");
             ui->state_mini_label->setText("MW Off");
             break;
         case 1:
+            if(windowed_mode) ui->state_frame->setStyleSheet(med_orange_state);
+            else ui->state_frame->setStyleSheet(lg_orange_state);
+
             if(gyro.is_paused())
             {
-                if(showing_more) ui->state_frame->setStyleSheet(med_grey_state);
-                else ui->state_frame->setStyleSheet(lg_grey_state);
-
                 if(ramping_up)
                 {
-                    ui->state_label->setText("WARM UP\n(PAUSED)");
+                    ui->state_label->setText("WARM UP (PAUSED)");
                     ui->small_state_label->setText("WARM UP");
-                    ui->prev_state_button->setStyleSheet(showing_more ? med_prev_arrow : lg_prev_arrow);
+                    ui->prev_state_button->setStyleSheet(windowed_mode ? med_prev_arrow : lg_prev_arrow);
                     ui->prev_state_button->setText("");
-                    ui->next_state_button->setStyleSheet(showing_more ? med_next_arrow : lg_next_arrow);
+                    ui->next_state_button->setStyleSheet(windowed_mode ? med_next_arrow : lg_next_arrow);
                     ui->next_state_button->setText("");
                     ui->state_mini_label->setText(QString::number(100*(gyro.get_fil_curr()/gyro.FIL_CURR_LIMIT)) + "%");
                 }
                 else if(ramping_down)
                 {
-                    ui->state_label->setText("COOL DOWN\n(PAUSED)");
+                    ui->state_label->setText("COOL DOWN (PAUSED)");
                     ui->small_state_label->setText("COOL DOWN");
-                    ui->prev_state_button->setStyleSheet(showing_more ? med_prev_arrow : lg_prev_arrow);
+                    ui->prev_state_button->setStyleSheet(windowed_mode ? med_prev_arrow : lg_prev_arrow);
                     ui->prev_state_button->setText("");
-                    ui->next_state_button->setStyleSheet(showing_more ? med_next_arrow : lg_next_arrow);
+                    ui->next_state_button->setStyleSheet(windowed_mode ? med_next_arrow : lg_next_arrow);
                     ui->next_state_button->setText("");
                     ui->state_mini_label->setText(QString::number(100*(1-(gyro.get_fil_curr()/gyro.FIL_CURR_LIMIT))) + "%");
                 }
             }
             else
             {
-                if(showing_more) ui->state_frame->setStyleSheet(med_orange_state);
-                else ui->state_frame->setStyleSheet(lg_orange_state);
-
                 if(ramping_up)
                 {
                     ui->state_label->setText("WARM UP");
                     ui->small_state_label->setText("WARM UP");
-                    ui->prev_state_button->setStyleSheet(showing_more ? med_pause_bubble : lg_pause_bubble);
+                    ui->prev_state_button->setStyleSheet(windowed_mode ? med_pause_bubble : lg_pause_bubble);
                     ui->prev_state_button->setText("II");
-                    ui->next_state_button->setStyleSheet(showing_more ? med_next_arrow : lg_next_arrow);
+                    ui->next_state_button->setStyleSheet(windowed_mode ? med_next_arrow : lg_next_arrow);
                     ui->next_state_button->setText("");
                     ui->state_mini_label->setText(QString::number(100*(gyro.get_fil_curr()/gyro.FIL_CURR_LIMIT)) + "%");
                 }
@@ -428,34 +434,37 @@ void MainWindow::detect_state_change(bool manual_update)
                 {
                     ui->state_label->setText("COOL DOWN");
                     ui->small_state_label->setText("COOL DOWN");
-                    ui->prev_state_button->setStyleSheet(showing_more ? med_prev_arrow : lg_prev_arrow);
+                    ui->prev_state_button->setStyleSheet(windowed_mode ? med_prev_arrow : lg_prev_arrow);
                     ui->prev_state_button->setText("");
-                    ui->next_state_button->setStyleSheet(showing_more ? med_pause_bubble : lg_pause_bubble);
+                    ui->next_state_button->setStyleSheet(windowed_mode ? med_pause_bubble : lg_pause_bubble);
                     ui->next_state_button->setText("II");
                     ui->state_mini_label->setText(QString::number(100*(1-(gyro.get_fil_curr()/gyro.FIL_CURR_LIMIT))) + "%");
                 }
             }
             break;
         case 2:
-            ui->prev_state_button->setStyleSheet(showing_more ? med_prev_arrow : lg_prev_arrow);
+            ui->prev_state_button->setStyleSheet(windowed_mode ? med_prev_arrow : lg_prev_arrow);
             ui->prev_state_button->setText("");
-            ui->next_state_button->setStyleSheet(showing_more ? med_next_arrow : lg_next_arrow);
+            ui->next_state_button->setStyleSheet(windowed_mode ? med_next_arrow : lg_next_arrow);
             ui->next_state_button->setText("");
             ui->state_label->setText("HV STANDBY");
             ui->small_state_label->setText("HV STANDBY");
-            if(showing_more) ui->state_frame->setStyleSheet(med_grey_state);
-            else ui->state_frame->setStyleSheet(lg_grey_state);
+            if(windowed_mode) ui->state_frame->setStyleSheet(med_purple_state);
+            else ui->state_frame->setStyleSheet(lg_purple_state);
             ui->state_mini_label->setText("MW Off");
             break;
         case 3:
-            ui->state_label->setText("MW ON ⚡");
+            ui->state_label->setText("MW OUTPUT ON");
             ui->small_state_label->setText("MW ON");
-            if(showing_more) ui->state_frame->setStyleSheet(med_green_state);
+            if(windowed_mode) ui->state_frame->setStyleSheet(med_green_state);
             else ui->state_frame->setStyleSheet(lg_green_state);
             ui->state_mini_label->setText(QString::number(100*(gyro.get_power()/gyro.POWER_LIMIT)) + "% power");
             break;
         }
     }
+
+    //update_state_diagram();
+
     // enable/disable state machine arrows based on system status
     ui->prev_state_button->setEnabled(current_state > 0 && !ramping_down && !e_ramping);
     ui->next_state_button->setEnabled(gyro.all_clear() && current_state < 3 && !ramping_up && !e_ramping);
@@ -667,62 +676,62 @@ void MainWindow::update_faults()
 }
 
 void MainWindow::update_indicators()
-{/*
+{
+    bool windowed_mode = !(this->isMaximized());
+
     if(gyro.rsi_available())
     {
-        ui->temp_indicator->setEnabled(true);
-        ui->flow_indicator->setEnabled(true);
+        ui->temp_status->setEnabled(true);
+        ui->flow_status->setEnabled(true);
         switch(gyro.get_temp_status())
         {
-        case 0: ui->temp_indicator->setStyleSheet(showing_more ? sm_green_bubble : lg_green_bubble); ui->temp_status->setText("OK"); break;
-        case -1: ui->temp_indicator->setStyleSheet(showing_more ? sm_yellow_bubble : lg_yellow_bubble); ui->temp_status->setText("WARN"); break;
-        case -2: ui->temp_indicator->setStyleSheet(showing_more ? sm_red_bubble : lg_red_bubble); ui->temp_status->setText("HIGH!"); break;
+        case 0: ui->temp_status->setStyleSheet(windowed_mode ? med_green_indicator : lg_green_indicator); ui->temp_status->setText("OK"); break;
+        case -1: ui->temp_status->setStyleSheet(windowed_mode ? med_yellow_indicator : lg_yellow_indicator); ui->temp_status->setText("WARN"); break;
+        case -2: ui->temp_status->setStyleSheet(windowed_mode ? med_red_indicator : lg_red_indicator); ui->temp_status->setText("HIGH!"); break;
         }
         switch(gyro.get_flow_status())
         {
-        case 0: ui->flow_indicator->setStyleSheet(showing_more ? sm_green_bubble : lg_green_bubble); ui->flow_status->setText("OK"); break;
-        case -1: ui->flow_indicator->setStyleSheet(showing_more ? sm_yellow_bubble : lg_yellow_bubble); ui->flow_status->setText("WARN"); break;
-        case -2: ui->flow_indicator->setStyleSheet(showing_more ? sm_red_bubble : lg_red_bubble); ui->flow_status->setText("LOW!"); break;
+        case 0: ui->flow_status->setStyleSheet(windowed_mode ? med_green_indicator : lg_green_indicator); ui->flow_status->setText("OK"); break;
+        case -1: ui->flow_status->setStyleSheet(windowed_mode ? med_yellow_indicator : lg_yellow_indicator); ui->flow_status->setText("WARN"); break;
+        case -2: ui->flow_status->setStyleSheet(windowed_mode ? med_red_indicator : lg_red_indicator); ui->flow_status->setText("LOW!"); break;
         }
     }
     else
     {
-        ui->temp_indicator->setEnabled(false);
-        ui->flow_indicator->setEnabled(false);
-        ui->temp_indicator->setStyleSheet(showing_more ? sm_green_bubble : lg_green_bubble);
-        ui->flow_indicator->setStyleSheet(showing_more ? sm_green_bubble : lg_green_bubble);
-        ui->temp_status->setText("N/A");
-        ui->flow_status->setText("N/A");
-    }
-    switch(gyro.get_fault_status())
-    {
-    case 0: ui->faults_indicator->setStyleSheet(showing_more ? sm_green_bubble : lg_green_bubble); ui->fault_status->setText("OK"); break;
-    case -1: ui->faults_indicator->setStyleSheet(showing_more ? sm_yellow_bubble : lg_yellow_bubble); ui->fault_status->setText("WARN ×" + QString::number(gyro.get_num_warnings())); break;
-    case -2: ui->faults_indicator->setStyleSheet(showing_more ? sm_red_bubble : lg_red_bubble); ui->fault_status->setText("ERR ×" + QString::number(gyro.get_num_errors())); break;
+        ui->temp_status->setStyleSheet(windowed_mode ? med_green_indicator : lg_green_indicator);
+        ui->flow_status->setStyleSheet(windowed_mode ? med_green_indicator : lg_green_indicator);
+        if(!gyro.gui_debug_mode) {
+            ui->temp_status->setEnabled(false);
+            ui->flow_status->setEnabled(false);
+            ui->temp_status->setText("N/A");
+            ui->flow_status->setText("N/A");
+        }
     }
     if(gyro.spc_available())
     {
-        ui->press_indicator->setEnabled(true);
-        ui->press_label->setText(QString::number(gyro.get_pressure()));
+        ui->vac_status->setEnabled(true);
+        ui->vac_status->setText(QString::number(gyro.get_pressure()));
         switch(gyro.get_press_status())
         {
-        case 0: ui->press_indicator->setStyleSheet(showing_more ? sm_green_bubble : lg_green_bubble); break;
-        case -1: ui->press_indicator->setStyleSheet(showing_more ? sm_yellow_bubble : lg_yellow_bubble); break;
-        case -2: ui->press_indicator->setStyleSheet(showing_more ? sm_red_bubble : lg_red_bubble); break;
+        case 0: ui->vac_status->setStyleSheet(windowed_mode ? med_green_indicator : lg_green_indicator); break;
+        case -1: ui->vac_status->setStyleSheet(windowed_mode ? med_yellow_indicator : lg_yellow_indicator); break;
+        case -2: ui->vac_status->setStyleSheet(windowed_mode ? med_red_indicator : lg_red_indicator); break;
         }
     }
     else
     {
-        ui->press_indicator->setEnabled(false);
-        ui->press_indicator->setStyleSheet(showing_more ? sm_green_bubble : lg_green_bubble);
-        ui->press_label->setText("N/A");
+        ui->vac_status->setStyleSheet(windowed_mode ? med_green_indicator : lg_green_indicator);
+        if(!gyro.gui_debug_mode) {
+            ui->vac_status->setEnabled(false);
+            ui->vac_status->setText("N/A");
+        }
     }
-*/}
+}
 
 void MainWindow::update_labels()
 {
     if(gyro.spc_available())
-        ui->press_label->setText(QString::number(gyro.get_pressure()));
+        ui->vac_status->setText(QString::number(gyro.get_pressure()));
     if(gyro.rsi_available())
     {
         ui->collector_read->setText(QString::number(gyro.get_collector_curr()));
@@ -1486,34 +1495,6 @@ void MainWindow::plot3_context_menu(const QPoint &pos)
     (void)pos;
 }
 
-void MainWindow::update_margins()
-{
-    if(!this->isMaximized())
-    {
-        ui->state_group->setStyleSheet(state_group_min);
-        ui->control_page->layout()->setSpacing(5);
-        ui->control_page->layout()->setContentsMargins(25,25,25,5);
-        ui->plot_page->layout()->setSpacing(20);
-        ui->plot_page->layout()->setContentsMargins(25,25,25,25);
-        ui->status_page->layout()->setSpacing(20);
-        ui->status_page->layout()->setContentsMargins(25,25,25,25);
-        ui->admin_page->layout()->setSpacing(20);
-        ui->admin_page->layout()->setContentsMargins(25,25,25,25);
-    }
-    else
-    {
-        ui->state_group->setStyleSheet(state_group_max);
-        ui->control_page->layout()->setSpacing(50);
-        ui->control_page->layout()->setContentsMargins(50,50,50,50);
-        ui->plot_page->layout()->setSpacing(50);
-        ui->plot_page->layout()->setContentsMargins(50,50,50,50);
-        ui->status_page->layout()->setSpacing(50);
-        ui->status_page->layout()->setContentsMargins(50,50,50,50);
-        ui->admin_page->layout()->setSpacing(50);
-        ui->admin_page->layout()->setContentsMargins(50,50,50,50);
-    }
-}
-
 void MainWindow::mousePressEvent(QMouseEvent *evt)
 {
     oldPos = evt->globalPos();
@@ -1525,15 +1506,41 @@ void MainWindow::mouseMoveEvent(QMouseEvent *evt)
     oldPos = evt->globalPos();
 }
 void MainWindow::resizeEvent(QResizeEvent* evt)
-{ QMainWindow::resizeEvent(evt); /*update_margins();*/ }
+{ QMainWindow::resizeEvent(evt); }
 
 void MainWindow::on_close_button_clicked() { this->close(); }
 void MainWindow::on_minimize_button_clicked() { this->showMinimized(); }
 void MainWindow::on_maximize_button_clicked()
 {
-    if(this->isMaximized()) this->showNormal();
-    else this->showMaximized();
-    //update_margins();
+    if(this->isMaximized()) { this->showNormal(); toggle_lg_display(false); }
+    else { this->showMaximized(); toggle_lg_display(true); }
+}
+
+void MainWindow::toggle_lg_display(bool show_large)
+{
+    QString lg_stage_style = "border: 2px solid #a4a4a4; border-radius: 40px; background: #a4a4a4; min-width: 80px; max-width: 80px; min-height: 80px; max-height: 80px;";
+    QString med_stage_style = "border: 2px solid #a4a4a4; border-radius: 35px; background: #a4a4a4; min-width: 70px; max-width: 70px; min-height: 70px; max-height: 70px;";
+
+    if(show_large) {
+        for(auto lbl : {ui->temp_label,ui->flow_label,ui->vac_label})
+            lbl->setStyleSheet("QLabel{ background: none; color: #555753; border: none; font-size: 14pt; }");
+        for(auto btn : {ui->temp_icon,ui->flow_icon,ui->vac_icon}) {
+            btn->setStyleSheet("border: none; background: transparent; min-width: 70px; max-width: 70px; min-height: 70px; max-height: 70px;");
+            btn->setIconSize(QSize(70,70)); }
+    } else {
+        for(auto lbl : {ui->temp_label,ui->flow_label,ui->vac_label})
+            lbl->setStyleSheet("QLabel{ background: none; color: #555753; border: none; font-size: 12pt; }");
+        for(auto btn : {ui->temp_icon,ui->flow_icon,ui->vac_icon}) {
+            btn->setStyleSheet("border: none; background: transparent; min-width: 60px; max-width: 60px; min-height: 60px; max-height: 60px;");
+            btn->setIconSize(QSize(60,60)); }
+    }
+    update_indicators();
+    detect_state_change(true);
+}
+
+void MainWindow::update_state_diagram()
+{
+
 }
 
 void MainWindow::on_settings_button_clicked()
@@ -1541,56 +1548,6 @@ void MainWindow::on_settings_button_clicked()
     settings_window settings_popup(&admin_mode,ui->admin_tab,ui->stackedWidget,
                                    &blink_enabled,[=](bool e){set_blink_enabled(e);},this);
     settings_popup.exec();
-}
-
-void MainWindow::set_ui_expanded(bool expand)
-{
-    if(expand)
-    {
-        showing_more = true;
-        ui->beam_params_group->setVisible(true);
-        ui->show_more_layout->setContentsMargins(0,0,0,30);
-        ui->control_toggle_layout->setContentsMargins(0,10,0,10);
-        ui->more_button->setText("LESS ▲");
-        //ui->show_more_layout->setContentsMargins(0,0,0,20);
-        //ui->control_grid->setVerticalSpacing(50);
-        //ui->control_grid->setHorizontalSpacing(50);
-        //ui->control_page->layout()->setContentsMargins(50,50,50,15);
-        //ui->state_frame->setContentsMargins(9,40,9,40);
-        //ui->state_top_label->setStyleSheet("background: transparent; font-size: 14pt; color: white;");
-        //ui->state_mini_label->setStyleSheet("background: transparent; font-size: 14pt; color: white;");
-        //ui->state_label->setStyleSheet("QLabel { color: white; background: none; font-size: 20pt; }"
-        //                               "QLabel:disabled { color: rgb(180,180,180); }");
-        //ui->state_frame->setSizePolicy(QSizePolicy::Minimum,QSizePolicy::Minimum);
-    }
-    else
-    {
-        showing_more = false;
-        ui->beam_params_group->setVisible(false);
-        ui->show_more_layout->setContentsMargins(0,0,0,0);
-        ui->control_toggle_layout->setContentsMargins(0,20,0,20);
-        ui->more_button->setText("MORE ▼");
-        //ui->show_more_layout->setContentsMargins(0,0,0,18);
-        //ui->control_grid->setVerticalSpacing(60);
-        //ui->control_grid->setHorizontalSpacing(60);
-        //ui->control_page->layout()->setContentsMargins(60,60,60,15);
-        //ui->state_frame->setContentsMargins(9,50,9,50);
-        //ui->state_top_label->setStyleSheet("background: transparent; font-size: 16pt; color: white; margin-top: 10px;");
-        //ui->state_mini_label->setStyleSheet("background: transparent; font-size: 16pt; color: white; margin-bottom: 10px;");
-        //ui->state_label->setStyleSheet("QLabel { color: white; background: none; font-size: 26pt; }"
-        //                               "QLabel:disabled { color: rgb(180,180,180); }");
-        //ui->state_frame->setSizePolicy(QSizePolicy::Maximum,QSizePolicy::Maximum);
-    }
-    update_indicators();
-    //detect_state_change(true);
-}
-
-void MainWindow::on_more_button_clicked()
-{
-    if(showing_more)
-        set_ui_expanded(false);
-    else
-        set_ui_expanded(true);
 }
 
 void MainWindow::on_plot1_dropdown_currentIndexChanged(const QString &item)

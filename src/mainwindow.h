@@ -1,4 +1,4 @@
-#ifndef MAINWINDOW_H
+﻿#ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
 #include <QTimer>
@@ -73,7 +73,6 @@ private slots:
     void plot2_context_menu(const QPoint &pos);
     void plot3_context_menu(const QPoint &pos);
     void on_settings_button_clicked();
-    void on_more_button_clicked();
     void on_enable_button_clicked();
     void on_plot1_dropdown_currentIndexChanged(const QString &arg1);
     void on_plot2_dropdown_currentIndexChanged(const QString &arg1);
@@ -105,8 +104,8 @@ private:
     void set_blink_on(bool enable);
     void set_blink_enabled(bool enable);
     bool lists_equal(std::vector<QListWidgetItem*> list1, std::vector<QListWidgetItem*> list2);
-    void update_margins();
-    void set_ui_expanded(bool expand);
+    void toggle_lg_display(bool show_large);
+    void update_state_diagram();
 
     Ui::MainWindow *ui;
     Face gui{this};
@@ -127,6 +126,20 @@ private:
 
     QIcon warning_icon{":/images/warning_yellow.png"};
     QIcon error_icon{":/images/error_red.png"};
+
+    std::function<QString(QString,int,int,int)> indicator_style = [](QString color, int height, int width, int font_size) {
+        QString style = "QLabel{ background: " + color + "; color: white; border: none; border-radius: " + QString::number(int(height/2)) + "px; font-size: ";
+        style += QString::number(font_size) + "pt; max-height: " + QString::number(height) + "px; min-height: " + QString::number(height);
+        style += "px; min-width: " + QString::number(width) + "px; max-width: " + QString::number(width) + "px;}";
+        style += "QLabel:disabled{ color: #bdbdbd; background: rgb(220,220,220); }";
+        return style;};
+
+    QString med_green_indicator{indicator_style("#2FA84F",60,150,16)};
+    QString med_yellow_indicator{indicator_style("#FFC107",60,150,16)};
+    QString med_red_indicator{indicator_style("#F44336",60,150,16)};
+    QString lg_green_indicator{indicator_style("#2FA84F",78,195,18)};
+    QString lg_yellow_indicator{indicator_style("#FFC107",78,195,18)};
+    QString lg_red_indicator{indicator_style("#F44336",78,195,18)};
 
     QString tab_selected{"QPushButton { color: rgb(85,87,83); border: none; background: #e6e6e6; }"};
     QString tab_unselected{"QPushButton { color: rgb(85,87,83); border: none; background: rgb(210,210,210); }"
@@ -150,80 +163,44 @@ private:
     QString green_recon_button{"QPushButton{background-color: #46812B; border: none; color: white; border-radius: 22px;}"};
     QString red_recon_button{"QPushButton{background-color: #D16055; border: none; color: white; border-radius: 22px;}"};
 
-    QString state_group_min{"QGroupBox { border: none; background: white; border-radius: 20px; border: 1px solid rgb(220,220,220); width: 695px; }"
-                            "QGroupBox::title { subcontrol-origin: margin; padding: 0px 3px; left: 12px; top: 6px; color: rgb(85, 87, 83); }"
-                            "QGroupBox::title:disabled { color: rgb(180,180,180); }"};
-    QString state_group_max{"QGroupBox { border: none; background: white; border-radius: 20px; border: 1px solid rgb(220,220,220); width: 950px; }"
-                            "QGroupBox::title { subcontrol-origin: margin; padding: 0px 3px; left: 12px; top: 6px; color: rgb(85, 87, 83); }"
-                            "QGroupBox::title:disabled { color: rgb(180,180,180); }"};
+    std::function<QString(QString,int,int)> state_style = [](QString color, int height, int width) {
+        QString style = "#state_frame { background-color: " + color + "; color: white; border: none; border-radius: ";
+        style += QString::number(int(height/2)) + "px; max-height: " + QString::number(height) + "px; min-height: " + QString::number(height);
+        style += "px; max-width: " + QString::number(width) + "px; min-width: " + QString::number(width) + "px;}";
+        return style;};
 
-    QString lg_grey_state{"#state_frame { background-color: rgb(85,87,83); color: white; border: none; border-radius: 200px;"
-                                "max-width: 400px; min-width: 400px; max-height: 400px; min-height: 400px; }"};
-    QString med_grey_state{"#state_frame { background-color: rgb(85,87,83); color: white; border: none; border-radius: 125px;"
-                            "max-height: 250px; min-height: 250px; max-width: 250px; min-width: 250px; }"};
-    QString lg_green_state{"#state_frame { background-color: #46812B; color: white; border: none; border-radius: 200px;"
-                                 "max-width: 400px; min-width: 400px; max-height: 400px; min-height: 400px; }"};
-    QString med_green_state{"#state_frame { background-color: #46812B; color: white; border: none; border-radius: 125px;"
-                                 "max-width: 250px; min-width: 250px; max-height: 250px; min-height: 250px; }"};
-    QString lg_orange_state{"#state_frame { background-color: #F37021; color: white; border: none; border-radius: 200px;"
-                                  "max-width: 400px; min-width: 400px; max-height: 400px; min-height: 400px; }"};
-    QString med_orange_state{"#state_frame { background-color: #F37021; color: white; border: none; border-radius: 125px;"
-                                  "max-width: 250px; min-width: 250px; max-height: 250px; min-height: 250px; }"};
-    QString lg_red_state{"#state_frame { background-color: #D16055; color: white; border: none; border-radius: 200px;"
-                               "max-width: 400px; min-width: 400px; max-height: 400px; min-height: 400px; }"};
-    QString med_red_state{"#state_frame { background-color: #D16055; color: white; border: none; border-radius: 125px;"
-                               "max-width: 250px; min-width: 250px; max-height: 250px; min-height: 250px; }"};
+    QString lg_blue_state{state_style("#448AFF",182,455)};
+    QString lg_orange_state{state_style("#F57C00",182,455)};
+    QString lg_purple_state{state_style("#9C27B0",182,455)};
+    QString lg_green_state{state_style("#2FA84F",182,455)};
+    QString lg_red_state{state_style("#F44336",182,455)};
+    QString med_blue_state{state_style("#448AFF",130,325)};
+    QString med_orange_state{state_style("#F57C00",130,325)};
+    QString med_purple_state{state_style("#9C27B0",130,325)};
+    QString med_green_state{state_style("#2FA84F",130,325)};
+    QString med_red_state{state_style("#F44336",130,325)};
 
-    QString med_prev_arrow{"QPushButton { max-width: 216px; min-width: 216px; max-height: 216px; min-height: 216px;"
-                          "border: none; background: none; border-image: url(:/images/back_small.png) 0 0 0 0 stretch stretch; }"
-                          "QPushButton:hover { border-image: url(:/images/back_small_hover.png) 0 0 0 0 stretch stretch; }"
-                          "QPushButton:hover:pressed { border-image: url(:/images/back_small_press.png) 0 0 0 0 stretch stretch; }"
-                          "QPushButton:disabled { border-image: url(:/images/back_small_disabled.png) 0 0 0 0 stretch stretch; }"};
-    QString lg_prev_arrow{"QPushButton { max-width: 270px; min-width: 270px; max-height: 270px; min-height: 270px;"
-                          "border: none; background: none; border-image: url(:/images/back.png) 0 0 0 0 stretch stretch; }"
-                          "QPushButton:hover { border-image: url(:/images/back_hover.png) 0 0 0 0 stretch stretch; }"
-                          "QPushButton:hover:pressed { border-image: url(:/images/back_press.png) 0 0 0 0 stretch stretch; }"
-                          "QPushButton:disabled { border-image: url(:/images/back_disabled.png) 0 0 0 0 stretch stretch; }"};
-    QString med_next_arrow{"QPushButton { max-width: 216px; min-width: 216px; max-height: 216px; min-height: 216px;"
-                          "border: none; background: none; border-image: url(:/images/forward_small.png) 0 0 0 0 stretch stretch; }"
-                          "QPushButton:hover { border-image: url(:/images/forward_small_hover.png) 0 0 0 0 stretch stretch; }"
-                          "QPushButton:hover:pressed { border-image: url(:/images/forward_small_press.png) 0 0 0 0 stretch stretch; }"
-                          "QPushButton:disabled { border-image: url(:/images/forward_small_disabled.png) 0 0 0 0 stretch stretch; }"};
-    QString lg_next_arrow{"QPushButton { max-width: 270px; min-width: 270px; max-height: 270px; min-height: 270px;"
-                          "border: none; background: none; border-image: url(:/images/forward.png) 0 0 0 0 stretch stretch; }"
-                          "QPushButton:hover { border-image: url(:/images/forward_hover.png) 0 0 0 0 stretch stretch; }"
-                          "QPushButton:hover:pressed { border-image: url(:/images/forward_press.png) 0 0 0 0 stretch stretch; }"
-                          "QPushButton:disabled { border-image: url(:/images/forward_disabled.png) 0 0 0 0 stretch stretch; }"};
+    std::function<QString(QString,int)> arrow_style = [](QString direction, int size) {
+      QString style = "QPushButton { border: none; background: none; border-image: url(:/images/" + direction + ".png) 0 0 0 0 stretch stretch; ";
+      style += "max-height: " + QString::number(size) + "px; min-height: " + QString::number(size) +
+               "px; min-width: " + QString::number(size) + "px; max_width: " + QString::number(size) + "px;}" +
+               "QPushButton:hover { border-image: url(:/images/" + direction + "_hover.png) 0 0 0 0 stretch stretch; }"
+               "QPushButton:hover:pressed { border-image: url(:/images/" + direction + "_press.png) 0 0 0 0 stretch stretch; }"
+               "QPushButton:disabled { border-image: url(:/images/" + direction + "_disabled.png) 0 0 0 0 stretch stretch; }";
+    return style;};
 
-    QString lg_pause_bubble{"QPushButton { max-width: 200px; min-width: 200px; max-height: 200px; min-height: 200px;"
-                            "border: none; background: #46812B; border-radius: 100px; margin: 10px; color: white; }"
-                            "QPushButton:hover { background: #407527; }"
-                            "QPushButton:hover:pressed { background: #2f5b12; }"};
-    QString med_pause_bubble{"QPushButton { max-width: 160px; min-width: 160px; max-height: 160px; min-height: 160px;"
-                            "border: none; background: #46812B; border-radius: 80px; margin: 10px; color: white; }"
-                            "QPushButton:hover { background: #407527; }"
-                            "QPushButton:hover:pressed { background: #2f5b12; }"};
+    QString med_prev_arrow{arrow_style("back",100)};
+    QString lg_prev_arrow{arrow_style("back",140)};
+    QString med_next_arrow{arrow_style("forward",100)};
+    QString lg_next_arrow{arrow_style("forward",140)};
 
-    QString lg_green_bubble{"QFrame { max-height: 180px; min-height: 180px; max-width: 180px; min-width: 180px;"
-                            "margin-top: 10px; margin-bottom: 15px; background: #46812B; color: white; border: none; border-radius: 90px; }"
-                            "QFrame:disabled { background: rgb(220,220,220); }"};
-    QString med_green_bubble{"QFrame { max-height: 120px; min-height: 120px; max-width: 180px; min-width: 180px;"
-                            "background: #46812B; color: white; border: none; border-radius: 60px; }"
-                            "QFrame:disabled { background: rgb(220,220,220); }"};
-    QString lg_yellow_bubble{"QFrame { max-height: 180px; min-height: 180px; max-width: 180px; min-width: 180px;"
-                             "margin-top: 10px; margin-bottom: 15px; background: #E89831; color: white; border: none; border-radius: 90px; }"
-                             "QFrame:disabled { background: rgb(220,220,220); }"};
-    QString med_yellow_bubble{"QFrame { max-height: 120px; min-height: 120px; max-width: 180px; min-width: 180px;"
-                             "background: #E89831; color: white; border: none; border-radius: 60px; }"
-                             "QFrame:disabled { background: rgb(220,220,220); }"};
-    QString lg_red_bubble{"QFrame { max-height: 180px; min-height: 180px; max-width: 180px; min-width: 180px;"
-                          "margin-top: 10px; margin-bottom: 15px; background: #D16055; color: white; border: none; border-radius: 90px; }"
-                          "QFrame:disabled { background: rgb(220,220,220); }"};
-    QString med_red_bubble{"QFrame { max-height: 120px; min-height: 120px; max-width: 180px; min-width: 180px;"
-                          "background: #D16055; color: white; border: none; border-radius: 60px; }"
-                          "QFrame:disabled { background: rgb(220,220,220); }"};
+    QString lg_pause_bubble{"QPushButton { max-width: 150px; min-width: 150px; max-height: 150px; min-height: 150px;"
+                            "border: none; background: #555753; border-radius: 75px; margin: 10px; color: white; }"
+                            "QPushButton:hover { background: #424441; } QPushButton:hover:pressed { background: #30312F; }"};
+    QString med_pause_bubble{"QPushButton { max-width: 100px; min-width: 100px; max-height: 100px; min-height: 100px;"
+                            "border: none; background: #555753; border-radius: 50px; margin: 10px; color: white; }"
+                            "QPushButton:hover { background: #424441; } QPushButton:hover:pressed { background: #30312F; }"};
 
-    bool showing_more{false};
     int init_error_code{0};
     double key, plot_span{0}, refresh_rate{0.5};
     std::string press_str{"----------"};
