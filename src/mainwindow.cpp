@@ -471,6 +471,11 @@ void MainWindow::detect_state_change(bool manual_update)
     last_known_state = current_state;
 }
 
+void MainWindow::update_state_diagram()
+{
+
+}
+
 void MainWindow::update_plots()
 {
     double plot_max, plot_min, plot_max_bound{0}, plot_min_bound{0};
@@ -1536,11 +1541,6 @@ void MainWindow::toggle_lg_display(bool show_large)
     }
     update_indicators();
     detect_state_change(true);
-}
-
-void MainWindow::update_state_diagram()
-{
-
 }
 
 void MainWindow::on_settings_button_clicked()
