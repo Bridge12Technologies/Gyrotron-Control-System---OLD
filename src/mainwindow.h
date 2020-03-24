@@ -93,7 +93,7 @@ private:
     void soft_kill();
     void set_state_transition(double percent);
     bool valid_check(QString qstr, double max_val, double min_val = 0);
-    void detect_state_change(bool manual_update = false); // apply stylesheet changes based on state
+    void update_state_widget(bool manual_update = false); // apply stylesheet changes based on state
     void update_plots();
     void check_connections(); // check device connection and PID status then enable/disable groups/buttons accordingly
     void console_print(QString qstr);
@@ -105,7 +105,6 @@ private:
     void set_blink_enabled(bool enable);
     bool lists_equal(std::vector<QListWidgetItem*> list1, std::vector<QListWidgetItem*> list2);
     void toggle_lg_display(bool show_large);
-    void update_state_diagram();
 
     Ui::MainWindow *ui;
     Face gui{this};
@@ -169,11 +168,11 @@ private:
         style += "px; max-width: " + QString::number(width) + "px; min-width: " + QString::number(width) + "px;}";
         return style;};
 
-    QString lg_blue_state{state_style("#448AFF",182,455)};
-    QString lg_orange_state{state_style("#F57C00",182,455)};
-    QString lg_purple_state{state_style("#9C27B0",182,455)};
-    QString lg_green_state{state_style("#2FA84F",182,455)};
-    QString lg_red_state{state_style("#F44336",182,455)};
+    QString lg_blue_state{state_style("#448AFF",195,488)};
+    QString lg_orange_state{state_style("#F57C00",195,488)};
+    QString lg_purple_state{state_style("#9C27B0",195,488)};
+    QString lg_green_state{state_style("#2FA84F",195,488)};
+    QString lg_red_state{state_style("#F44336",195,488)};
     QString med_blue_state{state_style("#448AFF",130,325)};
     QString med_orange_state{state_style("#F57C00",130,325)};
     QString med_purple_state{state_style("#9C27B0",130,325)};
@@ -183,16 +182,16 @@ private:
     std::function<QString(QString,int)> arrow_style = [](QString direction, int size) {
       QString style = "QPushButton { border: none; background: none; border-image: url(:/images/" + direction + ".png) 0 0 0 0 stretch stretch; ";
       style += "max-height: " + QString::number(size) + "px; min-height: " + QString::number(size) +
-               "px; min-width: " + QString::number(size) + "px; max_width: " + QString::number(size) + "px;}" +
+               "px; min-width: " + QString::number(size) + "px; max-width: " + QString::number(size) + "px;}" +
                "QPushButton:hover { border-image: url(:/images/" + direction + "_hover.png) 0 0 0 0 stretch stretch; }"
                "QPushButton:hover:pressed { border-image: url(:/images/" + direction + "_press.png) 0 0 0 0 stretch stretch; }"
                "QPushButton:disabled { border-image: url(:/images/" + direction + "_disabled.png) 0 0 0 0 stretch stretch; }";
     return style;};
 
     QString med_prev_arrow{arrow_style("back",100)};
-    QString lg_prev_arrow{arrow_style("back",140)};
+    QString lg_prev_arrow{arrow_style("back",150)};
     QString med_next_arrow{arrow_style("forward",100)};
-    QString lg_next_arrow{arrow_style("forward",140)};
+    QString lg_next_arrow{arrow_style("forward",150)};
 
     QString lg_pause_bubble{"QPushButton { max-width: 150px; min-width: 150px; max-height: 150px; min-height: 150px;"
                             "border: none; background: #555753; border-radius: 75px; margin: 10px; color: white; }"

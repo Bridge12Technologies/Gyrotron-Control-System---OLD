@@ -346,23 +346,14 @@ void MainWindow::blink_status()
     }
 }
 
-void MainWindow::detect_state_change(bool manual_update)
+void MainWindow::update_state_widget(bool manual_update)
 {
     int current_state = gyro.get_state();
     bool e_ramping = gyro.is_e_ramping();
     bool ramping_up = gyro.is_ramping_up();
     bool ramping_down = gyro.is_ramping_down();
     bool windowed_mode = !(this->isMaximized());
-
-    if(windowed_mode) {
-        ui->state_label->setStyleSheet("color: white; background: none; font-size: 16pt;");
-        ui->state_top_label->setStyleSheet("background: transparent; font-size: 11pt; color: white;");
-        ui->state_mini_label->setStyleSheet("background: transparent; font-size: 11pt; color: white;");
-    } else {
-        ui->state_label->setStyleSheet("color: white; background: none; font-size: 18pt;");
-        ui->state_top_label->setStyleSheet("background: transparent; font-size: 13pt; color: white;");
-        ui->state_mini_label->setStyleSheet("background: transparent; font-size: 13pt; color: white;");
-    }
+    QString temp_style;
 
     if(e_ramping)
     {
@@ -469,11 +460,6 @@ void MainWindow::detect_state_change(bool manual_update)
     ui->prev_state_button->setEnabled(current_state > 0 && !ramping_down && !e_ramping);
     ui->next_state_button->setEnabled(gyro.all_clear() && current_state < 3 && !ramping_up && !e_ramping);
     last_known_state = current_state;
-}
-
-void MainWindow::update_state_diagram()
-{
-
 }
 
 void MainWindow::update_plots()
@@ -587,7 +573,7 @@ void MainWindow::realtime_slot()
     if (key-last_key > refresh_rate) // frequency of reiteration is refresh_rate in seconds
     {
         check_connections(); qApp->processEvents();
-        detect_state_change(); qApp->processEvents();
+        update_state_widget(); qApp->processEvents();
         for(auto field : smart_edits) { field->update(); } qApp->processEvents();
         update_labels(); qApp->processEvents();
         update_indicators(); qApp->processEvents();
@@ -1025,7 +1011,7 @@ void MainWindow::on_prev_state_button_clicked()
     if(gyro.decrement_state() < 0)
         gui.error_dialog("Failed to change state! See log for more info.\n",false);
     else
-        detect_state_change(true);
+        update_state_widget(true);
 }
 
 void MainWindow::on_next_state_button_clicked()
@@ -1033,7 +1019,7 @@ void MainWindow::on_next_state_button_clicked()
     if(gyro.increment_state() < 0)
         gui.error_dialog("Failed to change state! See log for more info.\n",false);
     else
-        detect_state_change(true);
+        update_state_widget(true);
 }
 
 void MainWindow::on_gtc_curr_button_clicked()
@@ -1523,8 +1509,21 @@ void MainWindow::on_maximize_button_clicked()
 
 void MainWindow::toggle_lg_display(bool show_large)
 {
+    QString temp_style;
     QString lg_stage_style = "border: 2px solid #a4a4a4; border-radius: 40px; background: #a4a4a4; min-width: 80px; max-width: 80px; min-height: 80px; max-height: 80px;";
     QString med_stage_style = "border: 2px solid #a4a4a4; border-radius: 35px; background: #a4a4a4; min-width: 70px; max-width: 70px; min-height: 70px; max-height: 70px;";
+    QString med_enable_style = "QPushButton { min-width: 110px; max-width: 110px; min-height: 45px; max-height: 45px; font-size: 11pt; border-radius: 10px;";
+    QString lg_enable_style = "QPushButton { min-width: 140px; max-width: 140px; min-height: 58px; max-height: 58px; font-size: 12pt; border-radius: 13px;";
+    QString enable_style_half = " background-color: rgb(85,87,83); border: none; color: white; } QPushButton:hover:pressed { background-color: rgb(48,49,47); }"
+                                "QPushButton:hover { background-color: rgb(66,68,65); } QPushButton:disabled { background-color: rgb(220,220,220); }";
+    QString dropdown_style = "background-color: red; color: rgb(40, 40, 40); border: 1px solid rgb(200,200,200);"
+                             "border-radius: 10px; padding-top: 9px; padding-bottom: 10px; padding-left: 10px; padding-right: 10px; }"
+                             "QComboBox:disabled { color: rgb(220,220,220); } QComboBox QAbstractItemView { background: white; }"
+                             "QComboBox::drop-down { border: none; }"
+                             "QComboBox::down-arrow { image: url(:/images/down_arrow.png); padding-right: 16px; border: none; }"
+                             "QComboBox::down-arrow:disabled { image: url(:/images/down_arrow_disabled.png); }"
+                             "QComboBox:active { background-color: white; }"
+                             "QComboBox:!active { background-color: white; }";
 
     if(show_large) {
         for(auto lbl : {ui->temp_label,ui->flow_label,ui->vac_label})
@@ -1532,15 +1531,67 @@ void MainWindow::toggle_lg_display(bool show_large)
         for(auto btn : {ui->temp_icon,ui->flow_icon,ui->vac_icon}) {
             btn->setStyleSheet("border: none; background: transparent; min-width: 70px; max-width: 70px; min-height: 70px; max-height: 70px;");
             btn->setIconSize(QSize(70,70)); }
+        ui->state_label->setStyleSheet("color: white; background: none; font-size: 18pt;");
+        ui->state_top_label->setStyleSheet("background: transparent; font-size: 13pt; color: white;");
+        ui->state_mini_label->setStyleSheet("background: transparent; font-size: 13pt; color: white;");
+        for(auto btn : {ui->pointer1,ui->pointer2,ui->pointer3,ui->pointer4}) {
+            temp_style = btn->styleSheet();
+            temp_style.remove(0,51);
+            temp_style = "font-size: 12pt; max-height: 25px; max-width: 86px; " + temp_style;
+            btn->setStyleSheet(temp_style);
+        }
+        for(auto btn : {ui->stage1_icon,ui->stage2_icon,ui->stage3_icon,ui->stage4_icon}) {
+            temp_style = btn->styleSheet();
+            temp_style.remove(0,21);
+            temp_style = "border-radius: 43px; " + temp_style;
+            btn->setStyleSheet(temp_style);
+            btn->setIconSize(QSize(60,60));
+            btn->setMaximumSize(86,86);
+            btn->setMinimumSize(86,86);
+        }
+        ui->enable_button->setStyleSheet(lg_enable_style + enable_style_half);
+        ui->pid_dropdown->setStyleSheet("QComboBox { font-size: 12pt; border-radius: 13px; " + dropdown_style);
+        //ui->pid_dropdown->setMinimumSize(266,58);
+        //ui->pid_dropdown->setMaximumSize(266,58);
+        ui->pid_dropdown->setFixedSize(266,58);
+        ui->pid_dropdown->setItemText(0,"     AUTO POWER CONTROL");
+        ui->pid_dropdown->setItemText(1,"       AUTO FREQ CONTROL");
+        ui->pid_dropdown->setItemText(2,"   AUTO CURRENT CONTROL");
     } else {
         for(auto lbl : {ui->temp_label,ui->flow_label,ui->vac_label})
             lbl->setStyleSheet("QLabel{ background: none; color: #555753; border: none; font-size: 12pt; }");
         for(auto btn : {ui->temp_icon,ui->flow_icon,ui->vac_icon}) {
             btn->setStyleSheet("border: none; background: transparent; min-width: 60px; max-width: 60px; min-height: 60px; max-height: 60px;");
             btn->setIconSize(QSize(60,60)); }
+        ui->state_label->setStyleSheet("color: white; background: none; font-size: 16pt;");
+        ui->state_top_label->setStyleSheet("background: transparent; font-size: 11pt; color: white;");
+        ui->state_mini_label->setStyleSheet("background: transparent; font-size: 11pt; color: white;");
+        for(auto btn : {ui->pointer1,ui->pointer2,ui->pointer3,ui->pointer4}) {
+            temp_style = btn->styleSheet();
+            temp_style.remove(0,51);
+            temp_style = "font-size: 10pt; max-height: 20px; max-width: 70px; " + temp_style;
+            btn->setStyleSheet(temp_style);
+        }
+        for(auto btn : {ui->stage1_icon,ui->stage2_icon,ui->stage3_icon,ui->stage4_icon}) {
+            temp_style = btn->styleSheet();
+            temp_style.remove(0,21);
+            temp_style = "border-radius: 35px; " + temp_style;
+            btn->setStyleSheet(temp_style);
+            btn->setIconSize(QSize(45,45));
+            btn->setMaximumSize(70,70);
+            btn->setMinimumSize(70,70);
+        }
+        ui->enable_button->setStyleSheet(med_enable_style + enable_style_half);
+        ui->pid_dropdown->setStyleSheet("QComboBox { font-size: 11pt; border-radius: 10px; " + dropdown_style);
+        //ui->pid_dropdown->setMinimumSize(232,45);
+        //ui->pid_dropdown->setMaximumSize(232,45);
+        ui->pid_dropdown->setFixedSize(232,45);
+        ui->pid_dropdown->setItemText(0,"  AUTO POWER CONTROL");
+        ui->pid_dropdown->setItemText(1,"    AUTO FREQ CONTROL");
+        ui->pid_dropdown->setItemText(2,"AUTO CURRENT CONTROL");
     }
     update_indicators();
-    detect_state_change(true);
+    update_state_widget(true);
 }
 
 void MainWindow::on_settings_button_clicked()
