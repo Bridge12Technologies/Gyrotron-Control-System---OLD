@@ -120,9 +120,8 @@ private:
     bool window_locked{false}, admin_mode{true};
     std::atomic<bool> cath_recon_blocked{false}, gtc_recon_blocked{false}, spc_recon_blocked{false};
     std::atomic<bool> rsi_recon_blocked{false}, fms_recon_blocked{false}, all_recon_blocked{false};
-
     std::vector<QListWidgetItem*> fault_list_items;
-
+    QIcon pointer{":/images/pointer.png"};
     QIcon warning_icon{":/images/warning_yellow.png"};
     QIcon error_icon{":/images/error_red.png"};
 

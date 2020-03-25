@@ -381,6 +381,10 @@ void MainWindow::update_state_widget(bool manual_update)
             ui->next_state_button->setStyleSheet(windowed_mode ? med_next_arrow : lg_next_arrow);
             ui->next_state_button->setText("");
             ui->state_mini_label->setText("MW Off");
+            ui->pointer1->setText(""); ui->pointer1->setIcon(pointer);
+            ui->pointer2->setText("Warm/Cool"); ui->pointer2->setIcon(QIcon());
+            ui->pointer3->setText("HV Standby"); ui->pointer3->setIcon(QIcon());
+            ui->pointer4->setText("MW On"); ui->pointer4->setIcon(QIcon());
             break;
         case 1:
             if(windowed_mode) ui->state_frame->setStyleSheet(med_orange_state);
@@ -432,6 +436,10 @@ void MainWindow::update_state_widget(bool manual_update)
                     ui->state_mini_label->setText(QString::number(100*(1-(gyro.get_fil_curr()/gyro.FIL_CURR_LIMIT))) + "%");
                 }
             }
+            ui->pointer1->setText("Ctrl Pwr On"); ui->pointer1->setIcon(QIcon());
+            ui->pointer2->setText(""); ui->pointer2->setIcon(pointer);
+            ui->pointer3->setText("HV Standby"); ui->pointer3->setIcon(QIcon());
+            ui->pointer4->setText("MW On"); ui->pointer4->setIcon(QIcon());
             break;
         case 2:
             ui->prev_state_button->setStyleSheet(windowed_mode ? med_prev_arrow : lg_prev_arrow);
@@ -443,6 +451,10 @@ void MainWindow::update_state_widget(bool manual_update)
             if(windowed_mode) ui->state_frame->setStyleSheet(med_purple_state);
             else ui->state_frame->setStyleSheet(lg_purple_state);
             ui->state_mini_label->setText("MW Off");
+            ui->pointer1->setText("Ctrl Pwr On"); ui->pointer1->setIcon(QIcon());
+            ui->pointer2->setText("Warm/Cool"); ui->pointer2->setIcon(QIcon());
+            ui->pointer3->setText(""); ui->pointer3->setIcon(pointer);
+            ui->pointer4->setText("MW On"); ui->pointer4->setIcon(QIcon());
             break;
         case 3:
             ui->state_label->setText("MW OUTPUT ON");
@@ -450,6 +462,10 @@ void MainWindow::update_state_widget(bool manual_update)
             if(windowed_mode) ui->state_frame->setStyleSheet(med_green_state);
             else ui->state_frame->setStyleSheet(lg_green_state);
             ui->state_mini_label->setText(QString::number(100*(gyro.get_power()/gyro.POWER_LIMIT)) + "% power");
+            ui->pointer1->setText("Ctrl Pwr On"); ui->pointer1->setIcon(QIcon());
+            ui->pointer2->setText("Warm/Cool"); ui->pointer2->setIcon(QIcon());
+            ui->pointer3->setText("HV Standby"); ui->pointer3->setIcon(QIcon());
+            ui->pointer4->setText(""); ui->pointer4->setIcon(pointer);
             break;
         }
     }
@@ -1524,7 +1540,6 @@ void MainWindow::toggle_lg_display(bool show_large)
                              "QComboBox::down-arrow:disabled { image: url(:/images/down_arrow_disabled.png); }"
                              "QComboBox:active { background-color: white; }"
                              "QComboBox:!active { background-color: white; }";
-
     if(show_large) {
         for(auto lbl : {ui->temp_label,ui->flow_label,ui->vac_label})
             lbl->setStyleSheet("QLabel{ background: none; color: #555753; border: none; font-size: 14pt; }");
@@ -1538,8 +1553,7 @@ void MainWindow::toggle_lg_display(bool show_large)
             temp_style = btn->styleSheet();
             temp_style.remove(0,51);
             temp_style = "font-size: 12pt; max-height: 25px; max-width: 86px; " + temp_style;
-            btn->setStyleSheet(temp_style);
-        }
+            btn->setStyleSheet(temp_style); }
         for(auto btn : {ui->stage1_icon,ui->stage2_icon,ui->stage3_icon,ui->stage4_icon}) {
             temp_style = btn->styleSheet();
             temp_style.remove(0,21);
@@ -1547,16 +1561,27 @@ void MainWindow::toggle_lg_display(bool show_large)
             btn->setStyleSheet(temp_style);
             btn->setIconSize(QSize(60,60));
             btn->setMaximumSize(86,86);
-            btn->setMinimumSize(86,86);
-        }
+            btn->setMinimumSize(86,86); }
         ui->enable_button->setStyleSheet(lg_enable_style + enable_style_half);
         ui->pid_dropdown->setStyleSheet("QComboBox { font-size: 12pt; border-radius: 13px; " + dropdown_style);
-        //ui->pid_dropdown->setMinimumSize(266,58);
-        //ui->pid_dropdown->setMaximumSize(266,58);
         ui->pid_dropdown->setFixedSize(266,58);
         ui->pid_dropdown->setItemText(0,"     AUTO POWER CONTROL");
         ui->pid_dropdown->setItemText(1,"       AUTO FREQ CONTROL");
         ui->pid_dropdown->setItemText(2,"   AUTO CURRENT CONTROL");
+        for(auto lbl : {ui->freq_tag,ui->power_tag,ui->beam_volt_tag,ui->beam_curr_tag, ui->fil_curr_tag,ui->gtc_curr_tag})
+            lbl->setStyleSheet("QLabel{ font-size: 13pt; background: none; color: #555753; } QLabel:disabled{ color: transparent; }");
+        for(auto field : {ui->freq_edit,ui->power_edit,ui->beam_volt_edit,ui->beam_curr_edit, ui->fil_curr_edit,ui->gtc_curr_edit})
+            field->setStyleSheet("QLineEdit { font-size: 18pt; height: 34px; border-radius: 17px; border: none; background: transparent; color: rgb(40,40,40); } QLineEdit:disabled { color: transparent; }");
+        for(auto lbl : {ui->collector_tag,ui->body_tag,ui->gtc_volt_tag})
+            lbl->setStyleSheet("QLabel{ font-size: 12pt; background: none; color: #555753; }\nQLabel:disabled{ color: transparent; }");
+        ui->collector_read->setStyleSheet("QLineEdit { font-size: 16pt; height: 34px; border-radius: 16px; border: none; background: transparent; color: rgb(40,40,40); } QLineEdit:disabled { color: white; }");
+        ui->body_read->setStyleSheet("QLineEdit { font-size: 16pt; height: 34px; border-radius: 16px; border: none; background: transparent; color: rgb(40,40,40); } QLineEdit:disabled { color: white; }");
+        ui->gtc_volt_edit->setStyleSheet("QLineEdit { font-size: 16pt; height: 34px; border-radius: 17px; border: none; background: transparent; color: rgb(40,40,40); } QLineEdit:disabled { color: transparent; }");
+        for(auto grid : {ui->beam_grid1,ui->beam_grid2,ui->beam_grid3})
+            grid->setHorizontalSpacing(15);
+        ui->plot_sidebar->setSpacing(30);
+        //ui->time_span_group->setMaximumHeight(130);
+        //ui->plot_page->layout()->setSpacing(40);
     } else {
         for(auto lbl : {ui->temp_label,ui->flow_label,ui->vac_label})
             lbl->setStyleSheet("QLabel{ background: none; color: #555753; border: none; font-size: 12pt; }");
@@ -1583,12 +1608,24 @@ void MainWindow::toggle_lg_display(bool show_large)
         }
         ui->enable_button->setStyleSheet(med_enable_style + enable_style_half);
         ui->pid_dropdown->setStyleSheet("QComboBox { font-size: 11pt; border-radius: 10px; " + dropdown_style);
-        //ui->pid_dropdown->setMinimumSize(232,45);
-        //ui->pid_dropdown->setMaximumSize(232,45);
         ui->pid_dropdown->setFixedSize(232,45);
         ui->pid_dropdown->setItemText(0,"  AUTO POWER CONTROL");
         ui->pid_dropdown->setItemText(1,"    AUTO FREQ CONTROL");
         ui->pid_dropdown->setItemText(2,"AUTO CURRENT CONTROL");
+        for(auto lbl : {ui->freq_tag,ui->power_tag,ui->beam_volt_tag,ui->beam_curr_tag, ui->fil_curr_tag,ui->gtc_curr_tag})
+            lbl->setStyleSheet("QLabel{ font-size: 11pt; background: none; color: #555753; } QLabel:disabled{ color: transparent; }");
+        for(auto field : {ui->freq_edit,ui->power_edit,ui->beam_volt_edit,ui->beam_curr_edit, ui->fil_curr_edit,ui->gtc_curr_edit})
+            field->setStyleSheet("QLineEdit { font-size: 16pt; height: 34px; border-radius: 17px; border: none; background: transparent; color: rgb(40,40,40); } QLineEdit:disabled { color: transparent; }");
+        for(auto lbl : {ui->collector_tag,ui->body_tag,ui->gtc_volt_tag})
+            lbl->setStyleSheet("QLabel{ font-size: 10pt; background: none; color: #555753; }\nQLabel:disabled{ color: transparent; }");
+        ui->collector_read->setStyleSheet("QLineEdit { font-size: 14pt; height: 34px; border-radius: 16px; border: none; background: transparent; color: rgb(40,40,40); } QLineEdit:disabled { color: white; }");
+        ui->body_read->setStyleSheet("QLineEdit { font-size: 14pt; height: 34px; border-radius: 16px; border: none; background: transparent; color: rgb(40,40,40); } QLineEdit:disabled { color: white; }");
+        ui->gtc_volt_edit->setStyleSheet("QLineEdit { font-size: 14pt; height: 34px; border-radius: 17px; border: none; background: transparent; color: rgb(40,40,40); } QLineEdit:disabled { color: transparent; }");
+        for(auto grid : {ui->beam_grid1,ui->beam_grid2,ui->beam_grid3})
+            grid->setHorizontalSpacing(10);
+        ui->plot_sidebar->setSpacing(20);
+        //ui->time_span_group->setMaximumHeight(105);
+        //ui->plot_page->layout()->setSpacing(30);
     }
     update_indicators();
     update_state_widget(true);

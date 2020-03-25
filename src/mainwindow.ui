@@ -906,7 +906,7 @@ color: #555753;
        <string notr="true">background: #e6e6e6;</string>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="control_page">
        <layout class="QGridLayout" name="gridLayout_17" rowstretch="4,1,2">
@@ -2518,8 +2518,7 @@ QGroupBox::title:disabled { color: rgb(180,180,180); }</string>
               </font>
              </property>
              <property name="styleSheet">
-              <string notr="true">QLabel{ background: none; color: rgb(85,87,83); }
-QLabel:disabled{ color: transparent; }</string>
+              <string notr="true">QLabel{ background: none; color: #555753; } QLabel:disabled{ color: transparent; }</string>
              </property>
              <property name="text">
               <string>Frequency (GHz)</string>
@@ -2552,8 +2551,7 @@ QLabel:disabled{ color: transparent; }</string>
               </font>
              </property>
              <property name="styleSheet">
-              <string notr="true">QLineEdit { height: 34px; border-radius: 17px; border: none; background: transparent; color: rgb(40,40,40); }
-QLineEdit:disabled { color: transparent; }
+              <string notr="true">QLineEdit { height: 34px; border-radius: 17px; border: none; background: transparent; color: rgb(40,40,40); } QLineEdit:disabled { color: transparent; }
 </string>
              </property>
              <property name="text">
@@ -2931,7 +2929,7 @@ QGroupBox::title:disabled { color: rgb(180,180,180); }</string>
             </spacer>
            </item>
            <item>
-            <layout class="QGridLayout" name="gridLayout_13">
+            <layout class="QGridLayout" name="beam_grid1">
              <property name="horizontalSpacing">
               <number>10</number>
              </property>
@@ -2983,13 +2981,13 @@ QLineEdit:disabled { color: transparent; }
               <widget class="QLabel" name="beam_volt_tag">
                <property name="minimumSize">
                 <size>
-                 <width>141</width>
+                 <width>0</width>
                  <height>0</height>
                 </size>
                </property>
                <property name="maximumSize">
                 <size>
-                 <width>141</width>
+                 <width>16777215</width>
                  <height>16777215</height>
                 </size>
                </property>
@@ -3018,13 +3016,13 @@ QLabel:disabled{ color: transparent; }</string>
                </property>
                <property name="minimumSize">
                 <size>
-                 <width>141</width>
+                 <width>0</width>
                  <height>0</height>
                 </size>
                </property>
                <property name="maximumSize">
                 <size>
-                 <width>141</width>
+                 <width>16777215</width>
                  <height>16777215</height>
                 </size>
                </property>
@@ -3254,7 +3252,7 @@ QPushButton:disabled { background-color: rgb(220,220,220); }</string>
             </spacer>
            </item>
            <item>
-            <layout class="QGridLayout" name="gridLayout_16">
+            <layout class="QGridLayout" name="beam_grid2">
              <property name="horizontalSpacing">
               <number>10</number>
              </property>
@@ -3265,14 +3263,14 @@ QPushButton:disabled { background-color: rgb(220,220,220); }</string>
               <widget class="QLabel" name="fil_curr_tag">
                <property name="minimumSize">
                 <size>
-                 <width>141</width>
+                 <width>0</width>
                  <height>0</height>
                 </size>
                </property>
                <property name="maximumSize">
                 <size>
-                 <width>141</width>
-                 <height>10000</height>
+                 <width>16777215</width>
+                 <height>16777215</height>
                 </size>
                </property>
                <property name="font">
@@ -3371,16 +3369,16 @@ QLineEdit:disabled { color: transparent; }
               </widget>
              </item>
              <item row="1" column="0" alignment="Qt::AlignRight">
-              <widget class="QLabel" name="gtc_tag">
+              <widget class="QLabel" name="gtc_curr_tag">
                <property name="minimumSize">
                 <size>
-                 <width>109</width>
+                 <width>0</width>
                  <height>0</height>
                 </size>
                </property>
                <property name="maximumSize">
                 <size>
-                 <width>109</width>
+                 <width>16777215</width>
                  <height>16777215</height>
                 </size>
                </property>
@@ -3569,7 +3567,7 @@ QPushButton:disabled { background-color: rgb(220,220,220); }</string>
             </spacer>
            </item>
            <item>
-            <layout class="QGridLayout" name="gridLayout_5" rowstretch="3,0,1,0,1,0,1,0,3">
+            <layout class="QGridLayout" name="beam_grid3" rowstretch="3,0,1,0,1,0,1,0,3">
              <property name="topMargin">
               <number>0</number>
              </property>
@@ -3637,8 +3635,7 @@ QPushButton:disabled { background-color: rgb(220,220,220); }</string>
                 <enum>Qt::NoFocus</enum>
                </property>
                <property name="styleSheet">
-                <string notr="true">QLineEdit { height: 34px; border-radius: 16px; border: none; background: transparent; color: rgb(40,40,40); }
-QLineEdit:disabled { color: white; }
+                <string notr="true">QLineEdit { height: 34px; border-radius: 16px; border: none; background: transparent; color: rgb(40,40,40); } QLineEdit:disabled { color: white; }
 </string>
                </property>
                <property name="text">
@@ -3656,13 +3653,13 @@ QLineEdit:disabled { color: white; }
               <widget class="QLabel" name="gtc_volt_tag">
                <property name="minimumSize">
                 <size>
-                 <width>109</width>
+                 <width>0</width>
                  <height>0</height>
                 </size>
                </property>
                <property name="maximumSize">
                 <size>
-                 <width>109</width>
+                 <width>16777215</width>
                  <height>16777215</height>
                 </size>
                </property>
@@ -3730,7 +3727,7 @@ QLineEdit:disabled { color: white; }
                <property name="maximumSize">
                 <size>
                  <width>16777215</width>
-                 <height>20</height>
+                 <height>16777215</height>
                 </size>
                </property>
                <property name="font">
@@ -3807,8 +3804,7 @@ QLabel:disabled{ color: transparent; }</string>
                 </font>
                </property>
                <property name="styleSheet">
-                <string notr="true">QLineEdit { height: 34px; border-radius: 17px; border: none; background: transparent; color: rgb(40,40,40); }
-QLineEdit:disabled { color: transparent; }
+                <string notr="true">QLineEdit { height: 34px; border-radius: 17px; border: none; background: transparent; color: rgb(40,40,40); } QLineEdit:disabled { color: transparent; }
 </string>
                </property>
                <property name="text">
@@ -4039,7 +4035,7 @@ background-position: center;
          </widget>
         </item>
         <item>
-         <layout class="QVBoxLayout" name="verticalLayout_14">
+         <layout class="QVBoxLayout" name="plot_sidebar">
           <property name="spacing">
            <number>20</number>
           </property>
@@ -4451,7 +4447,7 @@ border: none;
             <property name="maximumSize">
              <size>
               <width>320</width>
-              <height>100</height>
+              <height>90</height>
              </size>
             </property>
             <property name="font">
@@ -4484,13 +4480,13 @@ QGroupBox::title:disabled { color: rgb(180,180,180); }</string>
               <widget class="QLabel" name="fil_curr_tag2">
                <property name="minimumSize">
                 <size>
-                 <width>122</width>
+                 <width>100</width>
                  <height>0</height>
                 </size>
                </property>
                <property name="maximumSize">
                 <size>
-                 <width>122</width>
+                 <width>100</width>
                  <height>16777215</height>
                 </size>
                </property>
@@ -4577,7 +4573,7 @@ QGroupBox::title:disabled { color: rgb(180,180,180); }</string>
             <property name="maximumSize">
              <size>
               <width>320</width>
-              <height>100</height>
+              <height>90</height>
              </size>
             </property>
             <property name="font">
@@ -4610,13 +4606,13 @@ QGroupBox::title:disabled { color: rgb(180,180,180); }</string>
               <widget class="QLabel" name="beam_volt_tag2">
                <property name="minimumSize">
                 <size>
-                 <width>122</width>
+                 <width>100</width>
                  <height>0</height>
                 </size>
                </property>
                <property name="maximumSize">
                 <size>
-                 <width>122</width>
+                 <width>100</width>
                  <height>10000</height>
                 </size>
                </property>
@@ -4703,7 +4699,7 @@ QGroupBox::title:disabled { color: rgb(180,180,180); }</string>
             <property name="maximumSize">
              <size>
               <width>320</width>
-              <height>100</height>
+              <height>90</height>
              </size>
             </property>
             <property name="font">
@@ -4736,13 +4732,13 @@ QGroupBox::title:disabled { color: rgb(180,180,180); }</string>
               <widget class="QLabel" name="freq_tag2">
                <property name="minimumSize">
                 <size>
-                 <width>122</width>
+                 <width>100</width>
                  <height>0</height>
                 </size>
                </property>
                <property name="maximumSize">
                 <size>
-                 <width>122</width>
+                 <width>100</width>
                  <height>16777215</height>
                 </size>
                </property>
@@ -4822,7 +4818,7 @@ QGroupBox::title:disabled { color: rgb(180,180,180); }</string>
             <property name="maximumSize">
              <size>
               <width>320</width>
-              <height>100</height>
+              <height>90</height>
              </size>
             </property>
             <property name="sizeIncrement">
@@ -4848,7 +4844,7 @@ QGroupBox::title:disabled { color: rgb(180,180,180); }</string>
             </property>
             <layout class="QHBoxLayout" name="horizontalLayout_8">
              <property name="spacing">
-              <number>0</number>
+              <number>10</number>
              </property>
              <property name="leftMargin">
               <number>25</number>
@@ -4866,13 +4862,13 @@ QGroupBox::title:disabled { color: rgb(180,180,180); }</string>
               <widget class="QLabel" name="state_tag">
                <property name="minimumSize">
                 <size>
-                 <width>122</width>
+                 <width>100</width>
                  <height>0</height>
                 </size>
                </property>
                <property name="maximumSize">
                 <size>
-                 <width>122</width>
+                 <width>100</width>
                  <height>16777215</height>
                 </size>
                </property>
@@ -4924,7 +4920,7 @@ QGroupBox::title:disabled { color: rgb(180,180,180); }</string>
             <property name="maximumSize">
              <size>
               <width>320</width>
-              <height>100</height>
+              <height>90</height>
              </size>
             </property>
             <property name="font">
@@ -5008,7 +5004,7 @@ QGroupBox::title:disabled { color: rgb(180,180,180); }</string>
             <property name="maximumSize">
              <size>
               <width>320</width>
-              <height>105</height>
+              <height>115</height>
              </size>
             </property>
             <property name="font">
@@ -5029,7 +5025,7 @@ QGroupBox::title:disabled { color: rgb(180,180,180); }</string>
             </property>
             <layout class="QVBoxLayout" name="verticalLayout_11">
              <property name="spacing">
-              <number>0</number>
+              <number>10</number>
              </property>
              <property name="leftMargin">
               <number>25</number>
@@ -5041,7 +5037,7 @@ QGroupBox::title:disabled { color: rgb(180,180,180); }</string>
               <number>25</number>
              </property>
              <property name="bottomMargin">
-              <number>15</number>
+              <number>10</number>
              </property>
              <item>
               <layout class="QHBoxLayout" name="horizontalLayout_23">
@@ -5054,7 +5050,7 @@ QGroupBox::title:disabled { color: rgb(180,180,180); }</string>
                <property name="bottomMargin">
                 <number>0</number>
                </property>
-               <item>
+               <item alignment="Qt::AlignBottom">
                 <widget class="QSlider" name="time_span_slider">
                  <property name="sizePolicy">
                   <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
@@ -5065,7 +5061,7 @@ QGroupBox::title:disabled { color: rgb(180,180,180); }</string>
                  <property name="maximumSize">
                   <size>
                    <width>16777215</width>
-                   <height>50</height>
+                   <height>30</height>
                   </size>
                  </property>
                  <property name="cursor">
@@ -5126,7 +5122,7 @@ border-radius: 7px;
              </item>
              <item>
               <layout class="QHBoxLayout" name="horizontalLayout_6">
-               <item alignment="Qt::AlignLeft">
+               <item alignment="Qt::AlignLeft|Qt::AlignTop">
                 <widget class="QLabel" name="time_span_1m">
                  <property name="font">
                   <font>
@@ -5142,7 +5138,7 @@ border-radius: 7px;
                  </property>
                 </widget>
                </item>
-               <item alignment="Qt::AlignHCenter">
+               <item alignment="Qt::AlignHCenter|Qt::AlignTop">
                 <widget class="QLabel" name="time_span_15m">
                  <property name="font">
                   <font>
@@ -5158,7 +5154,7 @@ border-radius: 7px;
                  </property>
                 </widget>
                </item>
-               <item alignment="Qt::AlignHCenter">
+               <item alignment="Qt::AlignHCenter|Qt::AlignTop">
                 <widget class="QLabel" name="time_span_30m">
                  <property name="font">
                   <font>
@@ -5174,7 +5170,7 @@ border-radius: 7px;
                  </property>
                 </widget>
                </item>
-               <item alignment="Qt::AlignRight">
+               <item alignment="Qt::AlignRight|Qt::AlignTop">
                 <widget class="QLabel" name="time_span_1h">
                  <property name="font">
                   <font>
