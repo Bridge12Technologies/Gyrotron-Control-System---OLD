@@ -1,0 +1,53 @@
+<RCC>
+    <qresource prefix="/">
+        <file alias="logo">images/B12.png</file>
+        <file>images/back.png</file>
+        <file>images/back_hover.png</file>
+        <file>images/back_press.png</file>
+        <file>images/forward.png</file>
+        <file>images/forward_hover.png</file>
+        <file>images/forward_press.png</file>
+        <file>images/exit.png</file>
+        <file>images/settings.png</file>
+        <file>images/back_disabled.png</file>
+        <file>images/forward_disabled.png</file>
+        <file>images/down_arrow_disabled.png</file>
+        <file>images/down_arrow.png</file>
+        <file>images/no_faults.png</file>
+        <file>images/error_red.png</file>
+        <file>images/warning_yellow.png</file>
+        <file>images/dc_icon.png</file>
+        <file>images/dc_icon2.png</file>
+        <file>images/settings_dark.png</file>
+        <file>lib/face/icons/error54.png</file>
+        <file>lib/face/icons/info.png</file>
+        <file>lib/face/icons/question54.png</file>
+        <file>lib/face/icons/warning54.png</file>
+        <file>images/no_faults450.png</file>
+        <file>images/back_small.png</file>
+        <file>images/back_small_disabled.png</file>
+        <file>images/back_small_hover.png</file>
+        <file>images/back_small_press.png</file>
+        <file>images/forward_small.png</file>
+        <file>images/forward_small_disabled.png</file>
+        <file>images/forward_small_hover.png</file>
+        <file>images/forward_small_press.png</file>
+        <file>images/cog_grey_24.png</file>
+        <file>lib/face/icons/pencil.png</file>
+        <file>lib/face/icons/submit.png</file>
+        <file>images/gauge.png</file>
+        <file>images/thermometer.png</file>
+        <file>images/water.png</file>
+        <file>images/flash_grey.png</file>
+        <file>images/flash_white.png</file>
+        <file>images/noflash_grey.png</file>
+        <file>images/noflash_white.png</file>
+        <file>images/power_grey.png</file>
+        <file>images/power_white.png</file>
+        <file>images/pointer.png</file>
+        <file>images/menu.png</file>
+        <file>images/arrows_white.png</file>
+        <file>images/arrows_grey.png</file>
+        <file>images/water-pump.png</file>
+    </qresource>
+</RCC>

@@ -1,35 +1,34 @@
+# B12T Gyrotron Control Configuration
+# Only change the values inside the brackets
+
 Beam Current PID Proportional Constant Kp [0.015]
-
 Beam Current PID Integral Constant Ki [0]
-
 Beam Current PID Derivative Constant Kd [0.035]
 
-Frequency PID Proportional Constant Kp [0]
+Power PID Proportional Constant Kp [0.015]
+Power PID Integral Constant Ki [0]
+Power PID Derivative Constant Kd [0.035]
 
+Frequency PID Proportional Constant Kp [0.015]
 Frequency PID Integral Constant Ki [0]
-
-Frequency PID Derivative Constant Kd [0]
+Frequency PID Derivative Constant Kd [0.035]
 
 Filament Ramp Set Point in A [2.5]
-
 Normal Ramp Time in min [30]
-
 Emergency Ramp Time in sec [5]
 
 Fatal Pressure Limit in Torr [9e-7]
-
 Filament Pressure High Limit in Torr [5e-7]
-
 Filament Pressure Low Limit / HV Pressure High Limit in Torr [1e-7]
-
 HV Pressure Low Limit in Torr [8e-8]
-
-Beam Current Limit in mA [30]
-
-Output Power Limit [5]
 
 Power Meter Calibration Coefficient [0.3113]
 
-Error Count First Limit [10]
+Record Data in Binary Format [false]
+Admin Mode [true]
 
-Error Count Second Limit [30]
+Cathode Port [USB0]
+RSI Port [USB1]
+GTC IP [192.168.1.100]
+SPC IP [192.168.1.10]
+FMS IP [x]
