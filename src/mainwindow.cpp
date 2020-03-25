@@ -231,14 +231,13 @@ void MainWindow::init_fail_dialog(int err_code)
     QString err_msg = "Failed to establish connection with ";
     QString msg_tail = "\n\nSee the event log for more detail.";
 
-    switch(err_code)
-    {
-    case -1: err_msg += "cathode supply." + msg_tail; break;
-    case -2: err_msg += "gun trim coil supply." + msg_tail; break;
-    case -3: err_msg += "remote signal interface." + msg_tail; break;
-    case -4: err_msg += "SPC pump controller." + msg_tail; break;
-    case -5: err_msg += "frequency monitoring system." + msg_tail; break;
-    default: err_msg = "Unrecognized error code: " + QString::number(err_code);
+    switch(err_code) {
+        case -1: err_msg += "cathode supply." + msg_tail; break;
+        case -2: err_msg += "gun trim coil supply." + msg_tail; break;
+        case -3: err_msg += "remote signal interface." + msg_tail; break;
+        case -4: err_msg += "SPC pump controller." + msg_tail; break;
+        case -5: err_msg += "frequency monitoring system." + msg_tail; break;
+        default: err_msg = "Unrecognized error code: " + QString::number(err_code);
     }
 
     ui->plot_splitter->setVisible(false);
@@ -248,8 +247,7 @@ void MainWindow::init_fail_dialog(int err_code)
 
 bool MainWindow::valid_check(QString qstr, double max_val, double min_val)
 {
-    if(qstr == "")
-        return false;
+    if(qstr == "") return false;
     double val = qstr.toDouble();
     return (val >= 0 && val <= max_val && val >= min_val);
 }
@@ -315,14 +313,11 @@ void MainWindow::set_blink_enabled(bool enable)
 
 void MainWindow::set_blink_on(bool enable)
 {
-    if(enable && blink_enabled)
-    {
+    if(enable && blink_enabled) {
         //if(ui->stackedWidget->currentIndex() == 2) ui->status_tab->setStyleSheet(tab_blink_selected);
         //else ui->status_tab->setStyleSheet(tab_blink_unselected);
         //blink_timer.start(blink_duration);
-    }
-    else
-    {
+    } else {
         //blink_timer.stop();
         //if(ui->stackedWidget->currentIndex() == 2) ui->status_tab->setStyleSheet(tab_selected);
         //else ui->status_tab->setStyleSheet(tab_unselected);
@@ -331,15 +326,11 @@ void MainWindow::set_blink_on(bool enable)
 
 void MainWindow::blink_status()
 {
-    if(ui->stackedWidget->currentIndex() != 2 && blink_enabled)
-    {
-        if(blink_on)
-        {
+    if(ui->stackedWidget->currentIndex() != 2 && blink_enabled) {
+        if(blink_on) {
             //ui->status_tab->setStyleSheet(tab_blink_off_unselected);
             blink_on = false;
-        }
-        else
-        {
+        } else {
             ui->status_tab->setStyleSheet(tab_blink_on);
             blink_on = true;
         }
@@ -355,8 +346,7 @@ void MainWindow::update_state_widget(bool manual_update)
     bool windowed_mode = !(this->isMaximized());
     QString temp_style;
 
-    if(e_ramping)
-    {
+    if(e_ramping) {
         ui->state_label->setText("EMERGENCY RAMP DOWN");
         ui->small_state_label->setText("E RAMP DOWN");
         if(windowed_mode) ui->state_frame->setStyleSheet(med_red_state);
@@ -366,11 +356,8 @@ void MainWindow::update_state_widget(bool manual_update)
         ui->next_state_button->setStyleSheet(windowed_mode ? med_next_arrow : lg_next_arrow);
         ui->next_state_button->setText("");
         ui->state_mini_label->setText(QString::number(100*(1-(gyro.get_fil_curr()/gyro.FIL_CURR_LIMIT))) + "%");
-    }
-    else if(current_state != last_known_state || manual_update)
-    {
-        switch(current_state)
-        {
+    } else if(current_state != last_known_state || manual_update) {
+        switch(current_state) {
         case 0:
             ui->state_label->setText("CONTROL POWER ON");
             ui->small_state_label->setText("CTRL PW ON");
@@ -390,10 +377,8 @@ void MainWindow::update_state_widget(bool manual_update)
             if(windowed_mode) ui->state_frame->setStyleSheet(med_orange_state);
             else ui->state_frame->setStyleSheet(lg_orange_state);
 
-            if(gyro.is_paused())
-            {
-                if(ramping_up)
-                {
+            if(gyro.is_paused()) {
+                if(ramping_up) {
                     ui->state_label->setText("WARM UP (PAUSED)");
                     ui->small_state_label->setText("WARM UP");
                     ui->prev_state_button->setStyleSheet(windowed_mode ? med_prev_arrow : lg_prev_arrow);
@@ -401,9 +386,7 @@ void MainWindow::update_state_widget(bool manual_update)
                     ui->next_state_button->setStyleSheet(windowed_mode ? med_next_arrow : lg_next_arrow);
                     ui->next_state_button->setText("");
                     ui->state_mini_label->setText(QString::number(100*(gyro.get_fil_curr()/gyro.FIL_CURR_LIMIT)) + "%");
-                }
-                else if(ramping_down)
-                {
+                } else if(ramping_down) {
                     ui->state_label->setText("COOL DOWN (PAUSED)");
                     ui->small_state_label->setText("COOL DOWN");
                     ui->prev_state_button->setStyleSheet(windowed_mode ? med_prev_arrow : lg_prev_arrow);
@@ -412,11 +395,8 @@ void MainWindow::update_state_widget(bool manual_update)
                     ui->next_state_button->setText("");
                     ui->state_mini_label->setText(QString::number(100*(1-(gyro.get_fil_curr()/gyro.FIL_CURR_LIMIT))) + "%");
                 }
-            }
-            else
-            {
-                if(ramping_up)
-                {
+            } else {
+                if(ramping_up) {
                     ui->state_label->setText("WARM UP");
                     ui->small_state_label->setText("WARM UP");
                     ui->prev_state_button->setStyleSheet(windowed_mode ? med_pause_bubble : lg_pause_bubble);
@@ -424,9 +404,7 @@ void MainWindow::update_state_widget(bool manual_update)
                     ui->next_state_button->setStyleSheet(windowed_mode ? med_next_arrow : lg_next_arrow);
                     ui->next_state_button->setText("");
                     ui->state_mini_label->setText(QString::number(100*(gyro.get_fil_curr()/gyro.FIL_CURR_LIMIT)) + "%");
-                }
-                else if(ramping_down)
-                {
+                } else if(ramping_down) {
                     ui->state_label->setText("COOL DOWN");
                     ui->small_state_label->setText("COOL DOWN");
                     ui->prev_state_button->setStyleSheet(windowed_mode ? med_prev_arrow : lg_prev_arrow);
@@ -488,10 +466,8 @@ void MainWindow::update_plots()
                             ui->plot1_dropdown->currentText(),
                             ui->plot1_dropdown->currentText()};
 
-    for(int i=0; i<3; i++)
-    {
-        if(selection[i] == "VACUUM")
-        {
+    for(int i=0; i<3; i++) {
+        if(selection[i] == "VACUUM") {
             plot_data = QVector<double>::fromStdVector(gyro.get_press_data());
             plot_time_data = QVector<double>::fromStdVector(gyro.get_press_time_data());
             if(gyro.spc_available()) {
@@ -505,9 +481,7 @@ void MainWindow::update_plots()
             plot_min = *std::min_element(plot_data.constBegin(), plot_data.constEnd());
             plot_max_bound = pow(10,ceil(log10(plot_max)));
             plot_min_bound = pow(10,floor(log10(plot_min)));
-        }
-        else if(selection[i] == "BEAM CURRENT")
-        {
+        } else if(selection[i] == "BEAM CURRENT") {
             plot_data = QVector<double>::fromStdVector(gyro.get_beam_curr_data());
             plot_sp_data = QVector<double>::fromStdVector(gyro.get_beam_curr_sp_data());
             plot_time_data = QVector<double>::fromStdVector(gyro.get_beam_curr_time_data());
@@ -518,9 +492,7 @@ void MainWindow::update_plots()
             plot_max_bound = plot_max+((plot_max-plot_min)*0.1);
             plot_min_bound = plot_min-((plot_max-plot_min)*0.1);
             if(plot_min_bound < 0) plot_min_bound = 0;
-        }
-        else if(selection[i] == "BEAM VOLTAGE")
-        {
+        } else if(selection[i] == "BEAM VOLTAGE") {
             plot_data = QVector<double>::fromStdVector(gyro.get_beam_volt_data());
             plot_sp_data = QVector<double>::fromStdVector(gyro.get_beam_volt_sp_data());
             plot_time_data = QVector<double>::fromStdVector(gyro.get_beam_volt_time_data());
@@ -531,9 +503,7 @@ void MainWindow::update_plots()
             plot_max_bound = plot_max+((plot_max-plot_min)*0.1);
             plot_min_bound = plot_min-((plot_max-plot_min)*0.1);
             if(plot_min_bound < 0) plot_min_bound = 0;
-        }
-        else if(selection[i] == "POWER")
-        {
+        } else if(selection[i] == "POWER") {
             plot_data = QVector<double>::fromStdVector(gyro.get_power_data());
             plot_sp_data = QVector<double>::fromStdVector(gyro.get_power_sp_data());
             plot_time_data = QVector<double>::fromStdVector(gyro.get_power_time_data());
@@ -544,9 +514,7 @@ void MainWindow::update_plots()
             plot_max_bound = (floor(plot_max/5)+1)*5;
             plot_min_bound = (floor(plot_min/5)-1)*5;
             if(plot_min_bound < 0) plot_min_bound = 0;
-        }
-        else if(selection[i] == "FIL. CURRENT")
-        {
+        } else if(selection[i] == "FIL. CURRENT") {
             plot_data = QVector<double>::fromStdVector(gyro.get_fil_curr_data());
             plot_sp_data = QVector<double>::fromStdVector(gyro.get_fil_curr_sp_data());
             plot_time_data = QVector<double>::fromStdVector(gyro.get_fil_curr_time_data());
@@ -557,9 +525,7 @@ void MainWindow::update_plots()
             plot_max_bound = plot_max+((plot_max-plot_min)*0.1);
             plot_min_bound = plot_min-((plot_max-plot_min)*0.1);
             if(plot_min_bound < 0) plot_min_bound = 0;
-        }
-        else if(selection[i] == "FREQUENCY")
-        {
+        } else if(selection[i] == "FREQUENCY") {
             plot_data = QVector<double>::fromStdVector(gyro.get_freq_data());
             plot_sp_data = QVector<double>::fromStdVector(gyro.get_freq_sp_data());
             plot_time_data = QVector<double>::fromStdVector(gyro.get_freq_time_data());
@@ -604,10 +570,8 @@ void MainWindow::realtime_slot()
 void MainWindow::update_pid_display()
 {
     // if any PID is on update the filament current button
-    if(gyro.beam_pid_is_on() || gyro.power_pid_is_on() || gyro.freq_pid_is_on())
-    {
+    if(gyro.beam_pid_is_on() || gyro.power_pid_is_on() || gyro.freq_pid_is_on()) {
         ui->fil_curr_button->setText("set: " + QString::number(gyro.get_fil_curr_sp()));
-
         if(gyro.freq_pid_is_on())
             ui->beam_volt_button->setText("set: " + QString::number(gyro.get_beam_volt_sp()));
     }
@@ -617,8 +581,7 @@ bool MainWindow::lists_equal(std::vector<QListWidgetItem*> list1, std::vector<QL
 {
     if(list1.size() == 0 || list2.size() == 0 || list1.size() != list2.size())
         return false;
-    for(unsigned long i = 0; i < list1.size(); i++)
-    {
+    for(unsigned long i = 0; i < list1.size(); i++) {
         if(list1.at(i)->text() != list2.at(i)->text())
             return false;
     }
@@ -632,32 +595,24 @@ void MainWindow::update_faults()
     int fault_status = gyro.get_fault_status();
     std::vector<QListWidgetItem*> temp_fault_items;
 
-    if(fault_status == -2 && last_fault_status != -2)
-    {
+    if(fault_status == -2 && last_fault_status != -2) {
         set_blink_on(true);
         //if(ui->stackedWidget->currentIndex() == 2) ui->status_tab->setStyleSheet(tab_blink_off_selected);
         //else ui->status_tab->setStyleSheet(tab_blink_off_unselected);
-    }
-    else if(fault_status > -2 && last_fault_status == -2)
-    {
+    } else if(fault_status > -2 && last_fault_status == -2) {
         set_blink_on(false);
         if(ui->stackedWidget->currentIndex() == 2)
             ui->status_tab->setStyleSheet(tab_selected);
-        else
-            ui->status_tab->setStyleSheet(tab_unselected);
+        else ui->status_tab->setStyleSheet(tab_unselected);
     }
 
     // update faults list
-    if(fault_status == 0 && fault_status != last_fault_status)
-    {
+    if(fault_status == 0 && fault_status != last_fault_status) {
         ui->fault_list->clear();
         fault_list_items.clear();
         ui->fault_list->setStyleSheet(empty_faults_list);
-    }
-    else
-    {
-        if(fault_status < 0)
-            ui->fault_list->setStyleSheet(faults_list);
+    } else {
+        if(fault_status < 0) ui->fault_list->setStyleSheet(faults_list);
 
         for(auto error : errors) {
             temp_fault_items.push_back(new QListWidgetItem(error_icon, QString("     ") + QString::fromStdString(error), ui->fault_list));
@@ -686,25 +641,21 @@ void MainWindow::update_indicators()
 {
     bool windowed_mode = !(this->isMaximized());
 
-    if(gyro.rsi_available())
-    {
+    if(gyro.rsi_available()) {
         ui->temp_status->setEnabled(true);
         ui->flow_status->setEnabled(true);
-        switch(gyro.get_temp_status())
-        {
-        case 0: ui->temp_status->setStyleSheet(windowed_mode ? med_green_indicator : lg_green_indicator); ui->temp_status->setText("OK"); break;
-        case -1: ui->temp_status->setStyleSheet(windowed_mode ? med_yellow_indicator : lg_yellow_indicator); ui->temp_status->setText("WARN"); break;
-        case -2: ui->temp_status->setStyleSheet(windowed_mode ? med_red_indicator : lg_red_indicator); ui->temp_status->setText("HIGH!"); break;
+        switch(gyro.get_temp_status()) {
+            case 0: ui->temp_status->setStyleSheet(windowed_mode ? med_green_indicator : lg_green_indicator); ui->temp_status->setText("OK"); break;
+            case -1: ui->temp_status->setStyleSheet(windowed_mode ? med_yellow_indicator : lg_yellow_indicator); ui->temp_status->setText("WARN"); break;
+            case -2: ui->temp_status->setStyleSheet(windowed_mode ? med_red_indicator : lg_red_indicator); ui->temp_status->setText("HIGH!"); break;
         }
-        switch(gyro.get_flow_status())
-        {
-        case 0: ui->flow_status->setStyleSheet(windowed_mode ? med_green_indicator : lg_green_indicator); ui->flow_status->setText("OK"); break;
-        case -1: ui->flow_status->setStyleSheet(windowed_mode ? med_yellow_indicator : lg_yellow_indicator); ui->flow_status->setText("WARN"); break;
-        case -2: ui->flow_status->setStyleSheet(windowed_mode ? med_red_indicator : lg_red_indicator); ui->flow_status->setText("LOW!"); break;
+        switch(gyro.get_flow_status()) {
+            case 0: ui->flow_status->setStyleSheet(windowed_mode ? med_green_indicator : lg_green_indicator); ui->flow_status->setText("OK"); break;
+            case -1: ui->flow_status->setStyleSheet(windowed_mode ? med_yellow_indicator : lg_yellow_indicator); ui->flow_status->setText("WARN"); break;
+            case -2: ui->flow_status->setStyleSheet(windowed_mode ? med_red_indicator : lg_red_indicator); ui->flow_status->setText("LOW!"); break;
         }
     }
-    else
-    {
+    else {
         ui->temp_status->setStyleSheet(windowed_mode ? med_green_indicator : lg_green_indicator);
         ui->flow_status->setStyleSheet(windowed_mode ? med_green_indicator : lg_green_indicator);
         if(!gyro.gui_debug_mode) {
@@ -714,19 +665,16 @@ void MainWindow::update_indicators()
             ui->flow_status->setText("N/A");
         }
     }
-    if(gyro.spc_available())
-    {
+    if(gyro.spc_available()) {
         ui->vac_status->setEnabled(true);
         ui->vac_status->setText(QString::number(gyro.get_pressure()));
-        switch(gyro.get_press_status())
-        {
-        case 0: ui->vac_status->setStyleSheet(windowed_mode ? med_green_indicator : lg_green_indicator); break;
-        case -1: ui->vac_status->setStyleSheet(windowed_mode ? med_yellow_indicator : lg_yellow_indicator); break;
-        case -2: ui->vac_status->setStyleSheet(windowed_mode ? med_red_indicator : lg_red_indicator); break;
+        switch(gyro.get_press_status()) {
+            case 0: ui->vac_status->setStyleSheet(windowed_mode ? med_green_indicator : lg_green_indicator); break;
+            case -1: ui->vac_status->setStyleSheet(windowed_mode ? med_yellow_indicator : lg_yellow_indicator); break;
+            case -2: ui->vac_status->setStyleSheet(windowed_mode ? med_red_indicator : lg_red_indicator); break;
         }
     }
-    else
-    {
+    else {
         ui->vac_status->setStyleSheet(windowed_mode ? med_green_indicator : lg_green_indicator);
         if(!gyro.gui_debug_mode) {
             ui->vac_status->setEnabled(false);
@@ -739,18 +687,14 @@ void MainWindow::update_labels()
 {
     if(gyro.spc_available())
         ui->vac_status->setText(QString::number(gyro.get_pressure()));
-    if(gyro.rsi_available())
-    {
+    if(gyro.rsi_available()) {
         ui->collector_read->setText(QString::number(gyro.get_collector_curr()));
         ui->body_read->setText(QString::number(gyro.get_body_curr()));
-    }
-    else
-    {
+    } else {
         ui->collector_read->setText("N/A");
         ui->body_read->setText("N/A");
     }
-    if(gyro.cath_available())
-    {
+    if(gyro.cath_available()) {
         ui->fil_curr_label->setText(QString::number(gyro.get_fil_curr()));
         ui->beam_volt_label->setText(QString::number(gyro.get_beam_volt()));
     }
@@ -762,19 +706,16 @@ void MainWindow::check_connections()
 {
     if((!gyro.cath_is_connected() || !gyro.cath_is_enabled()) && (!gyro.gtc_is_connected() || !gyro.gtc_is_enabled()))
         ui->beam_params_group->setEnabled(false);
-    else
-        ui->beam_params_group->setEnabled(true);
+    else ui->beam_params_group->setEnabled(true);
 
-    if(gyro.cath_is_connected() && gyro.cath_is_enabled())
-    {
+    if(gyro.cath_is_connected() && gyro.cath_is_enabled()) {
         ui->fil_curr_group->setEnabled(true);
         ui->beam_volt_group->setEnabled(true);
         ui->fil_curr_button->setVisible(true);
         ui->beam_volt_button->setVisible(true);
         ui->beam_curr_button->setVisible(true);
     }
-    else
-    {
+    else {
         ui->fil_curr_edit->setText("N/A");
         ui->beam_curr_edit->setText("N/A");
         ui->beam_volt_edit->setText("N/A");
@@ -784,33 +725,27 @@ void MainWindow::check_connections()
         ui->beam_volt_button->setVisible(false);
         ui->beam_curr_button->setVisible(false);
     }
+
     if(!gyro.gtc_is_connected() || !gyro.gtc_is_enabled())
     {
         ui->gtc_curr_edit->setText("N/A");
         ui->gtc_volt_edit->setText("N/A");
         ui->gtc_curr_button->setVisible(false);
-    }
-    else
-        ui->gtc_curr_button->setVisible(true);
-    if(gyro.rsi_is_connected() && gyro.rsi_is_enabled())
-    {
+    } else ui->gtc_curr_button->setVisible(true);
+
+    if(gyro.rsi_is_connected() && gyro.rsi_is_enabled()) {
         ui->power_group->setEnabled(true);
         ui->power_button->setVisible(true);
-    }
-    else
-    {
+    } else {
         ui->power_group->setEnabled(false);
         ui->power_button->setVisible(false);
     }
 
-    if(gyro.fms_is_connected() && gyro.fms_is_enabled())
-    {
+    if(gyro.fms_is_connected() && gyro.fms_is_enabled()) {
         ui->fms_group->setEnabled(true);
         ui->freq_group->setEnabled(true);
         ui->freq_button->setVisible(true);
-    }
-    else
-    {
+    } else {
         ui->fms_group->setEnabled(false);
         ui->freq_group->setEnabled(false);
         ui->freq_button->setVisible(false);
@@ -836,16 +771,14 @@ void MainWindow::on_reconfig_button_clicked() { gyro.extract_config(); }
 
 void MainWindow::on_enable_button_clicked()
 {
-    if(gyro.pid_is_on())
-    {
+    if(gyro.pid_is_on()) {
         gyro.turn_off_pid();
         ui->enable_button->setStyleSheet(grey_pill_button(60));
         ui->enable_button->setText("ENABLE");
         ui->pid_dropdown->setEnabled(true);
         ui->pid_group->setTitle("Auto Control");
 
-        if(ui->pid_dropdown->currentText() == "POWER")
-        {
+        if(ui->pid_dropdown->currentText() == "POWER") {
             ui->power_button->setEnabled(false);
             ui->small_pid_label->setText("NONE");
             ui->fil_curr_button->setEnabled(true);
@@ -853,9 +786,7 @@ void MainWindow::on_enable_button_clicked()
             ui->fil_curr_button->setFont(button_font);
             ui->fil_curr_button->setStyleSheet(green_edit_button);
             gyro.log_event("automatic power control disabled");
-        }
-        else if(ui->pid_dropdown->currentText() == "CURRENT")
-        {
+        } else if(ui->pid_dropdown->currentText() == "CURRENT") {
             ui->beam_curr_button->setEnabled(false);
             ui->small_pid_label->setText("NONE");
             ui->fil_curr_button->setEnabled(true);
@@ -863,9 +794,7 @@ void MainWindow::on_enable_button_clicked()
             ui->fil_curr_button->setFont(button_font);
             ui->fil_curr_button->setStyleSheet(green_edit_button);
             gyro.log_event("automatic beam current control disabled");
-        }
-        else if(ui->pid_dropdown->currentText() == "FREQUENCY")
-        {
+        } else if(ui->pid_dropdown->currentText() == "FREQUENCY") {
             ui->freq_button->setEnabled(false);
             ui->small_pid_label->setText("NONE");
             ui->fil_curr_button->setEnabled(true);
@@ -878,16 +807,13 @@ void MainWindow::on_enable_button_clicked()
             ui->beam_volt_button->setStyleSheet(green_edit_button);
             gyro.log_event("automatic frequency control disabled");
         }
-    }
-    else
-    {
+    } else {
         ui->enable_button->setStyleSheet(orange_pill_button(60));
         ui->enable_button->setText("DISABLE");
         ui->pid_dropdown->setEnabled(false);
         ui->pid_group->setTitle("Auto Control [ON]");
 
-        if(ui->pid_dropdown->currentText() == "POWER")
-        {
+        if(ui->pid_dropdown->currentText() == "POWER") {
             gyro.toggle_power_pid(true);
             ui->power_button->setEnabled(true);
             ui->small_pid_label->setText("POWER");
@@ -897,8 +823,7 @@ void MainWindow::on_enable_button_clicked()
             ui->fil_curr_button->setStyleSheet(orange_pid_button);
             gyro.log_event("automatic power control enabled");
         }
-        else if(ui->pid_dropdown->currentText() == "CURRENT")
-        {
+        else if(ui->pid_dropdown->currentText() == "CURRENT") {
             gyro.toggle_beam_pid(true);
             ui->beam_curr_button->setEnabled(true);
             ui->small_pid_label->setText("CURRENT");
@@ -907,9 +832,7 @@ void MainWindow::on_enable_button_clicked()
             ui->fil_curr_button->setFont(small_button_font);
             ui->fil_curr_button->setStyleSheet(orange_pid_button);
             gyro.log_event("automatic beam current control enabled");
-        }
-        else if(ui->pid_dropdown->currentText() == "FREQUENCY")
-        {
+        } else if(ui->pid_dropdown->currentText() == "FREQUENCY") {
             gyro.toggle_freq_pid(true);
             ui->freq_button->setEnabled(true);
             ui->small_pid_label->setText("FREQUENCY");
@@ -983,13 +906,10 @@ void MainWindow::on_freq_kd_button_clicked()
 void MainWindow::on_fil_curr_button_clicked()
 {
     double entry = ui->fil_curr_edit->toggle_active();
-    if(entry >= 0)
-    {
+    if(entry >= 0) {
         int stat = gyro.set_fil_curr(entry);
         if(stat < 0)
-        {
             gui.error_dialog(QString::fromStdString("Error setting filament current! (" + to_str(stat) + ")"),false);
-        }
     }
 }
 
@@ -1026,23 +946,20 @@ void MainWindow::on_prev_state_button_clicked()
 {
     if(gyro.decrement_state() < 0)
         gui.error_dialog("Failed to change state! See log for more info.\n",false);
-    else
-        update_state_widget(true);
+    else update_state_widget(true);
 }
 
 void MainWindow::on_next_state_button_clicked()
 {
     if(gyro.increment_state() < 0)
         gui.error_dialog("Failed to change state! See log for more info.\n",false);
-    else
-        update_state_widget(true);
+    else update_state_widget(true);
 }
 
 void MainWindow::on_gtc_curr_button_clicked()
 {
     double entry = ui->gtc_curr_edit->toggle_active();
-    if(entry >= 0)
-    {
+    if(entry >= 0) {
         int stat = gyro.set_gtc_curr_limit(entry);
         if(stat < 0)
             gui.error_dialog(QString::fromStdString("Error setting GTC current! (" + to_str(stat) + ")"),false);
@@ -1053,7 +970,7 @@ void MainWindow::on_control_tab_clicked()
 {
     ui->control_tab->setStyleSheet(tab_selected);
     ui->plot_tab->setStyleSheet(tab_unselected);
-    //(gyro.get_fault_status() == 0) ? ui->status_tab->setStyleSheet(tab_unselected) : ui->status_tab->setStyleSheet(tab_blink_off_unselected);
+    ui->status_tab->setStyleSheet(tab_unselected);
     ui->admin_tab->setStyleSheet(tab_unselected);
     ui->stackedWidget->setCurrentIndex(0);
 }
@@ -1062,7 +979,7 @@ void MainWindow::on_plot_tab_clicked()
 {
     ui->control_tab->setStyleSheet(tab_unselected);
     ui->plot_tab->setStyleSheet(tab_selected);
-    //(gyro.get_fault_status() == 0) ? ui->status_tab->setStyleSheet(tab_unselected) : ui->status_tab->setStyleSheet(tab_blink_off);
+    ui->status_tab->setStyleSheet(tab_unselected);
     ui->admin_tab->setStyleSheet(tab_unselected);
     ui->plot1->replot();
     ui->plot2->replot();
@@ -1074,7 +991,7 @@ void MainWindow::on_status_tab_clicked()
 {
     ui->control_tab->setStyleSheet(tab_unselected);
     ui->plot_tab->setStyleSheet(tab_unselected);
-    //(gyro.get_fault_status() == 0) ? ui->status_tab->setStyleSheet(tab_selected) : ui->status_tab->setStyleSheet(tab_blink_off_selected);
+    ui->status_tab->setStyleSheet(tab_selected);
     ui->admin_tab->setStyleSheet(tab_unselected);
     ui->stackedWidget->setCurrentIndex(2);
 }
@@ -1083,7 +1000,7 @@ void MainWindow::on_admin_tab_clicked()
 {
     ui->control_tab->setStyleSheet(tab_unselected);
     ui->plot_tab->setStyleSheet(tab_unselected);
-    //(gyro.get_fault_status() == 0) ? ui->status_tab->setStyleSheet(tab_unselected) : ui->status_tab->setStyleSheet(tab_blink_off_unselected);
+    ui->status_tab->setStyleSheet(tab_unselected);
     ui->admin_tab->setStyleSheet(tab_selected);
     ui->stackedWidget->setCurrentIndex(3);
 }
@@ -1091,12 +1008,9 @@ void MainWindow::on_admin_tab_clicked()
 bool MainWindow::eventFilter(QObject *obj, QEvent *event)
 {
     QString obj_str = obj->objectName();
-    if(obj_str.contains("_group"))
-    {
-        if(event->type() == QEvent::Enter)
-            window_locked = true;
-        else if(event->type() == QEvent::Leave)
-            window_locked = false;
+    if(obj_str.contains("_group")) {
+        if(event->type() == QEvent::Enter) window_locked = true;
+        else if(event->type() == QEvent::Leave) window_locked = false;
     }
     return QWidget::eventFilter(obj, event);
 }
@@ -1106,22 +1020,20 @@ void MainWindow::on_time_span_slider_valueChanged(int value)
     double secs{-1};
     QString str;
 
-    switch(value)
-    {
-    case 0: secs = 60; str = "1 min"; break;
-    case 10: secs = 300; str = "5 min"; break;
-    case 20: secs = 600; str = "10 min"; break;
-    case 30: secs = 900; str = "15 min"; break;
-    case 40: secs = 1200; str = "20 min"; break;
-    case 50: secs = 1500; str = "25 min"; break;
-    case 60: secs = 1800; str = "30 min"; break;
-    case 70: secs = 2400; str = "40 min"; break;
-    case 80: secs = 3000; str = "50 min"; break;
-    case 90: secs = 3600; str = "1 hr"; break;
+    switch(value) {
+        case 0: secs = 60; str = "1 min"; break;
+        case 10: secs = 300; str = "5 min"; break;
+        case 20: secs = 600; str = "10 min"; break;
+        case 30: secs = 900; str = "15 min"; break;
+        case 40: secs = 1200; str = "20 min"; break;
+        case 50: secs = 1500; str = "25 min"; break;
+        case 60: secs = 1800; str = "30 min"; break;
+        case 70: secs = 2400; str = "40 min"; break;
+        case 80: secs = 3000; str = "50 min"; break;
+        case 90: secs = 3600; str = "1 hr"; break;
     }
 
-    if(secs > 0)
-    {
+    if(secs > 0) {
         gyro.set_plot_span(secs);
         update_plots();
         ui->time_span_group->setTitle("Time Span: " + str);
@@ -1133,22 +1045,19 @@ void MainWindow::on_ramp_rate_slider_valueChanged(int value)
     double secs{-1};
     QString str;
 
-    switch(value)
-    {
-    case 0: secs = 60; str = "1 min"; break;
-    case 10: secs = 300; str = "5 min"; break;
-    case 20: secs = 600; str = "10 min"; break;
-    case 30: secs = 900; str = "15 min"; break;
-    case 40: secs = 1200; str = "20 min"; break;
-    case 50: secs = 1500; str = "25 min"; break;
-    case 60: secs = 1800; str = "30 min"; break;
-    case 70: secs = 2400; str = "40 min"; break;
-    case 80: secs = 3000; str = "50 min"; break;
-    case 90: secs = 3600; str = "1 hr"; break;
+    switch(value) {
+        case 0: secs = 60; str = "1 min"; break;
+        case 10: secs = 300; str = "5 min"; break;
+        case 20: secs = 600; str = "10 min"; break;
+        case 30: secs = 900; str = "15 min"; break;
+        case 40: secs = 1200; str = "20 min"; break;
+        case 50: secs = 1500; str = "25 min"; break;
+        case 60: secs = 1800; str = "30 min"; break;
+        case 70: secs = 2400; str = "40 min"; break;
+        case 80: secs = 3000; str = "50 min"; break;
+        case 90: secs = 3600; str = "1 hr"; break;
     }
-
-    if(secs > 0)
-    {
+    if(secs > 0) {
         gyro.set_ramp_time(secs);
         ui->time_span_group->setTitle("Ramp Rate: " + str);
     }
@@ -1159,22 +1068,19 @@ void MainWindow::on_log_rate_slider_valueChanged(int value)
     double secs{-1};
     QString str;
 
-    switch(value)
-    {
-    case 0: secs = 0; str = "ASAP"; break;
-    case 10: secs = 300; str = "5 min"; break;
-    case 20: secs = 600; str = "10 min"; break;
-    case 30: secs = 900; str = "15 min"; break;
-    case 40: secs = 1200; str = "20 min"; break;
-    case 50: secs = 1500; str = "25 min"; break;
-    case 60: secs = 1800; str = "30 min"; break;
-    case 70: secs = 2400; str = "40 min"; break;
-    case 80: secs = 3000; str = "50 min"; break;
-    case 90: secs = 3600; str = "1 hr"; break;
+    switch(value) {
+        case 0: secs = 0; str = "ASAP"; break;
+        case 10: secs = 300; str = "5 min"; break;
+        case 20: secs = 600; str = "10 min"; break;
+        case 30: secs = 900; str = "15 min"; break;
+        case 40: secs = 1200; str = "20 min"; break;
+        case 50: secs = 1500; str = "25 min"; break;
+        case 60: secs = 1800; str = "30 min"; break;
+        case 70: secs = 2400; str = "40 min"; break;
+        case 80: secs = 3000; str = "50 min"; break;
+        case 90: secs = 3600; str = "1 hr"; break;
     }
-
-    if(secs >= 0)
-    {
+    if(secs >= 0) {
         gyro.set_rec_rate(secs);
         ui->time_span_group->setTitle("Data Log Rate: " + str);
     }
@@ -1182,22 +1088,17 @@ void MainWindow::on_log_rate_slider_valueChanged(int value)
 
 void MainWindow::on_cath_recon_button_clicked()
 {
-    if(!cath_recon_blocked && !all_recon_blocked)
-    {
+    if(!cath_recon_blocked && !all_recon_blocked) {
         if(gyro.cath_is_connected() && !gyro.cath_is_enabled())
             gyro.enable_cath();
-        else if(!gyro.cath_is_connected())
-        {
+        else if(!gyro.cath_is_connected()) {
             ui->cath_recon_button->setText("...");
             cath_recon_blocked = true;
             int stat = gyro.connect_cath();
-            if(stat < 0)
-            {
+            if(stat < 0) {
                 ui->cath_recon_button->setText("❌");
                 ui->cath_recon_button->setStyleSheet(red_recon_button);
-            }
-            else
-            {
+            } else {
                 ui->cath_recon_button->setText("✔");
                 ui->cath_recon_button->setStyleSheet(red_recon_button);
             }
