@@ -359,8 +359,8 @@ void MainWindow::update_state_widget(bool manual_update)
     } else if(current_state != last_known_state || manual_update) {
         switch(current_state) {
         case 0:
-            ui->state_label->setText("CONTROL POWER ON");
-            ui->small_state_label->setText("CTRL PW ON");
+            ui->state_label->setText("Control Power On");
+            ui->small_state_label->setText("Ctrl Pw On");
             if(windowed_mode) ui->state_frame->setStyleSheet(med_blue_state);
             else ui->state_frame->setStyleSheet(lg_blue_state);
             ui->prev_state_button->setStyleSheet(windowed_mode ? med_prev_arrow : lg_prev_arrow);
@@ -379,16 +379,16 @@ void MainWindow::update_state_widget(bool manual_update)
 
             if(gyro.is_paused()) {
                 if(ramping_up) {
-                    ui->state_label->setText("WARM UP (PAUSED)");
-                    ui->small_state_label->setText("WARM UP");
+                    ui->state_label->setText("Warm Up (PAUSED)");
+                    ui->small_state_label->setText("Warm Up");
                     ui->prev_state_button->setStyleSheet(windowed_mode ? med_prev_arrow : lg_prev_arrow);
                     ui->prev_state_button->setText("");
                     ui->next_state_button->setStyleSheet(windowed_mode ? med_next_arrow : lg_next_arrow);
                     ui->next_state_button->setText("");
                     ui->state_mini_label->setText(QString::number(100*(gyro.get_fil_curr()/gyro.FIL_CURR_LIMIT)) + "%");
                 } else if(ramping_down) {
-                    ui->state_label->setText("COOL DOWN (PAUSED)");
-                    ui->small_state_label->setText("COOL DOWN");
+                    ui->state_label->setText("Cool Down (PAUSED)");
+                    ui->small_state_label->setText("Cool Down");
                     ui->prev_state_button->setStyleSheet(windowed_mode ? med_prev_arrow : lg_prev_arrow);
                     ui->prev_state_button->setText("");
                     ui->next_state_button->setStyleSheet(windowed_mode ? med_next_arrow : lg_next_arrow);
@@ -397,16 +397,16 @@ void MainWindow::update_state_widget(bool manual_update)
                 }
             } else {
                 if(ramping_up) {
-                    ui->state_label->setText("WARM UP");
-                    ui->small_state_label->setText("WARM UP");
+                    ui->state_label->setText("Warm Up");
+                    ui->small_state_label->setText("Warm Up");
                     ui->prev_state_button->setStyleSheet(windowed_mode ? med_pause_bubble : lg_pause_bubble);
                     ui->prev_state_button->setText("II");
                     ui->next_state_button->setStyleSheet(windowed_mode ? med_next_arrow : lg_next_arrow);
                     ui->next_state_button->setText("");
                     ui->state_mini_label->setText(QString::number(100*(gyro.get_fil_curr()/gyro.FIL_CURR_LIMIT)) + "%");
                 } else if(ramping_down) {
-                    ui->state_label->setText("COOL DOWN");
-                    ui->small_state_label->setText("COOL DOWN");
+                    ui->state_label->setText("Cool Down");
+                    ui->small_state_label->setText("Cool Down");
                     ui->prev_state_button->setStyleSheet(windowed_mode ? med_prev_arrow : lg_prev_arrow);
                     ui->prev_state_button->setText("");
                     ui->next_state_button->setStyleSheet(windowed_mode ? med_pause_bubble : lg_pause_bubble);
@@ -424,8 +424,8 @@ void MainWindow::update_state_widget(bool manual_update)
             ui->prev_state_button->setText("");
             ui->next_state_button->setStyleSheet(windowed_mode ? med_next_arrow : lg_next_arrow);
             ui->next_state_button->setText("");
-            ui->state_label->setText("HV STANDBY");
-            ui->small_state_label->setText("HV STANDBY");
+            ui->state_label->setText("HV Standby");
+            ui->small_state_label->setText("HV Standby");
             if(windowed_mode) ui->state_frame->setStyleSheet(med_purple_state);
             else ui->state_frame->setStyleSheet(lg_purple_state);
             ui->state_mini_label->setText("MW Off");
@@ -435,8 +435,8 @@ void MainWindow::update_state_widget(bool manual_update)
             ui->pointer4->setText("MW On"); ui->pointer4->setIcon(QIcon());
             break;
         case 3:
-            ui->state_label->setText("MW OUTPUT ON");
-            ui->small_state_label->setText("MW ON");
+            ui->state_label->setText("MW Output On");
+            ui->small_state_label->setText("MW On");
             if(windowed_mode) ui->state_frame->setStyleSheet(med_green_state);
             else ui->state_frame->setStyleSheet(lg_green_state);
             ui->state_mini_label->setText(QString::number(100*(gyro.get_power()/gyro.POWER_LIMIT)) + "% power");
@@ -1431,6 +1431,8 @@ void MainWindow::toggle_lg_display(bool show_large)
     QString med_stage_style = "border: 2px solid #a4a4a4; border-radius: 35px; background: #a4a4a4; min-width: 70px; max-width: 70px; min-height: 70px; max-height: 70px;";
     QString med_enable_style = "QPushButton { min-width: 110px; max-width: 110px; min-height: 45px; max-height: 45px; font-size: 11pt; border-radius: 10px;";
     QString lg_enable_style = "QPushButton { min-width: 140px; max-width: 140px; min-height: 58px; max-height: 58px; font-size: 12pt; border-radius: 13px;";
+    QString med_reconfig_style = "QPushButton { min-width: 170px; max-width: 170px; min-height: 45px; max-height: 45px; font-size: 11pt; border-radius: 10px;";
+    QString lg_reconfig_style = "QPushButton { min-width: 219px; max-width: 219px; min-height: 58px; max-height: 58px; font-size: 12pt; border-radius: 13px;";
     QString enable_style_half = " background-color: rgb(85,87,83); border: none; color: white; } QPushButton:hover:pressed { background-color: rgb(48,49,47); }"
                                 "QPushButton:hover { background-color: rgb(66,68,65); } QPushButton:disabled { background-color: rgb(220,220,220); }";
     QString dropdown_style = "background-color: red; color: rgb(40, 40, 40); border: 1px solid rgb(200,200,200);"
@@ -1464,14 +1466,19 @@ void MainWindow::toggle_lg_display(bool show_large)
             btn->setMaximumSize(86,86);
             btn->setMinimumSize(86,86); }
         ui->enable_button->setStyleSheet(lg_enable_style + enable_style_half);
+        ui->console_dropdown->setStyleSheet("QComboBox { font-size: 12pt; border-radius: 13px; " + dropdown_style);
         ui->pid_dropdown->setStyleSheet("QComboBox { font-size: 12pt; border-radius: 13px; " + dropdown_style);
         ui->pid_dropdown->setFixedSize(266,58);
         ui->pid_dropdown->setItemText(0,"     AUTO POWER CONTROL");
         ui->pid_dropdown->setItemText(1,"       AUTO FREQ CONTROL");
         ui->pid_dropdown->setItemText(2,"   AUTO CURRENT CONTROL");
-        for(auto lbl : {ui->freq_tag,ui->power_tag,ui->beam_volt_tag,ui->beam_curr_tag, ui->fil_curr_tag,ui->gtc_curr_tag})
+        for(auto lbl : {ui->freq_tag,ui->power_tag,ui->beam_volt_tag,ui->beam_curr_tag, ui->fil_curr_tag,ui->gtc_curr_tag,
+                        ui->beam_kp_label,ui->beam_ki_label,ui->beam_kd_label,ui->power_kp_label,ui->power_ki_label,ui->power_kd_label,
+                        ui->freq_kp_label,ui->freq_ki_label,ui->freq_kd_label})
             lbl->setStyleSheet("QLabel{ font-size: 13pt; background: none; color: #555753; } QLabel:disabled{ color: transparent; }");
-        for(auto field : {ui->freq_edit,ui->power_edit,ui->beam_volt_edit,ui->beam_curr_edit, ui->fil_curr_edit,ui->gtc_curr_edit})
+        for(auto field : {ui->freq_edit,ui->power_edit,ui->beam_volt_edit,ui->beam_curr_edit, ui->fil_curr_edit,ui->gtc_curr_edit,
+                          ui->beam_kp_edit,ui->beam_ki_edit,ui->beam_kd_edit,ui->power_kp_edit,ui->power_ki_edit,ui->power_kd_edit,
+                          ui->freq_kp_edit,ui->freq_ki_edit,ui->freq_kd_edit})
             field->setStyleSheet("QLineEdit { font-size: 18pt; height: 34px; border-radius: 17px; border: none; background: transparent; color: rgb(40,40,40); } QLineEdit:disabled { color: transparent; }");
         for(auto lbl : {ui->collector_tag,ui->body_tag,ui->gtc_volt_tag})
             lbl->setStyleSheet("QLabel{ font-size: 12pt; background: none; color: #555753; }\nQLabel:disabled{ color: transparent; }");
@@ -1480,9 +1487,26 @@ void MainWindow::toggle_lg_display(bool show_large)
         ui->gtc_volt_edit->setStyleSheet("QLineEdit { font-size: 16pt; height: 34px; border-radius: 17px; border: none; background: transparent; color: rgb(40,40,40); } QLineEdit:disabled { color: transparent; }");
         for(auto grid : {ui->beam_grid1,ui->beam_grid2,ui->beam_grid3})
             grid->setHorizontalSpacing(15);
-        ui->plot_sidebar->setSpacing(30);
+        ui->plot_sidebar->setSpacing(40);
+        ui->control_page->layout()->setSpacing(50);
+        ui->control_page->layout()->setContentsMargins(50,50,50,50);
+        ui->admin_page->layout()->setSpacing(50);
+        ui->admin_page->layout()->setContentsMargins(50,50,50,50);
+        ui->status_page->layout()->setSpacing(50);
+        ui->status_page->layout()->setContentsMargins(50,50,50,50);
+        ui->plot_page->layout()->setSpacing(50);
+        ui->plot_page->layout()->setContentsMargins(50,50,50,50);
+        for(auto btn : {ui->all_recon_button,ui->cath_recon_button,ui->fms_recon_button,ui->gtc_recon_button,ui->rsi_recon_button,ui->spc_recon_button,ui->save_pid_button})
+            btn->setStyleSheet(lg_enable_style + enable_style_half);
+        ui->reconfig_button->setStyleSheet(lg_reconfig_style + enable_style_half);
+        ui->console_edit->setStyleSheet("font-size: 12pt; border: none; background: white; color: rgb(85, 87, 83);");
+        for(auto lbl : {ui->slide_tick1,ui->slide_tick2,ui->slide_tick3,ui->slide_tick4,ui->slide_tick5,ui->slide_tick6,ui->slide_tick7,ui->slide_tick8})
+            lbl->setStyleSheet("font-size: 12pt; background: white; color: rgb(80,80,80);");
+        ui->console_dropdown->setMinimumWidth(120);
+        ui->console_dropdown->setMaximumWidth(120);
+        //ui->ramp_rate_group->setContentsMargins(40,40,40,20);
+        //ui->log_rate_group->setContentsMargins(40,40,40,20);
         //ui->time_span_group->setMaximumHeight(130);
-        //ui->plot_page->layout()->setSpacing(40);
     } else {
         for(auto lbl : {ui->temp_label,ui->flow_label,ui->vac_label})
             lbl->setStyleSheet("QLabel{ background: none; color: #555753; border: none; font-size: 12pt; }");
@@ -1508,14 +1532,19 @@ void MainWindow::toggle_lg_display(bool show_large)
             btn->setMinimumSize(70,70);
         }
         ui->enable_button->setStyleSheet(med_enable_style + enable_style_half);
+        ui->console_dropdown->setStyleSheet("QComboBox { font-size: 11pt; border-radius: 10px; " + dropdown_style);
         ui->pid_dropdown->setStyleSheet("QComboBox { font-size: 11pt; border-radius: 10px; " + dropdown_style);
         ui->pid_dropdown->setFixedSize(232,45);
         ui->pid_dropdown->setItemText(0,"  AUTO POWER CONTROL");
         ui->pid_dropdown->setItemText(1,"    AUTO FREQ CONTROL");
         ui->pid_dropdown->setItemText(2,"AUTO CURRENT CONTROL");
-        for(auto lbl : {ui->freq_tag,ui->power_tag,ui->beam_volt_tag,ui->beam_curr_tag, ui->fil_curr_tag,ui->gtc_curr_tag})
+        for(auto lbl : {ui->freq_tag,ui->power_tag,ui->beam_volt_tag,ui->beam_curr_tag, ui->fil_curr_tag,ui->gtc_curr_tag,
+                        ui->beam_kp_label,ui->beam_ki_label,ui->beam_kd_label,ui->power_kp_label,ui->power_ki_label,ui->power_kd_label,
+                        ui->freq_kp_label,ui->freq_ki_label,ui->freq_kd_label})
             lbl->setStyleSheet("QLabel{ font-size: 11pt; background: none; color: #555753; } QLabel:disabled{ color: transparent; }");
-        for(auto field : {ui->freq_edit,ui->power_edit,ui->beam_volt_edit,ui->beam_curr_edit, ui->fil_curr_edit,ui->gtc_curr_edit})
+        for(auto field : {ui->freq_edit,ui->power_edit,ui->beam_volt_edit,ui->beam_curr_edit, ui->fil_curr_edit,ui->gtc_curr_edit,
+                          ui->beam_kp_edit,ui->beam_ki_edit,ui->beam_kd_edit,ui->power_kp_edit,ui->power_ki_edit,ui->power_kd_edit,
+                          ui->freq_kp_edit,ui->freq_ki_edit,ui->freq_kd_edit})
             field->setStyleSheet("QLineEdit { font-size: 16pt; height: 34px; border-radius: 17px; border: none; background: transparent; color: rgb(40,40,40); } QLineEdit:disabled { color: transparent; }");
         for(auto lbl : {ui->collector_tag,ui->body_tag,ui->gtc_volt_tag})
             lbl->setStyleSheet("QLabel{ font-size: 10pt; background: none; color: #555753; }\nQLabel:disabled{ color: transparent; }");
@@ -1525,8 +1554,26 @@ void MainWindow::toggle_lg_display(bool show_large)
         for(auto grid : {ui->beam_grid1,ui->beam_grid2,ui->beam_grid3})
             grid->setHorizontalSpacing(10);
         ui->plot_sidebar->setSpacing(20);
+        ui->control_page->layout()->setSpacing(28);
+        ui->control_page->layout()->setContentsMargins(30,30,30,30);
+        ui->admin_page->layout()->setSpacing(25);
+        ui->admin_page->layout()->setContentsMargins(30,30,30,30);
+        ui->status_page->layout()->setSpacing(30);
+        ui->status_page->layout()->setContentsMargins(30,30,30,30);
+        ui->plot_page->layout()->setSpacing(30);
+        ui->plot_page->layout()->setContentsMargins(30,30,30,30);
+        for(auto btn : {ui->all_recon_button,ui->cath_recon_button,ui->fms_recon_button,ui->gtc_recon_button,ui->rsi_recon_button,ui->spc_recon_button,ui->save_pid_button})
+            btn->setStyleSheet(med_enable_style + enable_style_half);
+        ui->reconfig_button->setStyleSheet(med_reconfig_style + enable_style_half);
+        ui->console_edit->setStyleSheet("font-size: 11pt; border: none; background: white; color: rgb(85, 87, 83);");
+        for(auto lbl : {ui->slide_tick1,ui->slide_tick2,ui->slide_tick3,ui->slide_tick4,ui->slide_tick5,ui->slide_tick6,ui->slide_tick7,ui->slide_tick8})
+            lbl->setStyleSheet("font-size: 11pt; background: white; color: rgb(80,80,80);");
+       ui->console_dropdown->setMinimumWidth(110);
+       ui->console_dropdown->setMaximumWidth(110);
+        //ui->ramp_rate_group->setContentsMargins(25,40,25,15);
+        //ui->log_rate_group->setContentsMargins(25,40,25,15);
         //ui->time_span_group->setMaximumHeight(105);
-        //ui->plot_page->layout()->setSpacing(30);
+
     }
     update_indicators();
     update_state_widget(true);
