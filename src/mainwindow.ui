@@ -5418,12 +5418,12 @@ p, li { white-space: pre-wrap; }
         <property name="spacing">
          <number>25</number>
         </property>
-        <item row="0" column="1">
-         <widget class="QGroupBox" name="power_pid_group">
+        <item row="1" column="0">
+         <widget class="QGroupBox" name="ramp_rate_group">
           <property name="minimumSize">
            <size>
             <width>280</width>
-            <height>220</height>
+            <height>115</height>
            </size>
           </property>
           <property name="maximumSize">
@@ -5446,335 +5446,218 @@ QGroupBox::title { subcontrol-origin: margin; padding: 0px 8px; left: 12px; top:
 QGroupBox::title:disabled { color: rgb(180,180,180); }</string>
           </property>
           <property name="title">
-           <string>Power PID</string>
+           <string>Total Ramp Time: 15 min</string>
           </property>
-          <layout class="QGridLayout" name="gridLayout_6">
+          <layout class="QGridLayout" name="gridLayout_5" columnstretch="1,9,1">
            <property name="leftMargin">
-            <number>28</number>
+            <number>0</number>
            </property>
            <property name="topMargin">
-            <number>30</number>
+            <number>40</number>
            </property>
            <property name="rightMargin">
             <number>0</number>
            </property>
            <property name="bottomMargin">
-            <number>16</number>
+            <number>10</number>
            </property>
            <property name="horizontalSpacing">
-            <number>15</number>
-           </property>
-           <property name="verticalSpacing">
             <number>0</number>
            </property>
-           <item row="0" column="0" alignment="Qt::AlignRight">
-            <widget class="QLabel" name="label_39">
-             <property name="font">
-              <font>
-               <family>Open Sans</family>
-               <pointsize>11</pointsize>
-              </font>
+           <property name="verticalSpacing">
+            <number>5</number>
+           </property>
+           <item row="3" column="1">
+            <spacer name="verticalSpacer_16">
+             <property name="orientation">
+              <enum>Qt::Vertical</enum>
              </property>
-             <property name="styleSheet">
-              <string notr="true">QLabel{ background: none; color: rgb(30,30,30); }
-QLabel:disabled{ color: rgb(180,180,180); }</string>
-             </property>
-             <property name="text">
-              <string>Proportional</string>
-             </property>
-            </widget>
-           </item>
-           <item row="0" column="1">
-            <widget class="SmartLineEdit" name="power_kp_edit">
-             <property name="minimumSize">
+             <property name="sizeHint" stdset="0">
               <size>
-               <width>100</width>
+               <width>20</width>
                <height>0</height>
               </size>
              </property>
-             <property name="maximumSize">
-              <size>
-               <width>100</width>
-               <height>16777215</height>
-              </size>
-             </property>
-             <property name="font">
-              <font>
-               <family>Open Sans</family>
-               <pointsize>16</pointsize>
-               <weight>75</weight>
-               <bold>true</bold>
-              </font>
-             </property>
-             <property name="styleSheet">
-              <string notr="true">QLineEdit { height: 34px; border-radius: 17px; border: none; background: white; color: rgb(20,20,20); }
-QLineEdit:disabled { color: white; }
-</string>
-             </property>
-             <property name="text">
-              <string>0.000</string>
-             </property>
-             <property name="alignment">
-              <set>Qt::AlignCenter</set>
-             </property>
-            </widget>
+            </spacer>
            </item>
-           <item row="0" column="2" alignment="Qt::AlignLeft">
-            <widget class="QPushButton" name="power_kp_button">
-             <property name="minimumSize">
+           <item row="1" column="2">
+            <spacer name="horizontalSpacer_25">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
               <size>
-               <width>36</width>
-               <height>36</height>
+               <width>25</width>
+               <height>20</height>
               </size>
              </property>
-             <property name="maximumSize">
-              <size>
-               <width>36</width>
-               <height>36</height>
-              </size>
-             </property>
-             <property name="font">
-              <font>
-               <family>Open Sans</family>
-               <pointsize>18</pointsize>
-              </font>
-             </property>
-             <property name="cursor">
-              <cursorShape>PointingHandCursor</cursorShape>
-             </property>
-             <property name="styleSheet">
-              <string notr="true">QPushButton {
-	background-color: rgb(85,87,83);
-	border: none;
-	border-radius: 18px;
-	color: white;
-}
-QPushButton:hover { background-color: rgb(66,68,65); }
-QPushButton:hover:pressed { background-color: rgb(48,49,47); }
-QPushButton:disabled { background-color: rgb(220,220,220); }</string>
-             </property>
-             <property name="text">
-              <string/>
-             </property>
-             <property name="icon">
-              <iconset resource="resources.qrc">
-               <normaloff>:/lib/face/icons/pencil.png</normaloff>
-               <disabledoff>:/lib/face/icons/pencil.png</disabledoff>
-               <disabledon>:/lib/face/icons/pencil.png</disabledon>:/lib/face/icons/pencil.png</iconset>
-             </property>
-             <property name="iconSize">
-              <size>
-               <width>22</width>
-               <height>22</height>
-              </size>
-             </property>
-            </widget>
-           </item>
-           <item row="1" column="0" alignment="Qt::AlignRight">
-            <widget class="QLabel" name="label_40">
-             <property name="font">
-              <font>
-               <family>Open Sans</family>
-               <pointsize>11</pointsize>
-              </font>
-             </property>
-             <property name="styleSheet">
-              <string notr="true">QLabel{ background: none; color: rgb(30,30,30); }
-QLabel:disabled{ color: rgb(180,180,180); }</string>
-             </property>
-             <property name="text">
-              <string>Integral</string>
-             </property>
-            </widget>
-           </item>
-           <item row="1" column="1">
-            <widget class="SmartLineEdit" name="power_ki_edit">
-             <property name="minimumSize">
-              <size>
-               <width>100</width>
-               <height>0</height>
-              </size>
-             </property>
-             <property name="maximumSize">
-              <size>
-               <width>100</width>
-               <height>16777215</height>
-              </size>
-             </property>
-             <property name="font">
-              <font>
-               <family>Open Sans</family>
-               <pointsize>16</pointsize>
-               <weight>75</weight>
-               <bold>true</bold>
-              </font>
-             </property>
-             <property name="styleSheet">
-              <string notr="true">QLineEdit { height: 34px; border-radius: 17px; border: none; background: white; color: rgb(20,20,20); }
-QLineEdit:disabled { color: white; }
-</string>
-             </property>
-             <property name="text">
-              <string>0.000</string>
-             </property>
-             <property name="alignment">
-              <set>Qt::AlignCenter</set>
-             </property>
-            </widget>
-           </item>
-           <item row="1" column="2" alignment="Qt::AlignLeft">
-            <widget class="QPushButton" name="power_ki_button">
-             <property name="minimumSize">
-              <size>
-               <width>36</width>
-               <height>36</height>
-              </size>
-             </property>
-             <property name="maximumSize">
-              <size>
-               <width>36</width>
-               <height>36</height>
-              </size>
-             </property>
-             <property name="font">
-              <font>
-               <family>Open Sans</family>
-               <pointsize>18</pointsize>
-              </font>
-             </property>
-             <property name="cursor">
-              <cursorShape>PointingHandCursor</cursorShape>
-             </property>
-             <property name="styleSheet">
-              <string notr="true">QPushButton {
-	background-color: rgb(85,87,83);
-	border: none;
-	border-radius: 18px;
-	color: white;
-}
-QPushButton:hover { background-color: rgb(66,68,65); }
-QPushButton:hover:pressed { background-color: rgb(48,49,47); }
-QPushButton:disabled { background-color: rgb(220,220,220); }</string>
-             </property>
-             <property name="text">
-              <string/>
-             </property>
-             <property name="icon">
-              <iconset resource="resources.qrc">
-               <normaloff>:/lib/face/icons/pencil.png</normaloff>
-               <disabledoff>:/lib/face/icons/pencil.png</disabledoff>
-               <disabledon>:/lib/face/icons/pencil.png</disabledon>:/lib/face/icons/pencil.png</iconset>
-             </property>
-             <property name="iconSize">
-              <size>
-               <width>22</width>
-               <height>22</height>
-              </size>
-             </property>
-            </widget>
-           </item>
-           <item row="2" column="0" alignment="Qt::AlignRight">
-            <widget class="QLabel" name="label_41">
-             <property name="font">
-              <font>
-               <family>Open Sans</family>
-               <pointsize>11</pointsize>
-              </font>
-             </property>
-             <property name="styleSheet">
-              <string notr="true">QLabel{ background: none; color: rgb(30,30,30); }
-QLabel:disabled{ color: rgb(180,180,180); }</string>
-             </property>
-             <property name="text">
-              <string>Derivative</string>
-             </property>
-            </widget>
+            </spacer>
            </item>
            <item row="2" column="1">
-            <widget class="SmartLineEdit" name="power_kd_edit">
-             <property name="minimumSize">
+            <layout class="QHBoxLayout" name="horizontalLayout_11">
+             <item alignment="Qt::AlignLeft">
+              <widget class="QLabel" name="slide_tick1">
+               <property name="font">
+                <font>
+                 <family>Open Sans</family>
+                 <pointsize>11</pointsize>
+                </font>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">background: white; color: rgb(80,80,80);</string>
+               </property>
+               <property name="text">
+                <string>1 m</string>
+               </property>
+              </widget>
+             </item>
+             <item alignment="Qt::AlignHCenter">
+              <widget class="QLabel" name="slide_tick2">
+               <property name="font">
+                <font>
+                 <family>Open Sans</family>
+                 <pointsize>11</pointsize>
+                </font>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">background: white; color: rgb(80,80,80);</string>
+               </property>
+               <property name="text">
+                <string>15 m     </string>
+               </property>
+              </widget>
+             </item>
+             <item alignment="Qt::AlignHCenter">
+              <widget class="QLabel" name="slide_tick3">
+               <property name="font">
+                <font>
+                 <family>Open Sans</family>
+                 <pointsize>11</pointsize>
+                </font>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">background: white; color: rgb(80,80,80);</string>
+               </property>
+               <property name="text">
+                <string>    30 m</string>
+               </property>
+              </widget>
+             </item>
+             <item alignment="Qt::AlignRight">
+              <widget class="QLabel" name="slide_tick4">
+               <property name="font">
+                <font>
+                 <family>Open Sans</family>
+                 <pointsize>11</pointsize>
+                </font>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">background: white; color: rgb(80,80,80);</string>
+               </property>
+               <property name="text">
+                <string>1 h</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+           <item row="1" column="0">
+            <spacer name="horizontalSpacer_24">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
               <size>
-               <width>100</width>
+               <width>25</width>
+               <height>20</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+           <item row="1" column="1">
+            <layout class="QHBoxLayout" name="horizontalLayout_21">
+             <property name="leftMargin">
+              <number>10</number>
+             </property>
+             <property name="rightMargin">
+              <number>10</number>
+             </property>
+             <item>
+              <widget class="QSlider" name="ramp_rate_slider">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="cursor">
+                <cursorShape>PointingHandCursor</cursorShape>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">QSlider {
+background: white;
+}
+
+QSlider::add-page:horizontal {
+background: white;
+border: 1px solid rgb(180,180,180);
+border-radius: 3px;
+}
+
+QSlider::sub-page:horizontal {
+background: white;
+border: 1px solid rgb(180,180,180);
+border-radius: 3px;
+}
+
+QSlider::handle:horizontal {
+background: rgb(85,87,83);
+border-radius: 7px;
+}</string>
+               </property>
+               <property name="minimum">
+                <number>0</number>
+               </property>
+               <property name="maximum">
+                <number>90</number>
+               </property>
+               <property name="singleStep">
+                <number>10</number>
+               </property>
+               <property name="pageStep">
+                <number>10</number>
+               </property>
+               <property name="value">
+                <number>60</number>
+               </property>
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <property name="invertedAppearance">
+                <bool>false</bool>
+               </property>
+               <property name="tickPosition">
+                <enum>QSlider::NoTicks</enum>
+               </property>
+               <property name="tickInterval">
+                <number>10</number>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+           <item row="0" column="1">
+            <spacer name="verticalSpacer_17">
+             <property name="orientation">
+              <enum>Qt::Vertical</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>20</width>
                <height>0</height>
               </size>
              </property>
-             <property name="maximumSize">
-              <size>
-               <width>100</width>
-               <height>16777215</height>
-              </size>
-             </property>
-             <property name="font">
-              <font>
-               <family>Open Sans</family>
-               <pointsize>16</pointsize>
-               <weight>75</weight>
-               <bold>true</bold>
-              </font>
-             </property>
-             <property name="styleSheet">
-              <string notr="true">QLineEdit { height: 34px; border-radius: 17px; border: none; background: white; color: rgb(20,20,20); }
-QLineEdit:disabled { color: white; }
-</string>
-             </property>
-             <property name="text">
-              <string>0.000</string>
-             </property>
-             <property name="alignment">
-              <set>Qt::AlignCenter</set>
-             </property>
-            </widget>
-           </item>
-           <item row="2" column="2" alignment="Qt::AlignLeft">
-            <widget class="QPushButton" name="power_kd_button">
-             <property name="minimumSize">
-              <size>
-               <width>36</width>
-               <height>36</height>
-              </size>
-             </property>
-             <property name="maximumSize">
-              <size>
-               <width>36</width>
-               <height>36</height>
-              </size>
-             </property>
-             <property name="font">
-              <font>
-               <family>Open Sans</family>
-               <pointsize>18</pointsize>
-              </font>
-             </property>
-             <property name="cursor">
-              <cursorShape>PointingHandCursor</cursorShape>
-             </property>
-             <property name="styleSheet">
-              <string notr="true">QPushButton {
-	background-color: rgb(85,87,83);
-	border: none;
-	border-radius: 18px;
-	color: white;
-}
-QPushButton:hover { background-color: rgb(66,68,65); }
-QPushButton:hover:pressed { background-color: rgb(48,49,47); }
-QPushButton:disabled { background-color: rgb(220,220,220); }</string>
-             </property>
-             <property name="text">
-              <string/>
-             </property>
-             <property name="icon">
-              <iconset resource="resources.qrc">
-               <normaloff>:/lib/face/icons/pencil.png</normaloff>
-               <disabledoff>:/lib/face/icons/pencil.png</disabledoff>
-               <disabledon>:/lib/face/icons/pencil.png</disabledon>:/lib/face/icons/pencil.png</iconset>
-             </property>
-             <property name="iconSize">
-              <size>
-               <width>22</width>
-               <height>22</height>
-              </size>
-             </property>
-            </widget>
+            </spacer>
            </item>
           </layout>
          </widget>
@@ -5829,7 +5712,7 @@ QGroupBox::title:disabled { color: rgb(180,180,180); }</string>
             <number>0</number>
            </property>
            <item row="0" column="0" alignment="Qt::AlignRight">
-            <widget class="QLabel" name="label_36">
+            <widget class="QLabel" name="beam_kp_label">
              <property name="font">
               <font>
                <family>Open Sans</family>
@@ -5932,7 +5815,7 @@ QPushButton:disabled { background-color: rgb(220,220,220); }</string>
             </widget>
            </item>
            <item row="1" column="0" alignment="Qt::AlignRight">
-            <widget class="QLabel" name="label_38">
+            <widget class="QLabel" name="beam_ki_label">
              <property name="font">
               <font>
                <family>Open Sans</family>
@@ -6035,7 +5918,7 @@ QPushButton:disabled { background-color: rgb(220,220,220); }</string>
             </widget>
            </item>
            <item row="2" column="0" alignment="Qt::AlignRight">
-            <widget class="QLabel" name="label_37">
+            <widget class="QLabel" name="beam_kd_label">
              <property name="font">
               <font>
                <family>Open Sans</family>
@@ -6140,12 +6023,12 @@ QPushButton:disabled { background-color: rgb(220,220,220); }</string>
           </layout>
          </widget>
         </item>
-        <item row="1" column="1">
-         <widget class="QGroupBox" name="log_rate_group">
+        <item row="0" column="2">
+         <widget class="QGroupBox" name="freq_pid_group">
           <property name="minimumSize">
            <size>
             <width>280</width>
-            <height>90</height>
+            <height>220</height>
            </size>
           </property>
           <property name="maximumSize">
@@ -6168,163 +6051,1047 @@ QGroupBox::title { subcontrol-origin: margin; padding: 0px 8px; left: 12px; top:
 QGroupBox::title:disabled { color: rgb(180,180,180); }</string>
           </property>
           <property name="title">
-           <string>Data Log Rate: ASAP</string>
+           <string>Frequency PID</string>
           </property>
-          <layout class="QVBoxLayout" name="verticalLayout_16">
-           <property name="spacing">
-            <number>0</number>
-           </property>
+          <layout class="QGridLayout" name="gridLayout_14">
            <property name="leftMargin">
-            <number>25</number>
+            <number>28</number>
            </property>
            <property name="topMargin">
-            <number>40</number>
+            <number>30</number>
            </property>
            <property name="rightMargin">
-            <number>25</number>
+            <number>0</number>
            </property>
            <property name="bottomMargin">
+            <number>16</number>
+           </property>
+           <property name="horizontalSpacing">
             <number>15</number>
            </property>
-           <item>
-            <layout class="QHBoxLayout" name="horizontalLayout_22">
-             <property name="leftMargin">
-              <number>10</number>
+           <property name="verticalSpacing">
+            <number>0</number>
+           </property>
+           <item row="0" column="0" alignment="Qt::AlignRight">
+            <widget class="QLabel" name="freq_kp_label">
+             <property name="font">
+              <font>
+               <family>Open Sans</family>
+               <pointsize>11</pointsize>
+              </font>
              </property>
-             <property name="rightMargin">
-              <number>10</number>
+             <property name="styleSheet">
+              <string notr="true">QLabel{ background: none; color: rgb(30,30,30); }
+QLabel:disabled{ color: rgb(180,180,180); }</string>
+             </property>
+             <property name="text">
+              <string>Proportional</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="1">
+            <widget class="SmartLineEdit" name="freq_kp_edit">
+             <property name="minimumSize">
+              <size>
+               <width>100</width>
+               <height>0</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>100</width>
+               <height>16777215</height>
+              </size>
+             </property>
+             <property name="font">
+              <font>
+               <family>Open Sans</family>
+               <pointsize>16</pointsize>
+               <weight>75</weight>
+               <bold>true</bold>
+              </font>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">QLineEdit { height: 34px; border-radius: 17px; border: none; background: white; color: rgb(20,20,20); }
+QLineEdit:disabled { color: white; }
+</string>
+             </property>
+             <property name="text">
+              <string>0.000</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignCenter</set>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="2" alignment="Qt::AlignLeft">
+            <widget class="QPushButton" name="freq_kp_button">
+             <property name="minimumSize">
+              <size>
+               <width>36</width>
+               <height>36</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>36</width>
+               <height>36</height>
+              </size>
+             </property>
+             <property name="font">
+              <font>
+               <family>Open Sans</family>
+               <pointsize>18</pointsize>
+              </font>
+             </property>
+             <property name="cursor">
+              <cursorShape>PointingHandCursor</cursorShape>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">QPushButton {
+	background-color: rgb(85,87,83);
+	border: none;
+	border-radius: 18px;
+	color: white;
+}
+QPushButton:hover { background-color: rgb(66,68,65); }
+QPushButton:hover:pressed { background-color: rgb(48,49,47); }
+QPushButton:disabled { background-color: rgb(220,220,220); }</string>
+             </property>
+             <property name="text">
+              <string/>
+             </property>
+             <property name="icon">
+              <iconset resource="resources.qrc">
+               <normaloff>:/lib/face/icons/pencil.png</normaloff>
+               <disabledoff>:/lib/face/icons/pencil.png</disabledoff>
+               <disabledon>:/lib/face/icons/pencil.png</disabledon>:/lib/face/icons/pencil.png</iconset>
+             </property>
+             <property name="iconSize">
+              <size>
+               <width>22</width>
+               <height>22</height>
+              </size>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="0" alignment="Qt::AlignRight">
+            <widget class="QLabel" name="freq_ki_label">
+             <property name="font">
+              <font>
+               <family>Open Sans</family>
+               <pointsize>11</pointsize>
+              </font>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">QLabel{ background: none; color: rgb(30,30,30); }
+QLabel:disabled{ color: rgb(180,180,180); }</string>
+             </property>
+             <property name="text">
+              <string>Integral</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="1">
+            <widget class="SmartLineEdit" name="freq_ki_edit">
+             <property name="minimumSize">
+              <size>
+               <width>100</width>
+               <height>0</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>100</width>
+               <height>16777215</height>
+              </size>
+             </property>
+             <property name="font">
+              <font>
+               <family>Open Sans</family>
+               <pointsize>16</pointsize>
+               <weight>75</weight>
+               <bold>true</bold>
+              </font>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">QLineEdit { height: 34px; border-radius: 17px; border: none; background: white; color: rgb(20,20,20); }
+QLineEdit:disabled { color: white; }
+</string>
+             </property>
+             <property name="text">
+              <string>0.000</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignCenter</set>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="2" alignment="Qt::AlignLeft">
+            <widget class="QPushButton" name="freq_ki_button">
+             <property name="minimumSize">
+              <size>
+               <width>36</width>
+               <height>36</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>36</width>
+               <height>36</height>
+              </size>
+             </property>
+             <property name="font">
+              <font>
+               <family>Open Sans</family>
+               <pointsize>18</pointsize>
+              </font>
+             </property>
+             <property name="cursor">
+              <cursorShape>PointingHandCursor</cursorShape>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">QPushButton {
+	background-color: rgb(85,87,83);
+	border: none;
+	border-radius: 18px;
+	color: white;
+}
+QPushButton:hover { background-color: rgb(66,68,65); }
+QPushButton:hover:pressed { background-color: rgb(48,49,47); }
+QPushButton:disabled { background-color: rgb(220,220,220); }</string>
+             </property>
+             <property name="text">
+              <string/>
+             </property>
+             <property name="icon">
+              <iconset resource="resources.qrc">
+               <normaloff>:/lib/face/icons/pencil.png</normaloff>
+               <disabledoff>:/lib/face/icons/pencil.png</disabledoff>
+               <disabledon>:/lib/face/icons/pencil.png</disabledon>:/lib/face/icons/pencil.png</iconset>
+             </property>
+             <property name="iconSize">
+              <size>
+               <width>22</width>
+               <height>22</height>
+              </size>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="0" alignment="Qt::AlignRight">
+            <widget class="QLabel" name="freq_kd_label">
+             <property name="font">
+              <font>
+               <family>Open Sans</family>
+               <pointsize>11</pointsize>
+              </font>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">QLabel{ background: none; color: rgb(30,30,30); }
+QLabel:disabled{ color: rgb(180,180,180); }</string>
+             </property>
+             <property name="text">
+              <string>Derivative</string>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="1">
+            <widget class="SmartLineEdit" name="freq_kd_edit">
+             <property name="minimumSize">
+              <size>
+               <width>100</width>
+               <height>0</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>100</width>
+               <height>16777215</height>
+              </size>
+             </property>
+             <property name="font">
+              <font>
+               <family>Open Sans</family>
+               <pointsize>16</pointsize>
+               <weight>75</weight>
+               <bold>true</bold>
+              </font>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">QLineEdit { height: 34px; border-radius: 17px; border: none; background: white; color: rgb(20,20,20); }
+QLineEdit:disabled { color: white; }
+</string>
+             </property>
+             <property name="text">
+              <string>0.000</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignCenter</set>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="2" alignment="Qt::AlignLeft">
+            <widget class="QPushButton" name="freq_kd_button">
+             <property name="minimumSize">
+              <size>
+               <width>36</width>
+               <height>36</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>36</width>
+               <height>36</height>
+              </size>
+             </property>
+             <property name="font">
+              <font>
+               <family>Open Sans</family>
+               <pointsize>18</pointsize>
+              </font>
+             </property>
+             <property name="cursor">
+              <cursorShape>PointingHandCursor</cursorShape>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">QPushButton {
+	background-color: rgb(85,87,83);
+	border: none;
+	border-radius: 18px;
+	color: white;
+}
+QPushButton:hover { background-color: rgb(66,68,65); }
+QPushButton:hover:pressed { background-color: rgb(48,49,47); }
+QPushButton:disabled { background-color: rgb(220,220,220); }</string>
+             </property>
+             <property name="text">
+              <string/>
+             </property>
+             <property name="icon">
+              <iconset resource="resources.qrc">
+               <normaloff>:/lib/face/icons/pencil.png</normaloff>
+               <disabledoff>:/lib/face/icons/pencil.png</disabledoff>
+               <disabledon>:/lib/face/icons/pencil.png</disabledon>:/lib/face/icons/pencil.png</iconset>
+             </property>
+             <property name="iconSize">
+              <size>
+               <width>22</width>
+               <height>22</height>
+              </size>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item row="2" column="1" colspan="2">
+         <widget class="QGroupBox" name="console_group">
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>200</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>10000</width>
+            <height>10000</height>
+           </size>
+          </property>
+          <property name="font">
+           <font>
+            <family>Open Sans</family>
+            <pointsize>11</pointsize>
+            <weight>75</weight>
+            <bold>true</bold>
+           </font>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QGroupBox { border: none; background: white; border-radius: 20px; border: 1px solid rgb(220,220,220); }
+QGroupBox::title { subcontrol-origin: margin; padding: 0px 8px; left: 12px; top: 12px; color: rgb(85, 87, 83); }
+QGroupBox::title:disabled { color: rgb(180,180,180); }</string>
+          </property>
+          <property name="title">
+           <string/>
+          </property>
+          <layout class="QGridLayout" name="gridLayout_12">
+           <property name="leftMargin">
+            <number>12</number>
+           </property>
+           <property name="topMargin">
+            <number>12</number>
+           </property>
+           <property name="rightMargin">
+            <number>12</number>
+           </property>
+           <property name="bottomMargin">
+            <number>12</number>
+           </property>
+           <property name="verticalSpacing">
+            <number>10</number>
+           </property>
+           <item row="0" column="0">
+            <widget class="QLabel" name="label_16">
+             <property name="font">
+              <font>
+               <family>Open Sans ExtraBold</family>
+               <pointsize>15</pointsize>
+               <weight>75</weight>
+               <bold>true</bold>
+              </font>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">background: none; border: none; color: rgb(85, 87, 83); padding-left: 12px;</string>
+             </property>
+             <property name="text">
+              <string>&gt;</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="1">
+            <widget class="QLineEdit" name="console_edit">
+             <property name="font">
+              <font>
+               <family>Open Sans</family>
+               <pointsize>11</pointsize>
+               <weight>75</weight>
+               <bold>true</bold>
+              </font>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">border: none; background: white; color: rgb(85, 87, 83);</string>
+             </property>
+             <property name="text">
+              <string/>
+             </property>
+             <property name="placeholderText">
+              <string>Enter Command Here</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="2">
+            <widget class="QComboBox" name="console_dropdown">
+             <property name="minimumSize">
+              <size>
+               <width>110</width>
+               <height>30</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>110</width>
+               <height>135</height>
+              </size>
+             </property>
+             <property name="font">
+              <font>
+               <family>Open Sans</family>
+               <pointsize>11</pointsize>
+               <weight>75</weight>
+               <bold>true</bold>
+              </font>
+             </property>
+             <property name="cursor">
+              <cursorShape>PointingHandCursor</cursorShape>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">QComboBox { font-size: 11pt;
+color: rgb(40, 40, 40);
+border-radius: 10px;
+padding-top: 8px;
+padding-bottom: 7px;
+padding-left: 10px;
+padding-right: 8px;
+border: 1px solid rgb(200,200,200);
+}
+QComboBox:on {
+
+}
+QComboBox QAbstractItemView {
+
+background: white;
+}
+QComboBox:disabled {
+color: rgb(180,180,180);
+}
+QComboBox::drop-down {
+border:none;
+}
+QComboBox::down-arrow {
+image: url(:/images/down_arrow.png);
+padding-right: 13px;
+}
+QComboBox::down-arrow:disabled {
+image: url(:/images/down_arrow_disabled.png);
+}
+QComboBox:active {
+background-color: white;
+
+}
+QComboBox:!active {
+background-color: white;
+
+}</string>
              </property>
              <item>
-              <widget class="QSlider" name="log_rate_slider">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="cursor">
-                <cursorShape>PointingHandCursor</cursorShape>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">QSlider {
-background: white;
-}
-
-QSlider::add-page:horizontal {
-background: white;
-border: 1px solid rgb(180,180,180);
-border-radius: 3px;
-}
-
-QSlider::sub-page:horizontal {
-background: white;
-border: 1px solid rgb(180,180,180);
-border-radius: 3px;
-}
-
-QSlider::handle:horizontal {
-background: rgb(85,87,83);
-border-radius: 7px;
-}</string>
-               </property>
-               <property name="minimum">
-                <number>0</number>
-               </property>
-               <property name="maximum">
-                <number>90</number>
-               </property>
-               <property name="singleStep">
-                <number>10</number>
-               </property>
-               <property name="pageStep">
-                <number>10</number>
-               </property>
-               <property name="value">
-                <number>0</number>
-               </property>
-               <property name="orientation">
-                <enum>Qt::Horizontal</enum>
-               </property>
-               <property name="invertedAppearance">
-                <bool>false</bool>
-               </property>
-               <property name="tickPosition">
-                <enum>QSlider::NoTicks</enum>
-               </property>
-               <property name="tickInterval">
-                <number>10</number>
-               </property>
-              </widget>
+              <property name="text">
+               <string>CATHODE</string>
+              </property>
              </item>
-            </layout>
+             <item>
+              <property name="text">
+               <string>      GTC</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>      IPC</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>      RSI</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>      FMS</string>
+              </property>
+             </item>
+            </widget>
+           </item>
+           <item row="1" column="0" colspan="3">
+            <widget class="Line" name="line">
+             <property name="styleSheet">
+              <string notr="true">background: none; color: rgb(220,220,220);</string>
+             </property>
+             <property name="frameShadow">
+              <enum>QFrame::Plain</enum>
+             </property>
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="0" colspan="3">
+            <widget class="QTextEdit" name="console_text">
+             <property name="font">
+              <font>
+               <family>Open Sans</family>
+               <pointsize>11</pointsize>
+              </font>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">border: none; background: white; color: rgb(85, 87, 83); padding-left: 4px;</string>
+             </property>
+             <property name="frameShadow">
+              <enum>QFrame::Plain</enum>
+             </property>
+             <property name="readOnly">
+              <bool>true</bool>
+             </property>
+             <property name="html">
+              <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Open Sans'; font-size:11pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item row="1" column="2">
+         <widget class="QGroupBox" name="misc_group">
+          <property name="minimumSize">
+           <size>
+            <width>280</width>
+            <height>115</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>10000</width>
+            <height>10000</height>
+           </size>
+          </property>
+          <property name="font">
+           <font>
+            <family>Open Sans</family>
+            <pointsize>11</pointsize>
+            <weight>75</weight>
+            <bold>true</bold>
+           </font>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QGroupBox { border: none; background: white; border-radius: 20px; border: 1px solid rgb(220,220,220); }
+QGroupBox::title { subcontrol-origin: margin; padding: 0px 8px; left: 12px; top: 12px; color: rgb(85, 87, 83); }
+QGroupBox::title:disabled { color: rgb(180,180,180); }</string>
+          </property>
+          <property name="title">
+           <string>Misc</string>
+          </property>
+          <layout class="QHBoxLayout" name="horizontalLayout_13">
+           <property name="spacing">
+            <number>15</number>
+           </property>
+           <property name="leftMargin">
+            <number>18</number>
+           </property>
+           <property name="topMargin">
+            <number>31</number>
+           </property>
+           <property name="rightMargin">
+            <number>18</number>
+           </property>
+           <property name="bottomMargin">
+            <number>10</number>
+           </property>
+           <item>
+            <widget class="QPushButton" name="reconfig_button">
+             <property name="minimumSize">
+              <size>
+               <width>170</width>
+               <height>45</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>170</width>
+               <height>45</height>
+              </size>
+             </property>
+             <property name="font">
+              <font>
+               <family>Open Sans</family>
+               <pointsize>11</pointsize>
+               <weight>75</weight>
+               <bold>true</bold>
+              </font>
+             </property>
+             <property name="cursor">
+              <cursorShape>PointingHandCursor</cursorShape>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">QPushButton {
+	background-color: rgb(85,87,83);
+	border: none;
+	color: white;
+	border-radius: 10px;
+}
+QPushButton:hover:pressed { background-color: rgb(48,49,47); }
+QPushButton:hover { background-color: rgb(66,68,65); }
+QPushButton:disabled { background-color: rgb(200,200,200); }</string>
+             </property>
+             <property name="text">
+              <string>RE-PARSE CONFIG</string>
+             </property>
+            </widget>
            </item>
            <item>
-            <layout class="QHBoxLayout" name="horizontalLayout_12">
-             <item alignment="Qt::AlignLeft">
-              <widget class="QLabel" name="label_25">
-               <property name="font">
-                <font>
-                 <family>Open Sans</family>
-                 <pointsize>11</pointsize>
-                </font>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">background: white; color: rgb(80,80,80);</string>
-               </property>
-               <property name="text">
-                <string>ASAP</string>
-               </property>
-              </widget>
-             </item>
-             <item alignment="Qt::AlignHCenter">
-              <widget class="QLabel" name="label_26">
-               <property name="font">
-                <font>
-                 <family>Open Sans</family>
-                 <pointsize>11</pointsize>
-                </font>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">background: white; color: rgb(80,80,80);</string>
-               </property>
-               <property name="text">
-                <string>15 m     </string>
-               </property>
-              </widget>
-             </item>
-             <item alignment="Qt::AlignHCenter">
-              <widget class="QLabel" name="label_35">
-               <property name="font">
-                <font>
-                 <family>Open Sans</family>
-                 <pointsize>11</pointsize>
-                </font>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">background: white; color: rgb(80,80,80);</string>
-               </property>
-               <property name="text">
-                <string>      30 m</string>
-               </property>
-              </widget>
-             </item>
-             <item alignment="Qt::AlignRight">
-              <widget class="QLabel" name="label_45">
-               <property name="font">
-                <font>
-                 <family>Open Sans</family>
-                 <pointsize>11</pointsize>
-                </font>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">background: white; color: rgb(80,80,80);</string>
-               </property>
-               <property name="text">
-                <string>1 h</string>
-               </property>
-              </widget>
-             </item>
-            </layout>
+            <widget class="QPushButton" name="save_pid_button">
+             <property name="enabled">
+              <bool>true</bool>
+             </property>
+             <property name="minimumSize">
+              <size>
+               <width>110</width>
+               <height>45</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>110</width>
+               <height>45</height>
+              </size>
+             </property>
+             <property name="font">
+              <font>
+               <family>Open Sans</family>
+               <pointsize>11</pointsize>
+               <weight>75</weight>
+               <bold>true</bold>
+              </font>
+             </property>
+             <property name="cursor">
+              <cursorShape>PointingHandCursor</cursorShape>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">QPushButton {
+	background-color: rgb(85,87,83);
+	border: none;
+	color: white;
+	border-radius: 10px;
+}
+QPushButton:hover:pressed { background-color: rgb(48,49,47); }
+QPushButton:hover { background-color: rgb(66,68,65); }</string>
+             </property>
+             <property name="text">
+              <string>SAVE PID</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item row="0" column="1">
+         <widget class="QGroupBox" name="power_pid_group">
+          <property name="minimumSize">
+           <size>
+            <width>280</width>
+            <height>220</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>10000</width>
+            <height>10000</height>
+           </size>
+          </property>
+          <property name="font">
+           <font>
+            <family>Open Sans</family>
+            <pointsize>11</pointsize>
+            <weight>75</weight>
+            <bold>true</bold>
+           </font>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QGroupBox { border: none; background: white; border-radius: 20px; border: 1px solid rgb(220,220,220); }
+QGroupBox::title { subcontrol-origin: margin; padding: 0px 8px; left: 12px; top: 12px; color: rgb(85, 87, 83); }
+QGroupBox::title:disabled { color: rgb(180,180,180); }</string>
+          </property>
+          <property name="title">
+           <string>Power PID</string>
+          </property>
+          <layout class="QGridLayout" name="gridLayout_6">
+           <property name="leftMargin">
+            <number>28</number>
+           </property>
+           <property name="topMargin">
+            <number>30</number>
+           </property>
+           <property name="rightMargin">
+            <number>0</number>
+           </property>
+           <property name="bottomMargin">
+            <number>16</number>
+           </property>
+           <property name="horizontalSpacing">
+            <number>15</number>
+           </property>
+           <property name="verticalSpacing">
+            <number>0</number>
+           </property>
+           <item row="0" column="0" alignment="Qt::AlignRight">
+            <widget class="QLabel" name="power_kp_label">
+             <property name="font">
+              <font>
+               <family>Open Sans</family>
+               <pointsize>11</pointsize>
+              </font>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">QLabel{ background: none; color: rgb(30,30,30); }
+QLabel:disabled{ color: rgb(180,180,180); }</string>
+             </property>
+             <property name="text">
+              <string>Proportional</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="1">
+            <widget class="SmartLineEdit" name="power_kp_edit">
+             <property name="minimumSize">
+              <size>
+               <width>100</width>
+               <height>0</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>100</width>
+               <height>16777215</height>
+              </size>
+             </property>
+             <property name="font">
+              <font>
+               <family>Open Sans</family>
+               <pointsize>16</pointsize>
+               <weight>75</weight>
+               <bold>true</bold>
+              </font>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">QLineEdit { height: 34px; border-radius: 17px; border: none; background: white; color: rgb(20,20,20); }
+QLineEdit:disabled { color: white; }
+</string>
+             </property>
+             <property name="text">
+              <string>0.000</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignCenter</set>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="2" alignment="Qt::AlignLeft">
+            <widget class="QPushButton" name="power_kp_button">
+             <property name="minimumSize">
+              <size>
+               <width>36</width>
+               <height>36</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>36</width>
+               <height>36</height>
+              </size>
+             </property>
+             <property name="font">
+              <font>
+               <family>Open Sans</family>
+               <pointsize>18</pointsize>
+              </font>
+             </property>
+             <property name="cursor">
+              <cursorShape>PointingHandCursor</cursorShape>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">QPushButton {
+	background-color: rgb(85,87,83);
+	border: none;
+	border-radius: 18px;
+	color: white;
+}
+QPushButton:hover { background-color: rgb(66,68,65); }
+QPushButton:hover:pressed { background-color: rgb(48,49,47); }
+QPushButton:disabled { background-color: rgb(220,220,220); }</string>
+             </property>
+             <property name="text">
+              <string/>
+             </property>
+             <property name="icon">
+              <iconset resource="resources.qrc">
+               <normaloff>:/lib/face/icons/pencil.png</normaloff>
+               <disabledoff>:/lib/face/icons/pencil.png</disabledoff>
+               <disabledon>:/lib/face/icons/pencil.png</disabledon>:/lib/face/icons/pencil.png</iconset>
+             </property>
+             <property name="iconSize">
+              <size>
+               <width>22</width>
+               <height>22</height>
+              </size>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="0" alignment="Qt::AlignRight">
+            <widget class="QLabel" name="power_ki_label">
+             <property name="font">
+              <font>
+               <family>Open Sans</family>
+               <pointsize>11</pointsize>
+              </font>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">QLabel{ background: none; color: rgb(30,30,30); }
+QLabel:disabled{ color: rgb(180,180,180); }</string>
+             </property>
+             <property name="text">
+              <string>Integral</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="1">
+            <widget class="SmartLineEdit" name="power_ki_edit">
+             <property name="minimumSize">
+              <size>
+               <width>100</width>
+               <height>0</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>100</width>
+               <height>16777215</height>
+              </size>
+             </property>
+             <property name="font">
+              <font>
+               <family>Open Sans</family>
+               <pointsize>16</pointsize>
+               <weight>75</weight>
+               <bold>true</bold>
+              </font>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">QLineEdit { height: 34px; border-radius: 17px; border: none; background: white; color: rgb(20,20,20); }
+QLineEdit:disabled { color: white; }
+</string>
+             </property>
+             <property name="text">
+              <string>0.000</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignCenter</set>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="2" alignment="Qt::AlignLeft">
+            <widget class="QPushButton" name="power_ki_button">
+             <property name="minimumSize">
+              <size>
+               <width>36</width>
+               <height>36</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>36</width>
+               <height>36</height>
+              </size>
+             </property>
+             <property name="font">
+              <font>
+               <family>Open Sans</family>
+               <pointsize>18</pointsize>
+              </font>
+             </property>
+             <property name="cursor">
+              <cursorShape>PointingHandCursor</cursorShape>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">QPushButton {
+	background-color: rgb(85,87,83);
+	border: none;
+	border-radius: 18px;
+	color: white;
+}
+QPushButton:hover { background-color: rgb(66,68,65); }
+QPushButton:hover:pressed { background-color: rgb(48,49,47); }
+QPushButton:disabled { background-color: rgb(220,220,220); }</string>
+             </property>
+             <property name="text">
+              <string/>
+             </property>
+             <property name="icon">
+              <iconset resource="resources.qrc">
+               <normaloff>:/lib/face/icons/pencil.png</normaloff>
+               <disabledoff>:/lib/face/icons/pencil.png</disabledoff>
+               <disabledon>:/lib/face/icons/pencil.png</disabledon>:/lib/face/icons/pencil.png</iconset>
+             </property>
+             <property name="iconSize">
+              <size>
+               <width>22</width>
+               <height>22</height>
+              </size>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="0" alignment="Qt::AlignRight">
+            <widget class="QLabel" name="power_kd_label">
+             <property name="font">
+              <font>
+               <family>Open Sans</family>
+               <pointsize>11</pointsize>
+              </font>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">QLabel{ background: none; color: rgb(30,30,30); }
+QLabel:disabled{ color: rgb(180,180,180); }</string>
+             </property>
+             <property name="text">
+              <string>Derivative</string>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="1">
+            <widget class="SmartLineEdit" name="power_kd_edit">
+             <property name="minimumSize">
+              <size>
+               <width>100</width>
+               <height>0</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>100</width>
+               <height>16777215</height>
+              </size>
+             </property>
+             <property name="font">
+              <font>
+               <family>Open Sans</family>
+               <pointsize>16</pointsize>
+               <weight>75</weight>
+               <bold>true</bold>
+              </font>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">QLineEdit { height: 34px; border-radius: 17px; border: none; background: white; color: rgb(20,20,20); }
+QLineEdit:disabled { color: white; }
+</string>
+             </property>
+             <property name="text">
+              <string>0.000</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignCenter</set>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="2" alignment="Qt::AlignLeft">
+            <widget class="QPushButton" name="power_kd_button">
+             <property name="minimumSize">
+              <size>
+               <width>36</width>
+               <height>36</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>36</width>
+               <height>36</height>
+              </size>
+             </property>
+             <property name="font">
+              <font>
+               <family>Open Sans</family>
+               <pointsize>18</pointsize>
+              </font>
+             </property>
+             <property name="cursor">
+              <cursorShape>PointingHandCursor</cursorShape>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">QPushButton {
+	background-color: rgb(85,87,83);
+	border: none;
+	border-radius: 18px;
+	color: white;
+}
+QPushButton:hover { background-color: rgb(66,68,65); }
+QPushButton:hover:pressed { background-color: rgb(48,49,47); }
+QPushButton:disabled { background-color: rgb(220,220,220); }</string>
+             </property>
+             <property name="text">
+              <string/>
+             </property>
+             <property name="icon">
+              <iconset resource="resources.qrc">
+               <normaloff>:/lib/face/icons/pencil.png</normaloff>
+               <disabledoff>:/lib/face/icons/pencil.png</disabledoff>
+               <disabledon>:/lib/face/icons/pencil.png</disabledon>:/lib/face/icons/pencil.png</iconset>
+             </property>
+             <property name="iconSize">
+              <size>
+               <width>22</width>
+               <height>22</height>
+              </size>
+             </property>
+            </widget>
            </item>
           </layout>
          </widget>
@@ -6627,12 +7394,12 @@ QPushButton:hover { background-color: rgb(66,68,65); }</string>
           </layout>
          </widget>
         </item>
-        <item row="0" column="2">
-         <widget class="QGroupBox" name="freq_pid_group">
+        <item row="1" column="1">
+         <widget class="QGroupBox" name="log_rate_group">
           <property name="minimumSize">
            <size>
             <width>280</width>
-            <height>220</height>
+            <height>115</height>
            </size>
           </property>
           <property name="maximumSize">
@@ -6655,596 +7422,42 @@ QGroupBox::title { subcontrol-origin: margin; padding: 0px 8px; left: 12px; top:
 QGroupBox::title:disabled { color: rgb(180,180,180); }</string>
           </property>
           <property name="title">
-           <string>Frequency PID</string>
+           <string>Data Log Rate: ASAP</string>
           </property>
-          <layout class="QGridLayout" name="gridLayout_14">
+          <layout class="QGridLayout" name="gridLayout_13" columnstretch="1,9,1">
            <property name="leftMargin">
-            <number>28</number>
-           </property>
-           <property name="topMargin">
-            <number>30</number>
-           </property>
-           <property name="rightMargin">
             <number>0</number>
-           </property>
-           <property name="bottomMargin">
-            <number>16</number>
-           </property>
-           <property name="horizontalSpacing">
-            <number>15</number>
-           </property>
-           <property name="verticalSpacing">
-            <number>0</number>
-           </property>
-           <item row="0" column="0" alignment="Qt::AlignRight">
-            <widget class="QLabel" name="label_42">
-             <property name="font">
-              <font>
-               <family>Open Sans</family>
-               <pointsize>11</pointsize>
-              </font>
-             </property>
-             <property name="styleSheet">
-              <string notr="true">QLabel{ background: none; color: rgb(30,30,30); }
-QLabel:disabled{ color: rgb(180,180,180); }</string>
-             </property>
-             <property name="text">
-              <string>Proportional</string>
-             </property>
-            </widget>
-           </item>
-           <item row="0" column="1">
-            <widget class="SmartLineEdit" name="freq_kp_edit">
-             <property name="minimumSize">
-              <size>
-               <width>100</width>
-               <height>0</height>
-              </size>
-             </property>
-             <property name="maximumSize">
-              <size>
-               <width>100</width>
-               <height>16777215</height>
-              </size>
-             </property>
-             <property name="font">
-              <font>
-               <family>Open Sans</family>
-               <pointsize>16</pointsize>
-               <weight>75</weight>
-               <bold>true</bold>
-              </font>
-             </property>
-             <property name="styleSheet">
-              <string notr="true">QLineEdit { height: 34px; border-radius: 17px; border: none; background: white; color: rgb(20,20,20); }
-QLineEdit:disabled { color: white; }
-</string>
-             </property>
-             <property name="text">
-              <string>0.000</string>
-             </property>
-             <property name="alignment">
-              <set>Qt::AlignCenter</set>
-             </property>
-            </widget>
-           </item>
-           <item row="0" column="2" alignment="Qt::AlignLeft">
-            <widget class="QPushButton" name="freq_kp_button">
-             <property name="minimumSize">
-              <size>
-               <width>36</width>
-               <height>36</height>
-              </size>
-             </property>
-             <property name="maximumSize">
-              <size>
-               <width>36</width>
-               <height>36</height>
-              </size>
-             </property>
-             <property name="font">
-              <font>
-               <family>Open Sans</family>
-               <pointsize>18</pointsize>
-              </font>
-             </property>
-             <property name="cursor">
-              <cursorShape>PointingHandCursor</cursorShape>
-             </property>
-             <property name="styleSheet">
-              <string notr="true">QPushButton {
-	background-color: rgb(85,87,83);
-	border: none;
-	border-radius: 18px;
-	color: white;
-}
-QPushButton:hover { background-color: rgb(66,68,65); }
-QPushButton:hover:pressed { background-color: rgb(48,49,47); }
-QPushButton:disabled { background-color: rgb(220,220,220); }</string>
-             </property>
-             <property name="text">
-              <string/>
-             </property>
-             <property name="icon">
-              <iconset resource="resources.qrc">
-               <normaloff>:/lib/face/icons/pencil.png</normaloff>
-               <disabledoff>:/lib/face/icons/pencil.png</disabledoff>
-               <disabledon>:/lib/face/icons/pencil.png</disabledon>:/lib/face/icons/pencil.png</iconset>
-             </property>
-             <property name="iconSize">
-              <size>
-               <width>22</width>
-               <height>22</height>
-              </size>
-             </property>
-            </widget>
-           </item>
-           <item row="1" column="0" alignment="Qt::AlignRight">
-            <widget class="QLabel" name="label_43">
-             <property name="font">
-              <font>
-               <family>Open Sans</family>
-               <pointsize>11</pointsize>
-              </font>
-             </property>
-             <property name="styleSheet">
-              <string notr="true">QLabel{ background: none; color: rgb(30,30,30); }
-QLabel:disabled{ color: rgb(180,180,180); }</string>
-             </property>
-             <property name="text">
-              <string>Integral</string>
-             </property>
-            </widget>
-           </item>
-           <item row="1" column="1">
-            <widget class="SmartLineEdit" name="freq_ki_edit">
-             <property name="minimumSize">
-              <size>
-               <width>100</width>
-               <height>0</height>
-              </size>
-             </property>
-             <property name="maximumSize">
-              <size>
-               <width>100</width>
-               <height>16777215</height>
-              </size>
-             </property>
-             <property name="font">
-              <font>
-               <family>Open Sans</family>
-               <pointsize>16</pointsize>
-               <weight>75</weight>
-               <bold>true</bold>
-              </font>
-             </property>
-             <property name="styleSheet">
-              <string notr="true">QLineEdit { height: 34px; border-radius: 17px; border: none; background: white; color: rgb(20,20,20); }
-QLineEdit:disabled { color: white; }
-</string>
-             </property>
-             <property name="text">
-              <string>0.000</string>
-             </property>
-             <property name="alignment">
-              <set>Qt::AlignCenter</set>
-             </property>
-            </widget>
-           </item>
-           <item row="1" column="2" alignment="Qt::AlignLeft">
-            <widget class="QPushButton" name="freq_ki_button">
-             <property name="minimumSize">
-              <size>
-               <width>36</width>
-               <height>36</height>
-              </size>
-             </property>
-             <property name="maximumSize">
-              <size>
-               <width>36</width>
-               <height>36</height>
-              </size>
-             </property>
-             <property name="font">
-              <font>
-               <family>Open Sans</family>
-               <pointsize>18</pointsize>
-              </font>
-             </property>
-             <property name="cursor">
-              <cursorShape>PointingHandCursor</cursorShape>
-             </property>
-             <property name="styleSheet">
-              <string notr="true">QPushButton {
-	background-color: rgb(85,87,83);
-	border: none;
-	border-radius: 18px;
-	color: white;
-}
-QPushButton:hover { background-color: rgb(66,68,65); }
-QPushButton:hover:pressed { background-color: rgb(48,49,47); }
-QPushButton:disabled { background-color: rgb(220,220,220); }</string>
-             </property>
-             <property name="text">
-              <string/>
-             </property>
-             <property name="icon">
-              <iconset resource="resources.qrc">
-               <normaloff>:/lib/face/icons/pencil.png</normaloff>
-               <disabledoff>:/lib/face/icons/pencil.png</disabledoff>
-               <disabledon>:/lib/face/icons/pencil.png</disabledon>:/lib/face/icons/pencil.png</iconset>
-             </property>
-             <property name="iconSize">
-              <size>
-               <width>22</width>
-               <height>22</height>
-              </size>
-             </property>
-            </widget>
-           </item>
-           <item row="2" column="0" alignment="Qt::AlignRight">
-            <widget class="QLabel" name="label_44">
-             <property name="font">
-              <font>
-               <family>Open Sans</family>
-               <pointsize>11</pointsize>
-              </font>
-             </property>
-             <property name="styleSheet">
-              <string notr="true">QLabel{ background: none; color: rgb(30,30,30); }
-QLabel:disabled{ color: rgb(180,180,180); }</string>
-             </property>
-             <property name="text">
-              <string>Derivative</string>
-             </property>
-            </widget>
-           </item>
-           <item row="2" column="1">
-            <widget class="SmartLineEdit" name="freq_kd_edit">
-             <property name="minimumSize">
-              <size>
-               <width>100</width>
-               <height>0</height>
-              </size>
-             </property>
-             <property name="maximumSize">
-              <size>
-               <width>100</width>
-               <height>16777215</height>
-              </size>
-             </property>
-             <property name="font">
-              <font>
-               <family>Open Sans</family>
-               <pointsize>16</pointsize>
-               <weight>75</weight>
-               <bold>true</bold>
-              </font>
-             </property>
-             <property name="styleSheet">
-              <string notr="true">QLineEdit { height: 34px; border-radius: 17px; border: none; background: white; color: rgb(20,20,20); }
-QLineEdit:disabled { color: white; }
-</string>
-             </property>
-             <property name="text">
-              <string>0.000</string>
-             </property>
-             <property name="alignment">
-              <set>Qt::AlignCenter</set>
-             </property>
-            </widget>
-           </item>
-           <item row="2" column="2" alignment="Qt::AlignLeft">
-            <widget class="QPushButton" name="freq_kd_button">
-             <property name="minimumSize">
-              <size>
-               <width>36</width>
-               <height>36</height>
-              </size>
-             </property>
-             <property name="maximumSize">
-              <size>
-               <width>36</width>
-               <height>36</height>
-              </size>
-             </property>
-             <property name="font">
-              <font>
-               <family>Open Sans</family>
-               <pointsize>18</pointsize>
-              </font>
-             </property>
-             <property name="cursor">
-              <cursorShape>PointingHandCursor</cursorShape>
-             </property>
-             <property name="styleSheet">
-              <string notr="true">QPushButton {
-	background-color: rgb(85,87,83);
-	border: none;
-	border-radius: 18px;
-	color: white;
-}
-QPushButton:hover { background-color: rgb(66,68,65); }
-QPushButton:hover:pressed { background-color: rgb(48,49,47); }
-QPushButton:disabled { background-color: rgb(220,220,220); }</string>
-             </property>
-             <property name="text">
-              <string/>
-             </property>
-             <property name="icon">
-              <iconset resource="resources.qrc">
-               <normaloff>:/lib/face/icons/pencil.png</normaloff>
-               <disabledoff>:/lib/face/icons/pencil.png</disabledoff>
-               <disabledon>:/lib/face/icons/pencil.png</disabledon>:/lib/face/icons/pencil.png</iconset>
-             </property>
-             <property name="iconSize">
-              <size>
-               <width>22</width>
-               <height>22</height>
-              </size>
-             </property>
-            </widget>
-           </item>
-          </layout>
-         </widget>
-        </item>
-        <item row="2" column="1" colspan="2">
-         <widget class="QGroupBox" name="console_group">
-          <property name="minimumSize">
-           <size>
-            <width>0</width>
-            <height>200</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>10000</width>
-            <height>10000</height>
-           </size>
-          </property>
-          <property name="font">
-           <font>
-            <family>Open Sans</family>
-            <pointsize>11</pointsize>
-            <weight>75</weight>
-            <bold>true</bold>
-           </font>
-          </property>
-          <property name="styleSheet">
-           <string notr="true">QGroupBox { border: none; background: white; border-radius: 20px; border: 1px solid rgb(220,220,220); }
-QGroupBox::title { subcontrol-origin: margin; padding: 0px 8px; left: 12px; top: 12px; color: rgb(85, 87, 83); }
-QGroupBox::title:disabled { color: rgb(180,180,180); }</string>
-          </property>
-          <property name="title">
-           <string/>
-          </property>
-          <layout class="QGridLayout" name="gridLayout_12">
-           <property name="topMargin">
-            <number>12</number>
-           </property>
-           <item row="0" column="0">
-            <widget class="QLabel" name="label_16">
-             <property name="font">
-              <font>
-               <family>Open Sans ExtraBold</family>
-               <pointsize>15</pointsize>
-               <weight>75</weight>
-               <bold>true</bold>
-              </font>
-             </property>
-             <property name="styleSheet">
-              <string notr="true">background: none; border: none; color: rgb(85, 87, 83); padding-left: 12px;</string>
-             </property>
-             <property name="text">
-              <string>&gt;</string>
-             </property>
-            </widget>
-           </item>
-           <item row="0" column="1">
-            <widget class="QLineEdit" name="console_edit">
-             <property name="font">
-              <font>
-               <family>Open Sans</family>
-               <pointsize>11</pointsize>
-               <weight>75</weight>
-               <bold>true</bold>
-              </font>
-             </property>
-             <property name="styleSheet">
-              <string notr="true">border: none; background: white; color: rgb(85, 87, 83);</string>
-             </property>
-             <property name="text">
-              <string/>
-             </property>
-             <property name="placeholderText">
-              <string>Enter Command Here</string>
-             </property>
-            </widget>
-           </item>
-           <item row="0" column="2">
-            <widget class="QComboBox" name="console_dropdown">
-             <property name="minimumSize">
-              <size>
-               <width>135</width>
-               <height>30</height>
-              </size>
-             </property>
-             <property name="maximumSize">
-              <size>
-               <width>135</width>
-               <height>30</height>
-              </size>
-             </property>
-             <property name="font">
-              <font>
-               <family>Open Sans</family>
-               <pointsize>11</pointsize>
-               <weight>75</weight>
-               <bold>true</bold>
-              </font>
-             </property>
-             <property name="cursor">
-              <cursorShape>PointingHandCursor</cursorShape>
-             </property>
-             <property name="styleSheet">
-              <string notr="true">QComboBox {
-/*background-color: white;*/
-background-color: red;
-color: rgb(40, 40, 40);
-border: none;
-border-radius: 15px;
-padding-top: -1px;
-padding-left: 8px;
-padding-right: 8px;
-font-size: 11pt;
-margin-right: 13px;
-}
-QComboBox:on {
-border: none;
-}
-QComboBox QAbstractItemView {
-border: none;
-background: white;
-}
-QComboBox:disabled {
-color: rgb(180,180,180);
-}
-QComboBox::drop-down {
-border: none;
-}
-QComboBox::down-arrow {
-image: url(:/images/down_arrow.png);
-padding-right: 13px;
-}
-QComboBox::down-arrow:disabled {
-image: url(:/images/down_arrow_disabled.png);
-}
-QComboBox:active {
-background-color: white;
-border: none;
-}
-QComboBox:!active {
-background-color: white;
-border: none;
-}</string>
-             </property>
-             <item>
-              <property name="text">
-               <string>CATHODE</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>GTC</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>IPC</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>RSI</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>FMS</string>
-              </property>
-             </item>
-            </widget>
-           </item>
-           <item row="1" column="0" colspan="3">
-            <widget class="Line" name="line">
-             <property name="styleSheet">
-              <string notr="true">background: none; color: rgb(220,220,220);</string>
-             </property>
-             <property name="frameShadow">
-              <enum>QFrame::Plain</enum>
-             </property>
-             <property name="orientation">
-              <enum>Qt::Horizontal</enum>
-             </property>
-            </widget>
-           </item>
-           <item row="2" column="0" colspan="3">
-            <widget class="QTextEdit" name="console_text">
-             <property name="font">
-              <font>
-               <family>Open Sans</family>
-               <pointsize>11</pointsize>
-              </font>
-             </property>
-             <property name="styleSheet">
-              <string notr="true">border: none; background: white; color: rgb(85, 87, 83); padding-left: 4px;</string>
-             </property>
-             <property name="frameShadow">
-              <enum>QFrame::Plain</enum>
-             </property>
-             <property name="readOnly">
-              <bool>true</bool>
-             </property>
-             <property name="html">
-              <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
-&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
-p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Open Sans'; font-size:11pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-             </property>
-            </widget>
-           </item>
-          </layout>
-         </widget>
-        </item>
-        <item row="1" column="0">
-         <widget class="QGroupBox" name="ramp_rate_group">
-          <property name="minimumSize">
-           <size>
-            <width>280</width>
-            <height>90</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>10000</width>
-            <height>10000</height>
-           </size>
-          </property>
-          <property name="font">
-           <font>
-            <family>Open Sans</family>
-            <pointsize>11</pointsize>
-            <weight>75</weight>
-            <bold>true</bold>
-           </font>
-          </property>
-          <property name="styleSheet">
-           <string notr="true">QGroupBox { border: none; background: white; border-radius: 20px; border: 1px solid rgb(220,220,220); }
-QGroupBox::title { subcontrol-origin: margin; padding: 0px 8px; left: 12px; top: 12px; color: rgb(85, 87, 83); }
-QGroupBox::title:disabled { color: rgb(180,180,180); }</string>
-          </property>
-          <property name="title">
-           <string>Total Ramp Time: 15 min</string>
-          </property>
-          <layout class="QVBoxLayout" name="verticalLayout_15">
-           <property name="spacing">
-            <number>0</number>
-           </property>
-           <property name="leftMargin">
-            <number>25</number>
            </property>
            <property name="topMargin">
             <number>40</number>
            </property>
            <property name="rightMargin">
-            <number>25</number>
+            <number>0</number>
            </property>
            <property name="bottomMargin">
-            <number>15</number>
+            <number>10</number>
            </property>
-           <item>
-            <layout class="QHBoxLayout" name="horizontalLayout_21">
+           <property name="horizontalSpacing">
+            <number>0</number>
+           </property>
+           <property name="verticalSpacing">
+            <number>5</number>
+           </property>
+           <item row="0" column="1">
+            <spacer name="verticalSpacer_18">
+             <property name="orientation">
+              <enum>Qt::Vertical</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>20</width>
+               <height>0</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+           <item row="1" column="1">
+            <layout class="QHBoxLayout" name="horizontalLayout_22">
              <property name="leftMargin">
               <number>10</number>
              </property>
@@ -7252,7 +7465,7 @@ QGroupBox::title:disabled { color: rgb(180,180,180); }</string>
               <number>10</number>
              </property>
              <item>
-              <widget class="QSlider" name="ramp_rate_slider">
+              <widget class="QSlider" name="log_rate_slider">
                <property name="sizePolicy">
                 <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
                  <horstretch>0</horstretch>
@@ -7297,7 +7510,7 @@ border-radius: 7px;
                 <number>10</number>
                </property>
                <property name="value">
-                <number>60</number>
+                <number>0</number>
                </property>
                <property name="orientation">
                 <enum>Qt::Horizontal</enum>
@@ -7315,10 +7528,23 @@ border-radius: 7px;
              </item>
             </layout>
            </item>
-           <item>
-            <layout class="QHBoxLayout" name="horizontalLayout_11">
+           <item row="1" column="2">
+            <spacer name="horizontalSpacer_27">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>25</width>
+               <height>20</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+           <item row="2" column="1">
+            <layout class="QHBoxLayout" name="horizontalLayout_12">
              <item alignment="Qt::AlignLeft">
-              <widget class="QLabel" name="label_21">
+              <widget class="QLabel" name="slide_tick5">
                <property name="font">
                 <font>
                  <family>Open Sans</family>
@@ -7329,12 +7555,12 @@ border-radius: 7px;
                 <string notr="true">background: white; color: rgb(80,80,80);</string>
                </property>
                <property name="text">
-                <string>1 m</string>
+                <string>ASAP</string>
                </property>
               </widget>
              </item>
              <item alignment="Qt::AlignHCenter">
-              <widget class="QLabel" name="label_22">
+              <widget class="QLabel" name="slide_tick6">
                <property name="font">
                 <font>
                  <family>Open Sans</family>
@@ -7350,7 +7576,7 @@ border-radius: 7px;
               </widget>
              </item>
              <item alignment="Qt::AlignHCenter">
-              <widget class="QLabel" name="label_28">
+              <widget class="QLabel" name="slide_tick7">
                <property name="font">
                 <font>
                  <family>Open Sans</family>
@@ -7361,12 +7587,12 @@ border-radius: 7px;
                 <string notr="true">background: white; color: rgb(80,80,80);</string>
                </property>
                <property name="text">
-                <string>    30 m</string>
+                <string>      30 m</string>
                </property>
               </widget>
              </item>
              <item alignment="Qt::AlignRight">
-              <widget class="QLabel" name="label_29">
+              <widget class="QLabel" name="slide_tick8">
                <property name="font">
                 <font>
                  <family>Open Sans</family>
@@ -7383,138 +7609,31 @@ border-radius: 7px;
              </item>
             </layout>
            </item>
-          </layout>
-         </widget>
-        </item>
-        <item row="1" column="2">
-         <widget class="QGroupBox" name="misc_group">
-          <property name="minimumSize">
-           <size>
-            <width>280</width>
-            <height>115</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>10000</width>
-            <height>10000</height>
-           </size>
-          </property>
-          <property name="font">
-           <font>
-            <family>Open Sans</family>
-            <pointsize>11</pointsize>
-            <weight>75</weight>
-            <bold>true</bold>
-           </font>
-          </property>
-          <property name="styleSheet">
-           <string notr="true">QGroupBox { border: none; background: white; border-radius: 20px; border: 1px solid rgb(220,220,220); }
-QGroupBox::title { subcontrol-origin: margin; padding: 0px 8px; left: 12px; top: 12px; color: rgb(85, 87, 83); }
-QGroupBox::title:disabled { color: rgb(180,180,180); }</string>
-          </property>
-          <property name="title">
-           <string>Misc</string>
-          </property>
-          <layout class="QHBoxLayout" name="horizontalLayout_13">
-           <property name="spacing">
-            <number>15</number>
-           </property>
-           <property name="leftMargin">
-            <number>18</number>
-           </property>
-           <property name="topMargin">
-            <number>31</number>
-           </property>
-           <property name="rightMargin">
-            <number>18</number>
-           </property>
-           <property name="bottomMargin">
-            <number>10</number>
-           </property>
-           <item>
-            <widget class="QPushButton" name="reconfig_button">
-             <property name="minimumSize">
+           <item row="1" column="0">
+            <spacer name="horizontalSpacer_26">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
               <size>
-               <width>170</width>
-               <height>45</height>
+               <width>25</width>
+               <height>20</height>
               </size>
              </property>
-             <property name="maximumSize">
-              <size>
-               <width>170</width>
-               <height>45</height>
-              </size>
-             </property>
-             <property name="font">
-              <font>
-               <family>Open Sans</family>
-               <pointsize>11</pointsize>
-               <weight>75</weight>
-               <bold>true</bold>
-              </font>
-             </property>
-             <property name="cursor">
-              <cursorShape>PointingHandCursor</cursorShape>
-             </property>
-             <property name="styleSheet">
-              <string notr="true">QPushButton {
-	background-color: rgb(85,87,83);
-	border: none;
-	color: white;
-	border-radius: 10px;
-}
-QPushButton:hover:pressed { background-color: rgb(48,49,47); }
-QPushButton:hover { background-color: rgb(66,68,65); }
-QPushButton:disabled { background-color: rgb(200,200,200); }</string>
-             </property>
-             <property name="text">
-              <string>RE-PARSE CONFIG</string>
-             </property>
-            </widget>
+            </spacer>
            </item>
-           <item>
-            <widget class="QPushButton" name="save_pid_button">
-             <property name="enabled">
-              <bool>true</bool>
+           <item row="3" column="1">
+            <spacer name="verticalSpacer_19">
+             <property name="orientation">
+              <enum>Qt::Vertical</enum>
              </property>
-             <property name="minimumSize">
+             <property name="sizeHint" stdset="0">
               <size>
-               <width>110</width>
-               <height>45</height>
+               <width>20</width>
+               <height>0</height>
               </size>
              </property>
-             <property name="maximumSize">
-              <size>
-               <width>110</width>
-               <height>45</height>
-              </size>
-             </property>
-             <property name="font">
-              <font>
-               <family>Open Sans</family>
-               <pointsize>11</pointsize>
-               <weight>75</weight>
-               <bold>true</bold>
-              </font>
-             </property>
-             <property name="cursor">
-              <cursorShape>PointingHandCursor</cursorShape>
-             </property>
-             <property name="styleSheet">
-              <string notr="true">QPushButton {
-	background-color: rgb(85,87,83);
-	border: none;
-	color: white;
-	border-radius: 10px;
-}
-QPushButton:hover:pressed { background-color: rgb(48,49,47); }
-QPushButton:hover { background-color: rgb(66,68,65); }</string>
-             </property>
-             <property name="text">
-              <string>SAVE PID</string>
-             </property>
-            </widget>
+            </spacer>
            </item>
           </layout>
          </widget>
