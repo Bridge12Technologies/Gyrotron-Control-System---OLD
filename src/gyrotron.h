@@ -13,16 +13,16 @@ public:
 
     Gyrotron();
     int init();
-    int increment_state();
-    int decrement_state();
-    int enter_standby(); // stop PID, turn off HV, return to state 0 right away (dangerous)
+    int increment_state(); // next state in 4-state machine, 0 = success, -1 = already 4th, -2 = transition failed
+    int decrement_state(); // previous state in 4-state machine, 0 = success, -1 = already 1st, -2 = transition failed
+    int enter_standby(); // stop PID, turn off HV, return to state 0 right away without ramping (dangerous for filament)
     int extract_config(); // extract configuration parameters from config file
     int prepare_all(); // apply all setpoints necessary for operation
 
-    void set_rec_rate(double secs) { rec_rate = secs; }
-    void set_ramp_time(double secs) { ramp_time = secs; }
-    void set_ramp_sp(double sp) { ramp_sp = sp; }
-    int set_fil_curr_limit(double current);
+    void set_rec_rate(double secs) { rec_rate = secs; } // set frequecy of data record entry in seconds
+    void set_ramp_time(double secs) { ramp_time = secs; } // set time to ramp up or down from setpoint in seconds
+    void set_ramp_sp(double sp) { ramp_sp = sp; } // set filament current ramp setpoint
+    int set_fil_curr_limit(double current); // set filament current limit in amps
     int set_beam_curr_limit(double current);
     int set_gtc_curr_limit(double current);
     int set_gtc_volt(double voltage);
@@ -212,13 +212,13 @@ public:
     const double WARN_AIR_FLOW{-1}, FATAL_AIR_FLOW{-1};
 
     // hardware limits
-    const double MAX_BEAM_VOLT{60}, MAX_BEAM_CURR{80}, MAX_FIL_CURR{5};
-    const double MAX_GTC_VOLT{12}, MAX_GTC_CURR{60};
+    const double MAX_BEAM_VOLT{60}/*kV*/, MAX_BEAM_CURR{80}/*mA*/, MAX_FIL_CURR{5};/*A*/
+    const double MAX_GTC_VOLT{12}/*V*/, MAX_GTC_CURR{60};/*A*/
 
     // operational limits (also used for OVP/OCP values)
-    const double BEAM_VOLT_LIMIT{60}, BEAM_CURR_LIMIT{80}, FIL_CURR_LIMIT{5};
-    const double GTC_VOLT_LIMIT{12}, GTC_CURR_LIMIT{60}; // TBD, max for now
-    const double POWER_LIMIT{-1}, UPPER_FREQ_LIMIT{-1}, LOWER_FREQ_LIMIT{-1};
+    const double BEAM_VOLT_LIMIT{60}/*kV*/, BEAM_CURR_LIMIT{80}/*mA*/, FIL_CURR_LIMIT{5};/*A*/
+    const double GTC_VOLT_LIMIT{12}/*V*/, GTC_CURR_LIMIT{60};/*A*/ // TBD, max for now
+    const double POWER_LIMIT{-1}/*W*/, UPPER_FREQ_LIMIT{-1}/*GHz*/, LOWER_FREQ_LIMIT{-1};/*GHz*/
 
     // other constants
     const double POWER_V_CONVERT{-1}; // constant to convert voltage to power
