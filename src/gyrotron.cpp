@@ -633,7 +633,7 @@ int Gyrotron::set_fil_curr(double current)
     std::string hex = dec2hex(int((current/MAX_FIL_CURR)*4095));
     while(hex.length() < 3) hex = "0" + hex;
     cath_set_cmd = first_half + hex + cath_set_cmd.substr(7,7);
-    append_checksum(cath_set_cmd);
+    append_cs_mod100hex(cath_set_cmd);
     std::string resp = cath.m_smart_io(cath_set_cmd,"A");
     if(err(resp)) {
         log_event("failed to set filament current to " + to_str(current));
@@ -650,7 +650,7 @@ int Gyrotron::set_beam_volt(double voltage)
     std::string hex = dec2hex(int((voltage/MAX_BEAM_VOLT)*4095));
     while(hex.length() < 3) hex = "0" + hex;
     cath_set_cmd = "S" + hex + cath_set_cmd.substr(4,10);
-    append_checksum(cath_set_cmd);
+    append_cs_mod100hex(cath_set_cmd);
     std::string resp = cath.m_smart_io(cath_set_cmd,"A");
     if(err(resp)) {
         log_event("failed to set beam voltage to " + to_str(voltage));
@@ -681,7 +681,7 @@ int Gyrotron::set_fil_curr_limit(double current) // cathode
     std::string hex = dec2hex(int((current/MAX_FIL_CURR)*4095));
     while(hex.length() < 3) hex = "0" + hex;
     cath_set_cmd = first_half + hex + cath_set_cmd.substr(13,1);
-    append_checksum(cath_set_cmd);
+    append_cs_mod100hex(cath_set_cmd);
     std::string resp = cath.m_smart_io(cath_set_cmd,"A");
     if(err(resp)) {
         log_event("failed to set filament current limit to " + to_str(current));
@@ -745,7 +745,7 @@ int Gyrotron::toggle_cath_output(bool turn_on)
 {
     lock_grd lock(cath_cmd_m);
     cath_set_cmd = cath_set_cmd.substr(0,13) + (turn_on ? "1" : "2");
-    append_checksum(cath_set_cmd);
+    append_cs_mod100hex(cath_set_cmd);
     std::string resp = cath.m_smart_io(cath_set_cmd,"A");
     if(err(resp)) {
         log_event("failed to " + std::string(turn_on ? "enable" : "disable") + " cathode output");

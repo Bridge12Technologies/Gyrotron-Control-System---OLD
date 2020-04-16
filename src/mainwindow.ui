@@ -561,7 +561,7 @@ QPushButton:hover:pressed { background: rgb(220,220,220); }</string>
           <string/>
          </property>
          <property name="icon">
-          <iconset resource="resources.qrc">
+          <iconset resource="../../proton-injector-controls/src/resources.qrc">
            <normaloff>:/images/menu.png</normaloff>:/images/menu.png</iconset>
          </property>
          <property name="iconSize">
@@ -906,7 +906,7 @@ color: #555753;
        <string notr="true">background: #e6e6e6;</string>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="control_page">
        <layout class="QGridLayout" name="gridLayout_17" rowstretch="4,1,2">
@@ -1132,7 +1132,7 @@ QLabel:disabled{ color: rgb(180,180,180); }</string>
               <string/>
              </property>
              <property name="icon">
-              <iconset resource="resources.qrc">
+              <iconset>
                <normaloff>:/images/water.png</normaloff>
                <disabledoff>:/images/water.png</disabledoff>
                <disabledon>:/images/water.png</disabledon>:/images/water.png</iconset>
@@ -1263,7 +1263,7 @@ QLabel:disabled{ color: rgb(180,180,180); }</string>
               <string/>
              </property>
              <property name="icon">
-              <iconset resource="resources.qrc">
+              <iconset>
                <normaloff>:/images/thermometer.png</normaloff>
                <disabledoff>:/images/thermometer.png</disabledoff>
                <disabledon>:/images/thermometer.png</disabledon>:/images/thermometer.png</iconset>
@@ -1313,7 +1313,7 @@ QLabel:disabled{ color: rgb(180,180,180); }</string>
               <string/>
              </property>
              <property name="icon">
-              <iconset resource="resources.qrc">
+              <iconset>
                <normaloff>:/images/gauge.png</normaloff>
                <disabledoff>:/images/gauge.png</disabledoff>
                <disabledon>:/images/gauge.png</disabledon>:/images/gauge.png</iconset>
@@ -1895,7 +1895,7 @@ border-image: url(:/images/forward_disabled.png) 0 0 0 0 stretch stretch;
                 <string/>
                </property>
                <property name="icon">
-                <iconset resource="resources.qrc">
+                <iconset>
                  <normaloff>:/images/power_white.png</normaloff>
                  <normalon>:/images/power_white.png</normalon>
                  <disabledoff>:/images/power_white.png</disabledoff>
@@ -1939,7 +1939,7 @@ border-image: url(:/images/forward_disabled.png) 0 0 0 0 stretch stretch;
                 <string/>
                </property>
                <property name="icon">
-                <iconset resource="resources.qrc">
+                <iconset>
                  <normaloff>:/images/pointer.png</normaloff>
                  <disabledoff>:/images/pointer.png</disabledoff>
                  <disabledon>:/images/pointer.png</disabledon>:/images/pointer.png</iconset>
@@ -2020,7 +2020,7 @@ border-image: url(:/images/forward_disabled.png) 0 0 0 0 stretch stretch;
                 <string/>
                </property>
                <property name="icon">
-                <iconset resource="resources.qrc">
+                <iconset>
                  <normaloff>:/images/arrows_grey.png</normaloff>
                  <disabledoff>:/images/arrows_grey.png</disabledoff>
                  <disabledon>:/images/arrows_grey.png</disabledon>:/images/arrows_grey.png</iconset>
@@ -2057,7 +2057,7 @@ border-image: url(:/images/forward_disabled.png) 0 0 0 0 stretch stretch;
                 <string/>
                </property>
                <property name="icon">
-                <iconset resource="resources.qrc">
+                <iconset>
                  <normaloff>:/images/noflash_grey.png</normaloff>
                  <disabledoff>:/images/noflash_grey.png</disabledoff>
                  <disabledon>:/images/noflash_grey.png</disabledon>:/images/noflash_grey.png</iconset>
@@ -2094,7 +2094,7 @@ border-image: url(:/images/forward_disabled.png) 0 0 0 0 stretch stretch;
                 <string/>
                </property>
                <property name="icon">
-                <iconset resource="resources.qrc">
+                <iconset>
                  <normaloff>:/images/flash_grey.png</normaloff>
                  <disabledoff>:/images/flash_grey.png</disabledoff>
                  <disabledon>:/images/flash_grey.png</disabledon>:/images/flash_grey.png</iconset>
@@ -2608,7 +2608,7 @@ QPushButton:disabled { background-color: rgb(220,220,220); }</string>
               <string/>
              </property>
              <property name="icon">
-              <iconset resource="resources.qrc">
+              <iconset resource="../../proton-injector-controls/src/resources.qrc">
                <normaloff>:/lib/face/icons/pencil.png</normaloff>
                <disabledoff>:/lib/face/icons/pencil.png</disabledoff>
                <disabledon>:/lib/face/icons/pencil.png</disabledon>:/lib/face/icons/pencil.png</iconset>
@@ -2821,7 +2821,7 @@ QPushButton:disabled { background-color: rgb(220,220,220); }</string>
               <string/>
              </property>
              <property name="icon">
-              <iconset resource="resources.qrc">
+              <iconset resource="../../proton-injector-controls/src/resources.qrc">
                <normaloff>:/lib/face/icons/pencil.png</normaloff>
                <disabledoff>:/lib/face/icons/pencil.png</disabledoff>
                <disabledon>:/lib/face/icons/pencil.png</disabledon>:/lib/face/icons/pencil.png</iconset>
@@ -3122,7 +3122,7 @@ QPushButton:disabled { background-color: rgb(220,220,220); }</string>
                 <string/>
                </property>
                <property name="icon">
-                <iconset resource="resources.qrc">
+                <iconset resource="../../proton-injector-controls/src/resources.qrc">
                  <normaloff>:/lib/face/icons/pencil.png</normaloff>
                  <disabledoff>:/lib/face/icons/pencil.png</disabledoff>
                  <disabledon>:/lib/face/icons/pencil.png</disabledon>:/lib/face/icons/pencil.png</iconset>
@@ -3220,7 +3220,7 @@ QPushButton:disabled { background-color: rgb(220,220,220); }</string>
                    <string/>
                   </property>
                   <property name="icon">
-                   <iconset resource="resources.qrc">
+                   <iconset resource="../../proton-injector-controls/src/resources.qrc">
                     <normaloff>:/lib/face/icons/pencil.png</normaloff>
                     <disabledoff>:/lib/face/icons/pencil.png</disabledoff>
                     <disabledon>:/lib/face/icons/pencil.png</disabledon>:/lib/face/icons/pencil.png</iconset>
@@ -3443,7 +3443,7 @@ QPushButton:disabled { background-color: rgb(220,220,220); }</string>
                 <string/>
                </property>
                <property name="icon">
-                <iconset resource="resources.qrc">
+                <iconset resource="../../proton-injector-controls/src/resources.qrc">
                  <normaloff>:/lib/face/icons/pencil.png</normaloff>
                  <disabledoff>:/lib/face/icons/pencil.png</disabledoff>
                  <disabledon>:/lib/face/icons/pencil.png</disabledon>:/lib/face/icons/pencil.png</iconset>
@@ -3535,7 +3535,7 @@ QPushButton:disabled { background-color: rgb(220,220,220); }</string>
                    <string/>
                   </property>
                   <property name="icon">
-                   <iconset resource="resources.qrc">
+                   <iconset resource="../../proton-injector-controls/src/resources.qrc">
                     <normaloff>:/lib/face/icons/pencil.png</normaloff>
                     <disabledoff>:/lib/face/icons/pencil.png</disabledoff>
                     <disabledon>:/lib/face/icons/pencil.png</disabledon>:/lib/face/icons/pencil.png</iconset>
@@ -5801,7 +5801,7 @@ QPushButton:disabled { background-color: rgb(220,220,220); }</string>
               <string/>
              </property>
              <property name="icon">
-              <iconset resource="resources.qrc">
+              <iconset resource="../../proton-injector-controls/src/resources.qrc">
                <normaloff>:/lib/face/icons/pencil.png</normaloff>
                <disabledoff>:/lib/face/icons/pencil.png</disabledoff>
                <disabledon>:/lib/face/icons/pencil.png</disabledon>:/lib/face/icons/pencil.png</iconset>
@@ -5904,7 +5904,7 @@ QPushButton:disabled { background-color: rgb(220,220,220); }</string>
               <string/>
              </property>
              <property name="icon">
-              <iconset resource="resources.qrc">
+              <iconset resource="../../proton-injector-controls/src/resources.qrc">
                <normaloff>:/lib/face/icons/pencil.png</normaloff>
                <disabledoff>:/lib/face/icons/pencil.png</disabledoff>
                <disabledon>:/lib/face/icons/pencil.png</disabledon>:/lib/face/icons/pencil.png</iconset>
@@ -6007,7 +6007,7 @@ QPushButton:disabled { background-color: rgb(220,220,220); }</string>
               <string/>
              </property>
              <property name="icon">
-              <iconset resource="resources.qrc">
+              <iconset resource="../../proton-injector-controls/src/resources.qrc">
                <normaloff>:/lib/face/icons/pencil.png</normaloff>
                <disabledoff>:/lib/face/icons/pencil.png</disabledoff>
                <disabledon>:/lib/face/icons/pencil.png</disabledon>:/lib/face/icons/pencil.png</iconset>
@@ -6162,7 +6162,7 @@ QPushButton:disabled { background-color: rgb(220,220,220); }</string>
               <string/>
              </property>
              <property name="icon">
-              <iconset resource="resources.qrc">
+              <iconset resource="../../proton-injector-controls/src/resources.qrc">
                <normaloff>:/lib/face/icons/pencil.png</normaloff>
                <disabledoff>:/lib/face/icons/pencil.png</disabledoff>
                <disabledon>:/lib/face/icons/pencil.png</disabledon>:/lib/face/icons/pencil.png</iconset>
@@ -6265,7 +6265,7 @@ QPushButton:disabled { background-color: rgb(220,220,220); }</string>
               <string/>
              </property>
              <property name="icon">
-              <iconset resource="resources.qrc">
+              <iconset resource="../../proton-injector-controls/src/resources.qrc">
                <normaloff>:/lib/face/icons/pencil.png</normaloff>
                <disabledoff>:/lib/face/icons/pencil.png</disabledoff>
                <disabledon>:/lib/face/icons/pencil.png</disabledon>:/lib/face/icons/pencil.png</iconset>
@@ -6368,7 +6368,7 @@ QPushButton:disabled { background-color: rgb(220,220,220); }</string>
               <string/>
              </property>
              <property name="icon">
-              <iconset resource="resources.qrc">
+              <iconset resource="../../proton-injector-controls/src/resources.qrc">
                <normaloff>:/lib/face/icons/pencil.png</normaloff>
                <disabledoff>:/lib/face/icons/pencil.png</disabledoff>
                <disabledon>:/lib/face/icons/pencil.png</disabledon>:/lib/face/icons/pencil.png</iconset>
@@ -6874,7 +6874,7 @@ QPushButton:disabled { background-color: rgb(220,220,220); }</string>
               <string/>
              </property>
              <property name="icon">
-              <iconset resource="resources.qrc">
+              <iconset resource="../../proton-injector-controls/src/resources.qrc">
                <normaloff>:/lib/face/icons/pencil.png</normaloff>
                <disabledoff>:/lib/face/icons/pencil.png</disabledoff>
                <disabledon>:/lib/face/icons/pencil.png</disabledon>:/lib/face/icons/pencil.png</iconset>
@@ -6977,7 +6977,7 @@ QPushButton:disabled { background-color: rgb(220,220,220); }</string>
               <string/>
              </property>
              <property name="icon">
-              <iconset resource="resources.qrc">
+              <iconset resource="../../proton-injector-controls/src/resources.qrc">
                <normaloff>:/lib/face/icons/pencil.png</normaloff>
                <disabledoff>:/lib/face/icons/pencil.png</disabledoff>
                <disabledon>:/lib/face/icons/pencil.png</disabledon>:/lib/face/icons/pencil.png</iconset>
@@ -7080,7 +7080,7 @@ QPushButton:disabled { background-color: rgb(220,220,220); }</string>
               <string/>
              </property>
              <property name="icon">
-              <iconset resource="resources.qrc">
+              <iconset resource="../../proton-injector-controls/src/resources.qrc">
                <normaloff>:/lib/face/icons/pencil.png</normaloff>
                <disabledoff>:/lib/face/icons/pencil.png</disabledoff>
                <disabledon>:/lib/face/icons/pencil.png</disabledon>:/lib/face/icons/pencil.png</iconset>
@@ -7670,8 +7670,6 @@ border-radius: 7px;
    <header>face.h</header>
   </customwidget>
  </customwidgets>
- <resources>
-  <include location="resources.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>
