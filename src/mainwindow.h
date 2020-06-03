@@ -16,6 +16,7 @@ namespace Ui {
 class MainWindow;
 }
 
+/**  */
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
@@ -25,85 +26,159 @@ public:
     ~MainWindow();
 
 private slots:
+    /** This is the constantly recurring function that acts as the main loop for GUI updates */
     void realtime_slot();
+    /**  */
     void on_reconfig_button_clicked();
+    /** When the beam voltage submit button is clicked then check against validator and apply the value */
     void on_beam_volt_button_clicked();
+    /** When the beam current submit button is clicked then check against validator and apply the value */
     void on_beam_curr_button_clicked();
+    /** When the beam power submit button is clicked then check against validator and apply the value */
     void on_power_button_clicked();
+    /** When the frequency submit button is clicked then check against validator and apply the value */
     void on_freq_button_clicked();
+    /** When GTC current submit button is clicked then check against validator and apply the value */
     void on_gtc_curr_button_clicked();
+    /** When filament current submit button is clicked then check against validator and apply the value */
     void on_fil_curr_button_clicked();
+    /** When previous state arrow button is clicked then decrement current state */
     void on_prev_state_button_clicked();
+    /** When next state arrow button is clicked then increment current state */
     void on_next_state_button_clicked();
+    /** When beam current proportional control constant submit button is clicked then check against validator and apply the value */
     void on_beam_kp_button_clicked();
+    /** When beam current integral control constant submit button is clicked then check against validator and apply the value */
     void on_beam_ki_button_clicked();
+    /** When beam current derivative control constant submit button is clicked then check against validator and apply the value */
     void on_beam_kd_button_clicked();
+    /** When power proportional control constant submit button is clicked then check against validator and apply the value */
     void on_power_kp_button_clicked();
+    /** When power integral control constant submit button is clicked then check against validator and apply the value */
     void on_power_ki_button_clicked();
+    /** When power derivative control constant submit button is clicked then check against validator and apply the value */
     void on_power_kd_button_clicked();
+    /** When frequency proportional constrol constant submit button is clicked then check against validator and apply the value */
     void on_freq_kp_button_clicked();
+    /** When frequency integral control constant submit button is clicked then check against validator and apply the value */
     void on_freq_ki_button_clicked();
+    /** When frequency derivative control constant submit button is clicked then check against validator and apply the value */
     void on_freq_kd_button_clicked();
+    /** When close button is clicked then prompt to confirm choice and if yes then exit the program */
     void on_close_button_clicked();
+    /** Minimize window on click */
     void on_minimize_button_clicked();
+    /** Maximize window on click or return to previous state if already maximized */
     void on_maximize_button_clicked();
+    /** Switch to control tab on click */
     void on_control_tab_clicked();
+    /** Switch to plot tab on click */
     void on_plot_tab_clicked();
+    /** Switch to admin tab on click */
     void on_admin_tab_clicked();
+    /** Switch to status tab on click */
     void on_status_tab_clicked();
+    /** Update plot time span when slider is moved */
     void on_time_span_slider_valueChanged(int value);
+    /** Update filament ramp rate when slider moved */
     void on_ramp_rate_slider_valueChanged(int value);
+    /** Update log rate when slider moved */
     void on_log_rate_slider_valueChanged(int value);
+    /** Manually trigger an attempt to reconnect to cathode supply and change button text to reflect success/failure */
     void on_cath_recon_button_clicked();
+    /** Manually trigger an attempt to reconnect to GTC supply and change button text to reflect success/failure */
     void on_gtc_recon_button_clicked();
+    /** Manually trigger an attempt to reconnect to ion pump controller and change button text to reflect success/failure */
     void on_spc_recon_button_clicked();
+    /** Manually trigger an attempt to reconnect to the FMS and change button text to reflect success/failure */
     void on_fms_recon_button_clicked();
+    /** Manually trigger an attempt to reconnect to the RSI and change button text to reflect success/failure */
     void on_rsi_recon_button_clicked();
+    /** Manually trigger an attempt to reconnect to all peripheral devices and change button text to reflect success/failure */
     void on_all_recon_button_clicked();
+    /** Reset the text and stylesheet on the reconnect button for the cathode supply */
     void reset_cath_recon();
+    /** Reset the text and stylesheet on the reconnect button for the gun trim coil supply */
     void reset_gtc_recon();
+    /** Reset the text and stylesheet on the reconnect button for the ion pump controller */
     void reset_spc_recon();
+    /** Reset the text and stylesheet on the reconnect button for the RSI */
     void reset_rsi_recon();
+    /** Reset the text and stylesheet on the reconnect button for the FMS */
     void reset_fms_recon();
+    /** Reset the text and stylesheet on the reconnect button for all peripheral devices  */
     void reset_all_recon();
+    /** When enter key pressed inside the console command entry field then format that command and send to specified device */
     void on_console_edit_returnPressed();
+    /** Take all current PID constants and overwrite them to the config file */
     void on_save_pid_button_clicked();
+    /** Check current tab and blink_enabled status to stop/start blinking effect as needed */
     void blink_status();
+    /** Right clicking plot 1 will show context menu with option to clear the visible data */
     void plot1_context_menu(const QPoint &pos);
+    /** Right clicking plot 2 will show context menu with option to clear the visible data */
     void plot2_context_menu(const QPoint &pos);
+    /** Right clicking plot 3 will show context menu with option to clear the visible data */
     void plot3_context_menu(const QPoint &pos);
+    /** Open the settings window */
     void on_settings_button_clicked();
+    /** Enable/disable PID controller chosen in dropdown to the left */
     void on_enable_button_clicked();
+    /** If this dropdown selection changes then change what gets plotted to plot 1 */
     void on_plot1_dropdown_currentIndexChanged(const QString &arg1);
+    /** If this dropdown selection changes then change what gets plotted to plot 2 */
     void on_plot2_dropdown_currentIndexChanged(const QString &arg1);
+    /** If this dropdown selection changes then change what gets plotted to plot 3 */
     void on_plot3_dropdown_currentIndexChanged(const QString &arg1);
+    /** Clear visible data on plot 1 */
     void clear_plot1_data();
+    /** Clear visible data on plot 2 */
     void clear_plot2_data();
+    /** Clear visible data on plot 3 */
     void clear_plot3_data();
 
 private:
+    /** Stop realtime (GUI) loop, and call stop() to disconnect devices, close logs, and join all threads */
     void shutdown();
+    /** Detect window close and prompt confirmation before exiting program */
     void closeEvent (QCloseEvent *event);
+    /** Prompt user with an error window according to the provided initialization error code */
     void init_fail_dialog(int err_code);
-    void init_gui(); // init plots, apply drop shadows, start data timer, grey out disabled devices
-    void init_fields(); // init entry fields, attach to buttons and validators
+    /** Init plots, apply drop shadows, start data timer, grey out disabled devices */
+    void init_gui();
+    /** Init entry fields, attach to buttons and validators */
+    void init_fields();
+    /** Gather all faults and post to faults list in status tab */
     void check_faults();
+    /** Initialize and stylize all three plots */
     void init_plots();
+    /** Set button stylesheet to green button */
     void set_button_green(QPushButton *button, bool turning_green, QString new_text);
-    void soft_kill();
-    void set_state_transition(double percent);
+    /** Validator that takes input value as QString and checks against double boundaries */
     bool valid_check(QString qstr, double max_val, double min_val = 0);
-    void update_state_widget(bool manual_update = false); // apply stylesheet changes based on state
+    /** Apply stylesheet changes to state widget based on current state */
+    void update_state_widget(bool manual_update = false);
+    /** Update plot data and adjust scaling as needed */
     void update_plots();
-    void check_connections(); // check device connection and PID status then enable/disable groups/buttons accordingly
+    /** Check device connection and PID status then enable/disable groups/buttons accordingly */
+    void check_connections();
+    /** Output QString to device console in the admin page */
     void console_print(QString qstr);
+    /** Update labels with their respective monitor values */
     void update_labels();
+    /** Update indicator stylesheets according to their assigned bools */
     void update_indicators();
+    /** Update faults list */
     void update_faults();
+    /** Update special setpoint label that displays automatically updated setpoint during a ramp operation */
     void update_pid_display();
+    /** Turn blink on or off accoring to provided bool */
     void set_blink_on(bool enable);
+    /** Enable/disable status tab blink for new faults */
     void set_blink_enabled(bool enable);
+    /** Check if vectors of QListWidgetItems used to display faults are equivilant */
     bool lists_equal(std::vector<QListWidgetItem*> list1, std::vector<QListWidgetItem*> list2);
+    /** Toggle large display mode for maximized interface */
     void toggle_lg_display(bool show_large);
 
     Ui::MainWindow *ui;
