@@ -1,0 +1,6 @@
+[submodule "src/lib/face"]
+	path = src/lib/face
+	url = git@bitbucket.org:bridge12/face.git
+[submodule "src/lib/spine"]
+	path = src/lib/spine
+	url = git@bitbucket.org:bridge12/spine.git
